@@ -29,6 +29,7 @@ body::before{
   z-index:1;
 }
 
+/* CARD */
 .container{
   position:relative;
   z-index:2;
@@ -78,16 +79,64 @@ button{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:linear-gradient(135deg, rgba(120,0,0,0.85), rgba(60,0,80,0.9));
+
+  background:url('https://sman1mengwi.sch.id/wp-content/uploads/2024/05/lulus-sma-rencanamu-60dbadcf06310e130a772623.jpg') center/cover no-repeat;
+
   opacity:0;
   visibility:hidden;
   transition:0.6s;
-  z-index:9990;
+  z-index:9000;
+}
+
+.overlay::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(120,0,0,0.65);
+  backdrop-filter:blur(4px);
 }
 
 .overlay.show{
   opacity:1;
   visibility:visible;
+}
+
+/* RESULT */
+.result-box{
+  position:relative;
+  z-index:2;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(25px);
+  padding:40px;
+  border-radius:20px;
+  text-align:center;
+  color:white;
+  transform:scale(0.9);
+  opacity:0;
+  transition:0.5s;
+}
+
+.overlay.show .result-box{
+  transform:scale(1);
+  opacity:1;
+}
+
+.lulus{
+  font-size:clamp(32px,6vw,60px);
+  font-weight:800;
+  color:#FFD700;
+  text-shadow:0 0 25px gold;
+}
+
+.status-text{
+  font-size:clamp(18px,3.5vw,28px);
+  margin-top:10px;
+}
+
+.nama{
+  margin-top:15px;
+  font-size:clamp(16px,3vw,22px);
+  font-weight:600;
 }
 
 /* FLASH */
@@ -109,61 +158,12 @@ button{
   100%{opacity:0;}
 }
 
-/* RESULT */
-.result-box{
-  background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(25px);
-  padding:40px;
-  border-radius:20px;
-  text-align:center;
-  color:white;
-  transform:scale(0.9);
-  opacity:0;
-  transition:0.5s;
-}
-
-.overlay.show .result-box{
-  transform:scale(1);
-  opacity:1;
-}
-
-.lulus{
-  font-size:clamp(32px,6vw,60px);
-  font-weight:800;
-  color:#ff2b2b;
-  text-shadow:0 0 20px red;
-}
-
-.status-text{
-  font-size:clamp(18px,3.5vw,28px);
-  margin-top:10px;
-}
-
-.nama{
-  margin-top:15px;
-  font-size:clamp(16px,3vw,22px);
-  font-weight:600;
-}
-
-  confetti({
-  particleCount:150,
-  spread:90,
-  origin:{y:0.6},
-  zIndex:10002
-});
-
-  confetti({
-  particleCount:120,
-  spread:120,
-  origin:{y:0.5},
-  zIndex:10002
-});
 /* BALON */
 #balloons{
   position:fixed;
   inset:0;
   pointer-events:none;
-  z-index:10001;
+  z-index:10003;
 }
 
 .balloon{
@@ -180,13 +180,12 @@ button{
   to{transform:translateY(-120vh);opacity:0;}
 }
 
-/* GLITCH */
-@keyframes glitch{
-  0%{transform:translate(0);}
-  25%{transform:translate(-5px,5px);}
-  50%{transform:translate(5px,-5px);}
-  75%{transform:translate(-5px,-5px);}
-  100%{transform:translate(0);}
+/* CONFETTI CANVAS */
+canvas{
+  position:fixed !important;
+  inset:0;
+  pointer-events:none;
+  z-index:10002 !important;
 }
 </style>
 </head>
@@ -203,7 +202,6 @@ button{
   <input type="date">
 
   <button onclick="cek()">Lihat Hasil Kelulusan</button>
-
   <div class="loading" id="loading">Memproses data...</div>
 </div>
 
@@ -238,11 +236,7 @@ function cek(){
   setTimeout(()=>{
     loading.style.display="none";
 
-    const namaEl=document.getElementById("namaHasil");
-    const statusEls=document.querySelectorAll(".status-text");
-    const titleEl=document.querySelector(".lulus");
-
-    namaEl.innerText=nama.toUpperCase();
+    document.getElementById("namaHasil").innerText=nama.toUpperCase();
 
     const flash=document.getElementById("flash");
     const overlay=document.getElementById("overlay");
@@ -250,43 +244,38 @@ function cek(){
     flash.classList.add("show");
     setTimeout(()=>overlay.classList.add("show"),200);
 
-    // PRANK
-    setTimeout(()=>{
-      titleEl.innerText="MAAF";
-      titleEl.style.color="#fff";
-      statusEls[0].innerText="ANDA DINYATAKAN";
-      statusEls[1].innerText="TIDAK LULUS";
-    },500);
     // CONFETTI
     setTimeout(()=>{
-      confetti({particleCount:150,spread:90,origin:{y:0.6}});
-    },1700);
+      confetti({
+        particleCount:150,
+        spread:90,
+        origin:{y:0.6},
+        zIndex:10002
+      });
+    },1500);
 
     setTimeout(()=>{
-      confetti({particleCount:120,spread:120,origin:{y:0.5}});
-    },2100);
+      confetti({
+        particleCount:120,
+        spread:120,
+        origin:{y:0.5},
+        zIndex:10002
+      });
+    },1800);
 
     // BALON
     setTimeout(()=>{
       const container=document.getElementById("balloons");
       for(let i=0;i<12;i++){
-        const b=document.createElement("div");
-        b.className="balloon";
-        b.style.left=Math.random()*100+"vw";
-        b.style.background=`hsl(${Math.random()*360},70%,60%)`;
-        container.appendChild(b);
-        setTimeout(()=>b.remove(),6000);
+        setTimeout(()=>{
+          const b=document.createElement("div");
+          b.className="balloon";
+          b.style.left=Math.random()*100+"vw";
+          b.style.background=`hsl(${Math.random()*360},70%,60%)`;
+          container.appendChild(b);
+          setTimeout(()=>b.remove(),6000);
+        }, i*200);
       }
-    },1700);
-    // BALIK
-    setTimeout(()=>{
-      titleEl.innerText="SELAMAT";
-      titleEl.style.color="#ff2b2b";
-      statusEls[0].innerText="ANDA DINYATAKAN LULUS";
-      statusEls[1].innerText="DARI SMAN 1 SOOKO";
-
-      overlay.style.animation="glitch 0.2s 3";
-      setTimeout(()=>overlay.style.animation="",500);
     },1500);
 
     // AUDIO
