@@ -78,9 +78,7 @@ button{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:
-    linear-gradient(135deg, rgba(120,0,0,0.85), rgba(60,0,80,0.9)),
-    url('https://hoshizora.org/wp-content/uploads/2025/04/DSC00545-min-1200x800.jpg') center/cover;
+  background:linear-gradient(135deg, rgba(120,0,0,0.85), rgba(60,0,80,0.9));
   opacity:0;
   visibility:hidden;
   transition:0.6s;
@@ -147,14 +145,35 @@ button{
   font-weight:600;
 }
 
+/* BALON */
+#balloons{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9998;
+}
+
+.balloon{
+  position:absolute;
+  bottom:-100px;
+  width:40px;
+  height:50px;
+  border-radius:50%;
+  animation:rise 6s linear forwards;
+}
+
+@keyframes rise{
+  from{transform:translateY(0);}
+  to{transform:translateY(-120vh);opacity:0;}
+}
+
 /* GLITCH */
-@keyframes glitch {
-  0% { transform: translate(0); }
-  20% { transform: translate(-5px, 5px); }
-  40% { transform: translate(5px, -5px); }
-  60% { transform: translate(-5px, -5px); }
-  80% { transform: translate(5px, 5px); }
-  100% { transform: translate(0); }
+@keyframes glitch{
+  0%{transform:translate(0);}
+  25%{transform:translate(-5px,5px);}
+  50%{transform:translate(5px,-5px);}
+  75%{transform:translate(-5px,-5px);}
+  100%{transform:translate(0);}
 }
 </style>
 </head>
@@ -176,6 +195,7 @@ button{
 </div>
 
 <div class="flash" id="flash"></div>
+<div id="balloons"></div>
 
 <div class="overlay" id="overlay">
   <div class="result-box">
@@ -183,13 +203,11 @@ button{
     <div class="nama" id="namaHasil"></div>
     <div class="status-text">ANDA DINYATAKAN LULUS</div>
     <div class="status-text">DARI SMAN 1 SOOKO</div>
-
     <button id="btnClose" style="margin-top:20px">Tutup</button>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
 <audio id="sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9b4f63.mp3"></audio>
 
 <script>
@@ -207,17 +225,16 @@ function cek(){
   setTimeout(()=>{
     loading.style.display="none";
 
-    const namaEl = document.getElementById("namaHasil");
-    const statusEls = document.querySelectorAll(".status-text");
-    const titleEl = document.querySelector(".lulus");
+    const namaEl=document.getElementById("namaHasil");
+    const statusEls=document.querySelectorAll(".status-text");
+    const titleEl=document.querySelector(".lulus");
 
-    namaEl.innerText = nama.toUpperCase();
+    namaEl.innerText=nama.toUpperCase();
 
-    const flash = document.getElementById("flash");
-    const overlay = document.getElementById("overlay");
+    const flash=document.getElementById("flash");
+    const overlay=document.getElementById("overlay");
 
     flash.classList.add("show");
-
     setTimeout(()=>overlay.classList.add("show"),200);
 
     // PRANK
@@ -228,7 +245,7 @@ function cek(){
       statusEls[1].innerText="TIDAK LULUS";
     },500);
 
-    // BALIK KE LULUS
+    // BALIK
     setTimeout(()=>{
       titleEl.innerText="SELAMAT";
       titleEl.style.color="#ff2b2b";
@@ -237,11 +254,11 @@ function cek(){
 
       overlay.style.animation="glitch 0.2s 3";
       setTimeout(()=>overlay.style.animation="",500);
-
     },1500);
 
     // AUDIO
     const audio=document.getElementById("sound");
+    audio.currentTime=0;
     audio.volume=0;
     audio.play().catch(()=>{});
 
@@ -253,7 +270,26 @@ function cek(){
     },80);
 
     // CONFETTI
-    setTimeout(()=>confetti({particleCount:150,spread:100,origin:{y:0.6}}),1600);
+    setTimeout(()=>{
+      confetti({particleCount:150,spread:90,origin:{y:0.6}});
+    },1700);
+
+    setTimeout(()=>{
+      confetti({particleCount:120,spread:120,origin:{y:0.5}});
+    },2100);
+
+    // BALON
+    setTimeout(()=>{
+      const container=document.getElementById("balloons");
+      for(let i=0;i<12;i++){
+        const b=document.createElement("div");
+        b.className="balloon";
+        b.style.left=Math.random()*100+"vw";
+        b.style.background=`hsl(${Math.random()*360},70%,60%)`;
+        container.appendChild(b);
+        setTimeout(()=>b.remove(),6000);
+      }
+    },1700);
 
   },2000);
 }
