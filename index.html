@@ -1,112 +1,275 @@
-<script>
-function showResult(nama){
-  const clean = (nama || '').trim();
-  if(!clean) return;
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cek Pengumuman Kelulusan 2026</title>
 
-  const namaEl = document.getElementById("namaHasil");
-  const statusEls = document.querySelectorAll(".status-text");
-  const titleEl = document.querySelector(".lulus");
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  namaEl.innerText = clean.toUpperCase();
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
 
-  const flash = document.getElementById("flash");
-  const overlay = document.getElementById("overlay");
-
-  // FLASH
-  flash.classList.remove("show");
-  void flash.offsetWidth;
-  flash.classList.add("show");
-
-  setTimeout(()=>{
-    overlay.classList.add("show");
-  }, 250);
-
-  // === MODE PRANK ===
-  setTimeout(()=>{
-    titleEl.innerText = "MAAF";
-    titleEl.style.color = "#ffffff";
-
-    statusEls[0].innerText = "ANDA DINYATAKAN";
-    statusEls[1].innerText = "TIDAK LULUS";
-
-  }, 500);
-
-  // BALIK KE LULUS + GLITCH
-  setTimeout(()=>{
-    titleEl.innerText = "SELAMAT";
-    titleEl.style.color = "#ff2b2b";
-
-    statusEls[0].innerText = "ANDA DINYATAKAN LULUS";
-    statusEls[1].innerText = "DARI SMAN 1 SOOKO";
-
-    // efek glitch singkat
-    overlay.style.animation = "glitch 0.2s 3";
-    setTimeout(()=> overlay.style.animation = "", 600);
-
-  }, 1500);
-
-  // AUDIO
-  const audio = document.getElementById("sound");
-  audio.currentTime = 0;
-  audio.volume = 0;
-  audio.play().catch(()=>{});
-
-  let vol = 0;
-  const fade = setInterval(()=>{
-    vol += 0.06;
-    if(vol >= 1){
-      audio.volume = 1;
-      clearInterval(fade);
-    } else {
-      audio.volume = vol;
-    }
-  }, 90);
-
-  // CONFETTI setelah balik ke LULUS
-  setTimeout(()=>{
-    confetti({particleCount:180, spread:100, origin:{y:0.6}});
-  },1600);
-
-  setTimeout(()=>{
-    confetti({particleCount:120, spread:120, origin:{y:0.5}});
-  },2000);
+body{
+  font-family:'Poppins',sans-serif;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:url('https://static.promediateknologi.id/crop/0x0:0x0/x/photo/p1/290/2024/01/02/Syarifah-Khadijah-Alhabsyi-Siapa_-Ini-Profil-Biodata-Gadis-yang-Viral-di-TikTok-Umur-Asal-Sekolah-Instagram-dan-TikTok-2-199858789.jpg') center/cover no-repeat;
+  position:relative;
 }
 
+body::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(10,25,47,0.65);
+  backdrop-filter:blur(4px);
+  z-index:1;
+}
+
+.container{
+  position:relative;
+  z-index:2;
+  width:95%;
+  max-width:420px;
+  padding:35px 25px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.2);
+  text-align:center;
+  color:white;
+}
+
+.logo{width:70px;margin-bottom:10px;}
+.title{font-size:14px;opacity:0.8;}
+.big-title{font-size:24px;font-weight:700;margin:10px 0 20px;}
+
+input{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:10px;
+  border:none;
+  background:rgba(255,255,255,0.15);
+  color:white;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#3a8dff,#00d4ff);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.loading{display:none;margin-top:10px;font-size:14px;}
+
+/* OVERLAY CINEMATIC */
+.overlay{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:
+    linear-gradient(135deg, rgba(120,0,0,0.85), rgba(60,0,80,0.9)),
+    url('https://hoshizora.org/wp-content/uploads/2025/04/DSC00545-min-1200x800.jpg') center/cover;
+
+  opacity:0;
+  visibility:hidden;
+  transition:0.6s;
+  z-index:9999;
+}
+
+.overlay.show{
+  opacity:1;
+  visibility:visible;
+}
+
+/* FLASH EFFECT */
+.flash{
+  position:fixed;
+  inset:0;
+  background:white;
+  opacity:0;
+  z-index:10000;
+  pointer-events:none;
+}
+
+.flash.show{
+  animation:flashAnim 0.5s ease;
+}
+
+@keyframes flashAnim{
+  0%{opacity:1;}
+  100%{opacity:0;}
+}
+
+/* RESULT */
+.result-box{
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(25px);
+  padding:40px;
+  border-radius:20px;
+  text-align:center;
+  color:white;
+
+  transform:scale(0.9);
+  opacity:0;
+  transition:0.5s;
+}
+
+.overlay.show .result-box{
+  transform:scale(1);
+  opacity:1;
+}
+
+/* GLOW PULSE */
+.lulus{
+  font-size:clamp(32px,6vw,60px);
+  font-weight:800;
+  color:#ff2b2b;
+
+  text-shadow:
+    0 0 10px rgba(255,0,0,0.8),
+    0 0 20px rgba(255,0,0,0.7),
+    0 0 30px rgba(255,0,0,0.6);
+
+  animation:glowPulse 1.5s infinite alternate;
+}
+
+@keyframes glowPulse{
+  from{
+    text-shadow:
+      0 0 5px rgba(255,0,0,0.5),
+      0 0 10px rgba(255,0,0,0.4);
+  }
+  to{
+    text-shadow:
+      0 0 20px rgba(255,0,0,1),
+      0 0 40px rgba(255,0,0,0.9),
+      0 0 60px rgba(255,0,0,0.8);
+  }
+}
+
+.status-text{
+  font-size:clamp(18px,3.5vw,28px);
+  margin-top:10px;
+}
+
+.nama{
+  margin-top:15px;
+  font-size:clamp(16px,3vw,22px);
+  font-weight:600;
+}
+
+/* footer */
+.footer{
+  margin-top:20px;
+  font-size:12px;
+  opacity:0.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <img src="https://sman1sooko.sch.id/media_library/images/397a98c4618261af0d970851901f2b5b.png" class="logo">
+  <div class="title">SMAN 1 Sooko</div>
+  <div class="big-title">Cek Pengumuman Kelulusan 2026</div>
+
+  <input type="text" id="nama" placeholder="Nama Lengkap">
+  <input type="text" placeholder="NISN">
+  <input type="date">
+
+  <button onclick="cek()">Lihat Hasil Kelulusan</button>
+
+  <div class="loading" id="loading">Memproses data...</div>
+
+  <div class="footer">
+    Bersama, Berkreasi, Berprestasi<br>
+    @Timit IT X Kurikulum - 2026
+  </div>
+</div>
+
+<!-- FLASH -->
+<div class="flash" id="flash"></div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay">
+  <div class="result-box">
+    <div class="lulus">SELAMAT</div>
+    <div class="nama" id="namaHasil"></div>
+    <div class="status-text">ANDA DINYATAKAN LULUS</div>
+    <div class="status-text">DARI SMAN 1 SOOKO</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<audio id="sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9b4f63.mp3"></audio>
+
+<script>
 function cek(){
-  const namaInput = document.getElementById("nama");
-  const nama = namaInput.value.trim();
-  const btn = document.querySelector("button");
-  const loading = document.getElementById("loading");
+  const nama=document.getElementById("nama").value;
+  const btn=document.querySelector("button");
+  const loading=document.getElementById("loading");
 
   if(!nama){
     alert("Nama harus diisi");
     return;
   }
 
-  btn.disabled = true;
-  loading.style.display = "block";
+  btn.disabled=true;
+  loading.style.display="block";
 
   setTimeout(()=>{
-    loading.style.display = "none";
-    showResult(nama);
-    btn.disabled = false;
-  },1800);
+    loading.style.display="none";
+
+    document.getElementById("namaHasil").innerText = nama.toUpperCase();
+
+    // FLASH
+    const flash = document.getElementById("flash");
+    flash.classList.add("show");
+
+    setTimeout(()=>{
+      document.getElementById("overlay").classList.add("show");
+    },200);
+
+    // AUDIO FADE IN
+    const audio = document.getElementById("sound");
+    audio.volume = 0;
+    audio.play();
+
+    let vol = 0;
+    const fade = setInterval(()=>{
+      if(vol < 1){
+        vol += 0.05;
+        audio.volume = vol;
+      } else {
+        clearInterval(fade);
+      }
+    },100);
+
+    // CONFETTI
+    confetti({
+      particleCount:200,
+      spread:100,
+      origin:{y:0.6}
+    });
+
+  },2500);
 }
-
-/* AUTO LINK */
-(function(){
-  const params = new URLSearchParams(window.location.search);
-  const nama = params.get('nama') || params.get('n');
-  if(nama){
-    document.getElementById("nama").value = nama;
-    setTimeout(()=>showResult(nama), 400);
-  }
-})();
-
-/* CLOSE */
-document.addEventListener('click', function(e){
-  if(e.target && e.target.id === 'btnClose'){
-    document.getElementById("overlay").classList.remove("show");
-  }
-});
 </script>
+
+</body>
+</html>
