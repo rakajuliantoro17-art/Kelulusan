@@ -244,7 +244,27 @@ function cek(){
       statusEls[0].innerText="ANDA DINYATAKAN";
       statusEls[1].innerText="TIDAK LULUS";
     },500);
+    // CONFETTI
+    setTimeout(()=>{
+      confetti({particleCount:150,spread:90,origin:{y:0.6}});
+    },1700);
 
+    setTimeout(()=>{
+      confetti({particleCount:120,spread:120,origin:{y:0.5}});
+    },2100);
+
+    // BALON
+    setTimeout(()=>{
+      const container=document.getElementById("balloons");
+      for(let i=0;i<12;i++){
+        const b=document.createElement("div");
+        b.className="balloon";
+        b.style.left=Math.random()*100+"vw";
+        b.style.background=`hsl(${Math.random()*360},70%,60%)`;
+        container.appendChild(b);
+        setTimeout(()=>b.remove(),6000);
+      }
+    },1700);
     // BALIK
     setTimeout(()=>{
       titleEl.innerText="SELAMAT";
@@ -268,28 +288,6 @@ function cek(){
       if(v>=1){audio.volume=1;clearInterval(fade);}
       else audio.volume=v;
     },80);
-
-    // CONFETTI
-    setTimeout(()=>{
-      confetti({particleCount:150,spread:90,origin:{y:0.6}});
-    },1700);
-
-    setTimeout(()=>{
-      confetti({particleCount:120,spread:120,origin:{y:0.5}});
-    },2100);
-
-    // BALON
-    setTimeout(()=>{
-      const container=document.getElementById("balloons");
-      for(let i=0;i<12;i++){
-        const b=document.createElement("div");
-        b.className="balloon";
-        b.style.left=Math.random()*100+"vw";
-        b.style.background=`hsl(${Math.random()*360},70%,60%)`;
-        container.appendChild(b);
-        setTimeout(()=>b.remove(),6000);
-      }
-    },1700);
 
   },2000);
 }
