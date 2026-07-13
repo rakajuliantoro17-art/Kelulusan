@@ -1,8 +1,8 @@
 /*
 ==========================================================
-SMANSASOO Academic Portal
+SMANSASOO Graduation Portal
 Application Bootstrap
-Version : 2.0.0
+Version : 2.1.0
 ==========================================================
 
 Main Entry Point
@@ -15,6 +15,14 @@ Fungsi:
 - Menginisialisasi Search Module
 
 Semua logika aplikasi berada pada module lain.
+
+FIX (v2.1.0):
+- CONFIG.APP_VERSION -> CONFIG.VERSION (key APP_VERSION
+  tidak pernah ada di config.js, jadi log version selama
+  ini selalu tercetak "undefined").
+- CONFIG.DEBUG -> CONFIG.ENABLE_CONSOLE_LOG (key DEBUG
+  tidak pernah ada di config.js, jadi log "API Status"
+  selama ini tidak pernah muncul walau health check sukses).
 ==========================================================
 */
 
@@ -30,7 +38,7 @@ const App = {
 
         console.info("====================================");
         console.info(CONFIG.APP_NAME);
-        console.info(`Version : ${CONFIG.APP_VERSION}`);
+        console.info(`Version : ${CONFIG.VERSION}`);
         console.info("Initializing...");
         console.info("====================================");
 
@@ -64,7 +72,7 @@ const App = {
                 API.checkAPI()
                     .then(result => {
 
-                        if (CONFIG.DEBUG) {
+                        if (CONFIG.ENABLE_CONSOLE_LOG) {
 
                             console.info("API Status :", result);
 
