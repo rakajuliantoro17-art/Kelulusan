@@ -2,7 +2,7 @@
 ==========================================================
 SMANSASOO Graduation Portal
 Configuration
-Version : 2.0.0
+Version : 2.1.0
 ==========================================================
 
 Portal Pengumuman Kelulusan
@@ -10,6 +10,17 @@ SMAN 1 Sooko Mojokerto
 
 Seluruh konfigurasi aplikasi dipusatkan pada file ini.
 
+FIX (v2.1.0):
+- API_BASE_URL diupdate ke deployment terbaru
+  (...W3BGVkQ.../exec). URL sebelumnya
+  (...52gsoA.../exec) sudah tidak dipakai lagi karena
+  setiap "New deployment" di Apps Script menghasilkan URL
+  baru — bukan update deployment lama.
+- Field lain TIDAK diubah di revisi ini (STATUS_PASS,
+  STATUS_NOT_PASS, MESSAGE.*, ENABLE_AUDIO, AUDIO_URL, dst
+  sudah cocok dengan skema Kelulusan di backend). Perbaikan
+  ui.js & app.js supaya field-nya cocok dengan CONFIG di
+  sini menyusul di giliran berikutnya.
 ==========================================================
 */
 
@@ -21,7 +32,7 @@ window.CONFIG = {
 
     APP_NAME: "SMANSASOO Graduation Portal",
 
-    VERSION: "2.0.0",
+    VERSION: "2.1.0",
 
     SCHOOL_NAME: "SMAN 1 Sooko Mojokerto",
 
@@ -52,7 +63,7 @@ window.CONFIG = {
 
     API_BASE_URL:
 
-    "https://script.google.com/macros/s/AKfycbwAbjqiwBFp-xQAZVmcrybhC31FEDH054MS4_mSHgb2hjr15KnL4G-KGfiUhaB_52gsoA/exec",
+    "https://script.google.com/macros/s/AKfycbxZoDMyfKWKyJIVGRaRAYHJIUIE34_32w7-Khykp9em2IwqR5seG3Ph5JvI_EaW3BGVkQ/exec",
 
     API_ACTIONS:{
 
