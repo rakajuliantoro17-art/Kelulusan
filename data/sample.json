@@ -1,48 +1,48 @@
 {
   "success": true,
-  "version": "1.0.0",
-  "academic_year": "2026/2027",
-  "school": {
-    "name": "SMAN 1 Sooko Mojokerto",
-    "city": "Mojokerto",
-    "province": "Jawa Timur"
+  "code": 200,
+  "message": "Data ditemukan",
+  "version": "2.0.0",
+  "timestamp": "2026-06-20T08:00:00+07:00",
+
+  "portal": {
+    "title": "Portal Pengumuman Kelulusan",
+    "type": "graduation",
+    "academic_year": "2025/2026",
+    "announcement_date": "2026-05-05",
+    "announcement_time": "10:00 WIB"
   },
-  "students": [
-    {
-      "nis": "240001",
-      "nisn": "0087654321",
-      "name": "Ahmad Fauzi",
-      "gender": "L",
-      "status": "NAIK",
-      "previous_class": "X-1",
-      "new_class": "XI-STEM 1",
-      "major": "STEM",
-      "homeroom_teacher": "Drs. Budi Santoso",
-      "announcement_date": "2026-06-20"
-    },
-    {
-      "nis": "240002",
-      "nisn": "0087654322",
-      "name": "Siti Aisyah",
-      "gender": "P",
-      "status": "NAIK",
-      "previous_class": "X-2",
-      "new_class": "XI-SOSHUM 2",
-      "major": "SOSHUM",
-      "homeroom_teacher": "Dra. Rina Wulandari",
-      "announcement_date": "2026-06-20"
-    },
-    {
-      "nis": "240003",
-      "nisn": "0087654323",
-      "name": "Muhammad Rizky",
-      "gender": "L",
-      "status": "TIDAK NAIK",
-      "previous_class": "X-4",
-      "new_class": "-",
-      "major": "-",
-      "homeroom_teacher": "-",
-      "announcement_date": "2026-06-20"
-    }
-  ]
+
+  "school": {
+    "id": "351601",
+    "name": "SMAN 1 Sooko Mojokerto",
+    "short_name": "SMANSASOO",
+    "city": "Mojokerto",
+    "province": "Jawa Timur",
+    "logo": "assets/logo/logo.png"
+  },
+
+  "student": {
+    "nis": "240001",
+    "nisn": "0087654321",
+    "name": "Ahmad Fauzi",
+    "gender": "L",
+    "birth_date": "2008-08-17",
+    "class": "XII MIPA 1",
+    "major": "MIPA"
+  },
+
+  "announcement": {
+    "status": "LULUS",
+    "status_code": 1,
+    "message": "Selamat, Anda dinyatakan LULUS.",
+    "graduation_number": "421.3/001/416-101.001/2026",
+    "graduation_date": "2026-05-05"
+  },
+
+  "documents": {
+    "skl": "",
+    "transcript": "",
+    "qr_verification": ""
+  }
 }
