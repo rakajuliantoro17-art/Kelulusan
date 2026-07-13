@@ -1,34 +1,36 @@
-# 🎓 SMANSASOO Academic Portal
+# 🎓 SMANSASOO Graduation Portal
 
-Portal Pengumuman Akademik SMAN 1 Sooko Mojokerto.
+Portal resmi pengumuman kelulusan SMAN 1 Sooko Mojokerto.
 
 ---
 
 ## 📌 Tentang Project
 
-SMANSASOO Academic Portal merupakan aplikasi web berbasis HTML, CSS, dan JavaScript yang digunakan sebagai portal resmi pengumuman akademik SMAN 1 Sooko Mojokerto.
+SMANSASOO Graduation Portal adalah aplikasi web modern berbasis HTML, CSS, dan JavaScript yang digunakan sebagai portal resmi pengumuman kelulusan siswa.
 
-Project ini dirancang agar dapat digunakan setiap tahun tanpa perlu membangun ulang aplikasi. Data akademik dikelola melalui Google Spreadsheet dan diakses menggunakan Google Apps Script sebagai REST API.
+Portal ini dirancang agar dapat digunakan setiap tahun hanya dengan memperbarui data pada Google Spreadsheet tanpa perlu mengubah kode aplikasi.
 
-Website di-host menggunakan Vercel dan seluruh source code dikelola melalui GitHub.
+Frontend di-host menggunakan Vercel, sedangkan backend menggunakan Google Apps Script sebagai REST API.
 
 ---
 
-## 🎯 Tujuan
+## ✨ Fitur
 
-- Pengumuman Kenaikan Kelas
-- Pembagian Kelas Baru
-- Pengumuman Kelulusan
-- Pengumuman MPLS
-- Informasi Akademik
+- Portal pengumuman kelulusan
+- Validasi NISN dan tanggal lahir
+- Countdown waktu pengumuman
+- Animasi kelulusan (confetti, audio, transisi)
+- Download Surat Keterangan Lulus (SKL)
+- Responsive (Desktop & Mobile)
+- Siap dikembangkan menjadi Progressive Web App (PWA)
 
 ---
 
 ## 🚀 Teknologi
 
-| Teknologi | Keterangan |
-|-----------|------------|
-| HTML5 | Struktur Website |
+| Teknologi | Fungsi |
+|-----------|--------|
+| HTML5 | Struktur halaman |
 | CSS3 | Tampilan |
 | JavaScript ES6 | Interaksi |
 | Google Apps Script | REST API |
@@ -41,17 +43,22 @@ Website di-host menggunakan Vercel dan seluruh source code dikelola melalui GitH
 ## 📁 Struktur Project
 
 ```text
-smansasoo-academic-portal/
+smansasoo-graduation-portal/
 │
 ├── assets/
+│   ├── audio/
+│   ├── icons/
+│   ├── images/
+│   ├── logo/
+│   └── favicon.ico
+│
+├── components/
 ├── css/
-├── docs/
 ├── js/
 ├── pages/
 │
 ├── index.html
 ├── vercel.json
-├── sw.js
 ├── README.md
 ├── LICENSE
 └── .gitignore
@@ -62,113 +69,57 @@ smansasoo-academic-portal/
 ## ⚙️ Arsitektur
 
 ```text
-User
- │
- ▼
+Browser
+   │
+   ▼
 Vercel
- │
- ▼
-Google Apps Script API
- │
- ▼
+   │
+   ▼
+Google Apps Script
+   │
+   ▼
 Google Spreadsheet
 ```
 
 ---
 
-## 🌐 Deployment
+## 🛣️ Roadmap
 
-Repository GitHub akan otomatis terhubung dengan Vercel sehingga setiap perubahan pada branch **main** akan langsung dideploy.
-
----
-
-## 📊 Database
-
-Seluruh data disimpan pada Google Spreadsheet.
-
-Contoh struktur data:
-
-| Tahun | NIS | NISN | Nama | Status | Kelas Lama | Kelas Baru | Minat | Wali |
-|------|------|------|------|------|------|------|------|------|
-
----
-
-## 🔌 API
-
-Google Apps Script digunakan sebagai REST API.
-
-Contoh request:
-
-```text
-GET
-/api?nis=123456
-```
-
-Contoh response:
-
-```json
-{
-  "success": true,
-  "data": {
-    "nama": "Ahmad",
-    "status": "Naik",
-    "kelasBaru": "XI-5"
-  }
-}
-```
-
----
-
-# 🛣️ Roadmap
-
-## Version 1.0
-
-- [x] HTML Structure
+### Version 1.0
 - [x] GitHub Repository
 - [x] Vercel Deployment
 - [x] Google Spreadsheet
 - [x] Google Apps Script API
-- [ ] Search NIS/NISN
-- [ ] Result Card
-- [ ] Responsive Design
+- [ ] Landing Page
+- [ ] Validasi Data
+- [ ] Animasi Kelulusan
+- [ ] Dashboard Hasil
+- [ ] Download SKL
 
----
-
-## Version 1.5
-
+### Version 1.5
 - Countdown
-- Informasi Sekolah
 - FAQ
 - Responsive Improvement
-- Progressive Web App (PWA)
 - Offline Page
+- Progressive Web App
 
----
-
-## Version 2.0
-
-- Multi Tahun Ajaran
-- Multi Pengumuman
-- Konfigurasi Portal
-- Statistik Pengunjung
-- Dashboard Admin
-- Download PDF
+### Version 2.0
 - QR Verification
+- Dashboard Operator
+- Statistik Pengunjung
+- Multi Tahun Kelulusan
+- Arsip Kelulusan
+- Portal Alumni
 
 ---
 
 ## 👨‍💻 Developer
 
-SMAN 1 Sooko Mojokerto
-
+SMAN 1 Sooko Mojokerto  
 IT Team
-
-Academic Portal Project
 
 ---
 
 ## 📄 License
 
-MIT License
-
-Copyright © 2026 SMAN 1 Sooko Mojokerto
+MIT License © 2026 SMAN 1 Sooko Mojokerto
