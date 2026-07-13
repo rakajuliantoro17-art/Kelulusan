@@ -1,303 +1,129 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
+<!--
+==========================================================
+SMANSASOO Graduation Portal
+index.html
+Version : 2.1.0
+==========================================================
+FIX (v2.1.0):
+- Ditulis ulang total. Versi sebelumnya adalah mockup mandiri
+  (CSS inline, fungsi cek() palsu pakai setTimeout, selalu
+  menampilkan LULUS apa pun inputnya) dan TIDAK memuat
+  js/config.js, api.js, ui.js, search.js, utils.js, app.js
+  sama sekali.
+- Sekarang memuat css/*.css (variables, style, glass,
+  animation, responsive) dan js/*.js sesuai urutan dependensi
+  (config -> utils -> api -> ui -> search -> app).
+- Form diganti dari input nama/tanggal bebas jadi
+  #searchForm + #keyword sesuai kontrak search.js
+  (cari berdasarkan NIS/NISN, bukan nama).
+- Background & audio diganti dari URL eksternal acak
+  (situs berita, sekolah lain, Pixabay) ke asset lokal yang
+  sudah ada di assets/ (scc.jpg, lulus.mp3) sesuai config.js.
+- Markup overlay (#overlay > #overlayBox.result-box) disusun
+  persis sesuai selector yang sudah ditulis di css/glass.css
+  (.result-box .headline/.subtext/.student-name), supaya
+  ui.js tidak perlu ubah CSS apa pun.
+- Menambahkan <link rel="manifest">, meta theme-color, dan
+  Google Fonts "Plus Jakarta Sans" (dipakai --font-family di
+  variables.css, sebelumnya tidak pernah di-load).
+==========================================================
+-->
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cek Pengumuman Kelulusan 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Cek Pengumuman Kelulusan — SMAN 1 Sooko Mojokerto</title>
+<meta name="description" content="Portal resmi pengumuman kelulusan SMAN 1 Sooko Mojokerto. Masukkan NIS atau NISN untuk melihat hasil kelulusan Anda.">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#071A35">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/favicon.ico">
+<link rel="apple-touch-icon" href="assets/icons/icon.png">
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-body{
-  font-family:'Poppins',sans-serif;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:url('https://static.promediateknologi.id/crop/0x0:0x0/x/photo/p1/290/2024/01/02/Syarifah-Khadijah-Alhabsyi-Siapa_-Ini-Profil-Biodata-Gadis-yang-Viral-di-TikTok-Umur-Asal-Sekolah-Instagram-dan-TikTok-2-199858789.jpg') center/cover no-repeat;
-  position:relative;
-}
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/glass.css">
+<link rel="stylesheet" href="css/animation.css">
+<link rel="stylesheet" href="css/responsive.css">
 
-body::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:rgba(10,25,47,0.65);
-  backdrop-filter:blur(4px);
-  z-index:1;
-}
-
-/* CARD */
-.container{
-  position:relative;
-  z-index:2;
-  width:95%;
-  max-width:420px;
-  padding:35px 25px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,0.2);
-  text-align:center;
-  color:white;
-}
-
-.logo{width:70px;margin-bottom:10px;}
-.title{font-size:14px;opacity:0.8;}
-.big-title{font-size:24px;font-weight:700;margin:10px 0 20px;}
-
-input{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:10px;
-  border:none;
-  background:rgba(255,255,255,0.15);
-  color:white;
-}
-
-button{
-  width:100%;
-  padding:14px;
-  margin-top:10px;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(135deg,#3a8dff,#00d4ff);
-  color:white;
-  font-weight:600;
-  cursor:pointer;
-}
-
-.loading{display:none;margin-top:10px;font-size:14px;}
-
-/* OVERLAY */
-.overlay{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  background:url('https://sman1mengwi.sch.id/wp-content/uploads/2024/05/lulus-sma-rencanamu-60dbadcf06310e130a772623.jpg') center/cover no-repeat;
-
-  opacity:0;
-  visibility:hidden;
-  transition:0.6s;
-  z-index:9000;
-}
-
-.overlay::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:rgba(120,0,0,0.65);
-  backdrop-filter:blur(4px);
-}
-
-.overlay.show{
-  opacity:1;
-  visibility:visible;
-}
-
-/* RESULT */
-.result-box{
-  position:relative;
-  z-index:2;
-  background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(25px);
-  padding:40px;
-  border-radius:20px;
-  text-align:center;
-  color:white;
-  transform:scale(0.9);
-  opacity:0;
-  transition:0.5s;
-}
-
-.overlay.show .result-box{
-  transform:scale(1);
-  opacity:1;
-}
-
-.lulus{
-  font-size:clamp(32px,6vw,60px);
-  font-weight:800;
-  color:#FFD700;
-  text-shadow:0 0 25px gold;
-}
-
-.status-text{
-  font-size:clamp(18px,3.5vw,28px);
-  margin-top:10px;
-}
-
-.nama{
-  margin-top:15px;
-  font-size:clamp(16px,3vw,22px);
-  font-weight:600;
-}
-
-/* FLASH */
-.flash{
-  position:fixed;
-  inset:0;
-  background:white;
-  opacity:0;
-  z-index:10000;
-  pointer-events:none;
-}
-
-.flash.show{
-  animation:flashAnim 0.5s ease;
-}
-
-@keyframes flashAnim{
-  0%{opacity:1;}
-  100%{opacity:0;}
-}
-
-/* BALON */
-#balloons{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:10003;
-}
-
-.balloon{
-  position:absolute;
-  bottom:-100px;
-  width:40px;
-  height:50px;
-  border-radius:50%;
-  animation:rise 6s linear forwards;
-}
-
-@keyframes rise{
-  from{transform:translateY(0);}
-  to{transform:translateY(-120vh);opacity:0;}
-}
-
-/* CONFETTI CANVAS */
-canvas{
-  position:fixed !important;
-  inset:0;
-  pointer-events:none;
-  z-index:10002 !important;
-}
-</style>
 </head>
-
 <body>
 
 <div class="container">
-  <img src="https://sman1sooko.sch.id/media_library/images/397a98c4618261af0d970851901f2b5b.png" class="logo">
-  <div class="title">SMAN 1 Sooko</div>
-  <div class="big-title">Cek Pengumuman Kelulusan 2026</div>
 
-  <input type="text" id="nama" placeholder="Nama Lengkap">
-  <input type="text" placeholder="NISN">
-  <input type="date">
+    <header class="header">
 
-  <button onclick="cek()">Lihat Hasil Kelulusan</button>
-  <div class="loading" id="loading">Memproses data...</div>
+        <img src="assets/logo/logo.png" alt="Logo SMAN 1 Sooko Mojokerto" class="logo">
+
+        <h1>SMAN 1 Sooko Mojokerto<span>Pengumuman Kelulusan</span></h1>
+
+        <p>Masukkan NIS atau NISN untuk melihat hasil kelulusan Anda.</p>
+
+    </header>
+
+    <section class="search-section">
+
+        <div class="search-card">
+
+            <h2>Cek Hasil Kelulusan</h2>
+            <p>Tahun Ajaran 2025/2026</p>
+
+            <form id="searchForm" autocomplete="off">
+
+                <input
+                    type="text"
+                    id="keyword"
+                    name="keyword"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    required
+                >
+
+                <button type="submit">Lihat Hasil Kelulusan</button>
+
+            </form>
+
+        </div>
+
+        <div id="result" class="hidden"></div>
+
+    </section>
+
+    <footer>
+
+        SMAN 1 Sooko Mojokerto
+
+        <small>&copy; 2026 SMANSASOO Graduation Portal</small>
+
+    </footer>
+
 </div>
 
+<!-- OVERLAY PERAYAAN (status LULUS) -->
 <div class="flash" id="flash"></div>
 <div id="balloons"></div>
 
 <div class="overlay" id="overlay">
-  <div class="result-box">
-    <div class="lulus">SELAMAT</div>
-    <div class="nama" id="namaHasil"></div>
-    <div class="status-text">ANDA DINYATAKAN LULUS</div>
-    <div class="status-text">DARI SMAN 1 SOOKO</div>
-    <button id="btnClose" style="margin-top:20px">Tutup</button>
-  </div>
+    <div class="result-box" id="overlayBox"></div>
 </div>
 
+<audio id="celebrationSound" preload="none"></audio>
+
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<audio id="sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9b4f63.mp3"></audio>
 
-<script>
-function cek(){
-  const nama=document.getElementById("nama").value.trim();
-  const loading=document.getElementById("loading");
-
-  if(!nama){
-    alert("Nama harus diisi");
-    return;
-  }
-
-  loading.style.display="block";
-
-  setTimeout(()=>{
-    loading.style.display="none";
-
-    document.getElementById("namaHasil").innerText=nama.toUpperCase();
-
-    const flash=document.getElementById("flash");
-    const overlay=document.getElementById("overlay");
-
-    flash.classList.add("show");
-    setTimeout(()=>overlay.classList.add("show"),200);
-
-    // CONFETTI
-    setTimeout(()=>{
-      confetti({
-        particleCount:150,
-        spread:90,
-        origin:{y:0.6},
-        zIndex:10002
-      });
-    },1500);
-
-    setTimeout(()=>{
-      confetti({
-        particleCount:120,
-        spread:120,
-        origin:{y:0.5},
-        zIndex:10002
-      });
-    },1800);
-
-    // BALON
-    setTimeout(()=>{
-      const container=document.getElementById("balloons");
-      for(let i=0;i<12;i++){
-        setTimeout(()=>{
-          const b=document.createElement("div");
-          b.className="balloon";
-          b.style.left=Math.random()*100+"vw";
-          b.style.background=`hsl(${Math.random()*360},70%,60%)`;
-          container.appendChild(b);
-          setTimeout(()=>b.remove(),6000);
-        }, i*200);
-      }
-    },1500);
-
-    // AUDIO
-    const audio=document.getElementById("sound");
-    audio.currentTime=0;
-    audio.volume=0;
-    audio.play().catch(()=>{});
-
-    let v=0;
-    const fade=setInterval(()=>{
-      v+=0.05;
-      if(v>=1){audio.volume=1;clearInterval(fade);}
-      else audio.volume=v;
-    },80);
-
-  },2000);
-}
-
-document.getElementById("btnClose").onclick=function(){
-  document.getElementById("overlay").classList.remove("show");
-};
-</script>
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/search.js"></script>
+<script src="js/app.js"></script>
 
 </body>
 </html>
