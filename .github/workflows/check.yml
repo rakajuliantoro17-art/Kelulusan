@@ -6,19 +6,61 @@ on:
       - main
       - development
 
+  pull_request:
+    branches:
+      - main
+
 jobs:
   project-check:
+
+    name: Verify Project Structure
+
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Repository Information
+      - name: Project Information
         run: |
-          echo "SMANSASOO Academic Portal"
-          echo "Version 1.0"
-          echo "Repository structure checked."
+          echo "=================================="
+          echo "SMANSASOO Graduation Portal"
+          echo "Version : 1.0.0"
+          echo "Branch  : $GITHUB_REF_NAME"
+          echo "=================================="
 
-      - name: List Project Files
-        run: ls -R
+      - name: Check Required Files
+        run: |
+
+          test -f index.html || exit 1
+          test -f README.md || exit 1
+          test -f LICENSE || exit 1
+          test -f manifest.json || exit 1
+          test -f sw.js || exit 1
+          test -f vercel.json || exit 1
+
+          echo "Core files OK"
+
+      - name: Check Required Directories
+        run: |
+
+          test -d assets || exit 1
+          test -d css || exit 1
+          test -d js || exit 1
+
+          echo "Project folders OK"
+
+      - name: Display Repository Structure
+        run: |
+
+          echo "Repository Tree"
+          ls -R
+
+      - name: Success
+        run: |
+
+          echo "=================================="
+          echo "Project verification completed."
+          echo "Ready for Vercel Deployment."
+          echo "=================================="
