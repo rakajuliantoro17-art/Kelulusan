@@ -3,12 +3,35 @@
 
 <head>
 
+    <!--
+    ==========================================================
+    SMANSASOO Graduation Portal
+    About Page
+    Version : 2.1.0
+    ==========================================================
+    FIX (v2.1.0):
+    - Logo src diperbaiki dari "../assets/logo.png" (file tidak
+      ada di path itu, broken image) ke "../assets/logo/logo.png"
+      (lokasi asli file, sesuai struktur folder assets/logo/).
+    - Seluruh teks diganti dari konteks Kenaikan Kelas / Academic
+      Portal generik ke konteks Kelulusan.
+    - "Tujuan Portal" diganti dari (Kenaikan Kelas, Pembagian
+      Kelas Baru, Informasi Akademik) ke item yang relevan untuk
+      Kelulusan.
+    - Versi & Tahun Pelajaran disinkronkan dengan CONFIG.VERSION
+      dan CONFIG.ACADEMIC_YEAR di js/config.js (2.1.0 dan
+      2025/2026) — sebelumnya hardcode "1.0.0" dan "2026/2027"
+      yang merupakan tahun ajaran KELAS BARU, bukan tahun
+      kelulusan.
+    ==========================================================
+    -->
+
     <meta charset="UTF-8">
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Tentang Portal | SMANSASOO Academic Portal</title>
+    <title>Tentang Portal | SMANSASOO Graduation Portal</title>
 
     <link rel="stylesheet" href="../css/variables.css">
     <link rel="stylesheet" href="../css/style.css">
@@ -25,7 +48,7 @@
 
 <header class="header">
 
-    <img src="../assets/logo.png"
+    <img src="../assets/logo/logo.png"
          alt="Logo SMAN 1 Sooko"
          class="logo">
 
@@ -37,7 +60,7 @@
 
     <p>
 
-        SMANSASOO Academic Portal
+        SMANSASOO Graduation Portal
 
     </p>
 
@@ -50,14 +73,14 @@
 
         <h2>
 
-            SMANSASOO Academic Portal
+            SMANSASOO Graduation Portal
 
         </h2>
 
         <p>
 
             Portal ini dikembangkan sebagai media resmi untuk menyampaikan
-            pengumuman akademik kepada peserta didik
+            pengumuman kelulusan kepada peserta didik
             SMAN 1 Sooko Mojokerto secara cepat,
             aman, dan mudah diakses.
 
@@ -79,7 +102,7 @@
 
             <span class="result-label">
 
-                Kenaikan Kelas
+                Pengumuman Kelulusan
 
             </span>
 
@@ -95,7 +118,7 @@
 
             <span class="result-label">
 
-                Pembagian Kelas Baru
+                Verifikasi Nomor SKL
 
             </span>
 
@@ -111,7 +134,7 @@
 
             <span class="result-label">
 
-                Informasi Akademik
+                Cek Status Kelulusan Mandiri
 
             </span>
 
@@ -253,7 +276,7 @@
 
             <span class="result-value">
 
-                1.0.0
+                2.1.0
 
             </span>
 
@@ -269,7 +292,7 @@
 
             <span class="result-value">
 
-                2026 / 2027
+                2025 / 2026
 
             </span>
 
@@ -309,7 +332,7 @@
 
     <small>
 
-        SMANSASOO Academic Portal v1.0.0
+        SMANSASOO Graduation Portal v2.1.0
 
     </small>
 
