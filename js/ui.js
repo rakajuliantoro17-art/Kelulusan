@@ -467,3 +467,35 @@ window.UI = (() => {
     ========================================== */
 
     if (overlay) {
+
+        overlay.addEventListener("click", (event) => {
+
+            if (event.target === overlay) {
+
+                closeOverlay();
+
+            }
+
+        });
+
+    }
+
+    /* ==========================================
+       PUBLIC
+    ========================================== */
+
+    return {
+
+        showResult,
+
+        showLoading,
+
+        showError,
+
+        clear,
+
+        toast
+
+    };
+
+})();
