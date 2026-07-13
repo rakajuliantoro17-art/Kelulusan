@@ -46,11 +46,24 @@ body{
 
     z-index:-1;
 
-    background:url('../assets/images/scc.jpg') center/cover no-repeat;
+    background: url("../assets/images/scc.jpg") center center / cover no-repeat;
 
     filter:blur(8px) brightness(.5) saturate(1.1);
 
     transform:scale(1.08);
+    transition: background 1s ease, filter .8s ease;
+}
+
+body.celebration .bg-layer{
+
+    background:
+    url("../assets/images/syari.png")
+    center center / cover no-repeat;
+
+    filter:
+        blur(6px)
+        brightness(.55)
+        saturate(1.15);
 
 }
 
@@ -120,9 +133,13 @@ body{
 
     -webkit-backdrop-filter:blur(25px);
 
-    border:1px solid rgba(255,255,255,.2);
+    border:
 
-    box-shadow:var(--shadow-lg);
+1px solid rgba(255,255,255,.28);
+
+box-shadow:
+
+0 25px 80px rgba(0,0,0,.35);
 
     color:var(--text-white);
 
@@ -288,7 +305,7 @@ body{
 
     padding:20px;
 
-    background:url('../assets/images/scc.jpg') center/cover no-repeat;
+    background:url('assets/images/scc.jpg') center/cover no-repeat;
 
     opacity:0;
 
