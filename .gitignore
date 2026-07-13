@@ -1,5 +1,5 @@
 # =====================================================
-# SMANSASOO Academic Portal
+# SMANSASOO Graduation Portal
 # .gitignore
 # =====================================================
 
@@ -44,6 +44,7 @@ desktop.ini
 # =============================
 .vscode/
 .idea/
+*.code-workspace
 
 # =============================
 # Temporary Files
@@ -68,6 +69,18 @@ coverage/
 # Vercel
 # =============================
 .vercel/
+
+# =============================
+# Google Apps Script (CLASP)
+# =============================
+.clasp.json
+
+# =============================
+# Local Secrets
+# =============================
+credentials.json
+token.json
+secrets.json
 
 # =============================
 # Generated Files
