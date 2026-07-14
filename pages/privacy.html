@@ -3,13 +3,35 @@
 
 <head>
 
+<!--
+==========================================================
+SMANSASOO Graduation Portal
+Privacy Policy Page
+Version : 2.1.0
+==========================================================
+FIX (v2.1.0):
+- Path logo diperbaiki di 2 tempat ("../assets/logo.png" ->
+  "../assets/logo/logo.png") — sama seperti bug di about.html,
+  file aslinya ada di subfolder assets/logo/.
+- Daftar data di poin 2 diganti dari field Kenaikan Kelas
+  (Status Kenaikan Kelas, Kelas Baru, Kelompok Minat, Wali
+  Kelas) ke field yang benar-benar dikirim StudentService.gs
+  untuk Kelulusan: Status Kelulusan, Nomor SKL, Tanggal
+  Kelulusan, Catatan.
+- Seluruh sebutan "Academic Portal" / "informasi akademik"
+  diganti ke "Graduation Portal" / "informasi kelulusan".
+- Versi footer disinkronkan ke 2.1.0 (sebelumnya hardcode
+  1.0.0, tidak sinkron dengan CONFIG.VERSION di config.js).
+==========================================================
+-->
+
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Kebijakan Privasi | SMANSASOO Academic Portal</title>
+<title>Kebijakan Privasi | SMANSASOO Graduation Portal</title>
 
-<link rel="icon" href="../assets/logo.png">
+<link rel="icon" href="../assets/logo/logo.png">
 
 <link rel="stylesheet" href="../css/variables.css">
 <link rel="stylesheet" href="../css/style.css">
@@ -28,7 +50,7 @@ rel="stylesheet">
 <header class="header">
 
 <img
-src="../assets/logo.png"
+src="../assets/logo/logo.png"
 class="logo"
 alt="Logo SMAN 1 Sooko">
 
@@ -40,7 +62,7 @@ Kebijakan Privasi
 
 <p>
 
-SMANSASOO Academic Portal
+SMANSASOO Graduation Portal
 
 </p>
 
@@ -58,9 +80,9 @@ SMANSASOO Academic Portal
 
 <p>
 
-SMANSASOO Academic Portal merupakan portal resmi
+SMANSASOO Graduation Portal merupakan portal resmi
 SMAN 1 Sooko Mojokerto yang digunakan untuk
-menyampaikan informasi akademik kepada peserta didik.
+menyampaikan informasi kelulusan kepada peserta didik.
 
 </p>
 
@@ -79,7 +101,7 @@ menyampaikan informasi akademik kepada peserta didik.
 <p>
 
 Portal ini hanya menampilkan informasi yang diperlukan
-untuk pengumuman akademik, antara lain:
+untuk pengumuman kelulusan, antara lain:
 
 </p>
 
@@ -91,13 +113,11 @@ untuk pengumuman akademik, antara lain:
 
 <li>Nama Peserta Didik</li>
 
-<li>Status Kenaikan Kelas</li>
+<li>Status Kelulusan</li>
 
-<li>Kelas Baru</li>
+<li>Nomor Surat Keterangan Lulus (SKL)</li>
 
-<li>Kelompok Minat</li>
-
-<li>Wali Kelas</li>
+<li>Tanggal Kelulusan</li>
 
 </ul>
 
@@ -116,7 +136,7 @@ untuk pengumuman akademik, antara lain:
 <p>
 
 Data hanya digunakan untuk keperluan layanan
-akademik sekolah dan tidak digunakan
+kelulusan sekolah dan tidak digunakan
 untuk kepentingan komersial.
 
 </p>
@@ -135,7 +155,7 @@ untuk kepentingan komersial.
 
 <p>
 
-Data akademik disimpan pada sistem yang
+Data kelulusan disimpan pada sistem yang
 dikelola oleh SMAN 1 Sooko Mojokerto
 melalui Google Spreadsheet dan Google Apps Script.
 
@@ -248,7 +268,7 @@ Portal
 
 <span class="result-value">
 
-SMANSASOO Academic Portal
+SMANSASOO Graduation Portal
 
 </span>
 
@@ -272,7 +292,7 @@ SMAN 1 Sooko Mojokerto
 
 <small>
 
-SMANSASOO Academic Portal v1.0.0
+SMANSASOO Graduation Portal v2.1.0
 
 </small>
 
