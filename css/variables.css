@@ -159,4 +159,32 @@ Version : 1.0.0
 
     --z-toast:1100;
 
+    /* ==========================================
+       LIQUID GLASS (iOS26-style material)
+    ========================================== */
+
+    --glass-blur:34px;
+
+    --glass-saturate:180%;
+
+    --glass-tint-top:rgba(255,255,255,.28);
+
+    --glass-tint-bottom:rgba(255,255,255,.06);
+
+    --glass-border:rgba(255,255,255,.38);
+
+    --glass-highlight:rgba(255,255,255,.55);
+
+    --glass-radius:28px;
+
+    --glass-radius-sm:20px;
+
+    /* ==========================================
+       MOTION (iOS spring curves)
+    ========================================== */
+
+    --ease-spring:cubic-bezier(.34,1.56,.64,1);
+
+    --ease-ios:cubic-bezier(.4,0,.2,1);
+
 }
