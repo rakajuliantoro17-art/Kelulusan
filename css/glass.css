@@ -545,31 +545,38 @@ body.celebration .bg-layer{
 
 .overlay{
 
-    position:fixed;
+     position:fixed;
 
-    inset:0;
+     inset:0;
 
-    display:flex;
+-    display:flex;
 
-    justify-content:center;
+-    justify-content:center;
 
-    align-items:center;
-   
-    overflow-y:auto;
+-    align-items:center;
 
-    padding:20px;
++    display:grid;
 
-    background:url('../assets/images/syari.png') center/cover no-repeat;
++    place-items:center;
 
-    opacity:0;
++    place-items:safe center;
 
-    visibility:hidden;
+     overflow-y:auto;
 
-    transition:opacity var(--transition-slow), visibility var(--transition-slow);
+     padding:20px;
 
-    z-index:var(--z-overlay);
+     background:url('../assets/images/syari.png') center/cover no-repeat;
 
-}
+     opacity:0;
+
+     visibility:hidden;
+
+     transition:opacity var(--transition-slow), visibility var(--transition-slow);
+
+-    z-index:var(--z-overlay);
++    z-index:var(--z-celebration);
+
+ }
 
 .overlay::before{
 
