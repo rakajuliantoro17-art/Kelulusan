@@ -117,6 +117,11 @@ window.Search = (() => {
 
         isSearching = true;
 
+        // Setelah tombol "Lihat Hasil Kelulusan" diklik (dan lolos
+        // validasi), ganti background halaman dari scc.jpg ke
+        // syari.png. Class ini dibaca oleh css/glass.css (.bg-layer).
+        document.body.classList.add("celebration");
+
         const button = document.querySelector(
             "#searchForm button"
         );
