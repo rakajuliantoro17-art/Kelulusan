@@ -2,46 +2,20 @@
 ==========================================================
 SMANSASOO Graduation Portal
 Glassmorphism Layer + Celebration Overlay
-Version : 2.1.0 — "Liquid Glass" (iOS26-style)
+Version : 2.2.0 — "Liquid Glass" (iOS26-style)
 ==========================================================
-File ini TIDAK menggantikan style.css/animation.css, hanya
-menambah:
-1. Background foto sekolah (blur + saturate + gradient) via
-   #bgLayer/.bg-layer, dengan swap otomatis ke syari.png
-   saat body mendapat class ".celebration".
-2. Material "Liquid Glass": card berlapis (tint gradient +
-   specular highlight di sudut atas + border tipis + shadow
-   ganda inset/outset), meniru bahasa desain iOS26 Apple.
-3. Overlay perayaan (flash, confetti, balon) untuk status
-   LULUS — kartu overlay pakai material glass yang sama.
-4. Kartu netral (.result-neutral) untuk status TIDAK LULUS —
-   sengaja tenang, tidak dramatis, tidak pakai warna mencolok.
-
-FIX (v2.1.0):
-- Background terlalu gelap: .bg-layer brightness dinaikkan
-  dari .52 -> .68 (dan varian .celebration dari .58 -> .72),
-  serta gradient penggelap di .bg-layer::after diturunkan
-  opacity-nya (dari .5/.82/.92 -> .3/.5/.62) supaya foto
-  sekolah tetap kelihatan, tidak jadi nyaris hitam polos.
-  .overlay::before (gradient di balik kartu perayaan) ikut
-  diturunkan senada (.7/.92 -> .5/.72).
-- Kartu "masih transparan" setelah klik "Lihat Hasil
-  Kelulusan": --glass-tint-top/bottom sudah dinaikkan di
-  variables.css (efeknya otomatis kebawa ke sini karena
-  search-card/result-card/loading-box/error-card semua
-  memakai variabel itu). Tambahan di sini: .result-neutral
-  dan .result-box (kartu overlay) yang sebelumnya override
-  tint dengan angka sendiri (.14/.04 dan .2/.06) dinaikkan
-  senada (.22/.09 dan .30/.12) supaya konsisten dengan kartu
-  lain, tidak lagi jadi kartu paling tembus pandang.
-- Fallback ditambahkan untuk browser yang tidak dukung
-  backdrop-filter (sebagian WebView Android lama/Moodle
-  inject browser di CBT Lock, dsb): tanpa blur kaca, kartu
-  otomatis pakai background solid gelap supaya teks tetap
-  terbaca, bukan nyaris transparan penuh.
-- Tidak ada perubahan pada struktur/selector/animasi lain
-  (badge-year, form, balloon, confetti, reduced-motion) —
-  semua tetap sama persis seperti sebelumnya.
+FIX (v2.2.0):
+- BUG KRITIS: blok .overlay sebelumnya ter-paste dengan
+  tanda diff (-/+) mentah dari chat, membuat browser
+  membuang deklarasi display, z-index (dianggap CSS tidak
+  valid dan di-skip diam-diam tanpa error terlihat).
+  Akibatnya .overlay kehilangan display:grid sepenuhnya,
+  sehingga .result-box jatuh ke posisi default block
+  (pojok kiri-atas). File ini bersih, tanpa tanda diff,
+  aman langsung ditimpakan ke repo.
+- Tidak ada perubahan logika dari revisi sebelumnya (grid
+  centering + z-index di atas balon/confetti) — cuma
+  dibersihkan dari tanda diff yang salah ter-paste.
 ==========================================================
 */
 
@@ -55,9 +29,6 @@ body{
 
     overflow-x:hidden;
 
-    /* Background asli dari style.css sengaja ditransparankan
-       supaya .bg-layer di bawahnya tidak tertutup "kanvas"
-       warna body. */
     background:transparent;
 
 }
@@ -105,9 +76,6 @@ body.celebration .bg-layer{
 
 }
 
-/* Gradient darkening + subtle vignette di atas foto,
-   supaya card glass tetap kontras & mudah dibaca —
-   diturunkan opacity-nya supaya foto sekolah tetap terlihat */
 .bg-layer::after{
 
     content:'';
@@ -203,7 +171,6 @@ body.celebration .bg-layer{
 
 /* ==============================
    LIQUID GLASS CARDS
-   (search-card, result-card, loading-box, error-card)
 ============================== */
 
 .search-card,
@@ -217,8 +184,6 @@ body.celebration .bg-layer{
 
     overflow:hidden;
 
-    /* Fallback dulu untuk browser tanpa backdrop-filter —
-       ditimpa oleh @supports di bawah kalau browser dukung. */
     background:rgba(12,32,58,.82);
 
     border:1px solid var(--glass-border);
@@ -257,8 +222,6 @@ body.celebration .bg-layer{
 
 }
 
-/* Specular highlight — pantulan cahaya lembut di sudut kiri atas,
-   ciri khas material "Liquid Glass" iOS26 */
 .search-card::before,
 .result-card::before,
 .loading-box::before,
@@ -283,7 +246,6 @@ body.celebration .bg-layer{
 
 }
 
-/* Hairline refraksi di tepi bawah, memperkuat kesan kaca tebal */
 .search-card::after,
 .result-card::after,
 .loading-box::after,
@@ -545,38 +507,31 @@ body.celebration .bg-layer{
 
 .overlay{
 
-     position:fixed;
+    position:fixed;
 
-     inset:0;
+    inset:0;
 
--    display:flex;
+    display:grid;
 
--    justify-content:center;
+    place-items:center;
 
--    align-items:center;
+    place-items:safe center;
 
-+    display:grid;
+    overflow-y:auto;
 
-+    place-items:center;
+    padding:20px;
 
-+    place-items:safe center;
+    background:url('../assets/images/syari.png') center/cover no-repeat;
 
-     overflow-y:auto;
+    opacity:0;
 
-     padding:20px;
+    visibility:hidden;
 
-     background:url('../assets/images/syari.png') center/cover no-repeat;
+    transition:opacity var(--transition-slow), visibility var(--transition-slow);
 
-     opacity:0;
+    z-index:var(--z-celebration);
 
-     visibility:hidden;
-
-     transition:opacity var(--transition-slow), visibility var(--transition-slow);
-
--    z-index:var(--z-overlay);
-+    z-index:var(--z-celebration);
-
- }
+}
 
 .overlay::before{
 
