@@ -2,37 +2,6 @@
 <html lang="id">
 <head>
 
-<!--
-==========================================================
-SMANSASOO Graduation Portal
-index.html
-Version : 2.1.0
-==========================================================
-FIX (v2.1.0):
-- Ditulis ulang total. Versi sebelumnya adalah mockup mandiri
-  (CSS inline, fungsi cek() palsu pakai setTimeout, selalu
-  menampilkan LULUS apa pun inputnya) dan TIDAK memuat
-  js/config.js, api.js, ui.js, search.js, utils.js, app.js
-  sama sekali.
-- Sekarang memuat css/*.css (variables, style, glass,
-  animation, responsive) dan js/*.js sesuai urutan dependensi
-  (config -> utils -> api -> ui -> search -> app).
-- Form diganti dari input nama/tanggal bebas jadi
-  #searchForm + #keyword sesuai kontrak search.js
-  (cari berdasarkan NIS/NISN, bukan nama).
-- Background & audio diganti dari URL eksternal acak
-  (situs berita, sekolah lain, Pixabay) ke asset lokal yang
-  sudah ada di assets/ (scc.jpg, lulus.mp3) sesuai config.js.
-- Markup overlay (#overlay > #overlayBox.result-box) disusun
-  persis sesuai selector yang sudah ditulis di css/glass.css
-  (.result-box .headline/.subtext/.student-name), supaya
-  ui.js tidak perlu ubah CSS apa pun.
-- Menambahkan <link rel="manifest">, meta theme-color, dan
-  Google Fonts "Plus Jakarta Sans" (dipakai --font-family di
-  variables.css, sebelumnya tidak pernah di-load).
-==========================================================
--->
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Cek Pengumuman Kelulusan — SMAN 1 Sooko Mojokerto</title>
@@ -56,7 +25,6 @@ FIX (v2.1.0):
 </head>
 <body>
 
-<!-- LAPISAN BACKGROUND (foto sekolah, blur ala iOS26 Liquid Glass) -->
 <div class="bg-layer" id="bgLayer"></div>
 
 <div class="container">
@@ -75,7 +43,7 @@ FIX (v2.1.0):
 
         <div class="search-card">
 
-            <span class="badge-year">Tahun Ajaran 2026/2027</span>
+            <span class="badge-year" id="badgeYear"></span>
             <h2>Cek Hasil Kelulusan</h2>
 
             <form id="searchForm" autocomplete="off">
@@ -109,7 +77,6 @@ FIX (v2.1.0):
 
 </div>
 
-<!-- OVERLAY PERAYAAN (status LULUS) -->
 <div class="flash" id="flash"></div>
 <div id="balloons"></div>
 
