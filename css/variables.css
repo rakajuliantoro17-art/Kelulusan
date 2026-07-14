@@ -162,21 +162,15 @@ Version : 1.0.0
     /* ==========================================
        LIQUID GLASS (iOS26-style material)
     ========================================== */
-
     --glass-blur:34px;
-
     --glass-saturate:180%;
-
-    --glass-tint-top:rgba(255,255,255,.28);
-
-    --glass-tint-bottom:rgba(255,255,255,.06);
-
+-   --glass-tint-top:rgba(255,255,255,.28);
+-   --glass-tint-bottom:rgba(255,255,255,.06);
++   --glass-tint-top:rgba(255,255,255,.40);
++   --glass-tint-bottom:rgba(255,255,255,.16);
     --glass-border:rgba(255,255,255,.38);
-
     --glass-highlight:rgba(255,255,255,.55);
-
     --glass-radius:28px;
-
     --glass-radius-sm:20px;
 
     /* ==========================================
