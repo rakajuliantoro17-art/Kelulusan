@@ -3,14 +3,34 @@
 
 <head>
 
+<!--
+==========================================================
+SMANSASOO Graduation Portal
+Offline Page
+Version : 2.1.0
+==========================================================
+FIX (v2.1.0):
+- Path logo diperbaiki ("../assets/logo.png" ->
+  "../assets/logo/logo.png") — bug yang sama dengan
+  about.html & privacy.html.
+- Teks "Portal Akademik" & "Academic Portal" diganti ke
+  "Portal Kelulusan" / "Graduation Portal".
+- Versi footer disinkronkan ke 2.1.0.
+- Style inline, layout, dan logic tombol "Coba Lagi" TIDAK
+  diubah — sudah berfungsi baik dan seluruh CSS variable
+  yang dipakai (--surface, --text-light, dst) sudah
+  terkonfirmasi ada di variables.css.
+==========================================================
+-->
+
 <meta charset="UTF-8">
 
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0">
 
-<title>Offline | SMANSASOO Academic Portal</title>
+<title>Offline | SMANSASOO Graduation Portal</title>
 
-<link rel="icon" href="../assets/logo.png">
+<link rel="icon" href="../assets/logo/logo.png">
 
 <link rel="stylesheet" href="../css/variables.css">
 <link rel="stylesheet" href="../css/style.css">
@@ -139,7 +159,7 @@ footer{
 
 <div class="offline-card fade-in">
 
-    <img src="../assets/logo.png"
+    <img src="../assets/logo/logo.png"
          class="offline-logo"
          alt="SMAN 1 Sooko">
 
@@ -157,7 +177,7 @@ footer{
 
     <p class="offline-text">
 
-        Portal Akademik tidak dapat terhubung ke internet
+        Portal Kelulusan tidak dapat terhubung ke internet
         atau server Google Apps Script.
 
         <br><br>
@@ -179,13 +199,13 @@ footer{
 
         <strong>
 
-            SMANSASOO Academic Portal
+            SMANSASOO Graduation Portal
 
         </strong>
 
         <br>
 
-        Version 1.0.0
+        Version 2.1.0
 
     </footer>
 
