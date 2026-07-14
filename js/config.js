@@ -2,7 +2,7 @@
 ==========================================================
 SMANSASOO Graduation Portal
 Configuration
-Version : 2.1.0
+Version : 2.2.0
 ==========================================================
 
 Portal Pengumuman Kelulusan
@@ -10,17 +10,14 @@ SMAN 1 Sooko Mojokerto
 
 Seluruh konfigurasi aplikasi dipusatkan pada file ini.
 
-FIX (v2.1.0):
-- API_BASE_URL diupdate ke deployment terbaru
-  (...W3BGVkQ.../exec). URL sebelumnya
-  (...52gsoA.../exec) sudah tidak dipakai lagi karena
-  setiap "New deployment" di Apps Script menghasilkan URL
-  baru — bukan update deployment lama.
-- Field lain TIDAK diubah di revisi ini (STATUS_PASS,
-  STATUS_NOT_PASS, MESSAGE.*, ENABLE_AUDIO, AUDIO_URL, dst
-  sudah cocok dengan skema Kelulusan di backend). Perbaikan
-  ui.js & app.js supaya field-nya cocok dengan CONFIG di
-  sini menyusul di giliran berikutnya.
+FIX (v2.2.0):
+- ACADEMIC_YEAR diubah dari "2025/2026" ke "2026/2027" sesuai
+  konfirmasi Bapak Raka — portal ini dibuat untuk tahun ajaran
+  depan dan didesain supaya bisa dipakai terus tiap tahun.
+- badge-year di index.html sekarang membaca nilai ini secara
+  otomatis lewat app.js (lihat FIX di app.js) — jadi mulai
+  sekarang, ganti tahun ajaran CUKUP di baris ini saja, tidak
+  perlu lagi edit index.html setiap tahun ajaran baru.
 ==========================================================
 */
 
@@ -32,11 +29,11 @@ window.CONFIG = {
 
     APP_NAME: "SMANSASOO Graduation Portal",
 
-    VERSION: "2.1.0",
+    VERSION: "2.2.0",
 
     SCHOOL_NAME: "SMAN 1 Sooko Mojokerto",
 
-    ACADEMIC_YEAR: "2025/2026",
+    ACADEMIC_YEAR: "2026/2027",
 
     ANNOUNCEMENT_TITLE:
         "Pengumuman Kelulusan",
