@@ -608,6 +608,14 @@ body.celebration .bg-layer{
 
 .overlay.show{
 
+    /* PENTING: menang atas .show{display:block} dari animation.css.
+       Selector gabungan ".overlay.show" (specificity 0,2,0) lebih
+       tinggi dari ".show" saja (0,1,0), jadi menang terlepas dari
+       urutan file CSS mana yang di-load lebih akhir. Tanpa baris
+       ini, tepat saat overlay ditampilkan, display:grid akan
+       ketiban display:block dan grid-centering batal aktif. */
+    display:grid;
+
     opacity:1;
 
     visibility:visible;
