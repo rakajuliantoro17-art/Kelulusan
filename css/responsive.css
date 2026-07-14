@@ -121,7 +121,9 @@ FIX (v1.1.0):
         margin:auto;
 
     }
-
+    .result-box{
+        max-width:500px;
+    }
 }
 
 /* ==========================================
@@ -154,7 +156,9 @@ FIX (v1.1.0):
         max-width:760px;
 
     }
-
+    .result-box{
+        max-width:540px;
+    }
 }
 
 /* ==========================================
@@ -378,7 +382,9 @@ FIX (v1.1.0):
         padding:1rem;
 
     }
-
+    .result-box{
+        padding:28px 20px;
+    }
     #searchForm button{
 
         width:100%;
