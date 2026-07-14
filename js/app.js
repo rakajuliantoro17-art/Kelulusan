@@ -2,7 +2,7 @@
 ==========================================================
 SMANSASOO Graduation Portal
 Application Bootstrap
-Version : 2.1.0
+Version : 2.2.0
 ==========================================================
 
 Main Entry Point
@@ -10,19 +10,19 @@ Main Entry Point
 Fungsi:
 - Memulai aplikasi
 - Memuat konfigurasi
+- Mengisi badge tahun ajaran secara otomatis
 - Registrasi Service Worker
 - Melakukan Health Check API
 - Menginisialisasi Search Module
 
 Semua logika aplikasi berada pada module lain.
 
-FIX (v2.1.0):
-- CONFIG.APP_VERSION -> CONFIG.VERSION (key APP_VERSION
-  tidak pernah ada di config.js, jadi log version selama
-  ini selalu tercetak "undefined").
-- CONFIG.DEBUG -> CONFIG.ENABLE_CONSOLE_LOG (key DEBUG
-  tidak pernah ada di config.js, jadi log "API Status"
-  selama ini tidak pernah muncul walau health check sukses).
+FIX (v2.2.0):
+- Menambahkan pengisian otomatis #badgeYear dari
+  CONFIG.ACADEMIC_YEAR saat halaman dimuat. Sebelumnya teks
+  "Tahun Ajaran 2026/2027" hardcode di index.html — sekarang
+  cukup ganti CONFIG.ACADEMIC_YEAR di config.js setiap tahun
+  ajaran baru, index.html tidak perlu disentuh lagi.
 ==========================================================
 */
 
@@ -43,6 +43,15 @@ const App = {
         console.info("====================================");
 
         try {
+
+            // Badge Tahun Ajaran (dinamis dari config.js)
+            const badgeYear = document.getElementById("badgeYear");
+
+            if (badgeYear) {
+
+                badgeYear.textContent = `Tahun Ajaran ${CONFIG.ACADEMIC_YEAR}`;
+
+            }
 
             // Service Worker
             if ("serviceWorker" in navigator) {
