@@ -1,8 +1,8 @@
 /*
 ==========================================================
-SMANSASOO Academic Portal
+SMANSASOO Graduation Portal
 Glassmorphism Layer + Celebration Overlay
-Version : 2.0.0 — "Liquid Glass" (iOS26-style)
+Version : 2.1.0 — "Liquid Glass" (iOS26-style)
 ==========================================================
 File ini TIDAK menggantikan style.css/animation.css, hanya
 menambah:
@@ -17,22 +17,31 @@ menambah:
 4. Kartu netral (.result-neutral) untuk status TIDAK LULUS —
    sengaja tenang, tidak dramatis, tidak pakai warna mencolok.
 
-FIX (v2.0.0):
-- #bgLayer sekarang benar-benar ada di index.html (sebelumnya
-  class .bg-layer didefinisikan di sini tapi elemennya tidak
-  pernah dibuat di markup, jadi background tidak pernah
-  tampil).
-- body.celebration ditoggle oleh js/search.js saat pencarian
-  valid dikirim (sebelumnya tidak ada satupun kode yang
-  menambah class ini, jadi background tidak pernah berganti
-  ke syari.png).
-- .overlay memakai path gambar salah ("assets/images/scc.jpg"
-  tanpa "../", padahal file ini ada di folder css/). Diganti
-  jadi path relatif yang benar + disamakan temanya dengan
-  syari.png supaya konsisten dengan bg halaman hasil.
-
-Semua warna/spacing/radius memakai variabel dari variables.css
-supaya konsisten dengan sistem desain yang sudah ada.
+FIX (v2.1.0):
+- Background terlalu gelap: .bg-layer brightness dinaikkan
+  dari .52 -> .68 (dan varian .celebration dari .58 -> .72),
+  serta gradient penggelap di .bg-layer::after diturunkan
+  opacity-nya (dari .5/.82/.92 -> .3/.5/.62) supaya foto
+  sekolah tetap kelihatan, tidak jadi nyaris hitam polos.
+  .overlay::before (gradient di balik kartu perayaan) ikut
+  diturunkan senada (.7/.92 -> .5/.72).
+- Kartu "masih transparan" setelah klik "Lihat Hasil
+  Kelulusan": --glass-tint-top/bottom sudah dinaikkan di
+  variables.css (efeknya otomatis kebawa ke sini karena
+  search-card/result-card/loading-box/error-card semua
+  memakai variabel itu). Tambahan di sini: .result-neutral
+  dan .result-box (kartu overlay) yang sebelumnya override
+  tint dengan angka sendiri (.14/.04 dan .2/.06) dinaikkan
+  senada (.22/.09 dan .30/.12) supaya konsisten dengan kartu
+  lain, tidak lagi jadi kartu paling tembus pandang.
+- Fallback ditambahkan untuk browser yang tidak dukung
+  backdrop-filter (sebagian WebView Android lama/Moodle
+  inject browser di CBT Lock, dsb): tanpa blur kaca, kartu
+  otomatis pakai background solid gelap supaya teks tetap
+  terbaca, bukan nyaris transparan penuh.
+- Tidak ada perubahan pada struktur/selector/animasi lain
+  (badge-year, form, balloon, confetti, reduced-motion) —
+  semua tetap sama persis seperti sebelumnya.
 ==========================================================
 */
 
@@ -63,7 +72,7 @@ body{
 
     background: url("../assets/images/scc.jpg") center center / cover no-repeat;
 
-    filter:blur(22px) brightness(.52) saturate(1.25);
+    filter:blur(22px) brightness(.68) saturate(1.25);
 
     transform:scale(1.06);
 
@@ -91,13 +100,14 @@ body.celebration .bg-layer{
 
     filter:
         blur(18px)
-        brightness(.58)
+        brightness(.72)
         saturate(1.3);
 
 }
 
 /* Gradient darkening + subtle vignette di atas foto,
-   supaya card glass tetap kontras & mudah dibaca */
+   supaya card glass tetap kontras & mudah dibaca —
+   diturunkan opacity-nya supaya foto sekolah tetap terlihat */
 .bg-layer::after{
 
     content:'';
@@ -110,9 +120,9 @@ body.celebration .bg-layer{
         radial-gradient(120% 90% at 50% -10%, rgba(255,255,255,.08), rgba(255,255,255,0) 55%),
         linear-gradient(
             180deg,
-            rgba(10,53,91,.5) 0%,
-            rgba(7,26,53,.82) 65%,
-            rgba(7,26,53,.92) 100%
+            rgba(10,53,91,.3) 0%,
+            rgba(7,26,53,.5) 65%,
+            rgba(7,26,53,.62) 100%
         );
 
     transition: background 1s ease;
@@ -207,11 +217,9 @@ body.celebration .bg-layer{
 
     overflow:hidden;
 
-    background:linear-gradient(165deg, var(--glass-tint-top) 0%, var(--glass-tint-bottom) 100%);
-
-    -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate));
-
-    backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    /* Fallback dulu untuk browser tanpa backdrop-filter —
+       ditimpa oleh @supports di bawah kalau browser dukung. */
+    background:rgba(12,32,58,.82);
 
     border:1px solid var(--glass-border);
 
@@ -229,6 +237,23 @@ body.celebration .bg-layer{
         transform .45s var(--ease-spring),
         box-shadow .35s var(--ease-ios),
         background 1s ease;
+
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+
+    .search-card,
+    .result-card,
+    .loading-box,
+    .error-card{
+
+        background:linear-gradient(165deg, var(--glass-tint-top) 0%, var(--glass-tint-bottom) 100%);
+
+        -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate));
+
+        backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate));
+
+    }
 
 }
 
@@ -442,7 +467,7 @@ body.celebration .bg-layer{
 
     color:#ffffff;
 
-    background:linear-gradient(165deg, rgba(239,68,68,.28), rgba(198,40,40,.14));
+    background:linear-gradient(165deg, rgba(239,68,68,.32), rgba(198,40,40,.18));
 
     border-color:rgba(255,255,255,.25);
 
@@ -450,12 +475,11 @@ body.celebration .bg-layer{
 
 /* ==============================
    KARTU NETRAL (status: TIDAK LULUS)
-   Sengaja polos — tanpa warna mencolok/animasi ekstra.
 ============================== */
 
 .result-neutral{
 
-    background:linear-gradient(165deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+    background:linear-gradient(165deg, rgba(255,255,255,.22), rgba(255,255,255,.09));
 
 }
 
@@ -467,11 +491,11 @@ body.celebration .bg-layer{
 
     border-radius:var(--radius-md);
 
-    background:rgba(255,255,255,.08);
+    background:rgba(255,255,255,.1);
 
-    border:1px solid rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.15);
 
-    color:rgba(255,255,255,.85);
+    color:rgba(255,255,255,.88);
 
     font-size:.9rem;
 
@@ -559,8 +583,8 @@ body.celebration .bg-layer{
 
     background:linear-gradient(
         180deg,
-        rgba(15,76,129,.7),
-        rgba(10,53,91,.92)
+        rgba(15,76,129,.5),
+        rgba(10,53,91,.72)
     );
 
 }
@@ -587,11 +611,7 @@ body.celebration .bg-layer{
 
     max-width:480px;
 
-    background:linear-gradient(165deg, rgba(255,255,255,.2), rgba(255,255,255,.06));
-
-    -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate));
-
-    backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    background:rgba(12,32,58,.82);
 
     border:1px solid var(--glass-border);
 
@@ -610,6 +630,20 @@ body.celebration .bg-layer{
     transition:transform var(--transition-slow) var(--ease-spring), opacity var(--transition-slow) ease;
 
     box-shadow:0 30px 80px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.45);
+
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+
+    .result-box{
+
+        background:linear-gradient(165deg, rgba(255,255,255,.30), rgba(255,255,255,.12));
+
+        -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate));
+
+        backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate));
+
+    }
 
 }
 
@@ -767,8 +801,6 @@ body.celebration .bg-layer{
 
 /* ==============================
    CANVAS CONFETTI
-   (elemen <canvas> disuntikkan otomatis oleh library
-   canvas-confetti — kita cuma atur posisinya)
 ============================== */
 
 canvas{
