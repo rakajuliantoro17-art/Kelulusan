@@ -1,210 +1,415 @@
 /*
 ==========================================================
 SMANSASOO Academic Portal
-CSS Variables
+Main Stylesheet
 Version : 1.1.0
 ==========================================================
 FIX (v1.1.0):
-- BUG KRITIS: file ini sempat berisi potongan diff mentah
-  yang belum diterapkan (baris "+"/"-" literal). Custom
-  property WAJIB diawali "--" persis tanpa karakter lain di
-  depannya, jadi baris "+   --glass-tint-top:..." maupun
-  "-   --glass-tint-top:..." SAMA-SAMA dibuang browser
-  (nama property jadi tidak valid). Akibatnya
-  --glass-tint-top & --glass-tint-bottom TIDAK TERDEFINISI
-  SAMA SEKALI — bukan cuma balik ke nilai lama. Semua kartu
-  glass yang pakai var(--glass-tint-top) di background jadi
-  "invalid at computed-value time" dan computed ke
-  transparent di browser modern manapun (bukan fallback ke
-  rgba solid) — kartu kehilangan tint putihnya total.
-- Sekarang diterapkan yang sebenarnya dimaksud: tint
-  dinaikkan ke rgba(255,255,255,.40) / rgba(255,255,255,.16)
-  (dari .28/.06) supaya kartu glass lebih terbaca, tidak
-  tembus pandang berlebihan.
-- --z-celebration didefinisikan (tersedia untuk dipakai nanti
-  kalau dibutuhkan) TAPI SENGAJA TIDAK dipasang ke .overlay
-  di glass.css. Kalau dipasang, seluruh layer .overlay
-  (termasuk foto syari.png yang opaque) akan naik di atas
-  confetti/balon (z 1000) — efeknya confetti/balon jadi
-  TIDAK KELIHATAN SAMA SEKALI, bukan cuma di belakang kartu.
-  Atas keputusan pemilik project: confetti/balon tetap di
-  depan seperti kondisi sekarang (.overlay tetap pakai
-  var(--z-overlay), lihat glass.css).
+- BUG KRITIS: sama seperti kasus glass.css sebelumnya, file
+  ini berisi potongan diff mentah yang belum diterapkan
+  (baris "+" literal di dalam CSS). Baris seperti
+  "+    display:flex;" adalah deklarasi TIDAK VALID (nama
+  properti jadi "+    display"), jadi browser membuangnya
+  diam-diam. Efeknya: body/.container/.search-section tetap
+  memakai layout lama, sama sekali TIDAK jadi flex column —
+  search-card tidak pernah benar-benar center secara
+  vertikal di viewport, cuma nempel di atas seperti biasa.
+- Ada juga DUPLIKAT ".container" (versi lama tanpa flex,
+  sisa dari sebelum di-diff) — dihapus, digabung jadi satu
+  definisi ".container" yang bersih.
+- Sekarang diterapkan dengan benar: body & .container jadi
+  flex column (mengisi tinggi viewport via 100dvh, dengan
+  fallback 100vh untuk browser lama), .search-section jadi
+  flex:1 yang men-center search-card/#result secara vertikal
+  DAN horizontal di ruang yang tersisa antara header & footer
+  — header tetap di atas, footer tetap di bawah, kartu di
+  tengah, apapun tinggi kontennya.
+- justify-content:safe center dipakai (progressive
+  enhancement, sama pola dengan overlay di glass.css):
+  browser lama abaikan baris ini & tetap pakai center biasa;
+  browser modern upgrade supaya kalau konten (mis. kartu
+  hasil yang panjang) lebih tinggi dari viewport pendek,
+  bagian atas TIDAK terpotong — rata atas + tetap bisa
+  discroll, bukan center-lalu-clip.
+- .search-section > .search-card / #result diberi width:100%
+  supaya begitu parent-nya jadi flex, kartu tidak menyusut
+  ikut lebar kontennya sendiri (default flex item adalah
+  shrink-to-fit) — tetap mengikuti lebar/max-width yang sudah
+  diatur di responsive.css seperti sebelumnya.
 ==========================================================
 */
 
-:root{
+/* ==============================
+   RESET
+============================== */
 
-    /* ==========================================
-       BRAND COLORS
-    ========================================== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    --primary:#0F4C81;
-    --primary-light:#3B82C4;
-    --primary-dark:#0A355B;
+html{
+    scroll-behavior:smooth;
+}
 
-    --secondary:#F4B400;
-    --secondary-light:#FFD54F;
-    --secondary-dark:#D89B00;
+body{
 
-    /* ==========================================
-       STATUS COLORS
-    ========================================== */
+    font-family:'Plus Jakarta Sans',sans-serif;
 
-    --success:#22C55E;
-    --warning:#F59E0B;
-    --danger:#EF4444;
-    --info:#3B82F6;
+    background:var(--background);
 
-    /* ==========================================
-       BACKGROUND
-    ========================================== */
+    color:var(--text);
 
-    --background:#F5F7FB;
-    --surface:#FFFFFF;
-    --surface-alt:#F9FAFB;
+    line-height:1.6;
 
-    /* ==========================================
-       TEXT
-    ========================================== */
+    min-height:100vh;
+    min-height:100dvh;
 
-    --text:#1F2937;
-    --text-light:#6B7280;
-    --text-muted:#9CA3AF;
-    --text-white:#FFFFFF;
+    display:flex;
+    flex-direction:column;
 
-    /* ==========================================
-       BORDER
-    ========================================== */
+}
 
-    --border:#E5E7EB;
-    --border-light:#F3F4F6;
+/* ==============================
+   CONTAINER
+============================== */
 
-    /* ==========================================
-       SHADOW
-    ========================================== */
+.container{
 
-    --shadow-sm:0 2px 8px rgba(0,0,0,.05);
+    width:min(92%,1100px);
 
-    --shadow-md:0 8px 24px rgba(0,0,0,.08);
+    margin:auto;
 
-    --shadow-lg:0 16px 40px rgba(0,0,0,.12);
+    flex:1;
+    display:flex;
+    flex-direction:column;
 
-    /* ==========================================
-       BORDER RADIUS
-    ========================================== */
+}
 
-    --radius-sm:8px;
+/* ==============================
+   HEADER
+============================== */
 
-    --radius-md:12px;
+.header{
 
-    --radius-lg:18px;
+    padding:50px 20px;
 
-    --radius-xl:24px;
+    text-align:center;
 
-    --radius-pill:999px;
+}
 
-    /* ==========================================
-       SPACING
-    ========================================== */
+.logo{
 
-    --space-xs:.25rem;
+    width:110px;
 
-    --space-sm:.5rem;
+    margin-bottom:20px;
 
-    --space-md:1rem;
+}
 
-    --space-lg:1.5rem;
+.header h1{
 
-    --space-xl:2rem;
+    font-size:2rem;
 
-    --space-2xl:3rem;
+    font-weight:800;
 
-    /* ==========================================
-       FONT
-    ========================================== */
+    color:var(--primary);
 
-    --font-family:'Plus Jakarta Sans',sans-serif;
+}
 
-    --font-xs:.75rem;
+.header h1 span{
 
-    --font-sm:.875rem;
+    display:block;
 
-    --font-md:1rem;
+    color:var(--secondary);
 
-    --font-lg:1.125rem;
+}
 
-    --font-xl:1.5rem;
+.header p{
 
-    --font-2xl:2rem;
+    margin-top:12px;
 
-    --font-3xl:2.75rem;
+    color:var(--text-light);
 
-    /* ==========================================
-       FONT WEIGHT
-    ========================================== */
+}
 
-    --weight-regular:400;
+/* ==============================
+   SEARCH SECTION
+============================== */
 
-    --weight-medium:500;
+.search-section{
 
-    --weight-semibold:600;
+    padding:20px;
 
-    --weight-bold:700;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    justify-content:safe center;
+    width:100%;
 
-    --weight-extrabold:800;
+}
 
-    /* ==========================================
-       LAYOUT
-    ========================================== */
+.search-section > .search-card,
+.search-section > #result{
 
-    --container-width:1100px;
+    width:100%;
 
-    --header-height:90px;
+}
 
-    /* ==========================================
-       TRANSITION
-    ========================================== */
+.search-card{
 
-    --transition-fast:.2s ease;
+    background:#ffffff;
 
-    --transition:.3s ease;
+    border-radius:20px;
 
-    --transition-slow:.5s ease;
+    padding:30px;
 
-    /* ==========================================
-       Z-INDEX
-    ========================================== */
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
 
-    --z-dropdown:100;
-    --z-sticky:500;
-    --z-overlay:900;
-    --z-modal:1000;
-    --z-toast:1100;
+}
 
-    /* Tersedia untuk dipakai nanti, TIDAK dipasang ke
-       .overlay saat ini (lihat catatan FIX di atas). */
-    --z-celebration:1050;
+.search-card h2{
 
-    /* ==========================================
-       LIQUID GLASS (iOS26-style material)
-    ========================================== */
+    text-align:center;
 
-    --glass-blur:34px;
-    --glass-saturate:180%;
-    --glass-tint-top:rgba(255,255,255,.40);
-    --glass-tint-bottom:rgba(255,255,255,.16);
-    --glass-border:rgba(255,255,255,.38);
-    --glass-highlight:rgba(255,255,255,.55);
-    --glass-radius:28px;
-    --glass-radius-sm:20px;
+    margin-bottom:10px;
 
-    /* ==========================================
-       MOTION (iOS spring curves)
-    ========================================== */
+    color:var(--primary);
 
-    --ease-spring:cubic-bezier(.34,1.56,.64,1);
+}
 
-    --ease-ios:cubic-bezier(.4,0,.2,1);
+.search-card p{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+    color:var(--text-light);
+
+}
+
+/* ==============================
+   FORM
+============================== */
+
+#searchForm{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+#searchForm input{
+
+    height:55px;
+
+    padding:0 18px;
+
+    border:2px solid #e5e7eb;
+
+    border-radius:12px;
+
+    font-size:16px;
+
+    outline:none;
+
+    transition:.25s;
+
+}
+
+#searchForm input:focus{
+
+    border-color:var(--primary);
+
+}
+
+#searchForm button{
+
+    height:55px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    background:var(--primary);
+
+    color:#fff;
+
+    font-size:16px;
+
+    font-weight:700;
+
+}
+
+/* ==============================
+   LOADING
+============================== */
+
+.loading-box{
+
+    text-align:center;
+
+    padding:40px;
+
+}
+
+.loading-box p{
+
+    margin-top:15px;
+
+    color:var(--text-light);
+
+}
+
+/* ==============================
+   RESULT
+============================== */
+
+.result-card{
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    margin-top:25px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+}
+
+.result-title{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+    color:var(--success);
+
+}
+
+.result-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 0;
+
+    border-bottom:1px solid #eeeeee;
+
+}
+
+.result-item:last-child{
+
+    border-bottom:none;
+
+}
+
+.result-label{
+
+    font-weight:600;
+
+    color:var(--text-light);
+
+}
+
+.result-value{
+
+    font-weight:700;
+
+    text-align:right;
+
+}
+
+/* ==============================
+   ERROR
+============================== */
+
+.error-card{
+
+    margin-top:25px;
+
+    background:#ffeaea;
+
+    color:#d32f2f;
+
+    padding:18px;
+
+    border-radius:14px;
+
+    text-align:center;
+
+    font-weight:600;
+
+}
+
+/* ==============================
+   FOOTER
+============================== */
+
+footer{
+
+    margin-top:60px;
+
+    padding:30px 20px;
+
+    text-align:center;
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+}
+
+footer small{
+
+    display:block;
+
+    margin-top:8px;
+
+}
+
+/* ==============================
+   UTILITIES
+============================== */
+
+.hidden{
+
+    display:none;
+
+}
+
+.text-center{
+
+    text-align:center;
+
+}
+
+.mt-1{
+
+    margin-top:10px;
+
+}
+
+.mt-2{
+
+    margin-top:20px;
+
+}
+
+.mt-3{
+
+    margin-top:30px;
 
 }
