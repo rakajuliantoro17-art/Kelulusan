@@ -1,0 +1,282 @@
+/*
+==========================================================
+SMANSASOO Academic Portal
+Pengumuman Page Stylesheet
+Version : 1.1.0
+Glassmorphism Edition
+==========================================================
+*/
+
+.pengumuman-list{
+
+    display:flex;
+    flex-direction:column;
+    gap:var(--space-md);
+    margin-top:var(--space-lg);
+
+}
+
+.pengumuman-card{
+
+    /*
+    Glassmorphism, TAPI cukup pekat buat tetap terbaca:
+    88% opacity surface + backdrop-filter blur.
+    (Sebelumnya 10% -- nyaris transparan penuh, di atas foto
+    latar yang ramai teksnya jadi tidak terbaca sama sekali.
+    "isolation:isolate" TIDAK mencegah opacity ikut nurun ke
+    isi kartu -- itu cuma bikin stacking context baru untuk
+    z-index, jadi baris komentarnya dihapus, bukan solusinya.)
+    */
+    background:color-mix(
+        in srgb,
+        var(--surface) 88%,
+        transparent
+    );
+
+    border:1px solid color-mix(
+        in srgb,
+        var(--border-light) 60%,
+        transparent
+    );
+
+    border-left:4px solid var(--primary);
+
+    border-radius:var(--radius-lg);
+
+    padding:var(--space-lg);
+
+    box-shadow:
+        0 8px 32px rgba(0,0,0,.12),
+        inset 0 1px 0 rgba(255,255,255,.18);
+
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+
+    position:relative;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+
+}
+
+.pengumuman-card.is-penting{
+
+    border-left-color:var(--danger);
+
+    background:color-mix(
+        in srgb,
+        var(--danger-bg) 88%,
+        transparent
+    );
+
+    box-shadow:
+        0 8px 32px rgba(0,0,0,.12),
+        inset 0 1px 0 rgba(255,255,255,.18);
+
+}
+
+.pengumuman-card-head{
+
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:var(--space-md);
+
+}
+
+.pengumuman-card-head h3{
+
+    margin:0;
+
+    font-size:var(--font-lg);
+
+    font-weight:var(--weight-bold);
+
+    color:var(--text);
+
+}
+
+.pengumuman-badge{
+
+    flex-shrink:0;
+
+    background:color-mix(
+        in srgb,
+        var(--danger) 85%,
+        transparent
+    );
+
+    color:#ffffff;
+
+    font-size:var(--font-xs);
+
+    font-weight:var(--weight-bold);
+
+    text-transform:uppercase;
+
+    letter-spacing:.04em;
+
+    padding:.25rem .65rem;
+
+    border-radius:var(--radius-pill);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.12);
+
+}
+
+.pengumuman-date{
+
+    display:block;
+
+    margin-top:.35rem;
+
+    font-size:var(--font-xs);
+
+    color:var(--text-muted);
+
+}
+
+.pengumuman-body{
+
+    margin:var(--space-sm) 0 0;
+
+    color:var(--text-light);
+
+    line-height:1.65;
+
+    white-space:pre-line;
+
+}
+
+.pengumuman-empty{
+
+    text-align:center;
+
+    color:var(--text-muted);
+
+    padding:var(--space-2xl) 0;
+
+}
+
+
+/* ==========================================
+   BACKGROUND FOTO KHUSUS HALAMAN PENGUMUMAN
+   ========================================== */
+
+body[data-page="pengumuman"] .bg-layer{
+
+    background-image:url("/akademik/assets/images/Skr.jpg");
+
+}
+
+
+/* ==========================================
+   GLASS HIGHLIGHT
+   ========================================== */
+
+.pengumuman-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:inherit;
+
+    pointer-events:none;
+
+    background:linear-gradient(
+        135deg,
+        rgba(255,255,255,.12),
+        rgba(255,255,255,0) 45%
+    );
+
+    opacity:.7;
+
+}
+
+
+/* ==========================================
+   HOVER
+   ========================================== */
+
+.pengumuman-card:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 12px 38px rgba(0,0,0,.18),
+        inset 0 1px 0 rgba(255,255,255,.22);
+
+}
+
+
+/* ==========================================
+   REDUCED MOTION
+   ========================================== */
+
+@media (prefers-reduced-motion:reduce){
+
+    .pengumuman-card{
+
+        transition:none;
+
+    }
+
+    .pengumuman-card:hover{
+
+        transform:none;
+
+    }
+
+}
+
+
+/* ==========================================
+   TABLET & HP
+   ========================================== */
+
+@media (max-width: 768px){
+
+    .pengumuman-card{
+
+        padding:var(--space-md);
+
+    }
+
+    /* Judul + badge "Penting" bisa berdempetan kalau judulnya
+       panjang di layar sempit -- diizinkan turun baris supaya
+       badge tidak menggencet teks judul. */
+    .pengumuman-card-head{
+
+        flex-wrap:wrap;
+
+    }
+
+}
+
+@media (max-width: 480px){
+
+    .pengumuman-card{
+
+        /* Blur berat (18px) lumayan membebani GPU di HP kelas
+           bawah, apalagi kalau pengumumannya banyak dan semua
+           kartu nge-blur barengan saat scroll. Dikurangi khusus
+           layar kecil, baur fotonya tetap kelihatan, cuma lebih
+           ringan dirender. */
+        backdrop-filter:blur(10px) saturate(140%);
+        -webkit-backdrop-filter:blur(10px) saturate(140%);
+
+    }
+
+    .pengumuman-card-head h3{
+
+        font-size:var(--font-md);
+
+    }
+
+}
