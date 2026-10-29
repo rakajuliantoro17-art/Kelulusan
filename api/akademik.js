@@ -8,7 +8,9 @@ const HANDLERS = {
   nilai: () => require("../src/akademik/api/nilai"),
   "kelas-list": () => require("../src/akademik/api/kelas-list"),
   "kelas-summary": () => require("../src/akademik/api/kelas-summary"),
-  stats: () => require("../src/akademik/api/stats")
+  stats: () => require("../src/akademik/api/stats"),
+  "admin-auth": () => require("../src/akademik/api/admin-auth"),
+  announcements: () => require("../src/akademik/api/announcements")
 };
 
 module.exports = async function akademikDispatcher(req, res) {
