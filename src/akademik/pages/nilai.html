@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Cek Nilai Matematika | SMANSASOO Academic Portal</title>
+
+    <meta name="description"
+        content="Cek nilai Matematika Wajib dan Lanjutan Kelas XI SMAN 1 Sooko Mojokerto">
+
+    <meta name="theme-color" content="#0F4C81">
+
+    <!-- ANTI-FLASH THEME INIT -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('smansasoo-theme');
+                var theme = saved || ((window.matchMedia &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+
+    <link rel="icon" href="/akademik/assets/logo/favicon.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="/akademik/css/variables.css">
+    <link rel="stylesheet" href="/akademik/css/theme.css">
+    <link rel="stylesheet" href="/akademik/css/style.css">
+    <link rel="stylesheet" href="/akademik/css/responsive.css">
+    <link rel="stylesheet" href="/akademik/css/glass.css">
+    <link rel="stylesheet" href="/akademik/css/animation.css">
+    <link rel="stylesheet" href="/akademik/css/nilai.css">
+    <link rel="stylesheet" href="/akademik/css/shell.css">
+
+    <!-- Cetak/Unduh PDF hasil (lihat js/print.js) -->
+    <link rel="stylesheet" href="/akademik/css/print.css">
+    <link rel="stylesheet" href="/akademik/css/settings-drawer.css">
+    <link rel="stylesheet" href="/akademik/css/stats-panel.css">
+
+</head>
+
+<body data-page="nilai">
+
+    <!-- ================= SHELL: NAV ================= -->
+
+    <div id="shellNav"></div>
+
+    <div class="bg-layer" aria-hidden="true"></div>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="container">
+
+            <img src="/akademik/assets/logo/logo.png"
+                 alt="Logo SMAN 1 Sooko"
+                 class="logo">
+
+            <h1>
+                Cek Nilai
+                <span>Matematika</span>
+            </h1>
+
+            <p>
+                Kelas XI &middot; Wajib &amp; Lanjutan
+                <strong>Tahun Pelajaran 2026 / 2027</strong>
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ================= MAIN ================= -->
+
+    <main>
+
+        <section class="container">
+
+            <div class="nilai-year-toolbar">
+
+                <label class="nilai-year-picker">
+                    <span>Tahun Pelajaran</span>
+                    <select id="nilaiYearSelect" aria-label="Pilih tahun pelajaran"></select>
+                </label>
+
+            </div>
+
+            <div class="nilai-page-tabs" id="nilaiPageTabs" role="tablist">
+
+                <span class="nilai-page-tabs-pill" aria-hidden="true"></span>
+
+                <button type="button" id="pageTabNIS" class="nilai-page-tab active" role="tab" aria-selected="true">
+                    Cari Per NIS
+                </button>
+
+                <button type="button" id="pageTabKelas" class="nilai-page-tab" role="tab" aria-selected="false">
+                    Rata-Rata Kelas
+                </button>
+
+            </div>
+
+            <!-- ============ TAB 1: CARI PER NIS ============ -->
+
+            <div id="sectionNIS">
+
+                <div class="search-card">
+
+                    <h2>Cari Berdasarkan NIS</h2>
+
+                    <p>
+                        Masukkan NIS siswa untuk melihat rincian nilai
+                        Matematika Wajib dan/atau Lanjutan.
+                    </p>
+
+                    <form id="nilaiForm">
+
+                        <input
+                            type="text"
+                            id="nilaiKeyword"
+                            placeholder="Masukkan NIS (contoh: 17233)..."
+                            autocomplete="off"
+                            required>
+
+                        <button type="submit">
+                            Cari
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <div id="nilaiResult" class="hidden"></div>
+
+            </div>
+
+            <!-- ============ TAB 2: RATA-RATA KELAS ============ -->
+
+            <div id="sectionKelas" class="hidden">
+
+                <div class="search-card">
+
+                    <h2>Analisis Rata-Rata Kelas</h2>
+
+                    <p>
+                        Pilih mata pelajaran dan kelas untuk melihat
+                        rata-rata nilai dan progress kelengkapan.
+                    </p>
+
+                    <div class="kelas-filter-bar">
+
+                        <select id="selectMapelClass">
+                            <option value="WAJIB">Matematika Wajib</option>
+                            <option value="LANJUTAN">Matematika Lanjutan</option>
+                        </select>
+
+                        <select id="selectKelas">
+                            <option value="SEMUA">Semua Kelas</option>
+                        </select>
+
+                        <button type="button" id="kelasSubmit">
+                            Tampilkan
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div id="kelasResult" class="hidden"></div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ================= SHELL: FOOTER ================= -->
+
+    <div id="shellFooter"></div>
+
+    <!-- CONFIG -->
+    <script src="/akademik/js/config.js"></script>
+
+    <!-- UTILS -->
+    <script src="/akademik/js/utils.js"></script>
+
+    <!-- SHELL (nav + footer, dipakai semua halaman) -->
+    <script src="/akademik/js/shell.js"></script>
+
+    <!-- STATISTIK PENGUNJUNG (panel floating di sidebar) -->
+    <script src="/akademik/js/stats-tracker.js"></script>
+    <script src="/akademik/js/stats-panel.js"></script>
+
+    <!-- Cetak/Unduh PDF hasil -->
+    <script src="/akademik/js/print.js"></script>
+
+    <!-- TEMA (dark/light) + DRAWER PENGATURAN -->
+    <script src="/akademik/js/theme.js"></script>
+    <script src="/akademik/js/settings-drawer.js"></script>
+
+    <!-- NILAI: CARI PER NIS -->
+    <script src="/akademik/js/nilai-api.js"></script>
+    <script src="/akademik/js/nilai-ui.js"></script>
+    <script src="/akademik/js/nilai-search.js"></script>
+
+    <!-- NILAI: RATA-RATA KELAS -->
+    <script src="/akademik/js/nilai-kelas-api.js"></script>
+    <script src="/akademik/js/nilai-kelas-ui.js"></script>
+    <script src="/akademik/js/nilai-kelas-search.js"></script>
+
+    <!-- NILAI: PEMILIH TAHUN AJARAN (multi-tahun) -->
+    <script src="/akademik/js/nilai-year.js"></script>
+
+    <!-- PAGE TABS -->
+    <script src="/akademik/js/nilai-page-tabs.js"></script>
+
+</body>
+
+</html>
