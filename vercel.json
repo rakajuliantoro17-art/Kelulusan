@@ -151,6 +151,14 @@
     {
       "source": "/api/kesiswaan/walikelas",
       "destination": "/api/kesiswaan?op=walikelas"
+    },
+    {
+      "source": "/api/akademik/admin-auth",
+      "destination": "/api/akademik?op=admin-auth"
+    },
+    {
+      "source": "/api/akademik/announcements",
+      "destination": "/api/akademik?op=announcements"
     }
   ]
 }
