@@ -1,0 +1,471 @@
+/*
+==========================================================
+SMANSASOO Academic Portal
+Prestasi Page Stylesheet
+Version : 2.1.0
+==========================================================
+Navbar + sidebar TIDAK lagi didefinisikan di file ini —
+sudah dipindah ke css/shell.css (dipakai semua halaman,
+dirender oleh js/shell.js). File ini sekarang hanya berisi
+gaya khusus halaman Prestasi: hero, kartu, dan konten di
+dalam .app-content.
+==========================================================
+*/
+
+:root{
+
+    --prestasi-primary:#0F4C81;
+    --prestasi-primary-dark:#0A3A63;
+    --prestasi-accent:#1A81FF;
+    --prestasi-bg:#F3F5F8;
+    --prestasi-text:#1D2939;
+    --prestasi-text-light:#667085;
+    --prestasi-border:#E4E7EC;
+    --prestasi-radius:12px;
+    --prestasi-navbar-h:64px;
+    --prestasi-sidebar-w:250px;
+
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body.prestasi-page{
+
+    margin:0;
+    font-family:'Plus Jakarta Sans','Poppins',sans-serif;
+    background:var(--prestasi-bg);
+    color:var(--prestasi-text);
+
+}
+
+/* ==========================================
+   BACKGROUND FOTO (assets/images/gbl.jpg)
+   ==========================================
+   Halaman Prestasi desainnya berdiri sendiri (tidak pakai
+   css/glass.css bersama), jadi lapisan foto dibuat sendiri
+   di sini -- BEDA dari glass.css yang blur berat (22-34px) +
+   gelapkan foto (brightness .68-.72). Di sini sengaja cuma
+   blur RINGAN (~10%, kira-kira blur(4px)) tanpa digelapkan,
+   supaya foto masih cukup kelihatan jelas, bukan cuma jadi
+   gumpalan warna buram seperti di halaman lain.
+
+   .prestasi-hero dan kartu (.prestasi-card, dst) tetap solid
+   (putih/gradient biru) seperti sebelumnya -- TIDAK dibuat
+   transparan/glass, jadi foto ini kelihatan di celah/pinggir
+   di sekitar konten, bukan menembus kartunya. */
+
+.prestasi-bg-layer{
+
+    position:fixed;
+    inset:-2%;
+    z-index:-1;
+
+    background:url("/akademik/assets/images/gbl.jpg") center center / cover no-repeat;
+
+    filter:blur(5px);
+
+}
+
+/* ==========================================
+   HERO + KARTU (dari versi sebelumnya, tidak berubah)
+========================================== */
+
+.prestasi-hero{
+
+    background:linear-gradient(135deg,var(--prestasi-primary),var(--prestasi-primary-dark));
+
+    color:#fff;
+
+    padding:2rem clamp(1rem,4vw,2.5rem) 4.5rem;
+
+    text-align:center;
+
+}
+
+.prestasi-hero h1{
+
+    font-size:clamp(1.3rem,3vw,1.9rem);
+    margin:0 0 .5rem;
+
+}
+
+.prestasi-hero p{
+
+    margin:0;
+    color:rgba(255,255,255,.85);
+    font-size:.9rem;
+
+}
+
+.prestasi-shell-inner{
+
+    max-width:900px;
+    margin:-3rem auto 0;
+
+    padding:0 clamp(1rem,4vw,2rem) 3rem;
+
+    /* Melebar bertahap di layar besar supaya proporsional --
+       900px fixed kelihatan sempit/tenggelam di 1920px kalau
+       cuma diam di situ terus. */
+    width:100%;
+
+}
+
+@media screen and (min-width:1440px){
+
+    .prestasi-shell-inner{
+
+        max-width:1100px;
+
+    }
+
+}
+
+@media screen and (min-width:1800px){
+
+    .prestasi-shell-inner{
+
+        max-width:1280px;
+
+    }
+
+}
+
+.prestasi-card{
+
+    /* Fallback solid untuk browser tanpa backdrop-filter --
+       lihat blok @supports di bawah untuk versi glass 8%
+       yang dipakai browser modern (konsisten dgn rapor.css). */
+    background:rgba(255,255,255,.94);
+
+    border-radius:var(--prestasi-radius);
+
+    box-shadow:0 10px 30px rgba(16,24,40,.08);
+
+    padding:clamp(1.25rem,3vw,2rem);
+
+    margin-bottom:1.5rem;
+
+    scroll-margin-top:calc(var(--prestasi-navbar-h) + 1rem);
+
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+
+    .prestasi-card{
+
+        background:rgba(255,255,255,.08);
+
+        -webkit-backdrop-filter:blur(16px) saturate(150%);
+        backdrop-filter:blur(16px) saturate(150%);
+
+        border:1px solid rgba(255,255,255,.5);
+
+    }
+
+}
+
+.prestasi-school-card{
+
+    display:flex;
+    align-items:center;
+    gap:1.5rem;
+    flex-wrap:wrap;
+
+}
+
+.prestasi-school-card img{
+
+    width:72px;
+    height:72px;
+    object-fit:contain;
+    border-radius:10px;
+    background:var(--prestasi-bg);
+    padding:.5rem;
+
+}
+
+.prestasi-school-card h2{
+
+    margin:0 0 .35rem;
+    font-size:1.3rem;
+
+}
+
+.prestasi-school-card p{
+
+    margin:0;
+    color:var(--prestasi-text-light);
+    font-size:.9rem;
+    max-width:520px;
+
+}
+
+.prestasi-rank-card{
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:1rem;
+
+    background:linear-gradient(135deg,var(--prestasi-accent),var(--prestasi-primary));
+
+    color:#fff;
+
+}
+
+.prestasi-rank-card .rank-label{
+
+    font-size:.8rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    opacity:.85;
+    margin:0 0 .35rem;
+
+}
+
+.prestasi-rank-card .rank-value{
+
+    font-size:clamp(2rem,5vw,2.75rem);
+    font-weight:700;
+    margin:0;
+    line-height:1;
+
+}
+
+.prestasi-rank-card .rank-value small{
+
+    font-size:1rem;
+    font-weight:500;
+    opacity:.85;
+
+}
+
+.prestasi-rank-card .rank-note{
+
+    max-width:320px;
+    font-size:.82rem;
+    opacity:.9;
+    margin:.5rem 0 0;
+
+}
+
+.prestasi-rank-card a{
+
+    display:inline-flex;
+    align-items:center;
+    gap:.4rem;
+
+    background:#fff;
+    color:var(--prestasi-primary);
+
+    padding:.65rem 1.1rem;
+
+    border-radius:999px;
+
+    font-size:.85rem;
+    font-weight:600;
+
+    text-decoration:none;
+    white-space:nowrap;
+
+}
+
+.prestasi-rank-card a:hover{
+
+    background:#eef2f7;
+
+}
+
+.prestasi-section-title{
+
+    font-size:1rem;
+    font-weight:600;
+    margin:0 0 .25rem;
+
+}
+
+.prestasi-section-sub{
+
+    font-size:.85rem;
+    color:var(--prestasi-text-light);
+    margin:0 0 1.25rem;
+
+}
+
+.prestasi-kategori-grid{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:1rem;
+
+}
+
+.prestasi-kategori-item{
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:.75rem;
+
+    padding:1rem;
+
+    border:1px solid var(--prestasi-border);
+    border-radius:10px;
+
+}
+
+.prestasi-kategori-item .k-count{
+
+    font-size:1.6rem;
+    font-weight:700;
+    line-height:1;
+
+}
+
+.prestasi-kategori-item .k-name{
+
+    display:block;
+    font-size:.82rem;
+    color:var(--prestasi-text-light);
+    margin-top:.25rem;
+
+}
+
+.prestasi-kategori-icon{
+
+    width:42px;
+    height:42px;
+    flex-shrink:0;
+
+    border-radius:10px;
+
+    background:var(--prestasi-bg);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:1.3rem;
+
+}
+
+.prestasi-table-wrap{
+
+    overflow-x:auto;
+
+}
+
+.prestasi-table{
+
+    width:100%;
+    border-collapse:collapse;
+    font-size:.88rem;
+
+}
+
+.prestasi-table th{
+
+    text-align:left;
+    font-weight:600;
+    color:var(--prestasi-text-light);
+    text-transform:uppercase;
+    font-size:.72rem;
+    letter-spacing:.03em;
+
+    padding:.6rem .75rem;
+
+    border-bottom:1px solid var(--prestasi-border);
+
+    white-space:nowrap;
+
+}
+
+.prestasi-table td{
+
+    padding:.7rem .75rem;
+
+    border-bottom:1px solid var(--prestasi-border);
+
+    white-space:nowrap;
+
+}
+
+.prestasi-table tbody tr:nth-child(even){
+
+    background:#FAFBFC;
+
+}
+
+.prestasi-table .col-nama{
+
+    white-space:normal;
+    font-weight:500;
+
+}
+
+.prestasi-footnote{
+
+    text-align:center;
+    margin-top:1rem;
+
+}
+
+.prestasi-footnote a{
+
+    color:var(--prestasi-accent);
+    font-weight:600;
+    text-decoration:none;
+    font-size:.9rem;
+
+}
+
+.prestasi-footnote a:hover{
+
+    text-decoration:underline;
+
+}
+
+.prestasi-updated-note{
+
+    text-align:center;
+    font-size:.78rem;
+    color:var(--prestasi-text-light);
+    margin-top:.5rem;
+
+}
+
+.prestasi-loading,
+.prestasi-error{
+
+    text-align:center;
+    padding:2rem;
+    color:var(--prestasi-text-light);
+
+}
+
+.prestasi-footer{
+
+    text-align:center;
+    font-size:.78rem;
+    color:var(--prestasi-text-light);
+    padding:1.5rem 1rem 2.5rem;
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media screen and (min-width:1024px){
+
+    .prestasi-shell-inner{
+
+        margin-top:-3.5rem;
+
+    }
+
+}
