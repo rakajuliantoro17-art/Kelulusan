@@ -1,0 +1,355 @@
+/*
+==========================================================
+SMANSASOO Academic Portal
+Simulasi TKA Page Stylesheet
+Version : 1.0.0
+==========================================================
+Navbar + sidebar TIDAK didefinisikan di file ini -- sudah ada
+di css/shell.css (dipakai semua halaman, dirender js/shell.js).
+File ini cuma berisi gaya khusus halaman Simulasi TKA: hero,
+kartu info, dan area embed iframe. Mengikuti pola self-contained
+yang sama seperti css/prestasi.css (token --tka-*, bukan token
+bersama), supaya perubahan warna di satu halaman tidak
+merembet ke halaman lain.
+==========================================================
+*/
+
+:root{
+
+    --tka-primary:#0F4C81;
+    --tka-primary-dark:#0A3A63;
+    --tka-accent:#F4B400;
+    --tka-bg:#F3F5F8;
+    --tka-surface:#FFFFFF;
+    --tka-text:#1D2939;
+    --tka-text-light:#667085;
+    --tka-border:#E4E7EC;
+    --tka-radius:12px;
+    --tka-navbar-h:64px;
+    --tka-sidebar-w:250px;
+
+}
+
+body.tka-page{
+
+    margin:0;
+    font-family:'Plus Jakarta Sans',sans-serif;
+    /* Background foto (blur) dari css/glass.css -- lihat .bg-layer
+       di bawah. Warna --tka-bg lama disimpan sebagai fallback kalau
+       glass.css gagal dimuat. */
+    background:transparent;
+    color:var(--tka-text);
+
+}
+
+/* Foto background, sama dengan pages/nilai.html -- lihat css/glass.css
+   untuk .bg-layer dan css/nilai.css untuk pola override serupa. */
+body[data-page="simulasi-tka"] .bg-layer{
+    background-image:url("/akademik/assets/images/tyr.jpg");
+}
+
+/* ==========================================
+   HERO
+========================================== */
+
+.tka-hero{
+
+    padding:2.5rem 1.5rem 1.5rem;
+    text-align:center;
+    /* Transparan supaya foto background (.bg-layer) kelihatan,
+       sama seperti .header di css/style.css pada halaman lain.
+       Teks sudah putih/opacity jadi tetap kebaca di atas foto. */
+    background:transparent;
+    color:#ffffff;
+
+}
+
+.tka-hero h1{
+
+    margin:0 0 .5rem;
+    font-size:clamp(1.5rem, 3vw, 2.25rem);
+    font-weight:800;
+
+}
+
+.tka-hero p{
+
+    margin:0;
+    opacity:.85;
+    font-size:.95rem;
+
+}
+
+/* ==========================================
+   MAIN + CARDS
+========================================== */
+
+.tka-main{
+
+    max-width:900px;
+    margin:0 auto;
+    padding:1.75rem 1.25rem 3rem;
+    display:flex;
+    flex-direction:column;
+    gap:1.5rem;
+
+}
+
+.tka-card{
+
+    background:var(--tka-surface);
+    border:1px solid var(--tka-border);
+    border-radius:var(--tka-radius);
+    padding:1.75rem;
+    box-shadow:0 4px 16px rgba(16, 24, 40, .04);
+
+}
+
+.tka-card h2{
+
+    margin:0 0 .75rem;
+    font-size:1.15rem;
+    font-weight:700;
+    color:var(--tka-primary);
+
+}
+
+.tka-card p{
+
+    margin:0 0 .75rem;
+    line-height:1.65;
+    color:var(--tka-text);
+
+}
+
+.tka-note-list{
+
+    margin:0;
+    padding-left:1.15rem;
+    color:var(--tka-text-light);
+    font-size:.9rem;
+    line-height:1.7;
+
+}
+
+.tka-note-list li{
+    margin-bottom:.35rem;
+}
+
+/* ==========================================
+   EMBED SECTION
+========================================== */
+
+.tka-embed-head{
+
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:.75rem;
+    margin-bottom:1rem;
+
+}
+
+.tka-embed-head h2{
+    margin:0;
+}
+
+.tka-newtab-link{
+
+    font-size:.85rem;
+    font-weight:600;
+    color:var(--tka-primary);
+    text-decoration:none;
+    border:1px solid var(--tka-border);
+    border-radius:999px;
+    padding:.4rem .9rem;
+    white-space:nowrap;
+
+}
+
+.tka-newtab-link:hover{
+    background:var(--tka-bg);
+}
+
+.tka-embed-placeholder{
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:.75rem;
+    padding:3rem 1rem;
+    text-align:center;
+    background:var(--tka-bg);
+    border:1px dashed var(--tka-border);
+    border-radius:var(--tka-radius);
+
+}
+
+.tka-start-btn{
+
+    background:var(--tka-accent);
+    color:#3A2A00;
+    border:none;
+    border-radius:999px;
+    padding:.85rem 2.25rem;
+    font-size:1rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+
+}
+
+.tka-start-btn:hover{
+    transform:translateY(-1px);
+    box-shadow:0 6px 16px rgba(244, 180, 0, .35);
+}
+
+.tka-embed-hint{
+
+    margin:0;
+    font-size:.8rem;
+    color:var(--tka-text-light);
+
+}
+
+.tka-embed-wrap{
+
+    border:1px solid var(--tka-border);
+    border-radius:var(--tka-radius);
+    overflow:hidden;
+    background:var(--tka-bg);
+
+}
+
+.tka-embed-frame{
+
+    display:block;
+    width:100%;
+    height:75vh;
+    min-height:520px;
+    border:none;
+
+}
+
+.hidden{
+    display:none !important;
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+.tka-footer{
+
+    text-align:center;
+    padding:1.5rem 1rem;
+    font-size:.8rem;
+    color:var(--tka-text-light);
+
+}
+
+.tka-footer a{
+    color:var(--tka-primary);
+    font-weight:600;
+    text-decoration:none;
+}
+
+.tka-footer a:hover{
+    text-decoration:underline;
+}
+
+/* ==========================================
+   DESKTOP: samakan ruang dengan sidebar shell
+========================================== */
+
+@media (min-width: 1024px){
+
+    .tka-main{
+        max-width:960px;
+    }
+
+}
+
+/* ==========================================
+   TABLET (768px ke bawah)
+========================================== */
+
+@media (max-width: 768px){
+
+    .tka-hero{
+        padding:2rem 1.25rem 1.25rem;
+    }
+
+    .tka-main{
+        padding:1.25rem 1rem 2.5rem;
+        gap:1.25rem;
+    }
+
+    .tka-card{
+        padding:1.25rem;
+    }
+
+    /* Di tablet masih cukup ruang vertikal, tapi iframe-nya
+       tetap dikecilkan dikit dari versi desktop (75vh) supaya
+       tidak terlalu mendominasi layar sebelum discroll. */
+    .tka-embed-frame{
+        height:65vh;
+        min-height:440px;
+    }
+
+}
+
+/* ==========================================
+   HP (480px ke bawah)
+========================================== */
+
+@media (max-width: 480px){
+
+    .tka-hero h1{
+        font-size:1.4rem;
+    }
+
+    .tka-hero p{
+        font-size:.85rem;
+    }
+
+    .tka-card{
+        padding:1rem;
+        border-radius:calc(var(--tka-radius) - 2px);
+    }
+
+    .tka-card h2{
+        font-size:1.05rem;
+    }
+
+    .tka-embed-head{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .tka-newtab-link{
+        text-align:center;
+    }
+
+    /* Tombol selebar penuh -- lebih gampang di-tap di HP,
+       dan "Mulai Simulasi" jadi tombol paling menonjol di layar
+       sempit tanpa perlu scroll horizontal. */
+    .tka-start-btn{
+        width:100%;
+    }
+
+    /* Layar HP jauh lebih pendek dari desktop -- 75vh/520px
+       dari versi desktop bisa bikin iframe kepotong aneh atau
+       butuh scroll panjang sebelum konten simulasinya kelihatan.
+       Dikecilkan jadi proporsi yang lebih wajar buat layar HP. */
+    .tka-embed-frame{
+        height:58vh;
+        min-height:360px;
+    }
+
+    .tka-embed-placeholder{
+        padding:2rem 1rem;
+    }
+
+}
