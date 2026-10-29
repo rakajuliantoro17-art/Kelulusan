@@ -12,21 +12,15 @@ docs/ADMIN-AUTH.md.
 POST: cek username + password admin DI SERVER, lalu kembalikan
 token bertanda tangan (HMAC-SHA256) yang berlaku 8 jam.
 
-Kredensial default (SEMENTARA, supaya tidak perlu mengatur
-Environment Variable di Vercel dulu):
-  username: admin
-  password: ditentukan oleh pemilik portal -- TIDAK dituliskan
-            di source code ini. Yang tersimpan di bawah hanya
-            SHA-256 dari password itu (DEFAULT_PASSWORD_HASH),
-            jadi siapa pun yang membaca file ini tidak langsung
-            tahu passwordnya.
+Autentikasi fail-closed: login dan verifikasi token tidak aktif
+sebelum seluruh Environment Variable berikut diatur pada project
+Vercel terpadu:
+  ADMIN_USERNAME        nama pengguna admin
+  ADMIN_PASSWORD        kata sandi admin
+  ADMIN_SESSION_SECRET  rahasia acak panjang untuk tanda tangan token
 
-Kalau nanti mau ganti username/password tanpa ubah kode, isi
-Environment Variable di Vercel Project Settings (otomatis
-mengambil alih nilai default di atas):
-  ADMIN_USERNAME        mis. admin
-  ADMIN_PASSWORD        plaintext baru
-  ADMIN_SESSION_SECRET  opsional, string acak panjang
+Tidak ada kredensial atau signing secret default yang ditanam
+di source code. Jangan mengirim nilainya ke client atau commit.
 
 Perlindungan tebak password: maksimal 5 gagal per IP per 10
 menit (disimpan di Upstash kalau UPSTASH_REDIS_REST_* terisi,
@@ -52,9 +46,7 @@ const TTL_SECONDS = 8 * 60 * 60;
 const MAX_FAILS = 5;
 const WINDOW_SECONDS = 10 * 60;
 
-// Default sementara -- lihat catatan di atas. Untuk mengganti,
-// isi ADMIN_USERNAME / ADMIN_PASSWORD di Environment Variable
-// Vercel (nilainya akan menggantikan default ini).
+// Tidak ada akun default; konfigurasi harus disediakan oleh server.
 const DEFAULT_USERNAME = "";
 // Credentials and token-signing secret must be configured in Vercel Environment Variables.
 
