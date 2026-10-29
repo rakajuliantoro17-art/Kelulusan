@@ -40,17 +40,16 @@ Setiap halaman modul yang memakai shell menyertakan `<div data-portal-header></d
 ├── index.html
 ├── css/portal-shell.css
 ├── js/portal-shell.js
-├── modules/
-│   ├── akademik/
-│   ├── sarpras/
-│   └── kesiswaan/
-├── api/                         # semua entrypoint serverless Vercel
+├── src/
+│   ├── akademik/                # duplikasi Academic Portal + adaptasi namespace
+│   └── kesiswaan/                # modul GDS yang diadaptasi
+├── api/                         # entrypoint serverless Vercel (dispatcher root)
 ├── manifest.json
 ├── sw.js
 └── docs/
 ```
 
-Ini target akhir bertahap, bukan instruksi memindahkan seluruh file tanpa audit. Kesiswaan saat ini masih berada di `src/kesiswaan/`; Sarprasin perlu proses build Vite multi-page dan penyesuaian base path; Akademik memerlukan preservasi halaman serta API yang digunakan modul kenaikan kelas, nilai, dan kelulusan.
+Ini target akhir bertahap, bukan instruksi memindahkan seluruh file tanpa audit. Kesiswaan saat ini masih berada di `src/kesiswaan/`; Sarprasin perlu proses build Vite multi-page dan penyesuaian base path; Akademik telah diduplikasi ke `src/akademik/`; route halaman dan API dipetakan ke `/akademik/` dan `/api/akademik/*`. Aset biner masih sementara diproxy dari repo sumber. Build dan smoke test tetap wajib sebelum rilis.
 
 ## Risiko dan langkah mitigasi
 
@@ -74,7 +73,7 @@ Ini target akhir bertahap, bukan instruksi memindahkan seluruh file tanpa audit.
 
 1. Fondasi portal dan shell bersama.
 2. Inventaris route, file, API, variabel environment, autentikasi, storage, dan PWA.
-3. Integrasi Akademik dan pengujian kontrak API.
+3. Duplikasi Akademik, penyesuaian namespace aset/API/PWA, dan pengujian kontrak API.
 4. Integrasi Kesiswaan, otorisasi, data sensitif, dan alur offline/QR.
 5. Integrasi build Sarprasin dan pengujian Firebase.
 6. Build/smoke test, audit keamanan, dan pengujian manual sebelum rilis.
