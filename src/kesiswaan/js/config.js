@@ -23,20 +23,20 @@ window.CONFIG = {
     // Poin kumulatif per tahun ajaran (reset tiap 1 Juli).
     // Tingkat sanksi lengkap ada di data/tata-tertib.json.
     API: {
-        DASHBOARD: "/api/kesiswaan?op=dashboard",
-        CEK_POIN: "/api/kesiswaan?op=cek-poin",
-        TATA_TERTIB: "/api/kesiswaan?op=tata-tertib",
-        PELANGGARAN: "/api/kesiswaan?op=pelanggaran",
-        PEMBINAAN: "/api/kesiswaan?op=pembinaan",
-        SURAT: "/api/kesiswaan?op=surat",
-        RINGKASAN: "/api/kesiswaan?op=ringkasan",
-        EKSEKUTIF: "/api/kesiswaan?op=eksekutif",
-        TANYA: "/api/kesiswaan?op=tanya",
-        WALIKELAS: "/api/kesiswaan?op=walikelas",
-        QR: "/api/kesiswaan?op=qr",
-        PERAPIAN: "/api/kesiswaan?op=perapian",
-        AI_CATAT: "/api/kesiswaan?op=ai-catat",
-        ADMIN_AUTH: "/api/kesiswaan?op=admin-auth"
+        DASHBOARD: "/api/kesiswaan/dashboard",
+        CEK_POIN: "/api/kesiswaan/cek-poin",
+        TATA_TERTIB: "/api/kesiswaan/tata-tertib",
+        PELANGGARAN: "/api/kesiswaan/pelanggaran",
+        PEMBINAAN: "/api/kesiswaan/pembinaan",
+        SURAT: "/api/kesiswaan/surat",
+        RINGKASAN: "/api/kesiswaan/ringkasan",
+        EKSEKUTIF: "/api/kesiswaan/eksekutif",
+        TANYA: "/api/kesiswaan/tanya",
+        WALIKELAS: "/api/kesiswaan/walikelas",
+        QR: "/api/kesiswaan/qr",
+        PERAPIAN: "/api/kesiswaan/perapian",
+        AI_CATAT: "/api/kesiswaan/ai-catat",
+        ADMIN_AUTH: "/api/kesiswaan/admin-auth"
     },
 
     API_TIMEOUT: 12000

@@ -132,7 +132,7 @@ window.StatsPanel = (() => {
 
         try {
 
-            const response = await fetch("/api/kesiswaan?op=stats", { cache: "no-store" });
+            const response = await fetch("/api/kesiswaan/stats", { cache: "no-store" });
             const result = await response.json();
 
             renderContent(result);

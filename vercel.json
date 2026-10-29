@@ -59,6 +59,66 @@
     {
       "source": "/",
       "destination": "/index.html"
+    },
+    {
+      "source": "/api/kesiswaan/admin-auth",
+      "destination": "/api/kesiswaan?op=admin-auth"
+    },
+    {
+      "source": "/api/kesiswaan/cek-poin",
+      "destination": "/api/kesiswaan?op=cek-poin"
+    },
+    {
+      "source": "/api/kesiswaan/dashboard",
+      "destination": "/api/kesiswaan?op=dashboard"
+    },
+    {
+      "source": "/api/kesiswaan/pelanggaran",
+      "destination": "/api/kesiswaan?op=pelanggaran"
+    },
+    {
+      "source": "/api/kesiswaan/pembinaan",
+      "destination": "/api/kesiswaan?op=pembinaan"
+    },
+    {
+      "source": "/api/kesiswaan/stats",
+      "destination": "/api/kesiswaan?op=stats"
+    },
+    {
+      "source": "/api/kesiswaan/surat",
+      "destination": "/api/kesiswaan?op=surat"
+    },
+    {
+      "source": "/api/kesiswaan/tata-tertib",
+      "destination": "/api/kesiswaan?op=tata-tertib"
+    },
+    {
+      "source": "/api/kesiswaan/ai-catat",
+      "destination": "/api/kesiswaan?op=ai-catat"
+    },
+    {
+      "source": "/api/kesiswaan/eksekutif",
+      "destination": "/api/kesiswaan?op=eksekutif"
+    },
+    {
+      "source": "/api/kesiswaan/perapian",
+      "destination": "/api/kesiswaan?op=perapian"
+    },
+    {
+      "source": "/api/kesiswaan/qr",
+      "destination": "/api/kesiswaan?op=qr"
+    },
+    {
+      "source": "/api/kesiswaan/ringkasan",
+      "destination": "/api/kesiswaan?op=ringkasan"
+    },
+    {
+      "source": "/api/kesiswaan/tanya",
+      "destination": "/api/kesiswaan?op=tanya"
+    },
+    {
+      "source": "/api/kesiswaan/walikelas",
+      "destination": "/api/kesiswaan?op=walikelas"
     }
   ]
 }

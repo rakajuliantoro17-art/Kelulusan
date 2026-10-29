@@ -20,7 +20,7 @@ Fetch ke /api/pelanggaran otomatis membawa token itu.
     if (window.AdminAuth) return;
 
     const SESSION_KEY = "kesiswaan-admin-session";
-    const AUTH_URL = "/api/kesiswaan?op=admin-auth";
+    const AUTH_URL = "/api/kesiswaan/admin-auth";
     const PROTECTED_API = /^\/api\/(pelanggaran|pembinaan|surat|ringkasan|ai-catat|perapian|eksekutif|tanya|walikelas|qr)/;
 
     const thisScript = document.currentScript;
