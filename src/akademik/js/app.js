@@ -61,7 +61,7 @@ const App = {
                 window.addEventListener("load", () => {
 
                     navigator.serviceWorker
-                        .register("sw.js")
+                        .register("/akademik/sw.js")
                         .then(() => {
 
                             console.info("Service Worker Registered");
