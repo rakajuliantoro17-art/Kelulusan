@@ -20,13 +20,13 @@ Fetch ke /api/pelanggaran otomatis membawa token itu.
     if (window.AdminAuth) return;
 
     const SESSION_KEY = "kesiswaan-admin-session";
-    const AUTH_URL = "/api/admin-auth";
+    const AUTH_URL = "/api/kesiswaan?op=admin-auth";
     const PROTECTED_API = /^\/api\/(pelanggaran|pembinaan|surat|ringkasan|ai-catat|perapian|eksekutif|tanya|walikelas|qr)/;
 
     const thisScript = document.currentScript;
     const requireRole = thisScript ? (thisScript.getAttribute("data-require-role") || (thisScript.hasAttribute("data-require-admin") ? "komisi,kesiswaan" : "")) : "";
     const requirePage = !!requireRole;
-    const EKSEKUTIF_URL = "/pages/eksekutif.html", KOMISI_URL = "/pages/admin.html", WALI_URL = "/pages/walikelas.html";
+    const EKSEKUTIF_URL = "/kesiswaan/pages/eksekutif.html", KOMISI_URL = "/kesiswaan/pages/admin.html", WALI_URL = "/kesiswaan/pages/walikelas.html";
 
     let overlayEl = null;
 
@@ -257,7 +257,7 @@ Fetch ke /api/pelanggaran otomatis membawa token itu.
 
             if (opts.gate) {
                 const back = el("a", "kd-link-center", "Kembali ke dashboard");
-                back.href = "/index.html";
+                back.href = "/kesiswaan/";
                 card.appendChild(back);
             }
 

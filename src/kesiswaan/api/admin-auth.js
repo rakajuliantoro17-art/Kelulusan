@@ -317,9 +317,9 @@ function readBody(req) {
 
 async function handleLogin(req, res) {
 
-    if (!process.env.ADMIN_SESSION_SECRET || !process.env.ADMIN_PASSWORD) {
+    if (!process.env.ADMIN_SESSION_SECRET) {
         res.setHeader("Cache-Control", "no-store");
-        return res.status(503).json({ success: false, message: "Login belum dikonfigurasi. Administrator harus mengatur ADMIN_PASSWORD dan ADMIN_SESSION_SECRET di environment deployment." });
+        return res.status(503).json({ success: false, message: "Login belum dikonfigurasi. Administrator harus mengatur ADMIN_SESSION_SECRET di environment deployment." });
     }
 
     const adminUser = adminUsername();

@@ -53,7 +53,7 @@ CHANGELOG (v1.1.0):
 
     try {
 
-        fetch(`/api/stats?page=${encodeURIComponent(page)}`, {
+        fetch(`/api/kesiswaan?op=stats&page=${encodeURIComponent(page)}`, {
             method: "POST",
             cache: "no-store",
             keepalive: true
