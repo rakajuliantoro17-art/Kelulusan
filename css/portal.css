@@ -147,3 +147,6 @@ main { padding: 44px 0 70px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
+
+/* Respect native hidden state even when component styles define display. */
+[hidden] { display: none !important; }
