@@ -49,6 +49,38 @@
   ],
   "rewrites": [
     {
+      "source": "/akademik",
+      "destination": "/src/akademik/index.html"
+    },
+    {
+      "source": "/akademik/(.*)",
+      "destination": "/src/akademik/$1"
+    },
+    {
+      "source": "/api/akademik/kenaikan",
+      "destination": "/api/akademik?op=kenaikan"
+    },
+    {
+      "source": "/api/akademik/kelulusan",
+      "destination": "/api/akademik?op=kelulusan"
+    },
+    {
+      "source": "/api/akademik/nilai",
+      "destination": "/api/akademik?op=nilai"
+    },
+    {
+      "source": "/api/akademik/kelas-list",
+      "destination": "/api/akademik?op=kelas-list"
+    },
+    {
+      "source": "/api/akademik/kelas-summary",
+      "destination": "/api/akademik?op=kelas-summary"
+    },
+    {
+      "source": "/api/akademik/stats",
+      "destination": "/api/akademik?op=stats"
+    },
+    {
       "source": "/kesiswaan",
       "destination": "/src/kesiswaan/index.html"
     },
