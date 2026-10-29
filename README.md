@@ -6,7 +6,7 @@ Portal digital terpadu SMAN 1 Sooko Mojokerto yang menjadi satu pintu masuk untu
 
 ## Modul sumber
 
-- **Akademik** — [smansasoo-academic-portal](https://github.com/rakajuliantoro17-art/smansasoo-academic-portal), termasuk modul kelulusan.
+- **Akademik** — [smansasoo-academic-portal](https://github.com/rakajuliantoro17-art/smansasoo-academic-portal), diduplikasi ke `src/akademik/` termasuk kenaikan kelas, nilai, kelulusan, pengumuman, jadwal, rapor, prestasi, simulasi TKA, dan halaman pendukung.
 - **Sarpras** — [Sarprasin](https://github.com/rakajuliantoro17-art/Sarprasin).
 - **Kesiswaan** — kode GDS di `src/kesiswaan/`, dari [yasmincntk99/kesiswaan](https://github.com/yasmincntk99/kesiswaan).
 
@@ -33,6 +33,7 @@ Portal digital terpadu SMAN 1 Sooko Mojokerto yang menjadi satu pintu masuk untu
 │   ├── portal.js              # Interaksi beranda
 │   └── portal-shell.js        # Header/footer bersama
 ├── api/                       # Fungsi serverless Vercel root (dipetakan pada tahap berikutnya)
+├── src/akademik/              # Duplikasi modul Academic Portal
 ├── src/kesiswaan/             # Modul Kesiswaan yang sedang dipetakan
 └── docs/
     └── PORTAL-TERPADU-ARCHITECTURE.md
@@ -59,7 +60,25 @@ Lalu muat file global berikut dengan path absolut:
 
 Nilai `data-portal-module` yang tersedia saat ini: `home`, `akademik`, `sarpras`, dan `kesiswaan`. Route modul akan diaktifkan setelah halaman dan endpoint sumber selesai dipindahkan/diadaptasi. Shell tidak menggantikan pemeriksaan login dan otorisasi pada server.
 
+## Route Akademik
+
+- Halaman utama: `/akademik/`
+- Halaman fitur: `/akademik/pages/...`
+- API kompatibel: `/api/akademik/kenaikan`, `kelulusan`, `nilai`, `kelas-list`, `kelas-summary`, `stats`, `admin-auth`, dan `announcements`.
+- Handler API sumber disimpan di `src/akademik/api/` dan dipanggil melalui `api/akademik.js`, karena Vercel hanya mendaftarkan fungsi serverless dari direktori `/api` root.
+- Namespace service worker dibatasi ke `/akademik/sw.js`; jangan mendaftarkan service worker modul ini di scope `/`.
+
+**Status duplikasi:** HTML, CSS, JavaScript, data JSON, dan handler API inti telah disalin ke repo ini dan URL internal disesuaikan ke namespace Akademik. Aset biner gambar/audio sementara dilayani melalui rewrite ke aset repo sumber; repo sumber tidak diubah. Build dan smoke test Vercel belum dikonfirmasi.
+
 ## Environment variables
+
+Nama variabel Akademik yang perlu dikonfigurasi pada project Vercel terpadu (isi nilainya hanya di Vercel, jangan di commit):
+
+- `GOOGLE_SHEET_ID_KENAIKAN`
+- `GOOGLE_SHEET_ID_KELULUSAN`
+- `GOOGLE_SHEET_ID` dan opsional `GOOGLE_SHEET_ID_<TAHUN>` untuk nilai
+- `UPSTASH_REDIS_REST_URL` dan `UPSTASH_REDIS_REST_TOKEN` untuk statistik
+- `ADMIN_USERNAME`, `ADMIN_PASSWORD`, dan `ADMIN_SESSION_SECRET` untuk autentikasi admin Akademik
 
 Dokumentasikan nama variabel yang dibutuhkan setiap modul, tetapi jangan menulis nilainya ke repository. Konfigurasi produksi dilakukan melalui Vercel/Firebase settings. Sebelum deployment, audit fallback secret dan rotasi kredensial yang pernah tertanam dalam kode publik.
 
