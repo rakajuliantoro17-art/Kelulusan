@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0F4C81">
+    <title>Profil Belajar | SMAN 1 Sooko Mojokerto</title>
+    <meta name="description" content="Satu rangkaian tes refleksi diri: kesiapan, gaya belajar, minat (RIASEC), computational thinking, dan kebiasaan belajar, lengkap dengan arah rekomendasi yang potensial.">
+
+    <!-- ANTI-FLASH THEME INIT (wajib, jangan dihapus) -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('smansasoo-theme');
+                var theme = saved || ((window.matchMedia &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+
+    <link rel="icon" href="/akademik/assets/logo/favicon.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS wajib di setiap halaman -->
+    <link rel="stylesheet" href="/akademik/css/variables.css">
+    <link rel="stylesheet" href="/akademik/css/theme.css">
+    <link rel="stylesheet" href="/akademik/css/style.css">
+    <link rel="stylesheet" href="/akademik/css/responsive.css">
+    <link rel="stylesheet" href="/akademik/css/animation.css">
+    <link rel="stylesheet" href="/akademik/css/shell.css">
+    <link rel="stylesheet" href="/akademik/css/settings-drawer.css">
+    <link rel="stylesheet" href="/akademik/css/stats-panel.css">
+
+    <!-- CSS khusus halaman ini -->
+    <link rel="stylesheet" href="/akademik/css/profil-belajar.css">
+</head>
+
+<body data-page="profil-belajar">
+
+    <div id="shellNav"></div>
+
+    <!-- ================= HEADER (gaya sama dengan Rapor Pendidikan) ================= -->
+
+    <header class="header">
+
+        <img src="/akademik/assets/logo/logo.png" alt="Logo SMAN 1 Sooko" class="logo">
+
+        <h1>
+            Profil
+            <span>Belajar</span>
+        </h1>
+
+        <p>Kenali dirimu, belajar jadi lebih pas. Satu rangkaian tes, lima hasil, dan arah yang potensial untukmu.</p>
+
+    </header>
+
+    <main class="pb" id="pbApp">
+
+        <section class="container">
+
+            <!-- ===== MULAI ===== -->
+            <section id="pbStart" aria-labelledby="pbStartTitle">
+
+                <div class="pb-toolbar">
+                    <div>
+                        <span class="pb-eyebrow">Refleksi diri</span>
+                        <h2 class="pb-h2" id="pbStartTitle" tabindex="-1">Mulai tes Profil Belajar</h2>
+                        <p class="pb-muted">Jawab dengan menggeser slider sesuai kebiasaanmu sekarang. Tidak ada jawaban benar atau salah. Jawabanmu <b>tidak dikirim ke server</b>, hanya tersimpan di browser ini.</p>
+                    </div>
+                </div>
+
+                <div class="pb-summary" id="pbTopics"></div>
+
+                <div class="pb-card pb-card--plain">
+                    <label class="pb-label" for="pbKelas">Kelasmu</label>
+                    <select class="pb-select" id="pbKelas">
+                        <option value="">Pilih kelas</option>
+                        <option value="X">Kelas X</option>
+                        <option value="XI">Kelas XI</option>
+                        <option value="XII">Kelas XII</option>
+                    </select>
+                    <p class="pb-help" id="pbStartInfo"></p>
+                    <div class="pb-error" id="pbStartError" role="alert" hidden></div>
+                    <div class="pb-actions">
+                        <button type="button" class="pb-btn pb-btn--primary" id="pbMulai">Mulai tes</button>
+                        <button type="button" class="pb-btn" id="pbLihat" hidden>Lihat hasil terakhir</button>
+                    </div>
+                </div>
+
+                <p class="pb-fine">Pembelajaran berdiferensiasi menyesuaikan cara belajar berdasarkan kesiapan, minat, dan profil belajar siswa. Ini alat refleksi diri, bukan tes psikologi dan bukan label permanen. Kaitan minat dengan rumpun SNBP hanyalah gambaran awal, bukan penentu jurusan atau kelulusan. Guru dapat mengubah butir, bobot, dan daftar topik di berkas data/profil-belajar.json.</p>
+
+            </section>
+
+            <!-- ===== MENGERJAKAN TES ===== -->
+            <section id="pbRun" hidden aria-labelledby="pbRunTitle">
+
+                <div class="pb-toolbar pb-sticky">
+                    <div class="pb-run-head">
+                        <h2 class="pb-h2" id="pbRunTitle" tabindex="-1">Tes Profil Belajar</h2>
+                        <p class="pb-muted" id="pbProgressText" aria-live="polite"></p>
+                    </div>
+                    <div class="pb-progress" aria-hidden="true"><div class="pb-progress-fill" id="pbProgress"></div></div>
+                </div>
+
+                <div class="pb-error" id="pbError" role="alert" hidden></div>
+
+                <div id="pbRunBody"></div>
+
+                <div class="pb-actions">
+                    <button type="button" class="pb-btn" id="pbBack">Kembali</button>
+                    <button type="button" class="pb-btn pb-btn--primary" id="pbNext">Lanjut</button>
+                </div>
+
+            </section>
+
+            <!-- ===== HASIL ===== -->
+            <section id="pbResult" hidden aria-labelledby="pbResultTitle">
+
+                <div class="pb-toolbar">
+                    <div>
+                        <span class="pb-eyebrow">Hasil analisis</span>
+                        <h2 class="pb-h2" id="pbResultTitle" tabindex="-1">Profil Belajarmu</h2>
+                        <p class="pb-muted" id="pbResultSub"></p>
+                    </div>
+                    <div class="pb-actions pb-actions--tight">
+                        <button type="button" class="pb-btn pb-btn--primary" id="pbUnduh">Unduh kartu</button>
+                        <button type="button" class="pb-btn" id="pbCetak">Cetak / simpan PDF</button>
+                    </div>
+                </div>
+
+                <div id="pbResultBody"></div>
+
+                <div class="pb-actions">
+                    <button type="button" class="pb-btn" id="pbUlang">Ulangi tes</button>
+                    <button type="button" class="pb-btn pb-btn--danger" id="pbHapus">Hapus semua data</button>
+                </div>
+
+                <p class="pb-fine">Hasil ini gambaran saat ini dan bisa berubah. Preferensi belajar bersifat campuran, dan minat bisa berkembang. Pakai sebagai bahan diskusi dengan guru, guru BK, dan orang tua, bukan sebagai penentu jurusan.</p>
+
+            </section>
+
+            <!-- ===== LEMBAR CETAK / SIMPAN PDF (hanya tampil saat mencetak) ===== -->
+            <section id="pbPrint" class="pb-print" aria-hidden="true"></section>
+
+        </section>
+
+    </main>
+
+    <div id="shellFooter"></div>
+
+    <!-- CONFIG (wajib, dipakai Shell untuk nama sekolah & versi) -->
+    <script src="/akademik/js/config.js"></script>
+
+    <!-- UTILS (wajib) -->
+    <script src="/akademik/js/utils.js"></script>
+
+    <!-- SHELL (wajib, render nav + footer) -->
+    <script src="/akademik/js/shell.js"></script>
+
+    <!-- STATISTIK PENGUNJUNG (panel floating di sidebar) -->
+    <script src="/akademik/js/stats-tracker.js"></script>
+    <script src="/akademik/js/stats-panel.js"></script>
+
+    <!-- TEMA (dark/light) + DRAWER PENGATURAN (wajib, jangan dihapus) -->
+    <script src="/akademik/js/theme.js"></script>
+    <script src="/akademik/js/settings-drawer.js"></script>
+
+    <!-- PROFIL BELAJAR -->
+    <script src="/akademik/js/profil-belajar.js"></script>
+
+</body>
+</html>
