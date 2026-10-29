@@ -1,142 +1,36 @@
 /**
- * ============================================================
- * SMANSASOO Graduation Portal
- * Service Worker
- * ------------------------------------------------------------
- * Version : 1.0.0
- * Status  : Production Ready (Phase 1)
- *
- * Author  : IT Team SMAN 1 Sooko Mojokerto
- * License : MIT
- * ============================================================
- *
- * ROADMAP
- *
- * Phase 1
- * ✔ Register Service Worker
- * ✔ Activate Immediately
- * ✔ Claim Existing Clients
- * ✔ Network Only Strategy
- *
- * Phase 1.5
- * □ Offline Page
- * □ Cache Assets
- * □ Cache HTML
- * □ Cache CSS
- * □ Cache JavaScript
- * □ Cache Audio
- * □ Cache Images
- *
- * Phase 2
- * □ Progressive Web App (PWA)
- * □ Install Prompt
- * □ Background Sync
- * □ Update Notification
- * □ Push Notification
- *
- * ============================================================
+ * SMANSASOO Digital Portal — shared service worker.
+ * Network-first pass-through while modules are being integrated.
+ * Do not cache private API responses or student data.
  */
-
 "use strict";
 
-/* ============================================================
-   APPLICATION
-============================================================ */
+const APP_NAME = "SMANSASOO Digital Portal";
+const VERSION = "0.2.0";
 
-const APP_NAME = "SMANSASOO Graduation Portal";
-const VERSION = "1.0.0";
-const CACHE_NAME = `smansasoo-graduation-${VERSION}`;
-
-/* ============================================================
-   INSTALL
-============================================================ */
-
-self.addEventListener("install", (event) => {
-
-    console.log(`[${APP_NAME}] Installing... (${VERSION})`);
-
-    // Langsung aktif setelah install
-    self.skipWaiting();
-
+self.addEventListener("install", () => {
+  self.skipWaiting();
 });
-
-/* ============================================================
-   ACTIVATE
-============================================================ */
 
 self.addEventListener("activate", (event) => {
-
-    console.log(`[${APP_NAME}] Activated`);
-
-    event.waitUntil(
-        (async () => {
-
-            // Mengambil alih seluruh tab yang sedang terbuka
-            await self.clients.claim();
-
-        })()
-    );
-
+  event.waitUntil((async () => {
+    // Remove only legacy caches owned by the former standalone graduation app.
+    const keys = await caches.keys();
+    await Promise.all(keys.filter((key) => key.startsWith("smansasoo-graduation-")).map((key) => caches.delete(key)));
+    await self.clients.claim();
+  })());
 });
-
-/* ============================================================
-   FETCH
-============================================================ */
 
 self.addEventListener("fetch", (event) => {
-
-    // =========================================================
-    // Phase 1
-    // Semua request diteruskan ke jaringan.
-    // Cache akan diaktifkan pada versi berikutnya.
-    // =========================================================
-
-    event.respondWith(fetch(event.request));
-
+  // Preserve the existing network-only behavior. In particular, do not cache
+  // authenticated API responses, student records, or sensitive school data.
+  if (event.request.method !== "GET") return;
+  event.respondWith(fetch(event.request));
 });
-
-/* ============================================================
-   MESSAGE
-============================================================ */
 
 self.addEventListener("message", (event) => {
-
-    if (!event.data) return;
-
-    switch (event.data) {
-
-        case "skipWaiting":
-
-            self.skipWaiting();
-            break;
-
-        default:
-            break;
-
-    }
-
+  if (event.data === "skipWaiting") self.skipWaiting();
 });
 
-/* ============================================================
-   ERROR
-============================================================ */
-
-self.addEventListener("error", (event) => {
-
-    console.error(`[${APP_NAME}]`, event.message);
-
-});
-
-/* ============================================================
-   UNHANDLED REJECTION
-============================================================ */
-
-self.addEventListener("unhandledrejection", (event) => {
-
-    console.error(`[${APP_NAME}]`, event.reason);
-
-});
-
-/* ============================================================
-   END OF FILE
-============================================================ */
+self.addEventListener("error", (event) => console.error("[" + APP_NAME + "]", event.message));
+self.addEventListener("unhandledrejection", (event) => console.error("[" + APP_NAME + "]", event.reason));
