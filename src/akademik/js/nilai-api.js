@@ -6,7 +6,7 @@ Version : 2.0.0
 ==========================================================
 CHANGELOG (v2.0.0):
 - Tidak lagi memanggil Apps Script eksternal. Sekarang
-  memanggil /api/nilai, Vercel Serverless Function di repo
+  memanggil /api/akademik/nilai, Vercel Serverless Function di repo
   yang sama, yang membaca data langsung dari Google Sheets
   di sisi server. Browser tidak pernah tahu URL atau ID
   spreadsheet-nya.
@@ -63,7 +63,7 @@ async function searchNilai(keyword, tahun) {
 
     // Path absolut ("/api/akademik/nilai") supaya tetap benar dipanggil
     // dari halaman mana pun, termasuk dari dalam /pages/.
-    const result = await fetchNilaiJSON(`/api/nilai?${params.toString()}`);
+    const result = await fetchNilaiJSON(`/api/akademik/nilai?${params.toString()}`);
 
     if (!result.message) {
 
