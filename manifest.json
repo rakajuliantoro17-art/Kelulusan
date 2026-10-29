@@ -1,32 +1,18 @@
 {
-    "name": "SMANSASOO Graduation Portal",
-    "short_name": "SMANSASOO",
-    "description": "Portal Resmi Pengumuman Kelulusan SMAN 1 Sooko Mojokerto",
-
-    "id": "/",
-    "start_url": "/",
-    "scope": "/",
-
-    "display": "standalone",
-    "orientation": "portrait",
-
-    "background_color": "#071A35",
-    "theme_color": "#071A35",
-
-    "lang": "id",
-    "dir": "ltr",
-
-    "categories": [
-        "education",
-        "productivity"
-    ],
-
-    "icons": [
-        {
-            "src": "assets/icons/icon.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any maskable"
-        }
-    ]
+  "id": "/",
+  "name": "SMANSASOO Digital Portal",
+  "short_name": "SMANSASOO",
+  "description": "Portal digital terpadu SMAN 1 Sooko Mojokerto: Akademik, Sarana dan Prasarana, serta Kesiswaan.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#07111f",
+  "theme_color": "#07111f",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "/assets/icons/icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
 }
