@@ -1,0 +1,16 @@
+{
+    "name": "Gerakan Disiplin Sekolah · SMAN 1 Sooko",
+    "short_name": "GDS Sooko",
+    "description": "Portal Gerakan Disiplin Sekolah (kesiswaan dan kedisiplinan siswa) SMAN 1 Sooko Mojokerto",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#F5F7FB",
+    "theme_color": "#0F4C81",
+    "lang": "id",
+    "dir": "ltr",
+    "icons": [
+        { "src": "assets/icons/icon.png", "sizes": "any", "type": "image/png", "purpose": "any" }
+    ]
+}

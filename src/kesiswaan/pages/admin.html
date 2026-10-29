@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Panel Komisi Disiplin Sekolah | SMAN 1 Sooko Mojokerto</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#0F4C81">
+
+    <!-- Penjaga halaman: tanpa sesi admin valid, halaman tertutup overlay login -->
+    <script src="../js/admin-auth.js" data-require-admin></script>
+
+    <!-- ANTI-FLASH THEME INIT -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('kesiswaan-theme');
+                var theme = saved || ((window.matchMedia &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+
+    <link rel="icon" href="../assets/icons/icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/glass.css">
+    <link rel="stylesheet" href="../css/animation.css">
+    <link rel="stylesheet" href="../css/shell.css">
+    <link rel="stylesheet" href="../css/stats-panel.css">
+    <link rel="stylesheet" href="../css/kesiswaan.css">
+</head>
+
+<body data-page="admin">
+
+    <div class="bg-layer" aria-hidden="true"></div>
+
+    <div id="shellNav"></div>
+
+    <header class="header">
+        <div class="container">
+            <img src="../assets/logo/logo.png" alt="Logo SMAN 1 Sooko" class="logo">
+            <span class="kd-eyebrow">Gerakan Disiplin Sekolah · Komisi Disiplin</span>
+            <h1>Panel <span>Komisi Disiplin</span></h1>
+            <p>Komisi Disiplin Sekolah SMAN 1 Sooko: catat pelanggaran, telusuri data, dan pantau siswa yang perlu pembinaan.</p>
+        </div>
+    </header>
+
+    <main class="kd-wrap">
+
+        <div class="kd-toolbar kd-hidden" aria-hidden="true">
+            <!-- Navigasi antar bagian ada di sidebar; chip ini hanya menunjukkan bagian yang sedang dibuka. -->
+            <div class="kd-chips">
+                <span class="kd-chip kd-chip--live" id="adminSection" aria-live="polite">Catat Pelanggaran</span>
+                <span class="kd-chip" id="adminMode">Memuat…</span>
+            </div>
+        </div>
+
+        <div id="adminAlert" aria-live="polite"></div>
+
+        <!-- INPUT (alur: pilih kelas -> siswa -> profil -> tambah pelanggaran) -->
+        <section id="panel-input" aria-label="Catat Pelanggaran">
+
+            <div class="kd-queue kd-hidden" id="queueBanner" role="status">
+                <span id="queueCountText">Ada 0 data antrean offline belum terkirim.</span>
+                <button type="button" class="kd-btn kd-btn--sm kd-btn--primary" id="syncBtn">Kirim sekarang</button>
+            </div>
+
+            <!-- Konfirmasi setelah simpan: siswa berikutnya langsung bisa dipilih, tanpa menggulir. -->
+            <div class="kd-form-ok kd-hidden" id="saveBanner" role="status" aria-live="polite">
+                <span id="saveBannerText"></span>
+                <div class="kd-actions" style="margin-top:.6rem">
+                    <button type="button" class="kd-btn kd-btn--sm" id="againBtn">Catat lagi untuk siswa ini</button>
+                    <button type="button" class="kd-btn kd-btn--sm" id="closeBannerBtn">Tutup</button>
+                </div>
+            </div>
+
+            <!-- Asisten AI: kalimat biasa -> usulan catatan (tidak menulis ke Sheet; guru memeriksa & menyimpan sendiri) -->
+            <div class="kd-card" id="aiCard" style="margin-bottom:1rem">
+                <h2 class="kd-card-title" style="margin:0 0 .25rem">✨ Catat lewat kalimat (AI)</h2>
+                <p class="kd-card-sub" style="margin:0 0 .75rem">Tulis seperti bicara, mis. <em>“Rizky X-1 dan Dina XI-2 terlambat 15 menit, Budi X-3 tidak pakai dasi”</em>. Nama siswa dicocokkan di server dan disandikan sebelum ke AI; hasilnya hanya mengisi form untuk Anda periksa.</p>
+                <div class="kd-field full">
+                    <label class="kd-field-label" for="aiTeks">Kalimat pelanggaran</label>
+                    <textarea class="kd-textarea" id="aiTeks" rows="2" maxlength="600" placeholder="mis. Rizky X-1 dan Dina XI-2 terlambat 15 menit"></textarea>
+                </div>
+                <div class="kd-actions" style="margin-top:.6rem">
+                    <button type="button" class="kd-btn kd-btn--primary" id="aiRun">Terjemahkan</button>
+                </div>
+                <p class="kd-form-error kd-hidden" id="aiMsg" role="alert" style="margin-top:.6rem"></p>
+                <div id="aiOut" aria-live="polite"></div>
+            </div>
+
+            <div class="kd-card" id="sectionPilih">
+                <div class="kd-toolbar" style="margin-bottom:.75rem">
+                    <h2 class="kd-card-title" style="margin:0">Langkah 1: Pilih Siswa</h2>
+                    <button type="button" class="kd-btn kd-btn--sm kd-hidden" id="rekapBtn">Lihat rekap kelas</button>
+                </div>
+                <div class="kd-modes" role="group" aria-label="Jumlah siswa yang dicatat">
+                    <button type="button" class="kd-mode is-active" id="modeOne" aria-pressed="true">Satu siswa</button>
+                    <button type="button" class="kd-mode" id="modeMany" aria-pressed="false">Beberapa siswa sekaligus</button>
+                </div>
+                <div class="kd-form-grid">
+                    <div class="kd-field full kd-find-wrap">
+                        <label class="kd-field-label" for="qSiswa">Cari cepat: ketik nama atau NIS siswa</label>
+                        <input class="kd-input" id="qSiswa" type="search" autocomplete="off" placeholder="mis. 18088 atau Shane" aria-controls="qSiswaList">
+                        <ul class="kd-find kd-hidden" id="qSiswaList" aria-label="Hasil pencarian siswa"></ul>
+                    </div>
+                    <div class="kd-field">
+                        <label class="kd-field-label" for="selKelas">Atau pilih lewat kelas</label>
+                        <select class="kd-select" id="selKelas"><option value="">Memuat…</option></select>
+                    </div>
+                    <div class="kd-field" id="fieldSiswa">
+                        <label class="kd-field-label" for="selSiswa">Nama / NIS siswa</label>
+                        <select class="kd-select" id="selSiswa" disabled><option value="">— pilih kelas dulu —</option></select>
+                    </div>
+                </div>
+
+                <!-- Mode "Beberapa siswa": centang dari daftar kelas dan/atau tambah lewat pencarian -->
+                <div id="batchBox" class="kd-hidden">
+                    <div class="kd-toolbar" style="margin:.5rem 0">
+                        <span class="kd-card-sub" id="rosterHint" style="margin:0">Pilih kelas, lalu centang siswa. Siswa dari kelas lain bisa ditambah lewat kolom cari.</span>
+                        <div class="kd-actions">
+                            <button type="button" class="kd-btn kd-btn--sm" id="rosterAll">Pilih semua kelas ini</button>
+                            <button type="button" class="kd-btn kd-btn--sm" id="rosterNone">Kosongkan pilihan</button>
+                        </div>
+                    </div>
+                    <div class="kd-roster" id="roster" role="group" aria-label="Daftar siswa kelas"></div>
+                    <div class="kd-chosen" id="batchChosen" aria-live="polite"></div>
+                </div>
+            </div>
+
+            <div class="kd-card kd-hidden" id="sectionProfil" style="margin-top:1rem">
+                <div class="kd-toolbar" style="margin-bottom:1rem">
+                    <span class="kd-chip kd-chip--live">Siswa terpilih</span>
+                    <button type="button" class="kd-btn kd-btn--sm" id="gantiBtn">Ganti siswa</button>
+                </div>
+                <div class="kd-profile">
+                    <img class="kd-foto" id="pFoto" alt="Foto siswa" referrerpolicy="no-referrer" width="200" height="260">
+                    <div class="kd-profile-main">
+                        <div class="kd-profile-grid">
+                            <div>
+                                <span class="kd-field-label">Nama siswa</span><div class="kd-val" id="pNama">-</div>
+                                <span class="kd-field-label">Kelas</span><div class="kd-val" id="pKelas">-</div>
+                                <span class="kd-field-label">NIS</span><div class="kd-val kd-val--muted" id="pNis">-</div>
+                            </div>
+                            <div class="kd-poinbox"><span class="kd-field-label">Akumulasi poin</span><strong id="pPoin">0</strong><small id="pTier"></small></div>
+                        </div>
+                        <h3 class="kd-subtitle">Riwayat pelanggaran (tahun ajaran ini)</h3>
+                        <div class="kd-table-wrap" style="max-height:200px;overflow:auto"><table class="kd-table" style="min-width:420px">
+                            <thead><tr><th scope="col">Tanggal</th><th scope="col">Pelanggaran &amp; keterangan</th><th scope="col" class="num">Poin</th></tr></thead>
+                            <tbody id="pRiwayat"></tbody>
+                        </table></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kd-card kd-hidden" id="sectionForm" style="margin-top:1rem">
+                <h2 class="kd-card-title" id="formTitle">Langkah 2: Tambah Pelanggaran Baru</h2>
+                <p class="kd-card-sub">Kategori dan poin diambil dari Master Pelanggaran.</p>
+
+                <form id="inputForm" novalidate>
+                    <div class="kd-form-grid">
+                        <div class="kd-field">
+                            <label class="kd-field-label" for="fKode">Jenis pelanggaran</label>
+                            <select class="kd-select" id="fKode" required></select>
+                        </div>
+                        <div class="kd-field">
+                            <label class="kd-field-label" for="fTanggal">Tanggal kejadian</label>
+                            <input class="kd-input" id="fTanggal" type="date" required>
+                        </div>
+                        <div class="kd-field full">
+                            <div class="kd-poinrow"><span>Poin pelanggaran ini</span><span class="kd-poinbadge" id="previewPoin">+0 poin</span></div>
+                        </div>
+                        <div class="kd-field full">
+                            <label class="kd-field-label" for="fSanksi">Tindak lanjut / sanksi (opsional)</label>
+                            <input class="kd-input" id="fSanksi" type="text" maxlength="200" placeholder="mis. Teguran lisan, Panggilan BK">
+                        </div>
+                        <div class="kd-field full">
+                            <label class="kd-field-label" for="fCatatan">Keterangan kejadian (opsional)</label>
+                            <textarea class="kd-textarea" id="fCatatan" maxlength="500" placeholder="Catatan detail / kronologi singkat"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="kd-note-box kd-hidden" id="preview" aria-live="polite"></div>
+                    <p class="kd-form-error" id="formError" role="alert" hidden></p>
+                    <p class="kd-form-ok" id="formOk" role="status" hidden></p>
+
+                    <div class="kd-actions" style="margin-top:1rem">
+                        <button type="submit" class="kd-btn kd-btn--primary" id="saveBtn">Simpan Pelanggaran</button>
+                        <button type="button" class="kd-btn kd-hidden" id="copyBtn">Salin baris untuk Sheet</button>
+                        <button type="reset" class="kd-btn" id="resetBtn">Kosongkan</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal rekap kelas -->
+            <div class="kd-overlay kd-hidden" id="rekapModal" role="dialog" aria-modal="true" aria-labelledby="rekapTitle">
+                <div class="kd-dialog">
+                    <div class="kd-toolbar" style="margin-bottom:.75rem">
+                        <h2 class="kd-card-title" id="rekapTitle" style="margin:0">Rekap kelas</h2>
+                        <button type="button" class="kd-btn kd-btn--sm" id="rekapClose">Tutup</button>
+                    </div>
+                    <div class="kd-table-wrap" style="max-height:60vh;overflow:auto"><table class="kd-table" style="min-width:460px">
+                        <thead><tr><th scope="col">No</th><th scope="col">NIS</th><th scope="col">Nama</th><th scope="col" class="num">Poin</th><th scope="col"><span class="kd-sr">Aksi</span></th></tr></thead>
+                        <tbody id="rekapBody"></tbody>
+                    </table></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DATA -->
+        <section class="kd-card kd-hidden" id="panel-data" aria-labelledby="dataTitle">
+            <h2 class="kd-card-title" id="dataTitle">Data Pelanggaran</h2>
+            <p class="kd-card-sub">Seluruh catatan, terbaru di atas.</p>
+            <div class="kd-tanya" data-tanya></div>
+            <div class="kd-filters">
+                <div class="kd-field"><label class="kd-field-label" for="qText">Cari nama / NIS / jenis</label><input class="kd-input" id="qText" type="search" placeholder="Cari…"></div>
+                <div class="kd-field"><label class="kd-field-label" for="qKelas">Kelas</label><select class="kd-select" id="qKelas"><option value="">Semua</option></select></div>
+                <div class="kd-field"><label class="kd-field-label" for="qKat">Kategori</label><select class="kd-select" id="qKat"><option value="">Semua</option><option>Ringan</option><option>Sedang</option><option>Berat</option></select></div>
+                <div class="kd-field"><label class="kd-field-label" for="qBulan">Bulan</label><select class="kd-select" id="qBulan"><option value="">Semua</option></select></div>
+            </div>
+            <div class="kd-toolbar" style="margin-bottom:.75rem">
+                <span class="kd-count" id="dataCount" aria-live="polite"></span>
+                <div class="kd-actions"><button type="button" class="kd-btn kd-btn--sm" id="csvData">Unduh CSV</button></div>
+            </div>
+            <div class="kd-table-wrap"><table class="kd-table kd-cards" style="min-width:760px">
+                <thead><tr><th scope="col">Tanggal</th><th scope="col">Siswa</th><th scope="col">Kelas</th><th scope="col">Pelanggaran</th><th scope="col">Kategori</th><th scope="col" class="num">Poin</th></tr></thead>
+                <tbody id="dataBody"></tbody>
+            </table></div>
+            <div class="kd-pager"><span id="pageInfo"></span><div class="kd-actions"><button type="button" class="kd-btn kd-btn--sm" id="prevPage">‹ Sebelumnya</button><button type="button" class="kd-btn kd-btn--sm" id="nextPage">Berikutnya ›</button></div></div>
+        </section>
+
+        <!-- RINGKASAN HARIAN -->
+        <section class="kd-card kd-hidden" id="panel-ringkasan" aria-labelledby="ringkasanTitle">
+            <h2 class="kd-card-title" id="ringkasanTitle">Ringkasan Harian</h2>
+            <p class="kd-card-sub" id="ringkasanSub">Dihitung saat halaman dibuka dari data terbaru.</p>
+            <div class="kd-actions" style="margin-bottom:1rem">
+                <button type="button" class="kd-btn kd-btn--primary" id="rkWa">💬 Kirim ringkasan ke WhatsApp</button>
+                <button type="button" class="kd-btn" id="rkCopy">Salin teks</button>
+                <button type="button" class="kd-btn" id="rkRefresh">Muat ulang</button>
+            </div>
+            <div id="ringkasanBody"><p class="kd-empty">Memuat…</p></div>
+        </section>
+
+        <!-- RAPIKAN DATA -->
+        <section class="kd-card kd-hidden" id="panel-perapian" aria-labelledby="perapianTitle">
+            <h2 class="kd-card-title" id="perapianTitle">Rapikan Data</h2>
+            <p class="kd-card-sub" id="perapianSub">Periksa Data_Siswa dan formulir siswa. Tidak ada yang berubah sebelum Anda mencentang dan menekan Terapkan; setiap perubahan dicatat di tab Log_Perapian.</p>
+            <div class="kd-actions" style="margin-bottom:1rem">
+                <button type="button" class="kd-btn kd-btn--primary" id="pfRun">Periksa data</button>
+                <button type="button" class="kd-btn kd-btn--primary kd-hidden" id="pfApply">Terapkan 0 perbaikan</button>
+            </div>
+            <p class="kd-form-error kd-hidden" id="pfMsg" role="alert"></p>
+            <p class="kd-form-ok kd-hidden" id="pfOk" role="status"></p>
+            <div id="pfBody"><p class="kd-empty">Tekan “Periksa data” untuk mulai.</p></div>
+        </section>
+
+        <!-- PEMBINAAN -->
+        <section class="kd-card kd-hidden" id="panel-pembinaan" aria-labelledby="pembinaanTitle">
+            <h2 class="kd-card-title" id="pembinaanTitle">Siswa Perlu Pembinaan</h2>
+            <p class="kd-card-sub" id="pembinaanSub">Poin kumulatif tahun ajaran berjalan.</p>
+            <div class="kd-filters">
+                <div class="kd-field"><label class="kd-field-label" for="minTier">Tampilkan mulai tingkat</label><select class="kd-select" id="minTier"></select></div>
+                <div class="kd-field"><label class="kd-field-label" for="pbStatus">Status tindak lanjut</label><select class="kd-select" id="pbStatus"><option value="open" selected>Belum selesai</option><option value="Belum">Belum ditangani</option><option value="Surat dikirim">Surat dikirim</option><option value="Dipanggil">Dipanggil</option><option value="Selesai">Selesai</option><option value="all">Semua</option></select></div>
+                <div class="kd-field" style="justify-content:flex-end"><button type="button" class="kd-btn kd-btn--sm" id="csvPembinaan">Unduh CSV</button></div>
+            </div>
+            <div class="kd-table-wrap"><table class="kd-table kd-cards" style="min-width:900px">
+                <thead><tr><th scope="col">Siswa</th><th scope="col">Kelas</th><th scope="col" class="num">Poin</th><th scope="col" class="num">Kasus</th><th scope="col">Tingkat &amp; tindak lanjut</th><th scope="col">Status</th></tr></thead>
+                <tbody id="pembinaanBody"></tbody>
+            </table></div>
+        </section>
+
+    </main>
+
+    <div id="shellFooter"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/ui-kit.js"></script>
+    <script src="../js/shell.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="../js/tanya.js"></script>
+
+</body>
+
+</html>
