@@ -13,17 +13,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/portal-shell.css">
   <link rel="stylesheet" href="/css/portal.css">
+  <script src="/js/portal-shell.js" defer></script>
   <script src="/js/portal.js" defer></script>
 </head>
-<body>
-  <header class="topbar"><div class="portal-wrap topbar-inner">
-    <a class="brand" href="/" aria-label="SMANSASOO Digital Portal, beranda">
-      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2.8 20 6.7v5.1c0 4.8-3.2 7.7-8 9.4-4.8-1.7-8-4.6-8-9.4V6.7l8-3.9Z" stroke="currentColor" stroke-width="1.5"/><path d="m8.1 12.1 2.5 2.5 5.3-5.5" stroke="#71e2dc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <span class="brand-copy"><strong>SMANSASOO DIGITAL</strong><span>Integrated School Services</span></span>
-    </a>
-    <nav class="nav" aria-label="Navigasi utama"><a href="#modul" data-scroll>Modul</a><a href="#tentang" data-scroll>Tentang</a><a class="nav-status" href="#modul" data-scroll>Portal Terpadu</a></nav>
-  </div></header>
+<body data-portal-module="home">
+  <div data-portal-header></div>
   <main class="portal-wrap">
     <section class="hero" aria-labelledby="hero-title">
       <div><div class="eyebrow">Satu ekosistem digital sekolah</div>
@@ -51,6 +47,6 @@
       </div>
     </section>
   </main>
-  <footer class="footer"><div class="portal-wrap footer-inner"><span><strong>SMANSASOO Digital Portal</strong> · SMAN 1 Sooko Mojokerto</span><span>© <span data-current-year>2026</span> · Unified school services</span></div></footer>
+  <div data-portal-footer></div>
 </body>
 </html>
