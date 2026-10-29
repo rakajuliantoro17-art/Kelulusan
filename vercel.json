@@ -45,9 +45,22 @@
           "value": "no-cache, no-store, must-revalidate"
         }
       ]
+    },
+    {
+      "source": "/akademik/sw.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
     }
   ],
   "rewrites": [
+    {
+      "source": "/akademik/",
+      "destination": "/src/akademik/index.html"
+    },
     {
       "source": "/akademik",
       "destination": "/src/akademik/index.html"
