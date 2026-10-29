@@ -23,20 +23,20 @@ window.CONFIG = {
     // Poin kumulatif per tahun ajaran (reset tiap 1 Juli).
     // Tingkat sanksi lengkap ada di data/tata-tertib.json.
     API: {
-        DASHBOARD: "/api/dashboard",
-        CEK_POIN: "/api/cek-poin",
-        TATA_TERTIB: "/api/tata-tertib",
-        PELANGGARAN: "/api/pelanggaran",
-        PEMBINAAN: "/api/pembinaan",
-        SURAT: "/api/surat",
-        RINGKASAN: "/api/ringkasan",
-        EKSEKUTIF: "/api/eksekutif",
-        TANYA: "/api/tanya",
-        WALIKELAS: "/api/walikelas",
-        QR: "/api/qr",
-        PERAPIAN: "/api/perapian",
-        AI_CATAT: "/api/ai-catat",
-        ADMIN_AUTH: "/api/admin-auth"
+        DASHBOARD: "/api/kesiswaan?op=dashboard",
+        CEK_POIN: "/api/kesiswaan?op=cek-poin",
+        TATA_TERTIB: "/api/kesiswaan?op=tata-tertib",
+        PELANGGARAN: "/api/kesiswaan?op=pelanggaran",
+        PEMBINAAN: "/api/kesiswaan?op=pembinaan",
+        SURAT: "/api/kesiswaan?op=surat",
+        RINGKASAN: "/api/kesiswaan?op=ringkasan",
+        EKSEKUTIF: "/api/kesiswaan?op=eksekutif",
+        TANYA: "/api/kesiswaan?op=tanya",
+        WALIKELAS: "/api/kesiswaan?op=walikelas",
+        QR: "/api/kesiswaan?op=qr",
+        PERAPIAN: "/api/kesiswaan?op=perapian",
+        AI_CATAT: "/api/kesiswaan?op=ai-catat",
+        ADMIN_AUTH: "/api/kesiswaan?op=admin-auth"
     },
 
     API_TIMEOUT: 12000

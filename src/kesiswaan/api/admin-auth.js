@@ -9,20 +9,12 @@ mengembalikan token bertanda tangan (HMAC-SHA256) yang berlaku
 8 jam. Endpoint lain yang perlu dilindungi (mis. /api/pelanggaran)
 memanggil verifyAdmin() yang di-export di bawah.
 
-Kredensial bawaan (supaya langsung jalan tanpa konfigurasi):
-  username : adminkesiswaan
-  password : TIDAK ditulis di source code -- hanya hash SHA-256-nya
-             (DEFAULT_PASSWORD_HASH).
-
-PENTING (repo ini publik): hash password pendek bisa ditebak
-(brute force offline) dan DEFAULT_SESSION_SECRET ikut terbaca
-publik, sehingga token bisa dipalsukan. Untuk produksi, SET
-Environment Variable di Vercel -- nilainya mengambil alih default:
+Konfigurasi keamanan: tidak ada kredensial atau secret bawaan.
+Akses login ditolak sampai Environment Variable deployment tersedia:
   ADMIN_USERNAME         username admin
   ADMIN_PASSWORD         password baru (plaintext)
   ADMIN_SESSION_SECRET   string acak panjang (wajib untuk aman)
-Selama ADMIN_SESSION_SECRET kosong, respons login membawa
-"insecureDefaults: true" dan panel admin menampilkan peringatan.
+Tanpa ADMIN_SESSION_SECRET atau ADMIN_PASSWORD, login ditolak (503).
 
 AKUN PER GURU (opsional): tab "Pengguna" di Google Sheet
   Username | Nama | Password | Aktif | Peran
@@ -51,12 +43,8 @@ const TTL_SECONDS = 8 * 60 * 60;
 const MAX_FAILS = 5;
 const WINDOW_SECONDS = 10 * 60;
 
-// Default sementara -- lihat catatan di atas. Untuk mengganti,
-// isi ADMIN_USERNAME / ADMIN_PASSWORD di Environment Variable
-// Vercel (nilainya akan menggantikan default ini).
 const DEFAULT_USERNAME = "adminkesiswaan";
-const DEFAULT_PASSWORD_HASH = "36212231d2a67b5184e9f0dd9246e1f4e4c147719995b01bb4c6415adbb6cb65";
-const DEFAULT_SESSION_SECRET = "334d3eeec8c93a5a61177b65f496ca8ce1cc629302454d4d8655677bbdc21246";
+const DEFAULT_PASSWORD_HASH = "";
 
 const memFails = new Map();
 
@@ -94,6 +82,7 @@ function passwordMatches(password) {
         return safeEqual(password, process.env.ADMIN_PASSWORD);
     }
 
+    if (!DEFAULT_PASSWORD_HASH) return false;
     const given = sha(password);
     const expected = Buffer.from(DEFAULT_PASSWORD_HASH, "hex");
 
@@ -155,13 +144,13 @@ function signingSecret() {
     if (process.env.ADMIN_SESSION_SECRET) return process.env.ADMIN_SESSION_SECRET;
     if (process.env.ADMIN_PASSWORD) return sha("kesiswaan-admin|" + process.env.ADMIN_PASSWORD).toString("hex");
 
-    return DEFAULT_SESSION_SECRET;
+    return "";
 
 }
 
 function insecureDefaults() {
 
-    return !process.env.ADMIN_SESSION_SECRET && !process.env.ADMIN_PASSWORD;
+    return !process.env.ADMIN_SESSION_SECRET;
 
 }
 
@@ -197,6 +186,8 @@ function parsePeran(value) {
 /** need: peran yang disyaratkan endpoint ("komisi" bawaan; "eksekutif"; "kesiswaan"; atau daftar, mis. ["komisi","kesiswaan"] = salah satu; null = cukup sesi valid).
     Komisi = akses penuh; Kesiswaan = terbatas (data, pembinaan, surat); Eksekutif = hanya portal KPI. */
 function verifyAdmin(req, need = "komisi") {
+
+    if (!process.env.ADMIN_SESSION_SECRET) return { ok: false, configured: false };
 
     const header = String(req.headers.authorization || "");
     const token = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
@@ -325,6 +316,11 @@ function readBody(req) {
 }
 
 async function handleLogin(req, res) {
+
+    if (!process.env.ADMIN_SESSION_SECRET || !process.env.ADMIN_PASSWORD) {
+        res.setHeader("Cache-Control", "no-store");
+        return res.status(503).json({ success: false, message: "Login belum dikonfigurasi. Administrator harus mengatur ADMIN_PASSWORD dan ADMIN_SESSION_SECRET di environment deployment." });
+    }
 
     const adminUser = adminUsername();
 

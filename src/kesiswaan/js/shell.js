@@ -36,11 +36,11 @@ window.Shell = (() => {
 
     // Sidebar PUBLIK (belum login admin).
     const NAV_LINKS = [
-        { key: "home", label: "Dashboard", href: "/index.html", icon: "📊" },
-        { key: "gerakan", label: "Gerakan Disiplin", href: "/pages/gerakan-disiplin.html", icon: "🎯", highlight: true },
-        { key: "cek-poin", label: "Cek Poin Siswa", href: "/pages/cek-poin.html", icon: "🔎" },
-        { key: "tata-tertib", label: "Tata Tertib", href: "/pages/tata-tertib.html", icon: "📘" },
-        { key: "about", label: "Tentang Portal", href: "/pages/about.html", icon: "ℹ️" }
+        { key: "home", label: "Dashboard", href: "/kesiswaan/", icon: "📊" },
+        { key: "gerakan", label: "Gerakan Disiplin", href: "/kesiswaan/pages/gerakan-disiplin.html", icon: "🎯", highlight: true },
+        { key: "cek-poin", label: "Cek Poin Siswa", href: "/kesiswaan/pages/cek-poin.html", icon: "🔎" },
+        { key: "tata-tertib", label: "Tata Tertib", href: "/kesiswaan/pages/tata-tertib.html", icon: "📘" },
+        { key: "about", label: "Tentang Portal", href: "/kesiswaan/pages/about.html", icon: "ℹ️" }
     ];
 
     // Sidebar ADMIN (sesi admin aktif): dikelompokkan menurut pekerjaan.
@@ -49,21 +49,21 @@ window.Shell = (() => {
         {
             title: "Kerja harian",
             links: [
-                { key: "admin-input", tab: "input", label: "Catat Pelanggaran", href: "/pages/admin.html#input", icon: "✍️", queue: true },
-                { key: "admin-data", tab: "data", label: "Data Pelanggaran", href: "/pages/admin.html#data", icon: "🗂️" },
-                { key: "admin-pembinaan", tab: "pembinaan", label: "Perlu Pembinaan", href: "/pages/admin.html#pembinaan", icon: "🛡️" },
-                { key: "admin-ringkasan", tab: "ringkasan", label: "Ringkasan Harian", href: "/pages/admin.html#ringkasan", icon: "📋" },
-                { key: "admin-perapian", tab: "perapian", label: "Rapikan Data", href: "/pages/admin.html#perapian", icon: "🧹" },
-                { key: "qr", label: "Kartu & Pindai QR", href: "/pages/qr.html", icon: "📷" }
+                { key: "admin-input", tab: "input", label: "Catat Pelanggaran", href: "/kesiswaan/pages/admin.html#input", icon: "✍️", queue: true },
+                { key: "admin-data", tab: "data", label: "Data Pelanggaran", href: "/kesiswaan/pages/admin.html#data", icon: "🗂️" },
+                { key: "admin-pembinaan", tab: "pembinaan", label: "Perlu Pembinaan", href: "/kesiswaan/pages/admin.html#pembinaan", icon: "🛡️" },
+                { key: "admin-ringkasan", tab: "ringkasan", label: "Ringkasan Harian", href: "/kesiswaan/pages/admin.html#ringkasan", icon: "📋" },
+                { key: "admin-perapian", tab: "perapian", label: "Rapikan Data", href: "/kesiswaan/pages/admin.html#perapian", icon: "🧹" },
+                { key: "qr", label: "Kartu & Pindai QR", href: "/kesiswaan/pages/qr.html", icon: "📷" }
             ]
         },
         {
             title: "Pantau & rujukan",
             links: [
-                { key: "home", label: "Dashboard", href: "/index.html", icon: "📊" },
-                { key: "tata-tertib", label: "Tata Tertib & Sanksi", href: "/pages/tata-tertib.html", icon: "📘" },
-                { key: "cek-poin", label: "Cek Poin (tampilan siswa)", href: "/pages/cek-poin.html", icon: "🔎" },
-                { key: "gerakan", label: "Gerakan Disiplin", href: "/pages/gerakan-disiplin.html", icon: "🎯" }
+                { key: "home", label: "Dashboard", href: "/kesiswaan/", icon: "📊" },
+                { key: "tata-tertib", label: "Tata Tertib & Sanksi", href: "/kesiswaan/pages/tata-tertib.html", icon: "📘" },
+                { key: "cek-poin", label: "Cek Poin (tampilan siswa)", href: "/kesiswaan/pages/cek-poin.html", icon: "🔎" },
+                { key: "gerakan", label: "Gerakan Disiplin", href: "/kesiswaan/pages/gerakan-disiplin.html", icon: "🎯" }
             ]
         }
     ];
@@ -72,9 +72,9 @@ window.Shell = (() => {
     const EKSEKUTIF_GROUP = {
         title: "Portal Eksekutif",
         links: [
-            { key: "eksekutif", label: "KPI & Infografis", href: "/pages/eksekutif.html", icon: "📈" },
-            { key: "home", label: "Dashboard", href: "/index.html", icon: "📊" },
-            { key: "tata-tertib", label: "Tata Tertib & Sanksi", href: "/pages/tata-tertib.html", icon: "📘" }
+            { key: "eksekutif", label: "KPI & Infografis", href: "/kesiswaan/pages/eksekutif.html", icon: "📈" },
+            { key: "home", label: "Dashboard", href: "/kesiswaan/", icon: "📊" },
+            { key: "tata-tertib", label: "Tata Tertib & Sanksi", href: "/kesiswaan/pages/tata-tertib.html", icon: "📘" }
         ]
     };
 
@@ -90,10 +90,10 @@ window.Shell = (() => {
     const WALI_GROUP = {
         title: "Wali Kelas",
         links: [
-            { key: "walikelas", label: "Rekomendasi Mingguan", href: "/pages/walikelas.html", icon: "🧑‍🏫" },
-            { key: "qr", label: "Kartu & Pindai QR", href: "/pages/qr.html", icon: "📷" },
-            { key: "tata-tertib", label: "Tata Tertib & Sanksi", href: "/pages/tata-tertib.html", icon: "📘" },
-            { key: "home", label: "Dashboard", href: "/index.html", icon: "📊" }
+            { key: "walikelas", label: "Rekomendasi Mingguan", href: "/kesiswaan/pages/walikelas.html", icon: "🧑‍🏫" },
+            { key: "qr", label: "Kartu & Pindai QR", href: "/kesiswaan/pages/qr.html", icon: "📷" },
+            { key: "tata-tertib", label: "Tata Tertib & Sanksi", href: "/kesiswaan/pages/tata-tertib.html", icon: "📘" },
+            { key: "home", label: "Dashboard", href: "/kesiswaan/", icon: "📊" }
         ]
     };
 
@@ -124,8 +124,8 @@ window.Shell = (() => {
 
     // Ditambahkan di footer saja (tidak memenuhi navbar/sidebar utama).
     const FOOTER_EXTRA_LINKS = [
-        { label: "Tentang", href: "/pages/about.html" },
-        { label: "Privasi", href: "/pages/privacy.html" }
+        { label: "Tentang", href: "/kesiswaan/pages/about.html" },
+        { label: "Privasi", href: "/kesiswaan/pages/privacy.html" }
     ];
 
     function activePage() {
@@ -150,8 +150,8 @@ window.Shell = (() => {
                     &#9776;
                 </button>
 
-                <a href="/index.html" class="app-navbar-brand">
-                    <img src="/assets/logo/logo.png" alt="Logo ${CONFIG.SCHOOL_NAME}">
+                <a href="/kesiswaan/" class="app-navbar-brand">
+                    <img src="/kesiswaan/assets/logo/logo.png" alt="Logo ${CONFIG.SCHOOL_NAME}">
                     <span class="app-navbar-text">
                         <strong>${CONFIG.SCHOOL_NAME}</strong>
                         <small>${CONFIG.UNIT_NAME} &middot; ${CONFIG.PROGRAM_NAME}</small>
@@ -200,7 +200,7 @@ window.Shell = (() => {
         }
 
         return `
-        <a class="gds-card" href="/pages/gerakan-disiplin.html" aria-label="${CONFIG.PROGRAM_NAME}">
+        <a class="gds-card" href="/kesiswaan/pages/gerakan-disiplin.html" aria-label="${CONFIG.PROGRAM_NAME}">
             <span class="gds-shield">${shield}</span>
             <div class="gds-text">
                 <small>${CONFIG.SCHOOL_NAME}</small>
