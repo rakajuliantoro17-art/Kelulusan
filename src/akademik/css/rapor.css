@@ -1,0 +1,617 @@
+/*
+==========================================================
+SMANSASOO Academic Portal
+Rapor Pendidikan Page Stylesheet
+Version : 3.0.0
+==========================================================
+CATATAN PEMULIHAN:
+File ini sempat KETIMPA HTML secara tidak sengaja (commit
+lain menaruh isi pages/rapor.html ke sini), jadi seluruh CSS
+lama hilang total dan halaman Rapor Pendidikan sempat tanpa
+styling. Versi ini memulihkan seluruh style v1.0.0 (ringkasan,
+grid kartu, label status, progress bar, detail sub-indikator)
+DITAMBAH fitur yang sempat dibangun di sesi sebelumnya
+(toolbar profil+akreditasi, dropdown tahun, badge deskriptif,
+tabel peringkat) yang juga sudah hilang dari file ini akibat
+kerusakan yang sama.
+
+CHANGELOG (v3.0.0):
+- Poles visual "modern, formal, sedikit glassmorphism":
+  * Wash gradient lembut di background halaman (bukan foto,
+    beda dari gaya glass.css di halaman kelulusan yang dramatis
+    -- di sini secukupnya saja karena ini halaman data resmi).
+  * Toolbar, kartu ringkasan, dan kartu indikator memakai kaca
+    tipis (frosted glass): latar putih tembus pandang + blur,
+    TAPI teks tetap gelap (beda dari glass.css yang teksnya
+    putih di atas foto gelap) -- supaya tetap formal & mudah
+    dibaca sebagai halaman data.
+  * Aksen garis warna di atas tiap kartu indikator sesuai status
+    (Baik/Sedang/Kurang), dipakai untuk pemindaian cepat.
+  * Lingkaran akreditasi digambar ulang dengan conic-gradient
+    supaya terlihat seperti "segel" resmi, bukan lingkaran polos.
+- Semua warna/spacing/radius tetap dari css/variables.css.
+  Blur & saturate dikecilkan sedikit dari token --glass-blur/
+  --glass-saturate (yang dipakai glass.css untuk efek dramatis)
+  karena permintaannya "glassmorphism sedikit" -- bukan penuh.
+
+CHANGELOG (v3.1.1):
+- Foto latar: blur dinaikkan tipis dari 3px -> 5px (permintaan
+  eksplisit "blur 5px saja").
+- Kaca kartu (.rapor-toolbar, .rapor-summary-card, .rapor-card):
+  opacity fill diturunkan dari ~55-72% jadi 7-10%, menyamai
+  konvensi "Glass tint: 10%" yang sudah didokumentasikan di
+  css/glass.css -- fotonya jadi jauh lebih kelihatan lewat
+  kartu. Border/shadow/backdrop-blur (14-18px) TIDAK diubah,
+  jadi keterbacaan teks gelap tetap terjaga (blur di belakang
+  kartu jauh lebih kuat daripada blur foto itu sendiri).
+==========================================================
+*/
+
+/* ==========================================
+   WASH BACKGROUND (dasar buat efek kaca)
+   Cuma aktif di halaman ini (data-page="rapor"),
+   supaya halaman lain tidak ikut berubah.
+
+   UPDATE (v3.1.0) -- BACKGROUND FOTO + NUANSA GIRLY:
+   Sebelumnya cuma gradient polos (tanpa foto). Sekarang
+   pakai assets/images/gtr.jpg sebagai foto latar, TAPI
+   blur-nya sengaja dibikin tipis saja (sekitar 5-10% dari
+   blur dramatis 34px yang dipakai halaman Kelulusan/
+   Kenaikan Kelas, jadi ~3px), supaya fotonya masih terlihat
+   jelas -- bukan efek "foto hancur" seperti glass.css.
+
+   Dua lapis dipakai (dipisah dari .rapor-card dkk yang
+   sudah ada supaya tidak numpuk backdrop-filter):
+   1. ::before = foto (blur tipis + sedikit terang & lembut,
+      TIDAK digelapkan seperti glass.css -- rapor.css
+      pakai teks gelap, jadi foto harus tetap cerah).
+   2. ::after  = wash pastel pink+lavender (nuansa "girly"),
+      diselaraskan dengan radial gradient biru/emas brand
+      yang sudah ada supaya tidak lepas dari identitas
+      warna situs, cuma ditambah rona pastel di atasnya.
+
+   inset:-6% + transform:scale(1.08) pada ::before supaya
+   tepi yang kena blur tidak kelihatan (trik yang sama
+   dipakai .bg-layer di css/glass.css).
+========================================== */
+
+body[data-page="rapor"]{
+
+    position:relative;
+
+}
+
+body[data-page="rapor"]::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:-6%;
+
+    z-index:-2;
+
+    background:url("/akademik/assets/images/gtr.jpg") center 30% / cover no-repeat;
+
+    filter:blur(5px) brightness(1.04) saturate(1.05);
+
+    transform:scale(1.08);
+
+}
+
+body[data-page="rapor"]::after{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-1;
+
+    background:
+        radial-gradient(1100px 600px at 8% -10%, rgba(15,76,129,.10) 0%, transparent 60%),
+        radial-gradient(900px 500px at 100% 0%, rgba(244,180,0,.08) 0%, transparent 55%),
+        linear-gradient(155deg, rgba(255,214,232,.38) 0%, rgba(233,213,255,.22) 45%, rgba(255,255,255,.55) 100%);
+
+}
+
+/* ==========================================
+   TOOLBAR (profil sekolah + dropdown tahun)
+========================================== */
+
+.rapor-toolbar{
+    position:relative;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:var(--space-md);
+    margin-bottom:var(--space-lg);
+    padding:var(--space-lg);
+    border-radius:var(--radius-xl);
+    background:rgba(255,250,252,.09);
+    border:1px solid rgba(255,255,255,.7);
+    box-shadow:
+        var(--shadow-md),
+        0 8px 30px -12px rgba(236,72,153,.18),
+        inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+
+    .rapor-toolbar{
+        background:linear-gradient(160deg, rgba(255,250,253,.10) 0%, rgba(255,240,247,.06) 100%);
+        -webkit-backdrop-filter:blur(18px) saturate(160%);
+        backdrop-filter:blur(18px) saturate(160%);
+    }
+
+}
+
+.rapor-profile{
+    display:flex;
+    align-items:center;
+    gap:var(--space-md);
+}
+
+.rapor-profile-info{
+    display:flex;
+    flex-direction:column;
+}
+
+.rapor-profile-label{
+    font-size:var(--font-xs);
+    font-weight:var(--weight-bold);
+    color:var(--primary);
+    text-transform:uppercase;
+    letter-spacing:.08em;
+}
+
+.rapor-profile-school{
+    font-size:var(--font-lg);
+    font-weight:var(--weight-bold);
+    color:var(--text);
+    margin-top:.15rem;
+    letter-spacing:-.01em;
+}
+
+.rapor-profile-npsn{
+    font-size:var(--font-xs);
+    color:var(--text-muted);
+    margin-top:.15rem;
+    letter-spacing:.02em;
+}
+
+/* Lingkaran skor akreditasi — gaya "segel resmi" */
+
+.rapor-akreditasi{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:.35rem;
+    flex-shrink:0;
+}
+
+.rapor-akreditasi-ring{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    font-size:var(--font-xl);
+    font-weight:var(--weight-extrabold);
+    color:var(--primary-dark);
+    background:
+        radial-gradient(circle at center, var(--surface) 62%, transparent 63%),
+        conic-gradient(from -90deg, var(--secondary) 0deg, var(--success) 180deg, var(--secondary) 360deg);
+    box-shadow:var(--shadow-sm);
+}
+
+.rapor-akreditasi-label{
+    font-size:var(--font-xs);
+    font-weight:var(--weight-semibold);
+    color:var(--text-light);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+}
+
+/* Dropdown tahun */
+
+.rapor-year-picker{
+    display:flex;
+    flex-direction:column;
+    gap:.35rem;
+    font-size:var(--font-xs);
+    font-weight:var(--weight-bold);
+    color:var(--text-light);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+}
+
+.rapor-year-picker select{
+    padding:.6rem 1rem;
+    border-radius:var(--radius-md);
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--text);
+    font-family:inherit;
+    font-size:var(--font-sm);
+    font-weight:var(--weight-semibold);
+    text-transform:none;
+    letter-spacing:normal;
+    cursor:pointer;
+    transition:var(--transition-fast);
+}
+
+.rapor-year-picker select:hover{
+    border-color:var(--primary-light);
+}
+
+.rapor-year-picker select:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(15,76,129,.15);
+}
+
+/* ==========================================
+   RINGKASAN (metric cards atas)
+========================================== */
+
+.rapor-summary{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+    gap:var(--space-md);
+    margin-bottom:var(--space-lg);
+}
+
+.rapor-summary-card{
+    position:relative;
+    background:rgba(255,250,252,.08);
+    border:1px solid rgba(255,255,255,.65);
+    border-radius:var(--radius-lg);
+    padding:var(--space-md) var(--space-lg);
+    box-shadow:var(--shadow-sm), 0 6px 20px -10px rgba(236,72,153,.16);
+    overflow:hidden;
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+
+    .rapor-summary-card{
+        background:linear-gradient(160deg, rgba(255,250,253,.09) 0%, rgba(255,240,248,.05) 100%);
+        -webkit-backdrop-filter:blur(14px) saturate(150%);
+        backdrop-filter:blur(14px) saturate(150%);
+    }
+
+}
+
+.rapor-summary-card span{
+    display:block;
+    font-size:var(--font-xs);
+    font-weight:var(--weight-bold);
+    color:var(--text-light);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+}
+
+.rapor-summary-card strong{
+    display:block;
+    font-size:var(--font-2xl);
+    font-weight:var(--weight-extrabold);
+    margin-top:.3rem;
+    color:var(--text);
+    letter-spacing:-.02em;
+}
+
+.rapor-summary-note{
+    display:block;
+    margin-top:.3rem;
+    font-size:var(--font-xs);
+    color:var(--text-muted);
+}
+
+/* ==========================================
+   GRID KARTU INDIKATOR
+========================================== */
+
+.rapor-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+    gap:var(--space-md);
+}
+
+.rapor-card{
+    position:relative;
+    background:rgba(255,250,252,.08);
+    border:1px solid rgba(255,255,255,.7);
+    border-top:3px solid var(--border);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-sm), 0 8px 24px -14px rgba(236,72,153,.15);
+    overflow:hidden;
+    transition:
+        transform .25s var(--ease-ios, ease),
+        box-shadow .25s var(--ease-ios, ease);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+
+    .rapor-card{
+        background:linear-gradient(165deg, rgba(255,250,253,.10) 0%, rgba(255,240,248,.06) 100%);
+        -webkit-backdrop-filter:blur(16px) saturate(150%);
+        backdrop-filter:blur(16px) saturate(150%);
+    }
+
+}
+
+/* Aksen garis atas sesuai status -- pemindaian cepat tanpa
+   perlu buka kartunya. Browser lama yang tidak dukung :has()
+   cukup jatuh balik ke border netral di atas, tidak error. */
+
+.rapor-card:has(.rapor-label.baik){ border-top-color:var(--success); }
+.rapor-card:has(.rapor-label.sedang){ border-top-color:var(--warning); }
+.rapor-card:has(.rapor-label.kurang){ border-top-color:var(--danger); }
+
+.rapor-card:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--shadow-md);
+}
+
+.rapor-card-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:var(--space-lg);
+    cursor:pointer;
+    font-family:inherit;
+}
+
+.rapor-card-kode{
+    display:inline-block;
+    font-size:var(--font-xs);
+    font-weight:var(--weight-bold);
+    color:var(--primary);
+    letter-spacing:.08em;
+    margin-bottom:.3rem;
+}
+
+.rapor-card-nama{
+    font-size:var(--font-md);
+    font-weight:var(--weight-bold);
+    color:var(--text);
+    line-height:1.35;
+    letter-spacing:-.01em;
+}
+
+.rapor-card-metrics{
+    display:flex;
+    align-items:flex-end;
+    gap:var(--space-lg);
+    margin-top:var(--space-md);
+}
+
+.rapor-card-skor{
+    font-size:var(--font-2xl);
+    font-weight:var(--weight-extrabold);
+    color:var(--text);
+    line-height:1;
+    letter-spacing:-.02em;
+}
+
+.rapor-card-skor small{
+    font-size:var(--font-sm);
+    font-weight:var(--weight-regular);
+    color:var(--text-light);
+}
+
+.rapor-card-delta{
+    font-size:var(--font-md);
+    font-weight:var(--weight-bold);
+}
+
+.rapor-card-delta.up{ color:var(--success); }
+.rapor-card-delta.down{ color:var(--danger); }
+.rapor-card-delta.flat{ color:var(--text-muted); }
+
+.rapor-card-sub-count{
+    margin-left:auto;
+    font-size:var(--font-xs);
+    color:var(--text-muted);
+    align-self:center;
+}
+
+/* Progress bar skor */
+
+.rapor-progress-track{
+    margin-top:var(--space-md);
+    height:6px;
+    border-radius:var(--radius-pill);
+    background:rgba(0,0,0,.06);
+    overflow:hidden;
+}
+
+.rapor-progress-fill{
+    height:100%;
+    border-radius:var(--radius-pill);
+    background:var(--success);
+    transition:width var(--transition);
+}
+
+.rapor-card-toggle-icon{
+    display:inline-block;
+    transition:transform var(--transition-fast);
+}
+
+.rapor-card.open .rapor-card-toggle-icon{
+    transform:rotate(180deg);
+}
+
+/* ==========================================
+   BADGE STATUS DESKRIPTIF
+   Bukan cuma label pendek "Baik"/"Sedang"/"Kurang" --
+   sekalian memuat kalimat definisi capaiannya, mengikuti
+   gaya situs Rapor Pendidikan asli, dibungkus kotak "insight"
+   bertinta warna status.
+========================================== */
+
+.rapor-label{
+    display:flex;
+    flex-direction:column;
+    gap:.25rem;
+    font-size:var(--font-xs);
+    padding:.65rem .85rem;
+    border-radius:var(--radius-md);
+    margin-top:.6rem;
+    text-align:left;
+    border:1px solid transparent;
+}
+
+.rapor-label strong{
+    font-size:var(--font-sm);
+    font-weight:var(--weight-bold);
+    letter-spacing:.02em;
+}
+
+.rapor-label-desc{
+    font-weight:var(--weight-regular);
+    line-height:1.55;
+    opacity:.92;
+}
+
+.rapor-label.baik{
+    background:rgba(34,197,94,.10);
+    color:#15803D;
+    border-color:rgba(34,197,94,.3);
+}
+
+.rapor-label.sedang{
+    background:rgba(245,158,11,.10);
+    color:#92400E;
+    border-color:rgba(245,158,11,.3);
+}
+
+.rapor-label.kurang{
+    background:rgba(239,68,68,.10);
+    color:#B91C1C;
+    border-color:rgba(239,68,68,.3);
+}
+
+/* ==========================================
+   DETAIL SUB-INDIKATOR (expand/collapse)
+========================================== */
+
+.rapor-card-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height var(--transition);
+    border-top:1px solid rgba(0,0,0,.06);
+}
+
+.rapor-card.open .rapor-card-body{
+    max-height:3000px;
+}
+
+.rapor-card-body-inner{
+    padding:var(--space-md) var(--space-lg) var(--space-lg);
+    display:flex;
+    flex-direction:column;
+    gap:var(--space-md);
+}
+
+.rapor-sub-item{
+    padding-bottom:var(--space-md);
+    border-bottom:1px solid rgba(0,0,0,.06);
+}
+
+.rapor-sub-item:last-child{
+    border-bottom:none;
+    padding-bottom:0;
+}
+
+.rapor-sub-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:var(--space-sm);
+}
+
+.rapor-sub-nama{
+    font-size:var(--font-sm);
+    font-weight:var(--weight-semibold);
+    color:var(--text);
+}
+
+.rapor-sub-skor{
+    font-size:var(--font-sm);
+    font-weight:var(--weight-bold);
+    color:var(--text);
+    white-space:nowrap;
+}
+
+.rapor-sub-definisi{
+    margin-top:.35rem;
+    font-size:var(--font-xs);
+    color:var(--text-light);
+    line-height:1.55;
+}
+
+/* ==========================================
+   TABEL PERINGKAT (provinsi / nasional)
+========================================== */
+
+.rapor-rank-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:.6rem;
+    font-size:var(--font-xs);
+    background:rgba(0,0,0,.02);
+    border-radius:var(--radius-md);
+    overflow:hidden;
+}
+
+.rapor-rank-table th,
+.rapor-rank-table td{
+    padding:.55rem .8rem;
+    text-align:left;
+    border-bottom:1px solid rgba(0,0,0,.06);
+}
+
+.rapor-rank-table tr:last-child th,
+.rapor-rank-table tr:last-child td{
+    border-bottom:none;
+}
+
+.rapor-rank-table th{
+    font-weight:var(--weight-semibold);
+    color:var(--text-light);
+    width:45%;
+}
+
+.rapor-rank-table td{
+    color:var(--text);
+    font-weight:var(--weight-semibold);
+}
+
+.rapor-source-note{
+    margin-top:var(--space-xl);
+    text-align:center;
+    font-size:var(--font-xs);
+    color:var(--text-muted);
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 640px){
+
+    .rapor-toolbar{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .rapor-profile{
+        justify-content:space-between;
+    }
+
+}
