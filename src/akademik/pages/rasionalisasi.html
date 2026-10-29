@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0F4C81">
+    <title>Rasionalisasi SNBP | SMAN 1 Sooko Mojokerto</title>
+    <meta name="description" content="Ukur posisimu untuk jalur SNBP: cek peluang masuk kuota siswa eligible berdasarkan nilai rapor per mata pelajaran dan peringkat di sekolah.">
+
+    <!-- ANTI-FLASH THEME INIT (wajib, jangan dihapus) -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('smansasoo-theme');
+                var theme = saved || ((window.matchMedia &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+
+    <link rel="icon" href="/akademik/assets/logo/favicon.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS wajib di setiap halaman -->
+    <link rel="stylesheet" href="/akademik/css/variables.css">
+    <link rel="stylesheet" href="/akademik/css/theme.css">
+    <link rel="stylesheet" href="/akademik/css/glass.css">
+    <link rel="stylesheet" href="/akademik/css/shell.css">
+    <link rel="stylesheet" href="/akademik/css/settings-drawer.css">
+    <link rel="stylesheet" href="/akademik/css/stats-panel.css">
+
+    <!-- CSS khusus halaman ini -->
+    <link rel="stylesheet" href="/akademik/css/rasionalisasi.css">
+</head>
+
+<body data-page="rasionalisasi">
+
+    <!-- Foto background (blur), sama mekanismenya dengan
+         pages/pengumuman.html dan pages/jadwal.html -- lihat
+         css/glass.css. Gambarnya di-override lewat
+         css/rasionalisasi.css. -->
+    <div class="bg-layer" aria-hidden="true"></div>
+
+    <div id="shellNav"></div>
+
+    <main class="rs" id="rsApp">
+
+        <!-- ===== LANGKAH 1: PILIH KELAS ===== -->
+        <section id="rsIntro" aria-labelledby="rsHello">
+
+            <header class="rs-hero">
+                <h1 class="rs-hello" id="rsHello" tabindex="-1">Halo, calon penerus bangsa!</h1>
+                <p class="rs-lead">Ukur peluangmu lebih awal untuk masuk ke kampus impianmu</p>
+            </header>
+
+            <div class="rs-alert" role="note">
+                <span class="rs-alert-ico" aria-hidden="true">i</span>
+                <p>Cek prediksi peluang kamu untuk lolos PTN lewat jalur SNBP. Pastikan kamu termasuk siswa yang <i>eligible</i> di sekolahmu ya!</p>
+            </div>
+
+            <div class="rs-panel">
+                <h2 class="rs-h2">Cari tahu peluangmu, yuk!</h2>
+                <p class="rs-sub">Hanya butuh waktu 10 menit saja</p>
+
+                <label class="rs-label" for="rsKelas">Pilih kelas</label>
+                <select class="rs-select" id="rsKelas">
+                    <option value="">Pilih kelas</option>
+                    <option value="X">Kelas X</option>
+                    <option value="XI">Kelas XI</option>
+                    <option value="XII">Kelas XII</option>
+                </select>
+
+                <button type="button" class="rs-btn rs-btn--primary rs-btn--block" id="rsMulai" disabled>Masukkan Nilai Rapor</button>
+            </div>
+
+            <!-- ===== RIWAYAT TERSIMPAN (muncul kalau ada riwayat di perangkat ini) ===== -->
+            <section class="rs-history" id="rsHistoryBox" hidden aria-labelledby="rsHistoryTitle">
+
+                <div class="rs-history-head">
+                    <h2 class="rs-h3" id="rsHistoryTitle">Riwayat di perangkat ini</h2>
+                    <button type="button" class="rs-link-btn" id="rsHistoryClear">Hapus semua</button>
+                </div>
+
+                <p class="rs-help">Tersimpan hanya di browser ini (tidak dikirim ke server). Bisa dihapus kapan saja.</p>
+
+                <div class="rs-history-chart" id="rsHistoryChart" aria-hidden="true"></div>
+
+                <ul class="rs-history-list" id="rsHistoryList"></ul>
+
+            </section>
+
+            <div class="rs-more">
+                <p>Cari tahu selengkapnya tentang Rasionalisasi SNBP</p>
+                <a class="rs-btn" id="rsInfo" href="https://snpmb.id" target="_blank" rel="noopener">Lihat di sini</a>
+            </div>
+
+        </section>
+
+        <!-- ===== LANGKAH 2: FORM ===== -->
+        <section id="rsForm" hidden aria-labelledby="rsFormTitle">
+
+            <h2 class="rs-h2" id="rsFormTitle" tabindex="-1">Masukkan data kamu</h2>
+            <p class="rs-sub" id="rsFormSub"></p>
+
+            <div class="rs-error" id="rsError" role="alert" hidden></div>
+
+            <fieldset class="rs-card">
+                <legend>1. Target &amp; minat (opsional)</legend>
+                <p class="rs-help">Dipakai untuk catatan strategi di hasil, bukan untuk memprediksi lolos di jurusan tertentu.</p>
+
+                <div class="rs-field">
+                    <label class="rs-label" for="rsRumpun">Rumpun minat</label>
+                    <select class="rs-select" id="rsRumpun">
+                        <option value="">Belum tahu / lewati</option>
+                    </select>
+                    <p class="rs-help" id="rsRumpunHint"></p>
+                </div>
+
+                <div class="rs-field">
+                    <label class="rs-label" for="rsImpian">Jurusan &amp; kampus impian</label>
+                    <input class="rs-input" id="rsImpian" type="text" placeholder="mis. Teknik Informatika, Universitas Airlangga" autocomplete="off">
+                </div>
+            </fieldset>
+
+            <fieldset class="rs-card">
+                <legend>2. Nilai rapor per mata pelajaran</legend>
+                <p class="rs-help">Isi nilai tiap mapel per semester (0 sampai 100). Boleh dikosongkan kalau belum ada nilainya.</p>
+
+                <div class="rs-mapel-tools">
+                    <div class="rs-mapel-tags" id="rsMapelTags"></div>
+                    <div class="rs-mapel-add">
+                        <input class="rs-input" id="rsMapelBaru" type="text" placeholder="Tambah mapel lain (mis. Ekonomi)" autocomplete="off">
+                        <button type="button" class="rs-btn" id="rsMapelTambah">Tambah</button>
+                    </div>
+                </div>
+
+                <div id="rsSemesterWrap"></div>
+            </fieldset>
+
+            <fieldset class="rs-card" id="rsTkaCard">
+                <legend>3. Hasil TKA (opsional)</legend>
+                <p class="rs-help" id="rsTkaHelp">Isi dari hasil TKA-mu: skor tiap mata uji, dan daya serap (%) kalau tertera. Pada SNBP, TKA dipakai untuk mencocokkan dengan nilai rapor, jadi pilih mapel pilihan yang ada di rapormu. Boleh dikosongkan.</p>
+
+                <p class="rs-help" id="rsTkaNote" hidden>TKA SMA biasanya diikuti di kelas XII, jadi untuk kelas X atau XI bagian ini boleh dilewati, atau diisi dengan skor simulasi.</p>
+
+                <div id="rsTkaWrap"></div>
+            </fieldset>
+
+            <fieldset class="rs-card">
+                <legend>4. Posisimu di sekolah</legend>
+                <p class="rs-help">Peringkat bisa ditanyakan ke wali kelas atau bagian kurikulum.</p>
+
+                <div class="rs-field">
+                    <label class="rs-label" for="rsAkreditasi">Akreditasi sekolah</label>
+                    <select class="rs-select" id="rsAkreditasi">
+                        <option value="">Pilih akreditasi</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="lainnya">Lainnya / belum terakreditasi</option>
+                    </select>
+                </div>
+
+                <label class="rs-check">
+                    <input type="checkbox" id="rsErapor">
+                    <span>Sekolah memakai e-rapor di PDSS (tambahan kuota 5%)</span>
+                </label>
+
+                <div class="rs-field">
+                    <label class="rs-label" for="rsJumlah">Jumlah siswa seangkatan</label>
+                    <input class="rs-input" id="rsJumlah" type="number" inputmode="numeric" min="1" step="1" placeholder="mis. 360">
+                </div>
+
+                <div class="rs-field">
+                    <label class="rs-label" for="rsPeringkat">Peringkatmu di angkatan (berdasarkan nilai rapor)</label>
+                    <input class="rs-input" id="rsPeringkat" type="number" inputmode="numeric" min="1" step="1" placeholder="mis. 45">
+                </div>
+            </fieldset>
+
+            <div class="rs-actions">
+                <button type="button" class="rs-btn" id="rsKembali">Kembali</button>
+                <button type="button" class="rs-btn rs-btn--primary" id="rsHitung">Lihat hasil</button>
+            </div>
+
+        </section>
+
+        <!-- ===== LANGKAH 3: HASIL ===== -->
+        <section id="rsHasil" hidden aria-labelledby="rsHasilTitle">
+
+            <h2 class="rs-h2" id="rsHasilTitle" tabindex="-1">Hasil rasionalisasi</h2>
+
+            <div id="rsHasilIsi"></div>
+
+            <div class="rs-actions">
+                <button type="button" class="rs-btn" id="rsUbah">Ubah data</button>
+                <button type="button" class="rs-btn" id="rsUlang">Mulai ulang</button>
+                <button type="button" class="rs-btn" id="rsCetak">Cetak</button>
+                <button type="button" class="rs-btn rs-btn--primary" id="rsUnduhKartu">Unduh kartu hasil</button>
+            </div>
+
+            <p class="rs-fine">Hasil ini adalah gambaran awal berdasarkan aturan kuota siswa eligible, bukan prediksi diterimanya kamu di PTN atau prodi tertentu, dan kartu hasilnya bukan pengumuman resmi apa pun. Catatan TKA memakai aturan umum yang dirangkum dari pemberitaan, bukan ketentuan resmi per prodi, dan ketentuan SNBP 2027 bisa berubah, jadi cek selalu di SNPMB. Penetapan siswa eligible dilakukan sekolah, dan seleksi akhir oleh PTN melalui SNPMB. Data yang kamu isi hanya diproses di browser ini; hasilnya baru tersimpan di perangkat ini (localStorage) kalau kamu tidak menghapus riwayat, dan tidak pernah dikirim ke server mana pun.</p>
+
+        </section>
+
+    </main>
+
+    <div id="shellFooter"></div>
+
+    <!-- CONFIG (wajib, dipakai Shell untuk nama sekolah & versi) -->
+    <script src="/akademik/js/config.js"></script>
+
+    <!-- UTILS (wajib) -->
+    <script src="/akademik/js/utils.js"></script>
+
+    <!-- SHELL (wajib, render nav + footer) -->
+    <script src="/akademik/js/shell.js"></script>
+
+    <!-- STATISTIK PENGUNJUNG (panel floating di sidebar) -->
+    <script src="/akademik/js/stats-tracker.js"></script>
+    <script src="/akademik/js/stats-panel.js"></script>
+
+    <!-- TEMA (dark/light) + DRAWER PENGATURAN (wajib, jangan dihapus) -->
+    <script src="/akademik/js/theme.js"></script>
+    <script src="/akademik/js/settings-drawer.js"></script>
+
+    <!-- RASIONALISASI SNBP -->
+    <script src="/akademik/js/rasionalisasi.js"></script>
+
+</body>
+</html>
