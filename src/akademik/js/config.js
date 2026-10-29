@@ -65,7 +65,7 @@ window.CONFIG = {
     ====================================================== */
 
     API_BASE_URL:
-        "/api/kenaikan",
+        "/api/akademik/kenaikan",
 
     API_ACTIONS: {
 
