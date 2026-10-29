@@ -4,20 +4,20 @@
   const year = document.querySelector("[data-current-year]");
   if (year) year.textContent = String(new Date().getFullYear());
 
-  const menuLinks = document.querySelectorAll("[data-scroll]");
-  menuLinks.forEach((link) => {
+  document.querySelectorAll("[data-scroll]").forEach((link) => {
     link.addEventListener("click", (event) => {
       const targetId = link.getAttribute("href");
       if (!targetId || !targetId.startsWith("#")) return;
       const target = document.querySelector(targetId);
       if (!target) return;
       event.preventDefault();
-      target.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+      target.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "start"
+      });
     });
   });
 
-  // Module launchers are intentionally non-routing until each module's
-  // namespace, assets, API endpoints and auth contracts have been migrated.
   document.querySelectorAll("[data-module-pending]").forEach((button) => {
     button.addEventListener("click", () => {
       const label = button.getAttribute("data-module-pending") || "Modul";
@@ -28,4 +28,12 @@
       status.focus();
     });
   });
+
+  if ("serviceWorker" in navigator && location.protocol === "https:") {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch((error) => {
+        console.error("[SMANSASOO Digital Portal] Service worker registration failed", error);
+      });
+    }, { once: true });
+  }
 })();
