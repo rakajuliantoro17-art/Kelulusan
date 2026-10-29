@@ -21,7 +21,7 @@ ulang bukan file JSON per tahun, melainkan cukup query param
 
 window.NilaiYear = (() => {
 
-    const INDEX_URL = "/data/nilai-index.json";
+    const INDEX_URL = "/akademik/data/nilai-index.json";
     const SELECT_ID = "nilaiYearSelect";
 
     let currentYear = null;
