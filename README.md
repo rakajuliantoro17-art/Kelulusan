@@ -1,125 +1,43 @@
-# 🎓 SMANSASOO Graduation Portal
+# SMANSASOO Digital Portal
 
-Portal resmi pengumuman kelulusan SMAN 1 Sooko Mojokerto.
+Portal digital terpadu SMAN 1 Sooko Mojokerto yang menyatukan layanan sekolah dalam satu pintu masuk dengan modul yang tetap terpisah secara fungsi dan akses.
 
----
+> **Status:** tahap restrukturisasi dan integrasi. Jangan gunakan branch ini sebagai deployment produksi sebelum seluruh route, API, autentikasi, dan fitur modul selesai diuji.
 
-## 📌 Tentang Project
+## Tujuan
 
-SMANSASOO Graduation Portal adalah aplikasi web modern berbasis HTML, CSS, dan JavaScript yang digunakan sebagai portal resmi pengumuman kelulusan siswa.
+Membangun fondasi portal baru di repository ini dengan satu deployment utama Vercel dan tiga modul:
 
-Portal ini dirancang agar dapat digunakan setiap tahun hanya dengan memperbarui data pada Google Spreadsheet tanpa perlu mengubah kode aplikasi.
+- **Akademik** — diadaptasi dari [smansasoo-academic-portal](https://github.com/rakajuliantoro17-art/smansasoo-academic-portal), termasuk fitur kelulusan yang sudah menjadi bagian portal Akademik.
+- **Sarpras** — diadaptasi dari [Sarprasin](https://github.com/rakajuliantoro17-art/Sarprasin), untuk inventaris, kondisi aset, audit QR, laporan, dan dashboard.
+- **Kesiswaan** — Portal Gerakan Disiplin Sekolah dari `src/kesiswaan/`, berasal dari [yasmincntk99/kesiswaan](https://github.com/yasmincntk99/kesiswaan), untuk tata tertib, pencatatan pelanggaran, pembinaan, surat, QR, rekap, dan layanan terkait.
 
-Frontend di-host menggunakan Vercel, sedangkan backend menggunakan Google Apps Script sebagai REST API.
+## Prinsip pengembangan
 
----
+1. Repository ini menjadi pusat integrasi; source repository tetap tidak diubah oleh proses integrasi.
+2. Fitur yang sudah ada tidak boleh dihapus hanya karena nama file, CSS, API, atau konfigurasi saling bertabrakan.
+3. Modul memakai namespace route dan aset masing-masing, sedangkan komponen shell bersama digunakan hanya jika kompatibel.
+4. Backend yang sudah digunakan (Google Sheets/Apps Script, Firebase, dan Vercel Functions) dipertahankan pada tahap awal dengan adaptor seperlunya.
+5. Data sensitif dan kredensial produksi harus tetap di server/environment variables. Tidak boleh memasukkan secret ke client bundle atau commit.
+6. Setiap perubahan dikerjakan di branch, diuji, lalu ditinjau sebelum digabung ke `main`.
 
-## ✨ Fitur
+## Dokumentasi
 
-- Portal pengumuman kelulusan
-- Validasi NISN dan tanggal lahir
-- Countdown waktu pengumuman
-- Animasi kelulusan (confetti, audio, transisi)
-- Download Surat Keterangan Lulus (SKL)
-- Responsive (Desktop & Mobile)
-- Siap dikembangkan menjadi Progressive Web App (PWA)
+- [Arsitektur integrasi dan tahapan implementasi](docs/PORTAL-TERPADU-ARCHITECTURE.md)
 
----
+## Branch kerja
 
-## 🚀 Teknologi
+`integration/portal-terpadu`
 
-| Teknologi | Fungsi |
-|-----------|--------|
-| HTML5 | Struktur halaman |
-| CSS3 | Tampilan |
-| JavaScript ES6 | Interaksi |
-| Google Apps Script | REST API |
-| Google Spreadsheet | Database |
-| GitHub | Version Control |
-| Vercel | Hosting |
+Branch ini adalah ruang kerja integrasi. Deployment produksi belum dianggap siap sampai checklist uji dan audit keamanan dinyatakan lulus.
 
----
+## Teknologi
 
-## 📁 Struktur Project
+- HTML, CSS, JavaScript
+- Vercel (satu deployment utama)
+- Google Sheets / Google Apps Script untuk layanan yang sudah ada
+- Firebase Authentication, Firestore, Storage, dan Cloud Functions untuk Sarprasin sesuai kebutuhan modul
 
-```text
-smansasoo-graduation-portal/
-│
-├── assets/
-│   ├── audio/
-│   ├── icons/
-│   ├── images/
-│   ├── logo/
-│   └── favicon.ico
-│
-├── components/
-├── css/
-├── js/
-├── pages/
-│
-├── index.html
-├── vercel.json
-├── README.md
-├── LICENSE
-└── .gitignore
-```
+## Konfigurasi
 
----
-
-## ⚙️ Arsitektur
-
-```text
-Browser
-   │
-   ▼
-Vercel
-   │
-   ▼
-Google Apps Script
-   │
-   ▼
-Google Spreadsheet
-```
-
----
-
-## 🛣️ Roadmap
-
-### Version 1.0
-- [x] GitHub Repository
-- [x] Vercel Deployment
-- [x] Google Spreadsheet
-- [x] Google Apps Script API
-- [ ] Landing Page
-- [ ] Validasi Data
-- [ ] Animasi Kelulusan
-- [ ] Dashboard Hasil
-- [ ] Download SKL
-
-### Version 1.5
-- Countdown
-- FAQ
-- Responsive Improvement
-- Offline Page
-- Progressive Web App
-
-### Version 2.0
-- QR Verification
-- Dashboard Operator
-- Statistik Pengunjung
-- Multi Tahun Kelulusan
-- Arsip Kelulusan
-- Portal Alumni
-
----
-
-## 👨‍💻 Developer
-
-SMAN 1 Sooko Mojokerto  
-IT Team
-
----
-
-## 📄 License
-
-MIT License © 2026 SMAN 1 Sooko Mojokerto
+Nilai Environment Variables tidak dicatat di repository. Inventaris variabel, pemetaan per modul, dan kebutuhan rotasi kredensial akan diselesaikan sebelum deployment produksi.
