@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rapor Pendidikan | SMANSASOO Academic Portal</title>
+
+    <meta name="description"
+        content="Capaian Rapor Pendidikan SMAN 1 Sooko Mojokerto berdasarkan Asesmen Nasional.">
+
+    <!-- ANTI-FLASH THEME INIT -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('smansasoo-theme');
+                var theme = saved || ((window.matchMedia &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+
+    <link rel="icon" href="/akademik/assets/logo/favicon.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS wajib di setiap halaman -->
+    <link rel="stylesheet" href="/akademik/css/variables.css">
+    <link rel="stylesheet" href="/akademik/css/theme.css">
+    <link rel="stylesheet" href="/akademik/css/style.css">
+    <link rel="stylesheet" href="/akademik/css/responsive.css">
+    <link rel="stylesheet" href="/akademik/css/animation.css">
+    <link rel="stylesheet" href="/akademik/css/shell.css">
+    <link rel="stylesheet" href="/akademik/css/settings-drawer.css">
+    <link rel="stylesheet" href="/akademik/css/stats-panel.css">
+
+    <!-- CSS khusus halaman ini -->
+    <link rel="stylesheet" href="/akademik/css/rapor.css">
+
+</head>
+
+<body data-page="rapor">
+
+    <!-- ================= SHELL: NAV ================= -->
+
+    <div id="shellNav"></div>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <img src="/akademik/assets/logo/logo.png" alt="Logo SMAN 1 Sooko" class="logo">
+
+        <h1>
+            Rapor
+            <span>Pendidikan</span>
+        </h1>
+
+        <p>Capaian Asesmen Nasional SMAN 1 Sooko Mojokerto.</p>
+
+    </header>
+
+    <!-- ================= KONTEN ================= -->
+
+    <main>
+
+        <section class="container">
+
+            <div id="raporLoading" class="loading-box">
+                <div class="spinner"></div>
+                <p>Memuat data Rapor Pendidikan...</p>
+            </div>
+
+            <div id="raporError" class="error-card hidden"></div>
+
+            <div id="raporContent" class="hidden">
+
+                <div class="rapor-toolbar">
+
+                    <div id="raporProfile" class="rapor-profile"></div>
+
+                    <label class="rapor-year-picker">
+                        <span>Tahun Data</span>
+                        <select id="raporYearSelect" aria-label="Pilih tahun data Rapor Pendidikan"></select>
+                    </label>
+
+                </div>
+
+                <div id="raporSummary" class="rapor-summary"></div>
+
+                <div id="raporGrid" class="rapor-grid"></div>
+
+                <p id="raporMeta" class="rapor-source-note"></p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ================= SHELL: FOOTER ================= -->
+
+    <div id="shellFooter"></div>
+
+    <!-- CONFIG (wajib, dipakai Shell untuk nama sekolah & versi) -->
+    <script src="/akademik/js/config.js"></script>
+
+    <!-- UTILS (wajib) -->
+    <script src="/akademik/js/utils.js"></script>
+
+    <!-- SHELL (wajib, render nav + footer) -->
+    <script src="/akademik/js/shell.js"></script>
+
+    <!-- STATISTIK PENGUNJUNG (panel floating di sidebar) -->
+    <script src="/akademik/js/stats-tracker.js"></script>
+    <script src="/akademik/js/stats-panel.js"></script>
+
+    <!-- TEMA (dark/light) + DRAWER PENGATURAN -->
+    <script src="/akademik/js/theme.js"></script>
+    <script src="/akademik/js/settings-drawer.js"></script>
+
+    <!-- Fitur Rapor Pendidikan -->
+    <script src="/akademik/js/rapor-data.js"></script>
+    <script src="/akademik/js/rapor-ui.js"></script>
+    <script src="/akademik/js/rapor-app.js"></script>
+
+</body>
+
+</html>
