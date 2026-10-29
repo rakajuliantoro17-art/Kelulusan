@@ -26,11 +26,11 @@ sekali -- render-nya ada di js/rapor-ui.js.
 
 window.RaporData = (() => {
 
-    const INDEX_URL = "/data/rapor-index.json";
+    const INDEX_URL = "/akademik/data/rapor-index.json";
 
     function dataUrl(tahun) {
 
-        return `/data/rapor-${tahun}.json`;
+        return `/akademik/data/rapor-${tahun}.json`;
 
     }
 
