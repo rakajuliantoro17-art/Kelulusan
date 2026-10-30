@@ -1,0 +1,78 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Avatar Component
+File : src/components/ui/avatar/avatar.html
+Version : 2.0.0
+==========================================================
+-->
+
+<div
+    id="userAvatar"
+    class="avatar avatar-md"
+    data-role="user"
+    data-status="offline">
+
+    <!-- ==========================================
+         Profile Image
+    =========================================== -->
+
+    <img
+        id="avatarImage"
+        class="avatar-image hidden"
+        src=""
+        alt="Foto Profil"
+        loading="lazy">
+
+    <!-- ==========================================
+         Initials
+    =========================================== -->
+
+    <span
+        id="avatarInitials"
+        class="avatar-initials">
+
+        SP
+
+    </span>
+
+    <!-- ==========================================
+         Default Icon
+    =========================================== -->
+
+    <svg
+        id="avatarIcon"
+        class="avatar-icon hidden"
+        viewBox="0 0 24 24"
+        aria-hidden="true">
+
+        <path
+            d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"
+            fill="currentColor"/>
+
+    </svg>
+
+    <!-- ==========================================
+         Online Status
+    =========================================== -->
+
+    <span
+        id="avatarStatus"
+        class="avatar-status"
+        aria-label="Status pengguna">
+
+    </span>
+
+    <!-- ==========================================
+         Role Badge
+    =========================================== -->
+
+    <span
+        id="avatarRole"
+        class="avatar-role">
+
+        User
+
+    </span>
+
+</div>

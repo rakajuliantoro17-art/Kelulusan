@@ -1,0 +1,456 @@
+<!--
+==========================================================
+SARPRASIN v2.0
+SMANSASOO Digital System
+
+AUDIT LOG MODAL COMPONENT
+
+Asset Activity History Viewer
+
+Version : 1.0.0
+==========================================================
+-->
+
+
+
+<div
+
+class="modal-overlay"
+
+id="auditLogModalOverlay"
+
+>
+
+
+
+
+
+<div
+
+class="app-modal audit-log-modal"
+
+id="auditLogModal"
+
+role="dialog"
+
+aria-modal="true"
+
+>
+
+
+
+
+
+<!-- =====================================
+     HEADER
+====================================== -->
+
+
+<div class="modal-header">
+
+
+    <div>
+
+
+        <h2
+
+        class="modal-title"
+
+        >
+
+            Audit Log
+
+
+        </h2>
+
+
+
+
+        <p
+
+        class="modal-subtitle"
+
+        >
+
+            Riwayat perubahan dan aktivitas sistem
+
+
+        </p>
+
+
+    </div>
+
+
+
+
+
+    <button
+
+    class="modal-close"
+
+    id="auditLogModalClose"
+
+    >
+
+        ×
+
+    </button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     ASSET SUMMARY
+====================================== -->
+
+
+<div class="modal-body">
+
+
+
+
+
+
+<div class="audit-summary-card">
+
+
+
+    <div class="audit-item">
+
+
+        <span>
+
+            Asset
+
+        </span>
+
+
+        <strong
+
+        id="auditAssetName"
+
+        >
+
+            Laptop Asus Lab 1
+
+        </strong>
+
+
+    </div>
+
+
+
+
+
+
+    <div class="audit-item">
+
+
+        <span>
+
+            Kode
+
+        </span>
+
+
+        <strong
+
+        id="auditAssetCode"
+
+        >
+
+            IT-001
+
+        </strong>
+
+
+    </div>
+
+
+
+
+
+
+    <div class="audit-item">
+
+
+        <span>
+
+            Kondisi Terakhir
+
+        </span>
+
+
+        <span
+
+        class="status-badge"
+
+        id="auditAssetStatus"
+
+        >
+
+            Baik
+
+        </span>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     TIMELINE LOG
+====================================== -->
+
+
+<div class="audit-timeline"
+
+id="auditTimeline"
+
+>
+
+
+
+
+
+<!-- Dynamic Content -->
+
+
+<div class="audit-entry">
+
+
+    <div class="audit-dot"></div>
+
+
+
+    <div class="audit-content">
+
+
+        <strong>
+
+            Asset dibuat
+
+        </strong>
+
+
+
+        <p>
+
+            Admin menambahkan asset baru
+
+        </p>
+
+
+
+        <small>
+
+            17 Juli 2026 08:30
+
+        </small>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<div class="audit-entry">
+
+
+    <div class="audit-dot"></div>
+
+
+
+    <div class="audit-content">
+
+
+        <strong>
+
+            Perubahan lokasi
+
+        </strong>
+
+
+
+        <p>
+
+            Ruangan berubah dari Lab 1
+            ke Lab 2
+
+        </p>
+
+
+
+        <small>
+
+            18 Juli 2026 10:15
+
+        </small>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     FILTER
+====================================== -->
+
+
+<div class="audit-filter">
+
+
+<select
+
+id="auditFilter"
+
+>
+
+
+<option value="all">
+
+Semua Aktivitas
+
+</option>
+
+
+<option value="create">
+
+Tambah Data
+
+</option>
+
+
+<option value="update">
+
+Perubahan
+
+</option>
+
+
+<option value="delete">
+
+Penghapusan
+
+</option>
+
+
+<option value="approval">
+
+Approval
+
+</option>
+
+
+</select>
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     FOOTER
+====================================== -->
+
+
+<div class="modal-footer">
+
+
+
+<button
+
+class="btn-secondary"
+
+id="auditCloseButton"
+
+>
+
+Tutup
+
+</button>
+
+
+
+<button
+
+class="btn-primary"
+
+id="auditExportButton"
+
+>
+
+Export Log
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>

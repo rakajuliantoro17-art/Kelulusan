@@ -1,0 +1,133 @@
+<!--
+==========================================================
+Sarprasin 2.0
+File Upload Component
+File : src/components/ui/forms/file-upload.html
+Version : 2.0.0
+==========================================================
+-->
+
+<div
+    id="fileUpload"
+    class="file-upload">
+
+    <!-- ==========================================
+         Hidden Input
+    =========================================== -->
+
+    <input
+        id="uploadInput"
+        class="file-upload-input"
+        type="file"
+        name="uploadFile"
+        hidden>
+
+    <!-- ==========================================
+         Drop Zone
+    =========================================== -->
+
+    <label
+        for="uploadInput"
+        class="file-upload-dropzone">
+
+        <div
+            class="file-upload-icon"
+            aria-hidden="true">
+
+            📁
+
+        </div>
+
+        <h3 class="file-upload-title">
+
+            Seret file ke sini
+
+        </h3>
+
+        <p class="file-upload-subtitle">
+
+            atau klik untuk memilih file
+
+        </p>
+
+        <small class="file-upload-format">
+
+            PDF • JPG • PNG • XLSX • CSV
+            (Maks. 10 MB)
+
+        </small>
+
+    </label>
+
+    <!-- ==========================================
+         Selected File
+    =========================================== -->
+
+    <section
+        class="file-upload-info hidden">
+
+        <div class="file-info">
+
+            <span
+                class="file-name">
+
+                -
+
+            </span>
+
+            <span
+                class="file-size">
+
+                -
+
+            </span>
+
+        </div>
+
+        <button
+            type="button"
+            class="btn btn-text file-remove">
+
+            Hapus
+
+        </button>
+
+    </section>
+
+    <!-- ==========================================
+         Progress
+    =========================================== -->
+
+    <section
+        class="file-upload-progress hidden">
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                style="width:0%;">
+
+            </div>
+
+        </div>
+
+        <small class="progress-text">
+
+            0%
+
+        </small>
+
+    </section>
+
+    <!-- ==========================================
+         Validation Message
+    =========================================== -->
+
+    <p
+        class="file-upload-message">
+
+        Belum ada file dipilih.
+
+    </p>
+
+</div>

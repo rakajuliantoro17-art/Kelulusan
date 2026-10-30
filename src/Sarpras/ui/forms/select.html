@@ -1,0 +1,141 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Select Component
+File : src/components/ui/forms/select.html
+Version : 2.0.0
+==========================================================
+-->
+
+<div
+    class="form-group">
+
+    <!-- ==========================================
+         Label
+    =========================================== -->
+
+    <label
+        for="assetCategory"
+        class="form-label">
+
+        Kategori Aset
+
+        <span
+            class="required"
+            aria-hidden="true">
+
+            *
+
+        </span>
+
+    </label>
+
+    <!-- ==========================================
+         Select Wrapper
+    =========================================== -->
+
+    <div
+        class="select-wrapper">
+
+        <!-- Left Icon -->
+
+        <span
+            class="select-icon"
+            aria-hidden="true">
+
+            📦
+
+        </span>
+
+        <!-- Select -->
+
+        <select
+            id="assetCategory"
+            name="assetCategory"
+            class="form-select"
+            required
+            aria-required="true"
+            aria-describedby="assetCategoryHelp assetCategoryError">
+
+            <option
+                value="">
+
+                -- Pilih Kategori --
+
+            </option>
+
+            <option value="elektronik">
+
+                Elektronik
+
+            </option>
+
+            <option value="meubel">
+
+                Meubel
+
+            </option>
+
+            <option value="laboratorium">
+
+                Laboratorium
+
+            </option>
+
+            <option value="olahraga">
+
+                Olahraga
+
+            </option>
+
+            <option value="perpustakaan">
+
+                Perpustakaan
+
+            </option>
+
+            <option value="lainnya">
+
+                Lainnya
+
+            </option>
+
+        </select>
+
+        <!-- Arrow -->
+
+        <span
+            class="select-arrow"
+            aria-hidden="true">
+
+            ▼
+
+        </span>
+
+    </div>
+
+    <!-- ==========================================
+         Helper
+    =========================================== -->
+
+    <small
+        id="assetCategoryHelp"
+        class="form-help">
+
+        Pilih kategori yang sesuai.
+
+    </small>
+
+    <!-- ==========================================
+         Error
+    =========================================== -->
+
+    <small
+        id="assetCategoryError"
+        class="form-error"
+        role="alert"
+        aria-live="polite">
+
+    </small>
+
+</div>

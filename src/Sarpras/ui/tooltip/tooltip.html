@@ -1,0 +1,82 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Tooltip Component
+File : src/components/ui/tooltip/tooltip.html
+Version : 2.0.0
+==========================================================
+-->
+
+<!-- ==========================================
+     Global Tooltip
+=========================================== -->
+
+<div
+    id="appTooltip"
+    class="app-tooltip"
+    role="tooltip"
+    hidden>
+
+    <!-- Arrow -->
+
+    <div
+        class="app-tooltip-arrow"
+        aria-hidden="true">
+
+    </div>
+
+    <!-- Content -->
+
+    <div
+        class="app-tooltip-content">
+
+        Tooltip
+
+    </div>
+
+</div>
+
+<!-- ==========================================
+     Example Trigger
+     (hapus pada production bila tidak diperlukan)
+=========================================== -->
+
+<button
+    type="button"
+    class="tooltip-trigger"
+    data-tooltip="Tambah aset baru"
+    data-tooltip-position="top">
+
+    ➕
+
+</button>
+
+<button
+    type="button"
+    class="tooltip-trigger"
+    data-tooltip="Edit data aset"
+    data-tooltip-position="bottom">
+
+    ✏️
+
+</button>
+
+<button
+    type="button"
+    class="tooltip-trigger"
+    data-tooltip="Hapus data"
+    data-tooltip-position="right">
+
+    🗑️
+
+</button>
+
+<button
+    type="button"
+    class="tooltip-trigger"
+    data-tooltip="Lihat Detail"
+    data-tooltip-position="left">
+
+    👁️
+
+</button>

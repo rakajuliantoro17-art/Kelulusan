@@ -1,0 +1,663 @@
+<!--
+==========================================================
+SARPRASIN v2.0
+SMANSASOO Digital System
+
+MAINTENANCE MODAL COMPONENT
+
+Asset Repair & Maintenance Management
+
+Version : 1.0.0
+==========================================================
+-->
+
+
+
+<div
+
+class="modal-overlay"
+
+id="maintenanceModalOverlay"
+
+>
+
+
+
+
+
+<div
+
+class="app-modal maintenance-modal"
+
+id="maintenanceModal"
+
+role="dialog"
+
+aria-modal="true"
+
+>
+
+
+
+
+
+<!-- =====================================
+     HEADER
+====================================== -->
+
+
+<div class="modal-header">
+
+
+    <div>
+
+
+        <h2
+
+        class="modal-title"
+
+        id="maintenanceTitle"
+
+        >
+
+            Maintenance Asset
+
+
+        </h2>
+
+
+
+
+        <p
+
+        class="modal-subtitle"
+
+        >
+
+            Catat perbaikan dan pemeliharaan aset
+
+
+        </p>
+
+
+    </div>
+
+
+
+
+
+    <button
+
+    class="modal-close"
+
+    id="maintenanceModalClose"
+
+    >
+
+        ×
+
+    </button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     BODY
+====================================== -->
+
+
+<div class="modal-body">
+
+
+
+
+
+
+<form
+
+id="maintenanceForm"
+
+>
+
+
+
+
+
+
+<!-- ASSET INFO -->
+
+
+<section class="form-section">
+
+
+<h3>
+
+Informasi Asset
+
+</h3>
+
+
+
+
+<div class="form-grid">
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Kode Asset
+
+</label>
+
+
+<input
+
+type="text"
+
+id="maintenanceAssetCode"
+
+readonly
+
+>
+
+
+</div>
+
+
+
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Nama Asset
+
+</label>
+
+
+<input
+
+type="text"
+
+id="maintenanceAssetName"
+
+readonly
+
+>
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- KERUSAKAN -->
+
+
+<section class="form-section">
+
+
+<h3>
+
+Detail Kerusakan
+
+</h3>
+
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Jenis Kerusakan
+
+</label>
+
+
+<select
+
+id="maintenanceType"
+
+>
+
+
+<option>
+
+Kerusakan Ringan
+
+</option>
+
+
+<option>
+
+Kerusakan Berat
+
+</option>
+
+
+<option>
+
+Perawatan Rutin
+
+</option>
+
+
+<option>
+
+Kalibrasi
+
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Deskripsi Kerusakan
+
+</label>
+
+
+<textarea
+
+id="maintenanceDescription"
+
+placeholder="Jelaskan kondisi kerusakan..."
+
+></textarea>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- PERBAIKAN -->
+
+
+<section class="form-section">
+
+
+<h3>
+
+Tindakan Perbaikan
+
+</h3>
+
+
+
+
+
+<div class="form-grid">
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Status
+
+</label>
+
+
+<select
+
+id="maintenanceStatus"
+
+>
+
+
+<option>
+
+Menunggu
+
+</option>
+
+
+<option>
+
+Dikerjakan
+
+</option>
+
+
+<option>
+
+Selesai
+
+</option>
+
+
+<option>
+
+Tidak Bisa Diperbaiki
+
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Pelaksana
+
+</label>
+
+
+<input
+
+type="text"
+
+id="maintenanceTechnician"
+
+placeholder="Nama teknisi"
+
+>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- BIAYA -->
+
+
+<section class="form-section">
+
+
+<h3>
+
+Biaya Maintenance
+
+</h3>
+
+
+
+
+
+
+<div class="form-grid">
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Biaya
+
+</label>
+
+
+<input
+
+type="number"
+
+id="maintenanceCost"
+
+placeholder="Rp"
+
+>
+
+
+</div>
+
+
+
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Tanggal
+
+</label>
+
+
+<input
+
+type="date"
+
+id="maintenanceDate"
+
+>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- FOTO -->
+
+
+<section class="form-section">
+
+
+<h3>
+
+Dokumentasi
+
+</h3>
+
+
+
+<div
+
+class="upload-area"
+
+id="maintenanceImageUpload"
+
+>
+
+
+<input
+
+type="file"
+
+id="maintenanceImage"
+
+accept="image/*"
+
+hidden
+
+>
+
+
+
+<div>
+
+📷
+
+<br>
+
+Upload Foto Kerusakan / Perbaikan
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+</form>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     FOOTER
+====================================== -->
+
+
+<div class="modal-footer">
+
+
+
+<button
+
+class="btn-secondary"
+
+id="maintenanceCancel"
+
+>
+
+Batal
+
+</button>
+
+
+
+
+
+
+<button
+
+class="btn-primary"
+
+id="maintenanceSave"
+
+>
+
+Simpan Maintenance
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>

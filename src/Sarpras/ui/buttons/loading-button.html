@@ -1,0 +1,60 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Loading Button Component
+File : src/components/ui/buttons/loading-button.html
+Version : 2.0.0
+==========================================================
+-->
+
+<button
+    id="loadingButton"
+    class="btn btn-primary btn-md btn-rounded loading"
+    type="button"
+    disabled
+    aria-busy="true"
+    aria-live="polite">
+
+    <!-- ==========================================
+         Spinner
+    =========================================== -->
+
+    <span
+        class="btn-spinner"
+        aria-hidden="true">
+
+        <svg
+            class="btn-spinner-icon"
+            viewBox="0 0 24 24"
+            fill="none">
+
+            <circle
+                cx="12"
+                cy="12"
+                r="9"
+                stroke="currentColor"
+                stroke-width="3"
+                opacity=".25"/>
+
+            <path
+                d="M21 12A9 9 0 0 1 12 21"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"/>
+
+        </svg>
+
+    </span>
+
+    <!-- ==========================================
+         Label
+    =========================================== -->
+
+    <span
+        class="btn-label">
+
+        Memproses...
+
+    </span>
+
+</button>

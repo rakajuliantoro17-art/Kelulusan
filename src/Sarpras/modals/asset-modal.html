@@ -1,0 +1,710 @@
+<!--
+==========================================================
+SARPRASIN v2.0
+SMANSASOO Digital System
+
+ASSET MODAL COMPONENT
+
+Asset Management CRUD Form
+
+Version : 1.0.0
+==========================================================
+-->
+
+
+
+<div
+
+class="modal-overlay"
+
+id="assetModalOverlay"
+
+>
+
+
+
+
+
+<div
+
+class="app-modal asset-modal"
+
+id="assetModal"
+
+role="dialog"
+
+aria-modal="true"
+
+>
+
+
+
+
+
+<!-- =====================================
+     HEADER
+====================================== -->
+
+
+<div class="modal-header">
+
+
+    <div>
+
+
+        <h2
+
+        class="modal-title"
+
+        id="assetModalTitle"
+
+        >
+
+            Tambah Asset
+
+
+        </h2>
+
+
+
+
+        <p
+
+        class="modal-subtitle"
+
+        >
+
+            Input data inventaris sarana dan prasarana
+
+
+        </p>
+
+
+    </div>
+
+
+
+
+
+    <button
+
+    class="modal-close"
+
+    id="assetModalClose"
+
+    >
+
+        ×
+
+    </button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     FORM BODY
+====================================== -->
+
+
+<div class="modal-body">
+
+
+
+
+
+
+<form
+
+id="assetForm"
+
+novalidate
+
+>
+
+
+
+
+
+<!-- IDENTITAS ASSET -->
+
+
+<section class="form-section">
+
+
+<h3>
+
+    Identitas Asset
+
+</h3>
+
+
+
+<div class="form-grid">
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Kode Asset
+
+</label>
+
+
+<input
+
+type="text"
+
+id="assetCode"
+
+placeholder="Contoh: IT-001"
+
+required
+
+>
+
+
+</div>
+
+
+
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Nama Asset
+
+</label>
+
+
+<input
+
+type="text"
+
+id="assetName"
+
+placeholder="Nama barang"
+
+required
+
+>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- KATEGORI -->
+
+<section class="form-section">
+
+
+<h3>
+
+Klasifikasi
+
+</h3>
+
+
+
+<div class="form-grid">
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Kategori
+
+</label>
+
+
+<select
+
+id="assetCategory"
+
+>
+
+
+<option value="">
+
+Pilih Kategori
+
+</option>
+
+
+<option>
+
+Elektronik
+
+</option>
+
+
+<option>
+
+Furniture
+
+</option>
+
+
+<option>
+
+Bangunan
+
+</option>
+
+
+<option>
+
+Kendaraan
+
+</option>
+
+
+<option>
+
+Laboratorium
+
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Kondisi
+
+</label>
+
+
+<select
+
+id="assetCondition"
+
+>
+
+
+<option>
+
+Baik
+
+</option>
+
+
+<option>
+
+Rusak Ringan
+
+</option>
+
+
+<option>
+
+Rusak Berat
+
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- LOKASI -->
+
+<section class="form-section">
+
+
+<h3>
+
+Lokasi Asset
+
+</h3>
+
+
+
+<div class="form-grid">
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Ruangan
+
+</label>
+
+
+<select
+
+id="assetRoom"
+
+>
+
+
+<option>
+
+Pilih Ruangan
+
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Penanggung Jawab
+
+</label>
+
+
+<input
+
+type="text"
+
+id="assetPIC"
+
+placeholder="Nama pengguna"
+
+>
+
+
+</div>
+
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- DETAIL PEROLEHAN -->
+
+
+<section class="form-section">
+
+
+<h3>
+
+Informasi Perolehan
+
+</h3>
+
+
+
+<div class="form-grid">
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Tahun Perolehan
+
+</label>
+
+
+<input
+
+type="number"
+
+id="assetYear"
+
+placeholder="2026"
+
+>
+
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+
+<label>
+
+Sumber Dana
+
+</label>
+
+
+<select
+
+id="assetSource"
+
+>
+
+
+<option>
+
+BOS
+
+</option>
+
+
+<option>
+
+BOP
+
+</option>
+
+
+<option>
+
+APBD
+
+</option>
+
+
+<option>
+
+Hibah
+
+</option>
+
+
+<option>
+
+Lainnya
+
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- FOTO -->
+
+<section class="form-section">
+
+
+<h3>
+
+Dokumentasi
+
+</h3>
+
+
+
+<div class="upload-area"
+
+id="assetImageUpload"
+
+>
+
+
+<input
+
+type="file"
+
+id="assetImage"
+
+accept="image/*"
+
+hidden
+
+>
+
+
+
+<div>
+
+
+📷
+
+
+<br>
+
+
+Klik untuk upload foto asset
+
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+</form>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     FOOTER
+====================================== -->
+
+
+<div class="modal-footer">
+
+
+<button
+
+class="btn-secondary"
+
+id="assetCancel"
+
+>
+
+Batal
+
+</button>
+
+
+
+
+
+<button
+
+class="btn-primary"
+
+id="assetSave"
+
+>
+
+Simpan Asset
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+</div>

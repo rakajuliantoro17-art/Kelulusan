@@ -1,0 +1,102 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Textarea Component
+File : src/components/ui/forms/textarea.html
+Version : 2.0.0
+==========================================================
+-->
+
+<div
+    class="form-group">
+
+    <!-- ==========================================
+         Label
+    =========================================== -->
+
+    <label
+        for="assetDescription"
+        class="form-label">
+
+        Deskripsi
+
+        <span
+            class="required"
+            aria-hidden="true">
+
+            *
+
+        </span>
+
+    </label>
+
+    <!-- ==========================================
+         Textarea Wrapper
+    =========================================== -->
+
+    <div
+        class="textarea-wrapper">
+
+        <!-- Optional Icon -->
+
+        <span
+            class="textarea-icon"
+            aria-hidden="true">
+
+            📝
+
+        </span>
+
+        <!-- Textarea -->
+
+        <textarea
+            id="assetDescription"
+            name="assetDescription"
+            class="form-textarea"
+            rows="5"
+            maxlength="1000"
+            placeholder="Masukkan deskripsi..."
+            required
+            aria-required="true"
+            aria-describedby="assetDescriptionHelp assetDescriptionCounter assetDescriptionError"></textarea>
+
+    </div>
+
+    <!-- ==========================================
+         Footer
+    =========================================== -->
+
+    <div
+        class="textarea-footer">
+
+        <small
+            id="assetDescriptionHelp"
+            class="form-help">
+
+            Maksimal 1000 karakter.
+
+        </small>
+
+        <small
+            id="assetDescriptionCounter"
+            class="character-counter">
+
+            0 / 1000
+
+        </small>
+
+    </div>
+
+    <!-- ==========================================
+         Error Message
+    =========================================== -->
+
+    <small
+        id="assetDescriptionError"
+        class="form-error"
+        role="alert"
+        aria-live="polite">
+
+    </small>
+
+</div>

@@ -1,0 +1,100 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Input Component
+File : src/components/ui/forms/input.html
+Version : 2.0.0
+==========================================================
+-->
+
+<div
+    class="form-group">
+
+    <!-- ==========================================
+         Label
+    =========================================== -->
+
+    <label
+        for="assetName"
+        class="form-label">
+
+        Nama Barang
+
+        <span
+            class="required"
+            aria-hidden="true">
+
+            *
+
+        </span>
+
+    </label>
+
+    <!-- ==========================================
+         Input Wrapper
+    =========================================== -->
+
+    <div
+        class="input-wrapper">
+
+        <!-- Left Icon (Optional) -->
+
+        <span
+            class="input-icon input-icon-left"
+            aria-hidden="true">
+
+            📦
+
+        </span>
+
+        <!-- Input -->
+
+        <input
+            id="assetName"
+            name="assetName"
+            class="form-input"
+            type="text"
+            placeholder="Masukkan nama barang"
+            autocomplete="off"
+            required
+            aria-required="true"
+            aria-describedby="assetNameHelp assetNameError">
+
+        <!-- Right Icon (Optional) -->
+
+        <button
+            type="button"
+            class="input-action hidden"
+            aria-label="Hapus isi">
+
+            ✕
+
+        </button>
+
+    </div>
+
+    <!-- ==========================================
+         Helper Text
+    =========================================== -->
+
+    <small
+        id="assetNameHelp"
+        class="form-help">
+
+        Contoh: Laptop Lenovo ThinkPad E14.
+
+    </small>
+
+    <!-- ==========================================
+         Error Message
+    =========================================== -->
+
+    <small
+        id="assetNameError"
+        class="form-error"
+        role="alert"
+        aria-live="polite">
+
+    </small>
+
+</div>

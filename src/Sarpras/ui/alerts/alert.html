@@ -1,0 +1,89 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Global Alert Component
+File : src/components/ui/alerts/alert.html
+Version : 2.0.0
+==========================================================
+-->
+
+<section
+    id="appAlert"
+    class="alert alert-info hidden"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true">
+
+    <!-- ==========================================
+         Alert Icon
+    =========================================== -->
+
+    <div
+        id="alertIcon"
+        class="alert-icon"
+        aria-hidden="true">
+
+        ℹ️
+
+    </div>
+
+    <!-- ==========================================
+         Alert Content
+    =========================================== -->
+
+    <div class="alert-content">
+
+        <h4
+            id="alertTitle"
+            class="alert-title">
+
+            Informasi
+
+        </h4>
+
+        <p
+            id="alertMessage"
+            class="alert-message">
+
+            Tidak ada pesan.
+
+        </p>
+
+        <small
+            id="alertTimestamp"
+            class="alert-timestamp">
+
+            Baru saja
+
+        </small>
+
+    </div>
+
+    <!-- ==========================================
+         Actions
+    =========================================== -->
+
+    <div class="alert-actions">
+
+        <button
+            id="alertActionButton"
+            class="btn btn-sm btn-primary hidden"
+            type="button">
+
+            Lihat
+
+        </button>
+
+        <button
+            id="alertCloseButton"
+            class="btn btn-icon"
+            type="button"
+            aria-label="Tutup Alert">
+
+            ✕
+
+        </button>
+
+    </div>
+
+</section>

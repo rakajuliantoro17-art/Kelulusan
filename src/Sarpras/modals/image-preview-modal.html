@@ -1,0 +1,362 @@
+<!--
+==========================================================
+SARPRASIN v2.0
+SMANSASOO Digital System
+
+IMAGE PREVIEW MODAL COMPONENT
+
+Universal Image Viewer
+
+Version : 1.0.0
+==========================================================
+-->
+
+
+
+<div
+
+class="modal-overlay"
+
+id="imagePreviewModalOverlay"
+
+>
+
+
+
+
+
+<div
+
+class="app-modal image-preview-modal"
+
+id="imagePreviewModal"
+
+role="dialog"
+
+aria-modal="true"
+
+>
+
+
+
+
+
+
+<!-- =====================================
+     HEADER
+====================================== -->
+
+
+<div class="modal-header">
+
+
+    <div>
+
+
+        <h2
+
+        class="modal-title"
+
+        id="imagePreviewTitle"
+
+        >
+
+            Preview Image
+
+        </h2>
+
+
+
+
+        <p
+
+        class="modal-subtitle"
+
+        id="imagePreviewSubtitle"
+
+        >
+
+            Dokumentasi aset
+
+        </p>
+
+
+    </div>
+
+
+
+
+
+    <button
+
+    class="modal-close"
+
+    id="imagePreviewClose"
+
+    >
+
+        ×
+
+    </button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     IMAGE VIEWER
+====================================== -->
+
+
+<div class="modal-body image-viewer-container">
+
+
+
+
+
+<div class="image-navigation">
+
+
+<button
+
+class="image-nav-btn"
+
+id="imagePrev"
+
+>
+
+‹
+
+</button>
+
+
+
+
+
+
+<div
+
+class="image-stage"
+
+>
+
+
+<img
+
+src=""
+
+alt="Preview"
+
+id="previewImage"
+
+class="preview-image"
+
+>
+
+
+
+</div>
+
+
+
+
+
+
+<button
+
+class="image-nav-btn"
+
+id="imageNext"
+
+>
+
+›
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     IMAGE INFORMATION
+====================================== -->
+
+
+<div class="image-information">
+
+
+
+<div class="image-info-item">
+
+
+<span>
+
+Nama File
+
+</span>
+
+
+<strong
+
+id="imageFileName"
+
+>
+
+-
+
+</strong>
+
+
+</div>
+
+
+
+
+
+
+<div class="image-info-item">
+
+
+<span>
+
+Ukuran
+
+</span>
+
+
+<strong
+
+id="imageFileSize"
+
+>
+
+-
+
+</strong>
+
+
+</div>
+
+
+
+
+
+
+<div class="image-info-item">
+
+
+<span>
+
+Tanggal Upload
+
+</span>
+
+
+<strong
+
+id="imageUploadDate"
+
+>
+
+-
+
+</strong>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     FOOTER
+====================================== -->
+
+
+<div class="modal-footer">
+
+
+<button
+
+class="btn-secondary"
+
+id="imageCloseButton"
+
+>
+
+Tutup
+
+</button>
+
+
+
+
+
+<a
+
+class="btn-primary"
+
+id="imageDownloadButton"
+
+download
+
+>
+
+Download
+
+</a>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>

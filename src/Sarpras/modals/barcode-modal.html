@@ -1,0 +1,353 @@
+<!--
+==========================================================
+SARPRASIN v2.0
+SMANSASOO Digital System
+
+BARCODE MODAL COMPONENT
+
+QR Code / Barcode Asset Generator
+
+Version : 1.0.0
+==========================================================
+-->
+
+
+
+<div
+
+class="modal-overlay"
+
+id="barcodeModalOverlay"
+
+>
+
+
+
+
+
+<div
+
+class="app-modal barcode-modal"
+
+id="barcodeModal"
+
+role="dialog"
+
+aria-modal="true"
+
+>
+
+
+
+
+
+<!-- =====================================
+     HEADER
+====================================== -->
+
+
+<div class="modal-header">
+
+
+    <div>
+
+
+        <h2
+
+        class="modal-title"
+
+        >
+
+            QR Asset Code
+
+
+        </h2>
+
+
+
+
+        <p
+
+        class="modal-subtitle"
+
+        >
+
+            Generate kode identitas inventaris
+
+
+        </p>
+
+
+    </div>
+
+
+
+
+
+    <button
+
+    class="modal-close"
+
+    id="barcodeModalClose"
+
+    >
+
+        ×
+
+    </button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     BODY
+====================================== -->
+
+
+<div class="modal-body">
+
+
+
+
+
+<div class="barcode-preview-card">
+
+
+
+    <div
+
+    id="qrCodeContainer"
+
+    class="qr-container"
+
+    >
+
+
+        <!-- QR GENERATED HERE -->
+
+
+        <canvas
+
+        id="qrCanvas"
+
+        ></canvas>
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ASSET INFORMATION -->
+
+
+<div class="barcode-info">
+
+
+
+<div class="barcode-row">
+
+
+<span>
+
+Kode Asset
+
+</span>
+
+
+<strong
+
+id="barcodeAssetCode"
+
+>
+
+IT-001
+
+</strong>
+
+
+</div>
+
+
+
+
+
+
+<div class="barcode-row">
+
+
+<span>
+
+Nama Asset
+
+</span>
+
+
+<strong
+
+id="barcodeAssetName"
+
+>
+
+Laptop Asus
+
+</strong>
+
+
+</div>
+
+
+
+
+
+
+<div class="barcode-row">
+
+
+<span>
+
+Lokasi
+
+</span>
+
+
+<strong
+
+id="barcodeAssetRoom"
+
+>
+
+Lab Komputer 1
+
+</strong>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- QR VALUE -->
+
+
+<div class="barcode-value">
+
+
+<label>
+
+QR Data
+
+</label>
+
+
+
+<textarea
+
+id="barcodeValue"
+
+readonly
+
+>
+
+SARPRASIN|IT-001
+
+</textarea>
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     FOOTER
+====================================== -->
+
+
+<div class="modal-footer">
+
+
+<button
+
+class="btn-secondary"
+
+id="barcodeCloseButton"
+
+>
+
+Tutup
+
+</button>
+
+
+
+
+
+<button
+
+class="btn-primary"
+
+id="barcodePrintButton"
+
+>
+
+🖨 Cetak Label
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>

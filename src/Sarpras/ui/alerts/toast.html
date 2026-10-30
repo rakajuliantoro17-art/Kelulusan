@@ -1,0 +1,74 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Toast Component
+File : src/components/ui/alerts/toast.html
+Version : 2.0.0
+==========================================================
+-->
+
+<!-- Toast Container -->
+<section
+    id="toastContainer"
+    class="toast-container"
+    aria-live="polite"
+    aria-atomic="true">
+
+    <!-- ==========================================
+         Toast Item (Template)
+    =========================================== -->
+
+    <article
+        class="toast toast-info hidden"
+        id="toastTemplate"
+        role="status">
+
+        <!-- Icon -->
+
+        <div
+            class="toast-icon"
+            aria-hidden="true">
+
+            ℹ️
+
+        </div>
+
+        <!-- Content -->
+
+        <div class="toast-content">
+
+            <h4 class="toast-title">
+
+                Informasi
+
+            </h4>
+
+            <p class="toast-message">
+
+                Pesan toast.
+
+            </p>
+
+        </div>
+
+        <!-- Close -->
+
+        <button
+            class="toast-close"
+            type="button"
+            aria-label="Tutup">
+
+            ✕
+
+        </button>
+
+        <!-- Progress -->
+
+        <div
+            class="toast-progress">
+
+        </div>
+
+    </article>
+
+</section>

@@ -1,0 +1,189 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Tabs Component
+File : src/components/ui/tabs/tabs.html
+Version : 2.0.0
+==========================================================
+-->
+
+<div
+    class="tabs"
+    data-tabs>
+
+    <!-- ==========================================
+         Tab Navigation
+    =========================================== -->
+
+    <div
+        class="tabs-nav"
+        role="tablist"
+        aria-label="Navigasi Halaman">
+
+        <!-- Dashboard -->
+
+        <button
+            id="tab-dashboard"
+            class="tab-button active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-dashboard"
+            tabindex="0"
+            data-tab="dashboard">
+
+            <span class="tab-icon">
+
+                📊
+
+            </span>
+
+            <span class="tab-label">
+
+                Dashboard
+
+            </span>
+
+        </button>
+
+        <!-- Inventaris -->
+
+        <button
+            id="tab-assets"
+            class="tab-button"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-assets"
+            tabindex="-1"
+            data-tab="assets">
+
+            <span class="tab-icon">
+
+                📦
+
+            </span>
+
+            <span class="tab-label">
+
+                Inventaris
+
+            </span>
+
+        </button>
+
+        <!-- Maintenance -->
+
+        <button
+            id="tab-maintenance"
+            class="tab-button"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-maintenance"
+            tabindex="-1"
+            data-tab="maintenance">
+
+            <span class="tab-icon">
+
+                🛠
+
+            </span>
+
+            <span class="tab-label">
+
+                Maintenance
+
+            </span>
+
+        </button>
+
+        <!-- Report -->
+
+        <button
+            id="tab-report"
+            class="tab-button"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-report"
+            tabindex="-1"
+            data-tab="report">
+
+            <span class="tab-icon">
+
+                📈
+
+            </span>
+
+            <span class="tab-label">
+
+                Laporan
+
+            </span>
+
+        </button>
+
+    </div>
+
+    <!-- ==========================================
+         Tab Panels
+    =========================================== -->
+
+    <div
+        class="tabs-content">
+
+        <!-- Dashboard -->
+
+        <section
+            id="panel-dashboard"
+            class="tab-panel active"
+            role="tabpanel"
+            aria-labelledby="tab-dashboard">
+
+            <!-- Dashboard Content -->
+
+        </section>
+
+        <!-- Inventaris -->
+
+        <section
+            id="panel-assets"
+            class="tab-panel"
+            role="tabpanel"
+            aria-labelledby="tab-assets"
+            hidden>
+
+            <!-- Asset Content -->
+
+        </section>
+
+        <!-- Maintenance -->
+
+        <section
+            id="panel-maintenance"
+            class="tab-panel"
+            role="tabpanel"
+            aria-labelledby="tab-maintenance"
+            hidden>
+
+            <!-- Maintenance Content -->
+
+        </section>
+
+        <!-- Report -->
+
+        <section
+            id="panel-report"
+            class="tab-panel"
+            role="tabpanel"
+            aria-labelledby="tab-report"
+            hidden>
+
+            <!-- Report Content -->
+
+        </section>
+
+    </div>
+
+</div>

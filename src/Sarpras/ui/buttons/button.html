@@ -1,0 +1,82 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Universal Button Component
+File : src/components/ui/buttons/button.html
+Version : 2.0.0
+==========================================================
+-->
+
+<button
+    id="appButton"
+    class="btn btn-primary btn-md btn-rounded"
+    type="button"
+    aria-label="Button">
+
+    <!-- ==========================================
+         Loading Spinner
+    =========================================== -->
+
+    <span
+        class="btn-spinner hidden"
+        aria-hidden="true">
+
+        <svg
+            class="btn-spinner-icon"
+            viewBox="0 0 24 24"
+            fill="none">
+
+            <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="3"
+                opacity=".25"/>
+
+            <path
+                d="M22 12A10 10 0 0 1 12 22"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"/>
+
+        </svg>
+
+    </span>
+
+    <!-- ==========================================
+         Left Icon
+    =========================================== -->
+
+    <span
+        class="btn-icon btn-icon-left hidden"
+        aria-hidden="true">
+
+        💾
+
+    </span>
+
+    <!-- ==========================================
+         Label
+    =========================================== -->
+
+    <span
+        class="btn-label">
+
+        Simpan
+
+    </span>
+
+    <!-- ==========================================
+         Right Icon
+    =========================================== -->
+
+    <span
+        class="btn-icon btn-icon-right hidden"
+        aria-hidden="true">
+
+        ➜
+
+    </span>
+
+</button>

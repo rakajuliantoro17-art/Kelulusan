@@ -1,0 +1,400 @@
+<!--
+==========================================================
+SARPRASIN v2.0
+SMANSASOO Digital System
+
+APPROVAL MODAL COMPONENT
+
+Approval Workflow Dialog
+
+Version : 1.0.0
+==========================================================
+-->
+
+
+
+<div
+
+class="modal-overlay"
+
+id="approvalModalOverlay"
+
+>
+
+
+
+
+
+    <div
+
+    class="app-modal approval-modal"
+
+    id="approvalModal"
+
+    role="dialog"
+
+    aria-modal="true"
+
+    >
+
+
+
+
+
+        <!-- ==================================
+             HEADER
+        =================================== -->
+
+
+        <div class="modal-header">
+
+
+            <div>
+
+
+                <h2
+
+                class="modal-title"
+
+                >
+
+                    Persetujuan Data
+
+
+                </h2>
+
+
+
+                <p
+
+                class="modal-subtitle"
+
+                >
+
+                    Review dan berikan keputusan
+
+
+                </p>
+
+
+            </div>
+
+
+
+
+
+
+            <button
+
+            class="modal-close"
+
+            id="approvalModalClose"
+
+            >
+
+                ×
+
+            </button>
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+        <!-- ==================================
+             APPROVAL INFORMATION
+        =================================== -->
+
+
+        <div class="modal-body">
+
+
+
+
+
+            <div class="approval-info-card">
+
+
+
+                <div class="approval-row">
+
+
+                    <span>
+
+                        Jenis Pengajuan
+
+                    </span>
+
+
+                    <strong
+
+                    id="approvalType"
+
+                    >
+
+                        Pembelian Asset
+
+                    </strong>
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="approval-row">
+
+
+                    <span>
+
+                        Pemohon
+
+                    </span>
+
+
+                    <strong
+
+                    id="approvalRequester"
+
+                    >
+
+                        Administrator
+
+                    </strong>
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="approval-row">
+
+
+                    <span>
+
+                        Tanggal Pengajuan
+
+                    </span>
+
+
+                    <strong
+
+                    id="approvalDate"
+
+                    >
+
+                        17 Juli 2026
+
+                    </strong>
+
+
+                </div>
+
+
+
+
+
+                <div class="approval-row">
+
+
+                    <span>
+
+                        Status
+
+                    </span>
+
+
+                    <span
+
+                    class="status-badge pending"
+
+                    id="approvalStatus"
+
+                    >
+
+                        Menunggu
+
+                    </span>
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+            <!-- DETAIL -->
+
+            <div class="approval-detail">
+
+
+                <h4>
+
+                    Detail Pengajuan
+
+                </h4>
+
+
+
+                <div
+
+                id="approvalDetailContent"
+
+                >
+
+
+                    Laptop Laboratorium Komputer
+                    sebanyak 20 unit.
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+            <!-- CATATAN -->
+
+
+            <div class="form-group">
+
+
+                <label>
+
+                    Catatan Persetujuan
+
+                </label>
+
+
+
+                <textarea
+
+                id="approvalNote"
+
+                placeholder="Tambahkan catatan..."
+
+                ></textarea>
+
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+        <!-- ==================================
+             FOOTER ACTION
+        =================================== -->
+
+
+        <div
+
+        class="modal-footer"
+
+        >
+
+
+
+            <button
+
+            class="btn-secondary"
+
+            id="approvalCancel"
+
+            >
+
+                Batal
+
+            </button>
+
+
+
+
+
+
+            <button
+
+            class="btn-danger"
+
+            id="approvalReject"
+
+            >
+
+                Tolak
+
+            </button>
+
+
+
+
+
+
+
+            <button
+
+            class="btn-primary"
+
+            id="approvalApprove"
+
+            >
+
+                Setujui
+
+            </button>
+
+
+
+
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+</div>

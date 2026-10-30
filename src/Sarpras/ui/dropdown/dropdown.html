@@ -1,0 +1,138 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Universal Dropdown Component
+File : src/components/ui/dropdown/dropdown.html
+Version : 2.0.0
+==========================================================
+-->
+
+<div
+    id="appDropdown"
+    class="dropdown"
+    data-dropdown>
+
+    <!-- ==========================================
+         Toggle Button
+    =========================================== -->
+
+    <button
+        id="dropdownToggle"
+        class="dropdown-toggle"
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded="false"
+        aria-controls="dropdownMenu">
+
+        <span
+            id="dropdownLabel"
+            class="dropdown-label">
+
+            Pilih Data
+
+        </span>
+
+        <span
+            class="dropdown-arrow"
+            aria-hidden="true">
+
+            ▼
+
+        </span>
+
+    </button>
+
+    <!-- ==========================================
+         Dropdown Menu
+    =========================================== -->
+
+    <div
+        id="dropdownMenu"
+        class="dropdown-menu"
+        role="listbox"
+        tabindex="-1"
+        hidden>
+
+        <!-- ======================================
+             Search (Optional)
+        ======================================= -->
+
+        <div class="dropdown-search">
+
+            <input
+                type="search"
+                class="dropdown-search-input"
+                placeholder="Cari..."
+                aria-label="Cari item">
+
+        </div>
+
+        <!-- ======================================
+             Items
+        ======================================= -->
+
+        <ul
+            class="dropdown-list">
+
+            <li
+                class="dropdown-item active"
+                role="option"
+                tabindex="0"
+                aria-selected="true">
+
+                Dashboard
+
+            </li>
+
+            <li
+                class="dropdown-item"
+                role="option"
+                tabindex="-1">
+
+                Inventaris
+
+            </li>
+
+            <li
+                class="dropdown-item"
+                role="option"
+                tabindex="-1">
+
+                Maintenance
+
+            </li>
+
+            <li
+                class="dropdown-item"
+                role="option"
+                tabindex="-1">
+
+                Laporan
+
+            </li>
+
+            <li
+                class="dropdown-item"
+                role="option"
+                tabindex="-1">
+
+                Pengaturan
+
+            </li>
+
+        </ul>
+
+        <!-- ======================================
+             Empty State
+        ======================================= -->
+
+        <div
+            class="dropdown-empty hidden">
+
+            Tidak ada data
+
+        </div>
+
+    </div>
+
+</div>

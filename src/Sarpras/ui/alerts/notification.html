@@ -1,0 +1,101 @@
+
+<!--
+==========================================================
+Sarprasin 2.0
+Notification Item Component
+File : src/components/ui/alerts/notification.html
+Version : 2.0.0
+==========================================================
+-->
+
+<article
+    class="notification-item unread"
+    data-id=""
+    data-type="system"
+    tabindex="0">
+
+    <!-- ==========================================
+         Icon
+    =========================================== -->
+
+    <div class="notification-icon">
+
+        🔔
+
+    </div>
+
+    <!-- ==========================================
+         Body
+    =========================================== -->
+
+    <div class="notification-content">
+
+        <header class="notification-top">
+
+            <h4 class="notification-title">
+
+                Judul Notifikasi
+
+            </h4>
+
+            <time
+                class="notification-time"
+                datetime="">
+
+                Baru saja
+
+            </time>
+
+        </header>
+
+        <p class="notification-message">
+
+            Isi notifikasi akan ditampilkan di sini.
+
+        </p>
+
+        <footer class="notification-footer">
+
+            <span class="notification-category">
+
+                Sistem
+
+            </span>
+
+            <span class="notification-priority priority-normal">
+
+                Normal
+
+            </span>
+
+        </footer>
+
+    </div>
+
+    <!-- ==========================================
+         Actions
+    =========================================== -->
+
+    <div class="notification-actions">
+
+        <button
+            class="btn btn-icon notification-read"
+            title="Tandai Dibaca"
+            aria-label="Tandai Dibaca">
+
+            ✓
+
+        </button>
+
+        <button
+            class="btn btn-icon notification-delete"
+            title="Hapus"
+            aria-label="Hapus">
+
+            🗑
+
+        </button>
+
+    </div>
+
+</article>

@@ -1,0 +1,84 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Progress Loader Component
+File : src/components/ui/loaders/progress.html
+Version : 2.0.0
+==========================================================
+-->
+
+<div
+    id="progressLoader"
+    class="progress-loader"
+    role="status"
+    aria-live="polite"
+    aria-busy="true">
+
+    <!-- ==========================================
+         Header
+    =========================================== -->
+
+    <div class="progress-header">
+
+        <div class="progress-info">
+
+            <h3 class="progress-title">
+
+                Memproses...
+
+            </h3>
+
+            <p class="progress-message">
+
+                Mohon tunggu sebentar.
+
+            </p>
+
+        </div>
+
+        <span
+            class="progress-percentage">
+
+            0%
+
+        </span>
+
+    </div>
+
+    <!-- ==========================================
+         Progress Bar
+    =========================================== -->
+
+    <div
+        class="progress-track"
+        aria-hidden="true">
+
+        <div
+            class="progress-fill"
+            style="width:0%;">
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         Detail
+    =========================================== -->
+
+    <div class="progress-footer">
+
+        <span class="progress-status">
+
+            Menyiapkan proses...
+
+        </span>
+
+        <span class="progress-size">
+
+            0 MB / 0 MB
+
+        </span>
+
+    </div>
+
+</div>
