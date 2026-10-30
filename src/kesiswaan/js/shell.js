@@ -125,7 +125,8 @@ window.Shell = (() => {
     // Ditambahkan di footer saja (tidak memenuhi navbar/sidebar utama).
     const FOOTER_EXTRA_LINKS = [
         { label: "Tentang", href: "/kesiswaan/pages/about.html" },
-        { label: "Privasi", href: "/kesiswaan/pages/privacy.html" }
+        { label: "Privasi", href: "/kesiswaan/pages/privacy.html" },
+        { label: "Kembali ke PINTUKU", href: "/" }
     ];
 
     function activePage() {
