@@ -1,0 +1,47 @@
+{
+  "version": "2.0.0",
+  "name": "Sarprasin Automatic Backup",
+  "enabled": true,
+  "provider": "n8n-cloud",
+  "workflow": "backup",
+  "schedule": {
+    "type": "daily",
+    "time": "23:30",
+    "timezone": "Asia/Jakarta"
+  },
+  "storage": {
+    "googleDrive": true,
+    "firebaseStorage": true,
+    "local": false
+  },
+  "collections": [
+    "users",
+    "roles",
+    "assets",
+    "categories",
+    "rooms",
+    "maintenance",
+    "inventory",
+    "reports",
+    "notifications",
+    "settings",
+    "logs"
+  ],
+  "options": {
+    "compress": true,
+    "encrypt": false,
+    "checksum": true,
+    "includeImages": true,
+    "includeAttachments": true
+  },
+  "retention": {
+    "daily": 30,
+    "weekly": 12,
+    "monthly": 12
+  },
+  "notification": {
+    "email": true,
+    "telegram": true,
+    "discord": false
+  }
+}

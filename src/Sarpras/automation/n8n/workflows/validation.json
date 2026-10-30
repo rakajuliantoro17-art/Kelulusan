@@ -1,0 +1,11 @@
+{
+  "module": "asset",
+  "action": "create",
+  "requestedBy": "admin",
+  "data": {
+    "assetCode": "INV-0001",
+    "assetName": "Laptop Lenovo",
+    "roomId": "LAB-01",
+    "condition": "Baik"
+  }
+}

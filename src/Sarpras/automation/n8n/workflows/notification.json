@@ -1,0 +1,11 @@
+{
+  "channel": "email",
+  "recipient": "admin@example.com",
+  "subject": "Backup Berhasil",
+  "message": "Backup harian telah selesai.",
+  "priority": "normal",
+  "metadata": {
+    "module": "backup",
+    "requestedBy": "system"
+  }
+}
