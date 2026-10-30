@@ -32,7 +32,7 @@
   if ("serviceWorker" in navigator && location.protocol === "https:") {
     window.addEventListener("load", () => {
       navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch((error) => {
-        console.error("[SMANSASOO Digital Portal] Service worker registration failed", error);
+        console.error("[PINTUKU] Service worker registration failed", error);
       });
     }, { once: true });
   }
