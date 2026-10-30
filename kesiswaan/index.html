@@ -4,27 +4,60 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#07111f">
-  <meta name="description" content="Modul Kesiswaan — SMANSASOO Digital Portal.">
-  <title>Modul Kesiswaan · SMANSASOO Digital Portal</title>
+  <meta name="description" content="Dashboard modul Kesiswaan — PINTUKU, SMAN 1 Sooko Mojokerto.">
+  <title>Dashboard Kesiswaan · PINTUKU</title>
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/css/portal-shell.css">
   <link rel="stylesheet" href="/css/portal.css">
+  <link rel="stylesheet" href="/css/portal-kpi.css">
   <script src="/js/portal-shell.js" defer></script>
+  <script src="/js/kpi.js" defer></script>
 </head>
 <body data-portal-module="kesiswaan">
   <div data-portal-header></div>
-  <main class="portal-wrap" style="min-height:calc(100vh - 180px);padding-top:clamp(36px,8vh,90px)">
-    <div class="eyebrow">Module 03 · Kesiswaan</div>
-    <h1 style="max-width:800px;margin:18px 0;font-size:clamp(34px,5vw,58px);line-height:1.08;letter-spacing:-.05em">Modul Kesiswaan</h1>
-    <p style="max-width:780px;color:#a8bad1;font-size:14px;line-height:1.9">Halaman ini menjadi namespace integrasi Portal Gerakan Disiplin Sekolah. Endpoint, halaman, aset, dan pemeriksaan akses dari src/kesiswaan akan dipetakan ke sini setelah seluruh dependensi diaudit.</p>
-    <section class="hero-aside" style="max-width:780px;margin-top:30px">
-      <div class="aside-head"><span>Status integrasi</span><span class="live-indicator">Dalam pengerjaan</span></div>
-      <h2 style="margin:20px 0 10px;font-size:20px">Cakupan modul yang dipertahankan</h2>
-      <ul style="margin:0;padding-left:20px;color:#b8c9df;font-size:13px;line-height:2.1"><li>Tata tertib dan cek poin</li><li>Pencatatan pelanggaran dan pembinaan</li><li>Surat, QR siswa, dan ringkasan</li></ul>
-      <div class="aside-rule"></div>
-      <p class="aside-note">Sumber: <strong>src/kesiswaan · Gerakan Disiplin Sekolah</strong>. Halaman ini adalah pintu masuk awal, bukan pernyataan bahwa semua fitur backend sudah aktif pada portal terpadu.</p>
-      <a class="button button-primary" style="margin-top:18px" href="/">Kembali ke beranda</a>
-    </section>
+  <main class="portal-wrap kpi-scope" data-module="kesiswaan" style="min-height:calc(100vh - 180px);padding-bottom:56px">
+    <header class="mod-hero">
+      <div class="eyebrow">Module 03 · Kesiswaan</div>
+      <h1>Dashboard Kesiswaan</h1>
+      <p>Gerakan Disiplin Sekolah: tata tertib, pencatatan pelanggaran, pembinaan, cek poin, surat, kartu QR, dan ringkasan untuk peran yang berwenang.</p>
+      <div class="mod-crumb"><a class="button button-quiet" href="/">← Kembali ke beranda</a></div>
+    </header>
+
+    <div class="kpi-section-title"><h2>Indikator utama</h2></div>
+    <section aria-label="Indikator utama Kesiswaan" data-kpi-dashboard="kesiswaan"><p class="kpi-hint" role="status">Memuat indikator…</p></section>
+
+    <div class="mod-grid">
+      <section class="mod-panel" aria-labelledby="svc-t">
+        <h3 id="svc-t">Cakupan layanan</h3>
+        <ul class="mod-list">
+          <li><span class="chip wip">Dalam integrasi</span><span>Tata tertib</span></li>
+          <li><span class="chip wip">Dalam integrasi</span><span>Cek poin siswa</span></li>
+          <li><span class="chip wip">Dalam integrasi</span><span>Pencatatan pelanggaran</span></li>
+          <li><span class="chip wip">Dalam integrasi</span><span>Pembinaan</span></li>
+          <li><span class="chip wip">Dalam integrasi</span><span>Surat &amp; kartu QR</span></li>
+          <li><span class="chip wip">Dalam integrasi</span><span>Ringkasan eksekutif</span></li>
+        </ul>
+      </section>
+      <section class="mod-panel" aria-labelledby="int-t">
+        <h3 id="int-t">Kesiapan integrasi</h3>
+        <p class="lead">Status ini berasal dari dokumentasi repositori, bukan dari data contoh. Sumber: <strong>yasmincntk99/kesiswaan</strong>.</p>
+        <ul class="mod-list">
+          <li><span class="chip ok">Selesai</span><span>Dispatcher /api/kesiswaan memetakan handler asli tanpa mengubah kontrak</span></li>
+          <li><span class="chip wip">Belum</span><span>Halaman modul belum dipindahkan ke route /kesiswaan/</span></li>
+          <li><span class="chip wip">Belum</span><span>Spreadsheet Kesiswaan dipisah dari Akademik dan Sarpras</span></li>
+          <li><span class="chip wip">Belum</span><span>Build dan smoke test Vercel belum dikonfirmasi</span></li>
+        </ul>
+      </section>
+      <section class="mod-panel" aria-labelledby="att-t" data-kpi-module="kesiswaan">
+        <h3 id="att-t">Catatan penting</h3>
+        <ul class="mod-list" data-kpi-list="attention" data-kpi-module="kesiswaan"></ul>
+      </section>
+      <section class="mod-panel" aria-labelledby="act-t">
+        <h3 id="act-t">Aktivitas terbaru</h3>
+        <ul class="mod-list" data-kpi-list="activity" data-kpi-module="kesiswaan"></ul>
+      </section>
+      <section class="mod-panel" style="grid-column:1/-1" aria-labelledby="api-t"><h3 id="api-t">Kontrak API terdaftar</h3><p class="lead">Operasi yang dipetakan dispatcher. Autentikasi dan otorisasi tetap diperiksa di setiap handler.</p><ul class="mod-list"><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=cek-poin</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=dashboard</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=pelanggaran</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=pembinaan</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=stats</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=surat</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=tata-tertib</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=admin-auth</code></li></ul></section>
+    </div>
   </main>
   <div data-portal-footer></div>
 </body>

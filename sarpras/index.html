@@ -4,27 +4,62 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#07111f">
-  <meta name="description" content="Modul Sarana & Prasarana — SMANSASOO Digital Portal.">
-  <title>Modul Sarana & Prasarana · SMANSASOO Digital Portal</title>
+  <meta name="description" content="Dashboard modul Sarana &amp; Prasarana — PINTUKU, SMAN 1 Sooko Mojokerto.">
+  <title>Dashboard Sarana &amp; Prasarana · PINTUKU</title>
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/css/portal-shell.css">
   <link rel="stylesheet" href="/css/portal.css">
+  <link rel="stylesheet" href="/css/portal-kpi.css">
   <script src="/js/portal-shell.js" defer></script>
+  <script src="/js/kpi.js" defer></script>
 </head>
 <body data-portal-module="sarpras">
   <div data-portal-header></div>
-  <main class="portal-wrap" style="min-height:calc(100vh - 180px);padding-top:clamp(36px,8vh,90px)">
-    <div class="eyebrow">Module 02 · Sarpras</div>
-    <h1 style="max-width:800px;margin:18px 0;font-size:clamp(34px,5vw,58px);line-height:1.08;letter-spacing:-.05em">Modul Sarana & Prasarana</h1>
-    <p style="max-width:780px;color:#a8bad1;font-size:14px;line-height:1.9">Halaman ini menjadi namespace integrasi Sarprasin. Build Vite multi-page, autentikasi Firebase, inventaris, audit QR, pemeliharaan, laporan, dan dashboard akan diadaptasi tanpa menghapus fitur sumber.</p>
-    <section class="hero-aside" style="max-width:780px;margin-top:30px">
-      <div class="aside-head"><span>Status integrasi</span><span class="live-indicator">Dalam pengerjaan</span></div>
-      <h2 style="margin:20px 0 10px;font-size:20px">Cakupan modul yang dipertahankan</h2>
-      <ul style="margin:0;padding-left:20px;color:#b8c9df;font-size:13px;line-height:2.1"><li>Inventaris dan kondisi aset</li><li>QR, pemeliharaan, dan pengadaan</li><li>Laporan dan dashboard peran</li></ul>
-      <div class="aside-rule"></div>
-      <p class="aside-note">Sumber: <strong>Sarprasin</strong>. Halaman ini adalah pintu masuk awal, bukan pernyataan bahwa semua fitur backend sudah aktif pada portal terpadu.</p>
-      <a class="button button-primary" style="margin-top:18px" href="/">Kembali ke beranda</a>
-    </section>
+  <main class="portal-wrap kpi-scope" data-module="sarpras" style="min-height:calc(100vh - 180px);padding-bottom:56px">
+    <header class="mod-hero">
+      <div class="eyebrow">Module 02 · Sarana &amp; Prasarana</div>
+      <h1>Dashboard Sarana &amp; Prasarana</h1>
+      <p>Pengelolaan inventaris, kondisi aset dan ruang, audit QR, pemeliharaan, pengadaan, laporan, dan dashboard sesuai peran pengguna.</p>
+      <div class="mod-crumb"><a class="button button-quiet" href="/">← Kembali ke beranda</a></div>
+    </header>
+
+    <div class="kpi-section-title"><h2>Indikator utama</h2></div>
+    <section aria-label="Indikator utama Sarana &amp; Prasarana" data-kpi-dashboard="sarpras"><p class="kpi-hint" role="status">Memuat indikator…</p></section>
+
+    <div class="mod-grid">
+      <section class="mod-panel" aria-labelledby="svc-t">
+        <h3 id="svc-t">Cakupan layanan</h3>
+        <ul class="mod-list">
+          <li><span class="chip wip">Audit</span><span>Inventaris aset</span></li>
+          <li><span class="chip wip">Audit</span><span>Kondisi aset &amp; ruang</span></li>
+          <li><span class="chip wip">Audit</span><span>Audit QR</span></li>
+          <li><span class="chip wip">Audit</span><span>Pemeliharaan</span></li>
+          <li><span class="chip wip">Audit</span><span>Pengadaan &amp; persetujuan</span></li>
+          <li><span class="chip wip">Audit</span><span>Laporan &amp; dashboard</span></li>
+        </ul>
+      </section>
+      <section class="mod-panel" aria-labelledby="int-t">
+        <h3 id="int-t">Kesiapan integrasi</h3>
+        <p class="lead">Status ini berasal dari dokumentasi repositori, bukan dari data contoh. Sumber: <strong>Sarprasin</strong>.</p>
+        <ul class="mod-list">
+          <li><span class="chip wip">Belum</span><span>Struktur dan rute Sarpras masih dalam tahap audit integrasi</span></li>
+          <li><span class="chip wip">Belum</span><span>Build (Vite) belum dibuktikan siap produksi</span></li>
+          <li><span class="chip ok">Selesai</span><span>Kode sumber sudah berada di src/Sarpras (firebase, ai, tabel, komponen UI)</span></li>
+          <li><span class="chip wip">Belum</span><span>Dispatcher API serverless Sarpras belum ada di /api</span></li>
+          <li><span class="chip ok">Selesai</span><span>Firebase dipisah dari layanan Akademik dan Kesiswaan</span></li>
+        </ul>
+      </section>
+      <section class="mod-panel" aria-labelledby="att-t" data-kpi-module="sarpras">
+        <h3 id="att-t">Catatan penting</h3>
+        <ul class="mod-list" data-kpi-list="attention" data-kpi-module="sarpras"></ul>
+        <p class="lead" style="margin:14px 0 0">Rute produksi Sarpras belum ditetapkan. Jangan anggap seluruh fitur sudah siap hanya karena kodenya ada di repositori.</p>
+      </section>
+      <section class="mod-panel" aria-labelledby="act-t">
+        <h3 id="act-t">Aktivitas terbaru</h3>
+        <ul class="mod-list" data-kpi-list="activity" data-kpi-module="sarpras"></ul>
+      </section>
+
+    </div>
   </main>
   <div data-portal-footer></div>
 </body>
