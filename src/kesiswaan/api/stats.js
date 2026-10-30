@@ -1,7 +1,7 @@
 /*
 ==========================================================
 SMANSASOO Kesiswaan Portal
-API Route: /api/stats
+API Route: /api/kesiswaan/stats
 Version : 1.0.0
 ==========================================================
 Pencatat statistik pengunjung sederhana (page-view counter)
@@ -27,8 +27,8 @@ Setup (lihat juga README.md):
    pesan "belum diaktifkan" alih-alih data statistik.
 
 Method:
-- GET  /api/stats            -> ambil semua angka sekaligus
-- POST /api/stats?page=nilai -> tambah 1 hit untuk halaman itu
+- GET  /api/kesiswaan/stats            -> ambil semua angka sekaligus
+- POST /api/kesiswaan/stats?page=home  -> tambah 1 hit untuk halaman itu
 ==========================================================
 */
 
