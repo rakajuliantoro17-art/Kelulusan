@@ -61,7 +61,7 @@ Kartu & Pindai QR siswa.
                 </div>
             </div>
             <div class="kd-eks-actions" style="margin:.75rem 0 0;justify-content:flex-start">
-                ${bisaCatat ? `<a class="kd-btn kd-btn--primary" href="/pages/admin.html?nis=${encodeURIComponent(s.nis)}#input">Catat pelanggaran</a>` : ""}
+                ${bisaCatat ? `<a class="kd-btn kd-btn--primary" href="/kesiswaan/pages/admin.html?nis=${encodeURIComponent(s.nis)}#input">Catat pelanggaran</a>` : ""}
                 <button type="button" class="kd-btn" id="qrLagi">Pindai berikutnya</button>
             </div>`;
         $("qrLagi").addEventListener("click", () => { lastText = ""; $("qrHasil").scrollIntoView({ block: "nearest" }); });
