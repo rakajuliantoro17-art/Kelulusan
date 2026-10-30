@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "SMANSASOO Digital Portal",
-  "short_name": "SMANSASOO",
-  "description": "Portal digital terpadu SMAN 1 Sooko Mojokerto: Akademik, Sarana dan Prasarana, serta Kesiswaan.",
+  "name": "PINTUKU — Pelayanan Integrasi & Data Sekolah Terpadu",
+  "short_name": "PINTUKU",
+  "description": "PINTUKU adalah portal layanan digital terpadu SMAN 1 Sooko Mojokerto.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
