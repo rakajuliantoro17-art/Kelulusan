@@ -362,3 +362,16 @@ html[data-theme="light"] .portal-shell-footer strong { color:#344d69; }
 @media (prefers-reduced-motion:reduce) {
   .portal-theme-toggle { transition:none; }
 }
+
+
+/* Desktop canvas balance: reclaim excessive side gutters at 1920px */
+@media (min-width: 1440px) {
+  .portal-wrap { width:min(1800px,calc(100% - 72px)); }
+  .hero { grid-template-columns:minmax(0,1.35fr) minmax(420px,.65fr); }
+  .module-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:26px; }
+  .info-strip { gap:20px; }
+}
+@media (min-width: 1700px) {
+  .portal-wrap { width:calc(100% - 96px); max-width:1840px; }
+  .hero { gap:clamp(80px,7vw,140px); }
+}
