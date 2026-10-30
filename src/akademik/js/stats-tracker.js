@@ -53,7 +53,7 @@ CHANGELOG (v1.1.0):
 
     try {
 
-        fetch(`/api/akademik/stats?page=${encodeURIComponent(page)}`, {
+        fetch(`/api/stats?page=${encodeURIComponent(page)}`, {
             method: "POST",
             cache: "no-store",
             keepalive: true

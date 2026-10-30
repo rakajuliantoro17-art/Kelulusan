@@ -17,9 +17,9 @@ lalu memuat file ini di akhir <body>:
 
       <div id="shellFooter"></div>
 
-      <script src="/akademik/js/config.js"></script>
-      <script src="/akademik/js/utils.js"></script>
-      <script src="/akademik/js/shell.js"></script>
+      <script src="js/config.js"></script>
+      <script src="js/utils.js"></script>
+      <script src="js/shell.js"></script>
 
   </body>
 
@@ -132,22 +132,22 @@ window.Shell = (() => {
 
     const NAV_LINKS = [
         { key: "home", label: "Beranda", href: "/index.html", icon: "🏠" },
-        { key: "pengumuman", label: "Pengumuman", href: "/akademik/pages/pengumuman.html", icon: "📢" },
-        { key: "nilai", label: "Nilai", href: "/akademik/pages/nilai.html", icon: "📝" },
-        { key: "kelulusan", label: "Kelulusan", href: "/akademik/pages/kelulusan.html", icon: "🎓" },
-        { key: "prestasi", label: "Prestasi", href: "/akademik/pages/prestasi.html", icon: "🏆" },
-        { key: "rapor", label: "Rapor Pendidikan", href: "/akademik/pages/rapor.html", icon: "📈" },
-        { key: "simulasi-tka", label: "Simulasi TKA", href: "/akademik/pages/simulasi-tka.html", icon: "🧠" },
-        { key: "jadwal", label: "Jadwal Pelajaran", href: "/akademik/pages/jadwal.html", icon: "🗓️" },
-        { key: "rasionalisasi", label: "Rasionalisasi SNBP", href: "/akademik/pages/rasionalisasi.html", icon: "🎯" },
-        { key: "profil-belajar", label: "Profil Belajar", href: "/akademik/pages/profil-belajar.html", icon: "🧭" },
+        { key: "pengumuman", label: "Pengumuman", href: "/pages/pengumuman.html", icon: "📢" },
+        { key: "nilai", label: "Nilai", href: "/pages/nilai.html", icon: "📝" },
+        { key: "kelulusan", label: "Kelulusan", href: "/pages/kelulusan.html", icon: "🎓" },
+        { key: "prestasi", label: "Prestasi", href: "/pages/prestasi.html", icon: "🏆" },
+        { key: "rapor", label: "Rapor Pendidikan", href: "/pages/rapor.html", icon: "📈" },
+        { key: "simulasi-tka", label: "Simulasi TKA", href: "/pages/simulasi-tka.html", icon: "🧠" },
+        { key: "jadwal", label: "Jadwal Pelajaran", href: "/pages/jadwal.html", icon: "🗓️" },
+        { key: "rasionalisasi", label: "Rasionalisasi SNBP", href: "/pages/rasionalisasi.html", icon: "🎯" },
+        { key: "profil-belajar", label: "Profil Belajar", href: "/pages/profil-belajar.html", icon: "🧭" },
         { key: "elearning", label: "E-Learning", href: "http://lms.sman1sooko.sch.id/elearning/", icon: "💻", external: true }
     ];
 
     // Ditambahkan di footer saja (tidak memenuhi navbar/sidebar utama).
     const FOOTER_EXTRA_LINKS = [
-        { label: "Tentang", href: "/akademik/pages/about.html" },
-        { label: "Privasi", href: "/akademik/pages/privacy.html" }
+        { label: "Tentang", href: "/pages/about.html" },
+        { label: "Privasi", href: "/pages/privacy.html" }
     ];
 
     function activePage() {
@@ -173,7 +173,7 @@ window.Shell = (() => {
                 </button>
 
                 <a href="/index.html" class="app-navbar-brand">
-                    <img src="/akademik/assets/logo/logo.png" alt="Logo ${CONFIG.SCHOOL_NAME}">
+                    <img src="/assets/logo/logo.png" alt="Logo ${CONFIG.SCHOOL_NAME}">
                     <strong>${CONFIG.SCHOOL_NAME}</strong>
                 </a>
 

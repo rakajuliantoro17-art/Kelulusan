@@ -128,7 +128,7 @@ window.UI = (() => {
         <div class="${cardClass}">
 
             <div class="print-letterhead">
-                <img src="/akademik/assets/logo/logo.png" alt="Logo ${escapeHTML(CONFIG.SCHOOL_NAME)}">
+                <img src="assets/logo/logo.png" alt="Logo ${escapeHTML(CONFIG.SCHOOL_NAME)}">
                 <h3>${escapeHTML(CONFIG.SCHOOL_NAME)}</h3>
                 <p>Hasil Pengumuman Kenaikan Kelas &middot; Tahun Pelajaran ${escapeHTML(CONFIG.ACADEMIC_YEAR)}</p>
             </div>

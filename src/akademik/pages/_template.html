@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 1. GANTI judul halaman -->
+    <title>Judul Halaman | SMANSASOO Academic Portal</title>
+
+    <!-- ANTI-FLASH THEME INIT (wajib, jangan dihapus) -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('smansasoo-theme');
+                var theme = saved || ((window.matchMedia &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+
+    <link rel="icon" href="../assets/logo/favicon.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS wajib di setiap halaman -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/animation.css">
+    <link rel="stylesheet" href="../css/shell.css">
+    <link rel="stylesheet" href="../css/settings-drawer.css">
+    <link rel="stylesheet" href="../css/stats-panel.css">
+
+    <!-- 2. Tambahkan CSS khusus fitur ini di sini kalau perlu,
+         contoh: <link rel="stylesheet" href="../css/nilai.css"> -->
+
+</head>
+
+<!-- 3. GANTI data-page dengan key unik, lalu daftarkan di
+        NAV_LINKS pada js/shell.js supaya muncul di menu -->
+<body data-page="ganti-ini">
+
+    <!-- ================= SHELL: NAV ================= -->
+
+    <div id="shellNav"></div>
+
+    <!-- ================= HEADER (opsional) =================
+         Boleh dihapus kalau halaman tidak butuh hero title. -->
+
+    <header class="header">
+
+        <img src="../assets/logo/logo.png" alt="Logo SMAN 1 Sooko" class="logo">
+
+        <h1>
+            Judul
+            <span>Halaman</span>
+        </h1>
+
+        <p>Deskripsi singkat halaman ini.</p>
+
+    </header>
+
+    <!-- ================= KONTEN ================= -->
+
+    <main>
+
+        <section class="container">
+
+            <!-- 4. Isi halaman di sini. Pakai komponen yang sudah
+                 ada supaya konsisten, contoh:
+
+                 <div class="search-card"> ... </div>   -> css/style.css
+                 <div class="result-card"> ... </div>   -> css/style.css
+                 <div class="nilai-card"> ... </div>    -> css/nilai.css
+
+                 Jangan pakai warna/spacing hardcode; pakai
+                 var(--primary), var(--space-lg), dst dari
+                 css/variables.css. -->
+
+        </section>
+
+    </main>
+
+    <!-- ================= SHELL: FOOTER ================= -->
+
+    <div id="shellFooter"></div>
+
+    <!-- CONFIG (wajib, dipakai Shell untuk nama sekolah & versi) -->
+    <script src="../js/config.js"></script>
+
+    <!-- UTILS (wajib) -->
+    <script src="../js/utils.js"></script>
+
+    <!-- SHELL (wajib, render nav + footer) -->
+    <script src="../js/shell.js"></script>
+
+    <!-- STATISTIK PENGUNJUNG (panel floating di sidebar) -->
+    <script src="../js/stats-tracker.js"></script>
+    <script src="../js/stats-panel.js"></script>
+
+    <!-- TEMA (dark/light) + DRAWER PENGATURAN (wajib, jangan dihapus) -->
+    <script src="../js/theme.js"></script>
+    <script src="../js/settings-drawer.js"></script>
+
+    <!-- 5. Script khusus fitur ini ditambahkan di sini -->
+
+</body>
+
+</html>
