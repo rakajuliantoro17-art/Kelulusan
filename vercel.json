@@ -102,6 +102,10 @@
       "destination": "/src/kesiswaan/index.html"
     },
     {
+      "source": "/kesiswaan/",
+      "destination": "/src/kesiswaan/index.html"
+    },
+    {
       "source": "/kesiswaan/(.*)",
       "destination": "/src/kesiswaan/$1"
     },
