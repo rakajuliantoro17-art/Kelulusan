@@ -99,11 +99,11 @@
     },
     {
       "source": "/kesiswaan",
-      "destination": "/src/kesiswaan/index.html"
+      "destination": "/src/kesiswaan/index"
     },
     {
       "source": "/kesiswaan/",
-      "destination": "/src/kesiswaan/index.html"
+      "destination": "/src/kesiswaan/index"
     },
     {
       "source": "/kesiswaan/(.*)",
