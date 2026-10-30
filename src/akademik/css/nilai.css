@@ -439,6 +439,6 @@ tetap konsisten dengan halaman kenaikan kelas.
 
 body[data-page="nilai"] .bg-layer{
 
-    background-image:url("/akademik/assets/images/tyr.jpg");
+    background-image:url("../assets/images/tyr.jpg");
 
 }

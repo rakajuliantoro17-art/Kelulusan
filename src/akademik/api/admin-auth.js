@@ -12,15 +12,21 @@ docs/ADMIN-AUTH.md.
 POST: cek username + password admin DI SERVER, lalu kembalikan
 token bertanda tangan (HMAC-SHA256) yang berlaku 8 jam.
 
-Autentikasi fail-closed: login dan verifikasi token tidak aktif
-sebelum seluruh Environment Variable berikut diatur pada project
-Vercel terpadu:
-  ADMIN_USERNAME        nama pengguna admin
-  ADMIN_PASSWORD        kata sandi admin
-  ADMIN_SESSION_SECRET  rahasia acak panjang untuk tanda tangan token
+Kredensial default (SEMENTARA, supaya tidak perlu mengatur
+Environment Variable di Vercel dulu):
+  username: admin
+  password: ditentukan oleh pemilik portal -- TIDAK dituliskan
+            di source code ini. Yang tersimpan di bawah hanya
+            SHA-256 dari password itu (DEFAULT_PASSWORD_HASH),
+            jadi siapa pun yang membaca file ini tidak langsung
+            tahu passwordnya.
 
-Tidak ada kredensial atau signing secret default yang ditanam
-di source code. Jangan mengirim nilainya ke client atau commit.
+Kalau nanti mau ganti username/password tanpa ubah kode, isi
+Environment Variable di Vercel Project Settings (otomatis
+mengambil alih nilai default di atas):
+  ADMIN_USERNAME        mis. admin
+  ADMIN_PASSWORD        plaintext baru
+  ADMIN_SESSION_SECRET  opsional, string acak panjang
 
 Perlindungan tebak password: maksimal 5 gagal per IP per 10
 menit (disimpan di Upstash kalau UPSTASH_REDIS_REST_* terisi,
@@ -46,9 +52,12 @@ const TTL_SECONDS = 8 * 60 * 60;
 const MAX_FAILS = 5;
 const WINDOW_SECONDS = 10 * 60;
 
-// Tidak ada akun default; konfigurasi harus disediakan oleh server.
-const DEFAULT_USERNAME = "";
-// Credentials and token-signing secret must be configured in Vercel Environment Variables.
+// Default sementara -- lihat catatan di atas. Untuk mengganti,
+// isi ADMIN_USERNAME / ADMIN_PASSWORD di Environment Variable
+// Vercel (nilainya akan menggantikan default ini).
+const DEFAULT_USERNAME = "admin";
+const DEFAULT_PASSWORD_HASH = "1c563926e5cd9c53dbb4449cc919ef9d346021b3a1b14e5f1f377ed30eccefe2";
+const DEFAULT_SESSION_SECRET = "108c17f07e9b9bf7e1b7de3b8c047120558cc654c0e563a405b5af129ff3c040";
 
 const memFails = new Map();
 
@@ -82,14 +91,23 @@ function adminUsername() {
 // disimpan di sini).
 function passwordMatches(password) {
 
-    if (!process.env.ADMIN_PASSWORD) return false;
-    return safeEqual(password, process.env.ADMIN_PASSWORD);
+    if (process.env.ADMIN_PASSWORD) {
+        return safeEqual(password, process.env.ADMIN_PASSWORD);
+    }
+
+    const given = sha(password);
+    const expected = Buffer.from(DEFAULT_PASSWORD_HASH, "hex");
+
+    return given.length === expected.length && crypto.timingSafeEqual(given, expected);
 
 }
 
 function signingSecret() {
 
-    return process.env.ADMIN_SESSION_SECRET || "";
+    if (process.env.ADMIN_SESSION_SECRET) return process.env.ADMIN_SESSION_SECRET;
+    if (process.env.ADMIN_PASSWORD) return sha("smansasoo-admin|" + process.env.ADMIN_PASSWORD).toString("hex");
+
+    return DEFAULT_SESSION_SECRET;
 
 }
 
@@ -108,8 +126,6 @@ function signToken(payload) {
 ========================================== */
 
 function verifyAdmin(req) {
-
-    if (!process.env.ADMIN_SESSION_SECRET) return { ok: false, configured: false };
 
     const header = String(req.headers.authorization || "");
     const token = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
@@ -235,10 +251,6 @@ function readBody(req) {
 }
 
 async function handleLogin(req, res) {
-
-    if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD || !process.env.ADMIN_SESSION_SECRET) {
-        return res.status(503).json({ success: false, message: "Autentikasi admin belum dikonfigurasi di server." });
-    }
 
     const adminUser = adminUsername();
 

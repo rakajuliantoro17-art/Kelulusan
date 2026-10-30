@@ -26,7 +26,7 @@ halaman lain; file ini tidak bergantung pada shell.
 
     "use strict";
 
-    var DATA_URL = "/akademik/data/jadwal.json";
+    var DATA_URL = "/data/jadwal.json";
     var HARI = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
     var SEMUA = "Seminggu";
     var STORAGE_KELAS = "smansasoo-jadwal-kelas";

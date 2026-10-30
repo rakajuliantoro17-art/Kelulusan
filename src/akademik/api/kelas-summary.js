@@ -6,8 +6,8 @@ Version : 1.0.0
 ==========================================================
 Menggantikan Apps Script (Code.gs -> getClassSummary).
 Dipanggil dari browser lewat:
-  fetch("/api/akademik/kelas-summary?kelas=SEMUA&mapel=WAJIB")
-  fetch("/api/akademik/kelas-summary?kelas=XI-1&mapel=LANJUTAN")
+  fetch("/api/kelas-summary?kelas=SEMUA&mapel=WAJIB")
+  fetch("/api/kelas-summary?kelas=XI-1&mapel=LANJUTAN")
 
 Parameter:
 - kelas : nama kelas persis seperti di sheet, atau "SEMUA"

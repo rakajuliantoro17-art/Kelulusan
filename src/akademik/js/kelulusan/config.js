@@ -64,7 +64,7 @@ window.CONFIG = {
 
     API_BASE_URL:
 
-    "/api/akademik/kelulusan",
+    "/api/kelulusan",
 
     API_ACTIONS:{
 

@@ -10,7 +10,7 @@ window.PengumumanData = (() => {
 
     async function load() {
 
-        const response = await fetch("/api/akademik/announcements", { cache: "no-store" });
+        const response = await fetch("/api/announcements", { cache: "no-store" });
 
         if (!response.ok) {
             throw new Error(`Gagal memuat pengumuman (HTTP ${response.status}).`);

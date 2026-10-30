@@ -5,7 +5,7 @@ API Route: /api/kelas-list
 Version : 1.0.0
 ==========================================================
 Menggantikan Apps Script (Code.gs -> getClassList).
-Dipanggil dari browser lewat fetch("/api/akademik/kelas-list").
+Dipanggil dari browser lewat fetch("/api/kelas-list").
 Mengembalikan daftar nama kelas unik yang muncul di ketiga
 sheet (Wajib, Lanjutan, Raport), diurutkan A-Z.
 ==========================================================

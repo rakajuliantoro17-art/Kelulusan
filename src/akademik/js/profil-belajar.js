@@ -34,8 +34,8 @@ STORE_KEY juga dibaca js/rasionalisasi.js untuk mengisi rumpun.
 
     "use strict";
 
-    var CFG_URL = "/akademik/data/profil-belajar.json";
-    var RS_URL = "/akademik/data/rasionalisasi.json";
+    var CFG_URL = "/data/profil-belajar.json";
+    var RS_URL = "/data/rasionalisasi.json";
     var STORE_KEY = "smansasoo_profil_belajar";
     var DRAFT_KEY = "smansasoo_profil_belajar_draft";
     var PER_PAGE = 8;

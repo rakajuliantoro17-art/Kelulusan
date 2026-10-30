@@ -5,7 +5,7 @@ API Route: /api/nilai
 Version : 1.1.0
 ==========================================================
 Menggantikan Apps Script (Code.gs -> searchStudentByNIS).
-Dipanggil dari browser lewat fetch("/api/akademik/nilai?keyword=...").
+Dipanggil dari browser lewat fetch("/api/nilai?keyword=...").
 Server (bukan browser) yang mengambil data dari Google Sheets.
 
 Spreadsheet HARUS di-share "Anyone with the link - Viewer".

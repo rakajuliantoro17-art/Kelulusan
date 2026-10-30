@@ -6,7 +6,7 @@ Version : 1.0.0
 ==========================================================
 Client untuk tab "Rata-Rata Kelas" di pages/nilai.html.
 Sama seperti js/nilai-api.js, tidak pernah memanggil Apps
-Script: hanya memanggil /api/akademik/kelas-list dan /api/akademik/kelas-summary,
+Script: hanya memanggil /api/kelas-list dan /api/kelas-summary,
 dua Vercel Serverless Function di repo yang sama.
 ==========================================================
 */
@@ -57,7 +57,7 @@ async function getClassList(tahun) {
 
     const query = params.toString();
 
-    const result = await fetchKelasJSON(`/api/akademik/kelas-list${query ? `?${query}` : ""}`);
+    const result = await fetchKelasJSON(`/api/kelas-list${query ? `?${query}` : ""}`);
 
     return result.success ? result.data : [];
 
@@ -80,7 +80,7 @@ async function getClassSummary(kelas, mapel, tahun) {
         params.set("tahun", tahun);
     }
 
-    const result = await fetchKelasJSON(`/api/akademik/kelas-summary?${params.toString()}`);
+    const result = await fetchKelasJSON(`/api/kelas-summary?${params.toString()}`);
 
     if (!result.message) {
 

@@ -24,7 +24,7 @@ FIX (v2.3.0):
 - USE_SAMPLE_DATA dikembalikan ke false karena backend
   permanen sudah aktif.
 - Path aset (logo, ikon, background, sample data) dibuat
-  absolut ("/akademik/assets/...", "/akademik/data/...") supaya tetap benar
+  absolut ("/assets/...", "/data/...") supaya tetap benar
   dipanggil dari halaman mana pun, bukan cuma dari root.
 ==========================================================
 */
@@ -65,7 +65,7 @@ window.CONFIG = {
     ====================================================== */
 
     API_BASE_URL:
-        "/api/akademik/kenaikan",
+        "/api/kenaikan",
 
     API_ACTIONS: {
 
@@ -80,7 +80,7 @@ window.CONFIG = {
     },
 
     SAMPLE_DATA_URL:
-        "/akademik/data/sample.json",
+        "/data/sample.json",
 
     API_TIMEOUT: 10000,
 
@@ -106,16 +106,16 @@ window.CONFIG = {
     ====================================================== */
 
     BACKGROUND_IMAGE:
-        "/akademik/assets/images/scc.jpg",
+        "/assets/images/scc.jpg",
 
     LOGO:
-        "/akademik/assets/logo/logo.png",
+        "/assets/logo/logo.png",
 
     ICON:
-        "/akademik/assets/icons/icon.png",
+        "/assets/icons/icon.png",
 
     FAVICON:
-        "/akademik/assets/favicon.ico",
+        "/assets/favicon.ico",
 
     /* ======================================================
        CELEBRATION
@@ -132,7 +132,7 @@ window.CONFIG = {
     ENABLE_AUDIO: true,
 
     AUDIO_URL:
-        "/akademik/assets/audio/naik-kelas.mp3",
+        "/assets/audio/naik-kelas.mp3",
 
     CONFETTI_PARTICLE: 180,
 

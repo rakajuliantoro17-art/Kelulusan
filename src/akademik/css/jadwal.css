@@ -20,7 +20,7 @@ halaman lain: anti-flash script + js/theme.js).
    yang di-override; position/size/repeat/blur tetap dari
    glass.css. */
 body[data-page="jadwal"] .bg-layer {
-    background-image: url("/akademik/assets/images/Skr.jpg");
+    background-image: url("../assets/images/Skr.jpg");
 }
 
 .jd {

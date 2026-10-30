@@ -45,7 +45,7 @@ body.tka-page{
 /* Foto background, sama dengan pages/nilai.html -- lihat css/glass.css
    untuk .bg-layer dan css/nilai.css untuk pola override serupa. */
 body[data-page="simulasi-tka"] .bg-layer{
-    background-image:url("/akademik/assets/images/tyr.jpg");
+    background-image:url("../assets/images/tyr.jpg");
 }
 
 /* ==========================================

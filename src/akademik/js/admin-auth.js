@@ -34,8 +34,8 @@ menolak permintaan tanpa login (lihat docs/ADMIN-AUTH.md).
     // Login (POST) dan verifikasi (GET) sekarang satu endpoint yang sama
     // -- lihat api/admin-auth.js (digabung supaya tidak melebihi batas
     // 12 Serverless Functions di paket Vercel Hobby).
-    const LOGIN_URL = "/api/akademik/admin-auth";
-    const VERIFY_URL = "/api/akademik/admin-auth";
+    const LOGIN_URL = "/api/admin-auth";
+    const VERIFY_URL = "/api/admin-auth";
     const PROTECTED_API = /^\/api\/absensi-/;
 
     const thisScript = document.currentScript;
