@@ -102,3 +102,39 @@ Modul memiliki aset logo, foto latar, tanda tangan, ikon, dan vendor QR. Manifes
 Audit ini hanya membaca struktur dan isi repository. Tidak ada file aplikasi, API, konfigurasi, aset, atau data Kesiswaan yang diubah dalam proses audit.
 
 **Tahap berikutnya:** menyelesaikan pemetaan dependensi file dan pemeriksaan route, lalu menyusun urutan perapian per file sebelum implementasi dilakukan.
+
+
+## 7. Implementasi dashboard utama PINTUKU
+
+**Status:** Implementasi awal selesai pada branch `main`.
+
+File yang diperbarui:
+- `index.html`: identitas halaman, metadata, judul utama, dan akses aktif ke modul Kesiswaan.
+- `css/portal.css`: penyempurnaan deep glassmorphism, lapisan panel, border, blur, pencahayaan, dan responsivitas.
+- `css/portal-shell.css`: penyempurnaan navigasi kaca dan akses navigasi pada layar kecil.
+- `js/portal-shell.js`: identitas PINTUKU pada header dan footer.
+- `js/portal.js`: penyesuaian label log service worker.
+- `manifest.json`: nama aplikasi dan warna tema PINTUKU.
+
+### Hasil implementasi
+- Nama portal pada judul, metadata, header, footer, dan manifest menggunakan PINTUKU.
+- Kartu Kesiswaan menjadi akses aktif menuju `/kesiswaan/`.
+- Kartu Akademik dan Sarpras tetap ditandai tahap integrasi; tidak diubah fungsinya.
+- Tampilan portal menggunakan pendekatan deep glassmorphism dengan latar midnight navy, permukaan kaca berlapis, blur terkontrol, aksen ice blue/cyan, dan bayangan lembut.
+- Navigasi modul tetap tersedia pada layar kecil melalui area navigasi yang dapat digulir horizontal.
+- Identitas internal Gerakan Disiplin Sekolah tidak diubah.
+- Tidak ada perubahan pada API, data, spreadsheet, atau backend modul.
+
+### Pemeriksaan statis pasca perubahan
+Pemeriksaan isi file memastikan:
+- Title dan metadata PINTUKU tersedia.
+- Tautan Kesiswaan mengarah ke `/kesiswaan/` dan status pending telah dilepas.
+- Header dan footer menggunakan identitas PINTUKU.
+- Navigasi mobile tidak lagi menyembunyikan seluruh tautan modul.
+- Manifest menggunakan nama pendek PINTUKU.
+- Aturan deep glassmorphism tersedia.
+- Tidak ditemukan literal escape newline yang tertinggal pada stylesheet navigasi.
+
+### Batas verifikasi
+Pemeriksaan runtime/browser dan status deployment Vercel belum dapat dikonfirmasi melalui pemeriksaan ini. Karena itu, implementasi dinyatakan **selesai pada tingkat perubahan source dan pemeriksaan statis**, belum dinyatakan lulus uji produksi. Lakukan uji visual desktop/mobile dan uji route Kesiswaan setelah deployment selesai.
+
