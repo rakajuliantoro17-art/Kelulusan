@@ -1,0 +1,115 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Application Offline Component
+File : src/components/layout/app-offline.html
+Version : 2.0.0
+==========================================================
+-->
+
+<section
+    id="appOffline"
+    class="app-offline hidden"
+    role="status"
+    aria-live="polite">
+
+    <div class="offline-card">
+
+        <!-- ======================================
+             Logo
+        ======================================= -->
+
+        <img
+            src="/logo/icon.png"
+            alt="Sarprasin"
+            class="offline-logo">
+
+        <!-- ======================================
+             Icon
+        ======================================= -->
+
+        <div
+            class="offline-icon"
+            aria-hidden="true">
+
+            📡
+
+        </div>
+
+        <!-- ======================================
+             Title
+        ======================================= -->
+
+        <h2
+            id="offlineTitle"
+            class="offline-title">
+
+            Anda Sedang Offline
+
+        </h2>
+
+        <!-- ======================================
+             Message
+        ======================================= -->
+
+        <p
+            id="offlineMessage"
+            class="offline-message">
+
+            Tidak ada koneksi internet. Beberapa fitur mungkin tidak tersedia,
+            tetapi data yang tersimpan secara lokal tetap dapat diakses.
+
+        </p>
+
+        <!-- ======================================
+             Information
+        ======================================= -->
+
+        <ul class="offline-info">
+
+            <li>✓ Data yang telah disinkronkan masih dapat dibuka.</li>
+            <li>✓ Perubahan akan dikirim saat koneksi kembali.</li>
+            <li>✕ Sinkronisasi dan upload sementara dinonaktifkan.</li>
+        </ul>
+
+        <!-- ======================================
+             Actions
+        ======================================= -->
+
+        <div class="offline-actions">
+
+            <button
+                id="retryConnectionButton"
+                type="button"
+                class="btn btn-primary">
+
+                Coba Lagi
+
+            </button>
+
+            <button
+                id="continueOfflineButton"
+                type="button"
+                class="btn btn-outline">
+
+                Lanjutkan Offline
+
+            </button>
+
+        </div>
+
+        <!-- ======================================
+             Status
+        ======================================= -->
+
+        <small
+            id="offlineStatus"
+            class="offline-status">
+
+            Menunggu koneksi internet...
+
+        </small>
+
+    </div>
+
+</section>

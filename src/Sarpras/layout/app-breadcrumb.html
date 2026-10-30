@@ -1,0 +1,74 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Application Breadcrumb Component
+File : src/components/layout/app-breadcrumb.html
+Version : 1.0.0
+==========================================================
+-->
+
+<nav
+    class="app-breadcrumb"
+    aria-label="Breadcrumb">
+
+    <ol
+        id="breadcrumbList"
+        class="breadcrumb-list">
+
+        <!-- =====================================
+             Home
+        ====================================== -->
+
+        <li class="breadcrumb-item">
+
+            <a
+                href="/"
+                data-route="/">
+
+                <span class="breadcrumb-icon">
+
+                    🏠
+
+                </span>
+
+                Dashboard
+
+            </a>
+
+        </li>
+
+        <!-- =====================================
+             Dynamic Item
+        ====================================== -->
+
+        <li
+            class="breadcrumb-item"
+            id="breadcrumbParent"
+            hidden>
+
+            <span class="breadcrumb-separator">
+
+                /
+
+            </span>
+
+            <a href="#"></a>
+
+        </li>
+
+        <!-- =====================================
+             Current Page
+        ====================================== -->
+
+        <li
+            class="breadcrumb-item active"
+            id="breadcrumbCurrent"
+            aria-current="page">
+
+            Dashboard
+
+        </li>
+
+    </ol>
+
+</nav>

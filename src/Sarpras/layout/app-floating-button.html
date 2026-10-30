@@ -1,0 +1,108 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Floating Action Button
+File : src/components/layout/app-floating-button.html
+Version : 2.0.0
+==========================================================
+-->
+
+<div
+    id="floatingAction"
+    class="floating-action-container">
+
+    <!-- ======================================
+         Speed Dial Menu
+    ======================================= -->
+
+    <div
+        id="fabMenu"
+        class="fab-menu hidden">
+
+        <button
+            type="button"
+            class="fab-item"
+            data-action="asset"
+            aria-label="Tambah Aset">
+
+            <span class="fab-icon">📦</span>
+
+            <span class="fab-label">
+
+                Tambah Aset
+
+            </span>
+
+        </button>
+
+        <button
+            type="button"
+            class="fab-item"
+            data-action="maintenance"
+            aria-label="Maintenance">
+
+            <span class="fab-icon">🛠️</span>
+
+            <span class="fab-label">
+
+                Maintenance
+
+            </span>
+
+        </button>
+
+        <button
+            type="button"
+            class="fab-item"
+            data-action="scan"
+            aria-label="Scan QR">
+
+            <span class="fab-icon">📷</span>
+
+            <span class="fab-label">
+
+                Scan QR
+
+            </span>
+
+        </button>
+
+        <button
+            type="button"
+            class="fab-item"
+            data-action="report"
+            aria-label="Generate Laporan">
+
+            <span class="fab-icon">📄</span>
+
+            <span class="fab-label">
+
+                Laporan
+
+            </span>
+
+        </button>
+
+    </div>
+
+    <!-- ======================================
+         Main FAB
+    ======================================= -->
+
+    <button
+        id="fabButton"
+        class="fab-button"
+        type="button"
+        aria-expanded="false"
+        aria-controls="fabMenu"
+        aria-label="Menu Cepat">
+
+        <span id="fabIcon">
+
+            ＋
+
+        </span>
+
+    </button>
+
+</div>

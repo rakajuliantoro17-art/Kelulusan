@@ -1,0 +1,384 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Settings Form Component
+File : src/components/forms/settings-form.html
+Version : 1.0.0
+==========================================================
+-->
+
+<section class="card card-glass settings-form-card">
+
+    <!-- ==========================================
+         Header
+    =========================================== -->
+
+    <header class="card-header">
+
+        <div>
+
+            <h2 class="card-title">
+
+                Pengaturan Sistem
+
+            </h2>
+
+            <p class="card-subtitle">
+
+                Konfigurasi aplikasi Sarprasin 2.0.
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ==========================================
+         Form
+    =========================================== -->
+
+    <form
+        id="settingsForm"
+        class="form"
+        autocomplete="off">
+
+        <div class="form-grid">
+
+            <!-- Nama Sekolah -->
+
+            <div class="form-group form-col-2">
+
+                <label for="schoolName">
+
+                    Nama Sekolah
+
+                </label>
+
+                <input
+                    id="schoolName"
+                    name="schoolName"
+                    type="text"
+                    value="SMAN 1 Sooko Mojokerto">
+
+            </div>
+
+            <!-- Tahun -->
+
+            <div class="form-group">
+
+                <label for="academicYear">
+
+                    Tahun Ajaran
+
+                </label>
+
+                <input
+                    id="academicYear"
+                    name="academicYear"
+                    type="text"
+                    placeholder="2026/2027">
+
+            </div>
+
+            <!-- Bahasa -->
+
+            <div class="form-group">
+
+                <label for="language">
+
+                    Bahasa
+
+                </label>
+
+                <select
+                    id="language"
+                    name="language">
+
+                    <option value="id">
+
+                        Indonesia
+
+                    </option>
+
+                    <option value="en">
+
+                        English
+
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Zona Waktu -->
+
+            <div class="form-group">
+
+                <label for="timezone">
+
+                    Zona Waktu
+
+                </label>
+
+                <select
+                    id="timezone"
+                    name="timezone">
+
+                    <option value="Asia/Jakarta">
+
+                        WIB (Asia/Jakarta)
+
+                    </option>
+
+                    <option value="Asia/Makassar">
+
+                        WITA
+
+                    </option>
+
+                    <option value="Asia/Jayapura">
+
+                        WIT
+
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Tema -->
+
+            <div class="form-group">
+
+                <label for="theme">
+
+                    Tema
+
+                </label>
+
+                <select
+                    id="theme"
+                    name="theme">
+
+                    <option value="light">
+
+                        Light
+
+                    </option>
+
+                    <option value="dark">
+
+                        Dark
+
+                    </option>
+
+                    <option value="system">
+
+                        Ikuti Sistem
+
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- =====================================
+                 Notifications
+            ====================================== -->
+
+            <div class="form-group form-col-2">
+
+                <label>
+
+                    Notifikasi
+
+                </label>
+
+                <div class="checkbox-group">
+
+                    <label class="checkbox">
+
+                        <input
+                            type="checkbox"
+                            name="emailNotification"
+                            checked>
+
+                        <span>
+
+                            Email
+
+                        </span>
+
+                    </label>
+
+                    <label class="checkbox">
+
+                        <input
+                            type="checkbox"
+                            name="pushNotification"
+                            checked>
+
+                        <span>
+
+                            Push Notification
+
+                        </span>
+
+                    </label>
+
+                    <label class="checkbox">
+
+                        <input
+                            type="checkbox"
+                            name="maintenanceReminder"
+                            checked>
+
+                        <span>
+
+                            Reminder Maintenance
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <!-- =====================================
+                 Backup
+            ====================================== -->
+
+            <div class="form-group">
+
+                <label for="backupInterval">
+
+                    Backup Otomatis
+
+                </label>
+
+                <select
+                    id="backupInterval"
+                    name="backupInterval">
+
+                    <option value="daily">
+
+                        Harian
+
+                    </option>
+
+                    <option value="weekly">
+
+                        Mingguan
+
+                    </option>
+
+                    <option value="monthly">
+
+                        Bulanan
+
+                    </option>
+
+                    <option value="off">
+
+                        Nonaktif
+
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- =====================================
+                 Sinkronisasi
+            ====================================== -->
+
+            <div class="form-group">
+
+                <label for="syncInterval">
+
+                    Sinkronisasi Spreadsheet
+
+                </label>
+
+                <select
+                    id="syncInterval"
+                    name="syncInterval">
+
+                    <option value="5">
+
+                        Setiap 5 Menit
+
+                    </option>
+
+                    <option value="15">
+
+                        Setiap 15 Menit
+
+                    </option>
+
+                    <option value="60">
+
+                        Setiap 1 Jam
+
+                    </option>
+
+                    <option value="manual">
+
+                        Manual
+
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- =====================================
+                 Logo
+            ====================================== -->
+
+            <div class="form-group form-col-2">
+
+                <label for="schoolLogo">
+
+                    Logo Sekolah
+
+                </label>
+
+                <input
+                    id="schoolLogo"
+                    name="schoolLogo"
+                    type="file"
+                    accept="image/*">
+
+            </div>
+
+        </div>
+
+        <!-- ======================================
+             Footer
+        ======================================= -->
+
+        <footer class="form-footer">
+
+            <button
+                type="reset"
+                class="btn btn-outline">
+
+                Reset
+
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Simpan Pengaturan
+
+            </button>
+
+        </footer>
+
+    </form>
+
+</section>

@@ -1,0 +1,343 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Asset Form Component
+File : src/components/forms/asset-form.html
+Version : 1.0.0
+==========================================================
+-->
+
+<section class="card card-glass asset-form-card">
+
+    <!-- ==========================================
+         Header
+    =========================================== -->
+
+    <header class="card-header">
+
+        <div>
+
+            <h2 class="card-title">
+
+                Form Data Aset
+
+            </h2>
+
+            <p class="card-subtitle">
+
+                Tambah atau ubah data inventaris sarana dan prasarana.
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ==========================================
+         Form
+    =========================================== -->
+
+    <form
+        id="assetForm"
+        class="form"
+        autocomplete="off">
+
+        <div class="form-grid">
+
+            <!-- Kode Aset -->
+
+            <div class="form-group">
+
+                <label for="assetCode">
+
+                    Kode Aset
+
+                </label>
+
+                <input
+                    id="assetCode"
+                    name="assetCode"
+                    type="text"
+                    placeholder="AST-2026-000001"
+                    readonly>
+
+            </div>
+
+            <!-- Nomor Inventaris -->
+
+            <div class="form-group">
+
+                <label for="inventoryNumber">
+
+                    Nomor Inventaris
+
+                </label>
+
+                <input
+                    id="inventoryNumber"
+                    name="inventoryNumber"
+                    type="text"
+                    required>
+
+            </div>
+
+            <!-- Nama -->
+
+            <div class="form-group form-col-2">
+
+                <label for="assetName">
+
+                    Nama Aset
+
+                </label>
+
+                <input
+                    id="assetName"
+                    name="assetName"
+                    type="text"
+                    required>
+
+            </div>
+
+            <!-- Kategori -->
+
+            <div class="form-group">
+
+                <label for="category">
+
+                    Kategori
+
+                </label>
+
+                <select
+                    id="category"
+                    name="category"
+                    required>
+
+                    <option value="">
+                        Pilih Kategori
+                    </option>
+
+                    <option>Elektronik</option>
+                    <option>Meubel</option>
+                    <option>Laboratorium</option>
+                    <option>Olahraga</option>
+                    <option>Gedung</option>
+                    <option>Lainnya</option>
+
+                </select>
+
+            </div>
+
+            <!-- Lokasi -->
+
+            <div class="form-group">
+
+                <label for="location">
+
+                    Lokasi
+
+                </label>
+
+                <input
+                    id="location"
+                    name="location"
+                    type="text">
+
+            </div>
+
+            <!-- Ruangan -->
+
+            <div class="form-group">
+
+                <label for="room">
+
+                    Ruangan
+
+                </label>
+
+                <input
+                    id="room"
+                    name="room"
+                    type="text">
+
+            </div>
+
+            <!-- Kondisi -->
+
+            <div class="form-group">
+
+                <label for="condition">
+
+                    Kondisi
+
+                </label>
+
+                <select
+                    id="condition"
+                    name="condition">
+
+                    <option>Baik</option>
+                    <option>Rusak Ringan</option>
+                    <option>Rusak Berat</option>
+                    <option>Maintenance</option>
+
+                </select>
+
+            </div>
+
+            <!-- Jumlah -->
+
+            <div class="form-group">
+
+                <label for="quantity">
+
+                    Jumlah
+
+                </label>
+
+                <input
+                    id="quantity"
+                    name="quantity"
+                    type="number"
+                    min="1"
+                    value="1">
+
+            </div>
+
+            <!-- Satuan -->
+
+            <div class="form-group">
+
+                <label for="unit">
+
+                    Satuan
+
+                </label>
+
+                <input
+                    id="unit"
+                    name="unit"
+                    type="text"
+                    placeholder="Unit">
+
+            </div>
+
+            <!-- Tahun -->
+
+            <div class="form-group">
+
+                <label for="year">
+
+                    Tahun Perolehan
+
+                </label>
+
+                <input
+                    id="year"
+                    name="year"
+                    type="number"
+                    min="1990"
+                    max="2100">
+
+            </div>
+
+            <!-- Nilai -->
+
+            <div class="form-group">
+
+                <label for="assetValue">
+
+                    Nilai Perolehan (Rp)
+
+                </label>
+
+                <input
+                    id="assetValue"
+                    name="assetValue"
+                    type="number"
+                    min="0">
+
+            </div>
+
+            <!-- Penanggung Jawab -->
+
+            <div class="form-group form-col-2">
+
+                <label for="personInCharge">
+
+                    Penanggung Jawab
+
+                </label>
+
+                <input
+                    id="personInCharge"
+                    name="personInCharge"
+                    type="text">
+
+            </div>
+
+            <!-- Deskripsi -->
+
+            <div class="form-group form-col-2">
+
+                <label for="description">
+
+                    Deskripsi
+
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="4"></textarea>
+
+            </div>
+
+            <!-- Foto -->
+
+            <div class="form-group form-col-2">
+
+                <label for="assetImage">
+
+                    Foto Aset
+
+                </label>
+
+                <input
+                    id="assetImage"
+                    name="assetImage"
+                    type="file"
+                    accept="image/*">
+
+            </div>
+
+        </div>
+
+        <!-- ======================================
+             Footer
+        ======================================= -->
+
+        <footer class="form-footer">
+
+            <button
+                type="reset"
+                class="btn btn-outline">
+
+                Reset
+
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Simpan Aset
+
+            </button>
+
+        </footer>
+
+    </form>
+
+</section>

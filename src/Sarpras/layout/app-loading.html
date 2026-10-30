@@ -1,0 +1,86 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Application Loading Component
+File : src/components/layout/app-loading.html
+Version : 2.0.0
+==========================================================
+-->
+
+<section
+    id="appLoading"
+    class="app-loading hidden"
+    aria-live="polite"
+    aria-busy="true">
+
+    <!-- ==========================================
+         Background Overlay
+    =========================================== -->
+
+    <div class="loading-backdrop"></div>
+
+    <!-- ==========================================
+         Loading Card
+    =========================================== -->
+
+    <div class="loading-card">
+
+        <!-- Logo -->
+
+        <img
+            src="/logo/icon.png"
+            alt="Sarprasin"
+            class="loading-logo">
+
+        <!-- Spinner -->
+
+        <div
+            class="loading-spinner"
+            aria-hidden="true"></div>
+
+        <!-- Title -->
+
+        <h2
+            id="loadingTitle"
+            class="loading-title">
+
+            Memproses...
+
+        </h2>
+
+        <!-- Message -->
+
+        <p
+            id="loadingMessage"
+            class="loading-message">
+
+            Mohon tunggu sebentar.
+
+        </p>
+
+        <!-- Progress -->
+
+        <progress
+            id="loadingProgress"
+            class="loading-progress"
+            max="100"
+            value="0"
+            hidden>
+
+            0%
+
+        </progress>
+
+        <!-- Status -->
+
+        <small
+            id="loadingStatus"
+            class="loading-status">
+
+            Menyiapkan sistem...
+
+        </small>
+
+    </div>
+
+</section>

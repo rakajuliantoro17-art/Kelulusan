@@ -1,0 +1,294 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Filter Form Component
+File : src/components/forms/filter-form.html
+Version : 1.0.0
+==========================================================
+-->
+
+<section class="card card-glass filter-form-card">
+
+    <!-- ==========================================
+         Header
+    =========================================== -->
+
+    <header class="card-header">
+
+        <div>
+
+            <h3 class="card-title">
+
+                Filter Data
+
+            </h3>
+
+            <p class="card-subtitle">
+
+                Gunakan filter untuk mempersempit hasil pencarian.
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ==========================================
+         Form
+    =========================================== -->
+
+    <form
+        id="filterForm"
+        class="form"
+        autocomplete="off">
+
+        <div class="form-grid">
+
+            <!-- Kata Kunci -->
+
+            <div class="form-group form-col-2">
+
+                <label for="keyword">
+
+                    Kata Kunci
+
+                </label>
+
+                <input
+                    id="keyword"
+                    name="keyword"
+                    type="search"
+                    placeholder="Nama aset, kode inventaris, lokasi...">
+
+            </div>
+
+            <!-- Kategori -->
+
+            <div class="form-group">
+
+                <label for="category">
+
+                    Kategori
+
+                </label>
+
+                <select
+                    id="category"
+                    name="category">
+
+                    <option value="">Semua</option>
+                    <option>Elektronik</option>
+                    <option>Meubel</option>
+                    <option>Laboratorium</option>
+                    <option>Olahraga</option>
+                    <option>Gedung</option>
+                    <option>Lainnya</option>
+
+                </select>
+
+            </div>
+
+            <!-- Kondisi -->
+
+            <div class="form-group">
+
+                <label for="condition">
+
+                    Kondisi
+
+                </label>
+
+                <select
+                    id="condition"
+                    name="condition">
+
+                    <option value="">Semua</option>
+                    <option>Baik</option>
+                    <option>Rusak Ringan</option>
+                    <option>Rusak Berat</option>
+                    <option>Maintenance</option>
+
+                </select>
+
+            </div>
+
+            <!-- Lokasi -->
+
+            <div class="form-group">
+
+                <label for="location">
+
+                    Lokasi
+
+                </label>
+
+                <input
+                    id="location"
+                    name="location"
+                    type="text"
+                    placeholder="Gedung / Area">
+
+            </div>
+
+            <!-- Ruangan -->
+
+            <div class="form-group">
+
+                <label for="room">
+
+                    Ruangan
+
+                </label>
+
+                <input
+                    id="room"
+                    name="room"
+                    type="text"
+                    placeholder="Contoh: Lab Komputer 1">
+
+            </div>
+
+            <!-- Tahun -->
+
+            <div class="form-group">
+
+                <label for="year">
+
+                    Tahun Perolehan
+
+                </label>
+
+                <select
+                    id="year"
+                    name="year">
+
+                    <option value="">Semua</option>
+
+                    <option>2026</option>
+                    <option>2025</option>
+                    <option>2024</option>
+                    <option>2023</option>
+                    <option>2022</option>
+
+                </select>
+
+            </div>
+
+            <!-- Penanggung Jawab -->
+
+            <div class="form-group">
+
+                <label for="personInCharge">
+
+                    Penanggung Jawab
+
+                </label>
+
+                <input
+                    id="personInCharge"
+                    name="personInCharge"
+                    type="text">
+
+            </div>
+
+            <!-- Urutkan -->
+
+            <div class="form-group">
+
+                <label for="sortBy">
+
+                    Urutkan
+
+                </label>
+
+                <select
+                    id="sortBy"
+                    name="sortBy">
+
+                    <option value="name">
+                        Nama Aset
+                    </option>
+
+                    <option value="code">
+                        Kode Aset
+                    </option>
+
+                    <option value="category">
+                        Kategori
+                    </option>
+
+                    <option value="condition">
+                        Kondisi
+                    </option>
+
+                    <option value="year">
+                        Tahun
+                    </option>
+
+                    <option value="updated">
+                        Update Terbaru
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Arah Urutan -->
+
+            <div class="form-group">
+
+                <label for="order">
+
+                    Urutan
+
+                </label>
+
+                <select
+                    id="order"
+                    name="order">
+
+                    <option value="asc">
+
+                        Naik (A-Z)
+
+                    </option>
+
+                    <option value="desc">
+
+                        Turun (Z-A)
+
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- ======================================
+             Footer
+        ======================================= -->
+
+        <footer class="form-footer">
+
+            <button
+                type="reset"
+                class="btn btn-outline">
+
+                Reset
+
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Terapkan Filter
+
+            </button>
+
+        </footer>
+
+    </form>
+
+</section>

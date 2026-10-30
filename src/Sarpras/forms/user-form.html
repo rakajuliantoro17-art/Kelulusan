@@ -1,0 +1,286 @@
+<!--
+==========================================================
+Sarprasin 2.0
+User Form Component
+File : src/components/forms/user-form.html
+Version : 1.0.0
+==========================================================
+-->
+
+<section class="card card-glass user-form-card">
+
+    <!-- ==========================================
+         Header
+    =========================================== -->
+
+    <header class="card-header">
+
+        <div>
+
+            <h2 class="card-title">
+
+                Manajemen Pengguna
+
+            </h2>
+
+            <p class="card-subtitle">
+
+                Tambah, ubah, dan kelola akun pengguna Sarprasin.
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ==========================================
+         Form
+    =========================================== -->
+
+    <form
+        id="userForm"
+        class="form"
+        autocomplete="off">
+
+        <div class="form-grid">
+
+            <!-- Nama -->
+
+            <div class="form-group form-col-2">
+
+                <label for="fullName">
+
+                    Nama Lengkap
+
+                </label>
+
+                <input
+                    id="fullName"
+                    name="fullName"
+                    type="text"
+                    required>
+
+            </div>
+
+            <!-- NIP/NIK -->
+
+            <div class="form-group">
+
+                <label for="employeeId">
+
+                    NIP / NIK
+
+                </label>
+
+                <input
+                    id="employeeId"
+                    name="employeeId"
+                    type="text">
+
+            </div>
+
+            <!-- Email -->
+
+            <div class="form-group">
+
+                <label for="email">
+
+                    Email
+
+                </label>
+
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="nama@sman1sooko.sch.id"
+                    required>
+
+            </div>
+
+            <!-- Password -->
+
+            <div class="form-group">
+
+                <label for="password">
+
+                    Password
+
+                </label>
+
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Minimal 8 karakter">
+
+            </div>
+
+            <!-- Nomor HP -->
+
+            <div class="form-group">
+
+                <label for="phone">
+
+                    Nomor HP
+
+                </label>
+
+                <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    placeholder="08xxxxxxxxxx">
+
+            </div>
+
+            <!-- Jabatan -->
+
+            <div class="form-group">
+
+                <label for="position">
+
+                    Jabatan
+
+                </label>
+
+                <input
+                    id="position"
+                    name="position"
+                    type="text"
+                    placeholder="Guru, Laboran, Waka Sarpras">
+
+            </div>
+
+            <!-- Level -->
+
+            <div class="form-group">
+
+                <label for="level">
+
+                    Hak Akses
+
+                </label>
+
+                <select
+                    id="level"
+                    name="level"
+                    required>
+
+                    <option value="user">
+
+                        User
+
+                    </option>
+
+                    <option value="executive">
+
+                        Executive
+
+                    </option>
+
+                    <option value="admin">
+
+                        Admin
+
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Status -->
+
+            <div class="form-group">
+
+                <label for="status">
+
+                    Status
+
+                </label>
+
+                <select
+                    id="status"
+                    name="status">
+
+                    <option value="active">
+
+                        Aktif
+
+                    </option>
+
+                    <option value="inactive">
+
+                        Nonaktif
+
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Foto -->
+
+            <div class="form-group form-col-2">
+
+                <label for="photo">
+
+                    Foto Profil
+
+                </label>
+
+                <input
+                    id="photo"
+                    name="photo"
+                    type="file"
+                    accept="image/*">
+
+            </div>
+
+            <!-- Catatan -->
+
+            <div class="form-group form-col-2">
+
+                <label for="notes">
+
+                    Catatan
+
+                </label>
+
+                <textarea
+                    id="notes"
+                    name="notes"
+                    rows="4"
+                    placeholder="Informasi tambahan mengenai pengguna..."></textarea>
+
+            </div>
+
+        </div>
+
+        <!-- ======================================
+             Footer
+        ======================================= -->
+
+        <footer class="form-footer">
+
+            <button
+                type="reset"
+                class="btn btn-outline">
+
+                Reset
+
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Simpan Pengguna
+
+            </button>
+
+        </footer>
+
+    </form>
+
+</section>

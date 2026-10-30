@@ -1,0 +1,161 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Application Notification Panel
+File : src/components/layout/app-notification.html
+Version : 2.0.0
+==========================================================
+-->
+
+<aside
+    id="notificationPanel"
+    class="notification-panel hidden"
+    aria-labelledby="notificationTitle">
+
+    <!-- ==========================================
+         Header
+    =========================================== -->
+
+    <header class="notification-header">
+
+        <div>
+
+            <h2
+                id="notificationTitle"
+                class="notification-title">
+
+                Notifikasi
+
+            </h2>
+
+            <small id="notificationCount">
+
+                0 notifikasi
+
+            </small>
+
+        </div>
+
+        <button
+            id="closeNotification"
+            class="btn btn-icon"
+            type="button"
+            aria-label="Tutup Panel">
+
+            ✕
+
+        </button>
+
+    </header>
+
+    <!-- ==========================================
+         Filter
+    =========================================== -->
+
+    <div class="notification-filter">
+
+        <button
+            class="btn btn-chip active"
+            data-filter="all">
+
+            Semua
+
+        </button>
+
+        <button
+            class="btn btn-chip"
+            data-filter="system">
+
+            Sistem
+
+        </button>
+
+        <button
+            class="btn btn-chip"
+            data-filter="maintenance">
+
+            Maintenance
+
+        </button>
+
+        <button
+            class="btn btn-chip"
+            data-filter="asset">
+
+            Aset
+
+        </button>
+
+    </div>
+
+    <!-- ==========================================
+         Notification List
+    =========================================== -->
+
+    <div
+        id="notificationList"
+        class="notification-list">
+
+        <!-- Dynamic Notification Item -->
+
+        <article class="notification-item unread">
+
+            <div class="notification-icon">
+
+                🔔
+
+            </div>
+
+            <div class="notification-body">
+
+                <h3>
+
+                    Selamat Datang
+
+                </h3>
+
+                <p>
+
+                    Sistem Sarprasin berhasil dimuat.
+
+                </p>
+
+                <small>
+
+                    Baru saja
+
+                </small>
+
+            </div>
+
+        </article>
+
+    </div>
+
+    <!-- ==========================================
+         Footer
+    =========================================== -->
+
+    <footer class="notification-footer">
+
+        <button
+            id="markAllRead"
+            class="btn btn-outline"
+            type="button">
+
+            Tandai Semua Dibaca
+
+        </button>
+
+        <button
+            id="clearNotification"
+            class="btn btn-danger"
+            type="button">
+
+            Bersihkan
+
+        </button>
+
+    </footer>
+
+</aside>

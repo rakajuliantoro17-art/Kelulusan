@@ -1,0 +1,320 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Report Form Component
+File : src/components/forms/report-form.html
+Version : 1.0.0
+==========================================================
+-->
+
+<section class="card card-glass report-form-card">
+
+    <!-- ==========================================
+         Header
+    =========================================== -->
+
+    <header class="card-header">
+
+        <div>
+
+            <h2 class="card-title">
+
+                Generate Laporan
+
+            </h2>
+
+            <p class="card-subtitle">
+
+                Pilih parameter laporan yang akan dibuat atau diekspor.
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ==========================================
+         Form
+    =========================================== -->
+
+    <form
+        id="reportForm"
+        class="form"
+        autocomplete="off">
+
+        <div class="form-grid">
+
+            <!-- Jenis Laporan -->
+
+            <div class="form-group">
+
+                <label for="reportType">
+
+                    Jenis Laporan
+
+                </label>
+
+                <select
+                    id="reportType"
+                    name="reportType"
+                    required>
+
+                    <option value="">
+                        Pilih Laporan
+                    </option>
+
+                    <option value="inventory">
+                        Inventaris Aset
+                    </option>
+
+                    <option value="maintenance">
+                        Maintenance
+                    </option>
+
+                    <option value="mutation">
+                        Mutasi Aset
+                    </option>
+
+                    <option value="procurement">
+                        Pengadaan
+                    </option>
+
+                    <option value="executive">
+                        Executive Summary
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Format -->
+
+            <div class="form-group">
+
+                <label for="exportFormat">
+
+                    Format
+
+                </label>
+
+                <select
+                    id="exportFormat"
+                    name="exportFormat">
+
+                    <option value="pdf">
+                        PDF
+                    </option>
+
+                    <option value="xlsx">
+                        Excel
+                    </option>
+
+                    <option value="csv">
+                        CSV
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Tanggal Awal -->
+
+            <div class="form-group">
+
+                <label for="startDate">
+
+                    Tanggal Awal
+
+                </label>
+
+                <input
+                    id="startDate"
+                    name="startDate"
+                    type="date">
+
+            </div>
+
+            <!-- Tanggal Akhir -->
+
+            <div class="form-group">
+
+                <label for="endDate">
+
+                    Tanggal Akhir
+
+                </label>
+
+                <input
+                    id="endDate"
+                    name="endDate"
+                    type="date">
+
+            </div>
+
+            <!-- Kategori -->
+
+            <div class="form-group">
+
+                <label for="category">
+
+                    Kategori
+
+                </label>
+
+                <select
+                    id="category"
+                    name="category">
+
+                    <option value="">Semua</option>
+                    <option>Elektronik</option>
+                    <option>Meubel</option>
+                    <option>Laboratorium</option>
+                    <option>Olahraga</option>
+                    <option>Gedung</option>
+                    <option>Lainnya</option>
+
+                </select>
+
+            </div>
+
+            <!-- Lokasi -->
+
+            <div class="form-group">
+
+                <label for="location">
+
+                    Lokasi
+
+                </label>
+
+                <input
+                    id="location"
+                    name="location"
+                    type="text"
+                    placeholder="Gedung / Area">
+
+            </div>
+
+            <!-- Kondisi -->
+
+            <div class="form-group">
+
+                <label for="condition">
+
+                    Kondisi
+
+                </label>
+
+                <select
+                    id="condition"
+                    name="condition">
+
+                    <option value="">Semua</option>
+                    <option>Baik</option>
+                    <option>Rusak Ringan</option>
+                    <option>Rusak Berat</option>
+                    <option>Maintenance</option>
+
+                </select>
+
+            </div>
+
+            <!-- Sertakan Grafik -->
+
+            <div class="form-group">
+
+                <label class="checkbox">
+
+                    <input
+                        id="includeCharts"
+                        name="includeCharts"
+                        type="checkbox"
+                        checked>
+
+                    <span>
+
+                        Sertakan Grafik
+
+                    </span>
+
+                </label>
+
+            </div>
+
+            <!-- Sertakan Tanda Tangan -->
+
+            <div class="form-group">
+
+                <label class="checkbox">
+
+                    <input
+                        id="includeSignature"
+                        name="includeSignature"
+                        type="checkbox">
+
+                    <span>
+
+                        Sertakan Tanda Tangan
+
+                    </span>
+
+                </label>
+
+            </div>
+
+            <!-- Catatan -->
+
+            <div class="form-group form-col-2">
+
+                <label for="notes">
+
+                    Catatan Tambahan
+
+                </label>
+
+                <textarea
+                    id="notes"
+                    name="notes"
+                    rows="4"
+                    placeholder="Catatan yang akan dicantumkan pada laporan..."></textarea>
+
+            </div>
+
+        </div>
+
+        <!-- ======================================
+             Footer
+        ======================================= -->
+
+        <footer class="form-footer">
+
+            <button
+                type="reset"
+                class="btn btn-outline">
+
+                Reset
+
+            </button>
+
+            <button
+                type="button"
+                id="previewReportButton"
+                class="btn btn-secondary">
+
+                Pratinjau
+
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Generate Laporan
+
+            </button>
+
+        </footer>
+
+    </form>
+
+</section>

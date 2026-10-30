@@ -1,0 +1,206 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Search Form Component
+File : src/components/forms/search-form.html
+Version : 1.0.0
+==========================================================
+-->
+
+<section class="card card-glass search-form-card">
+
+    <!-- ==========================================
+         Header
+    =========================================== -->
+
+    <header class="card-header">
+
+        <div>
+
+            <h3 class="card-title">
+
+                Pencarian Data
+
+            </h3>
+
+            <p class="card-subtitle">
+
+                Cari aset, pengguna, maintenance, atau laporan dengan cepat.
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ==========================================
+         Search Form
+    =========================================== -->
+
+    <form
+        id="searchForm"
+        class="form"
+        autocomplete="off">
+
+        <div class="search-wrapper">
+
+            <!-- Search -->
+
+            <div class="form-group search-input-group">
+
+                <label
+                    class="sr-only"
+                    for="searchKeyword">
+
+                    Kata Kunci
+
+                </label>
+
+                <input
+                    id="searchKeyword"
+                    name="searchKeyword"
+                    type="search"
+                    placeholder="Cari nama aset, kode inventaris, ruangan, pengguna..."
+                    autofocus>
+
+            </div>
+
+            <!-- Search Type -->
+
+            <div class="form-group">
+
+                <label for="searchScope">
+
+                    Pencarian
+
+                </label>
+
+                <select
+                    id="searchScope"
+                    name="searchScope">
+
+                    <option value="all">
+
+                        Semua Data
+
+                    </option>
+
+                    <option value="asset">
+
+                        Aset
+
+                    </option>
+
+                    <option value="maintenance">
+
+                        Maintenance
+
+                    </option>
+
+                    <option value="user">
+
+                        Pengguna
+
+                    </option>
+
+                    <option value="room">
+
+                        Ruangan
+
+                    </option>
+
+                    <option value="report">
+
+                        Laporan
+
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Button -->
+
+            <div class="form-group">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary btn-block">
+
+                    Cari
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <!-- ==========================================
+         Quick Search
+    =========================================== -->
+
+    <div class="quick-search">
+
+        <span>
+
+            Pencarian Cepat :
+
+        </span>
+
+        <button
+            class="badge badge-outline"
+            type="button"
+            data-search="Komputer">
+
+            Komputer
+
+        </button>
+
+        <button
+            class="badge badge-outline"
+            type="button"
+            data-search="Laboratorium">
+
+            Laboratorium
+
+        </button>
+
+        <button
+            class="badge badge-outline"
+            type="button"
+            data-search="Rusak">
+
+            Rusak
+
+        </button>
+
+        <button
+            class="badge badge-outline"
+            type="button"
+            data-search="Maintenance">
+
+            Maintenance
+
+        </button>
+
+    </div>
+
+    <!-- ==========================================
+         Search Info
+    =========================================== -->
+
+    <div
+        id="searchInformation"
+        class="search-information">
+
+        <small>
+
+            Ketik minimal 2 karakter untuk mulai mencari.
+
+        </small>
+
+    </div>
+
+</section>

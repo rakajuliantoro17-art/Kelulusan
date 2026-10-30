@@ -1,0 +1,97 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Application Error Component
+File : src/components/layout/app-error.html
+Version : 2.0.0
+==========================================================
+-->
+
+<section
+    id="appError"
+    class="app-error hidden"
+    role="alert"
+    aria-live="assertive">
+
+    <div class="error-card">
+
+        <!-- ======================================
+             Icon
+        ======================================= -->
+
+        <div class="error-icon">
+
+            ⚠️
+
+        </div>
+
+        <!-- ======================================
+             Content
+        ======================================= -->
+
+        <div class="error-content">
+
+            <h2
+                id="errorTitle"
+                class="error-title">
+
+                Terjadi Kesalahan
+
+            </h2>
+
+            <p
+                id="errorMessage"
+                class="error-message">
+
+                Sistem tidak dapat memproses permintaan Anda.
+
+            </p>
+
+            <small
+                id="errorCode"
+                class="error-code">
+
+                ERROR_UNKNOWN
+
+            </small>
+
+        </div>
+
+        <!-- ======================================
+             Action
+        ======================================= -->
+
+        <div class="error-actions">
+
+            <button
+                id="retryButton"
+                type="button"
+                class="btn btn-primary">
+
+                Coba Lagi
+
+            </button>
+
+            <button
+                id="reloadButton"
+                type="button"
+                class="btn btn-outline">
+
+                Muat Ulang
+
+            </button>
+
+            <button
+                id="homeButton"
+                type="button"
+                class="btn btn-secondary">
+
+                Dashboard
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>

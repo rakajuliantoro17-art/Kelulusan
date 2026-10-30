@@ -1,0 +1,361 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Maintenance Form Component
+File : src/components/forms/maintenance-form.html
+Version : 1.0.0
+==========================================================
+-->
+
+<section class="card card-glass maintenance-form-card">
+
+    <!-- ==========================================
+         Header
+    =========================================== -->
+
+    <header class="card-header">
+
+        <div>
+
+            <h2 class="card-title">
+
+                Form Maintenance Aset
+
+            </h2>
+
+            <p class="card-subtitle">
+
+                Catat aktivitas perawatan, perbaikan, dan inspeksi aset.
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ==========================================
+         Form
+    =========================================== -->
+
+    <form
+        id="maintenanceForm"
+        class="form"
+        autocomplete="off">
+
+        <div class="form-grid">
+
+            <!-- Nomor Maintenance -->
+
+            <div class="form-group">
+
+                <label for="maintenanceCode">
+
+                    Nomor Maintenance
+
+                </label>
+
+                <input
+                    id="maintenanceCode"
+                    name="maintenanceCode"
+                    type="text"
+                    placeholder="MT-2026-000001"
+                    readonly>
+
+            </div>
+
+            <!-- Kode Aset -->
+
+            <div class="form-group">
+
+                <label for="assetCode">
+
+                    Kode Aset
+
+                </label>
+
+                <input
+                    id="assetCode"
+                    name="assetCode"
+                    type="text"
+                    required>
+
+            </div>
+
+            <!-- Nama Aset -->
+
+            <div class="form-group form-col-2">
+
+                <label for="assetName">
+
+                    Nama Aset
+
+                </label>
+
+                <input
+                    id="assetName"
+                    name="assetName"
+                    type="text"
+                    readonly>
+
+            </div>
+
+            <!-- Jenis Maintenance -->
+
+            <div class="form-group">
+
+                <label for="maintenanceType">
+
+                    Jenis Maintenance
+
+                </label>
+
+                <select
+                    id="maintenanceType"
+                    name="maintenanceType"
+                    required>
+
+                    <option value="">
+                        Pilih Jenis
+                    </option>
+
+                    <option value="preventive">
+                        Preventive
+                    </option>
+
+                    <option value="corrective">
+                        Corrective
+                    </option>
+
+                    <option value="inspection">
+                        Inspection
+                    </option>
+
+                    <option value="replacement">
+                        Replacement
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Prioritas -->
+
+            <div class="form-group">
+
+                <label for="priority">
+
+                    Prioritas
+
+                </label>
+
+                <select
+                    id="priority"
+                    name="priority">
+
+                    <option value="low">
+                        Rendah
+                    </option>
+
+                    <option value="medium">
+                        Sedang
+                    </option>
+
+                    <option value="high">
+                        Tinggi
+                    </option>
+
+                    <option value="urgent">
+                        Darurat
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Tanggal -->
+
+            <div class="form-group">
+
+                <label for="maintenanceDate">
+
+                    Tanggal
+
+                </label>
+
+                <input
+                    id="maintenanceDate"
+                    name="maintenanceDate"
+                    type="date"
+                    required>
+
+            </div>
+
+            <!-- Estimasi Selesai -->
+
+            <div class="form-group">
+
+                <label for="finishDate">
+
+                    Target Selesai
+
+                </label>
+
+                <input
+                    id="finishDate"
+                    name="finishDate"
+                    type="date">
+
+            </div>
+
+            <!-- Teknisi -->
+
+            <div class="form-group">
+
+                <label for="technician">
+
+                    Teknisi / Petugas
+
+                </label>
+
+                <input
+                    id="technician"
+                    name="technician"
+                    type="text">
+
+            </div>
+
+            <!-- Biaya -->
+
+            <div class="form-group">
+
+                <label for="cost">
+
+                    Estimasi Biaya (Rp)
+
+                </label>
+
+                <input
+                    id="cost"
+                    name="cost"
+                    type="number"
+                    min="0">
+
+            </div>
+
+            <!-- Status -->
+
+            <div class="form-group">
+
+                <label for="status">
+
+                    Status
+
+                </label>
+
+                <select
+                    id="status"
+                    name="status">
+
+                    <option value="scheduled">
+                        Terjadwal
+                    </option>
+
+                    <option value="progress">
+                        Berjalan
+                    </option>
+
+                    <option value="completed">
+                        Selesai
+                    </option>
+
+                    <option value="cancelled">
+                        Dibatalkan
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Deskripsi -->
+
+            <div class="form-group form-col-2">
+
+                <label for="description">
+
+                    Deskripsi Pekerjaan
+
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="4"
+                    placeholder="Jelaskan pekerjaan maintenance yang dilakukan..."></textarea>
+
+            </div>
+
+            <!-- Hasil -->
+
+            <div class="form-group form-col-2">
+
+                <label for="result">
+
+                    Hasil Maintenance
+
+                </label>
+
+                <textarea
+                    id="result"
+                    name="result"
+                    rows="3"
+                    placeholder="Tuliskan hasil setelah pekerjaan selesai..."></textarea>
+
+            </div>
+
+            <!-- Lampiran -->
+
+            <div class="form-group form-col-2">
+
+                <label for="attachment">
+
+                    Lampiran Foto / Dokumen
+
+                </label>
+
+                <input
+                    id="attachment"
+                    name="attachment"
+                    type="file"
+                    accept="image/*,.pdf">
+
+            </div>
+
+        </div>
+
+        <!-- ======================================
+             Footer
+        ======================================= -->
+
+        <footer class="form-footer">
+
+            <button
+                type="reset"
+                class="btn btn-outline">
+
+                Reset
+
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Simpan Maintenance
+
+            </button>
+
+        </footer>
+
+    </form>
+
+</section>

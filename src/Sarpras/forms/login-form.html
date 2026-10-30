@@ -1,0 +1,158 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Login Form Component
+File : src/components/forms/login-form.html
+Version : 1.0.0
+==========================================================
+-->
+
+<section class="card card-glass login-form-card">
+
+    <!-- ==========================================
+         Header
+    =========================================== -->
+
+    <header class="card-header login-header">
+
+        <img
+            src="/logo/icon.png"
+            alt="Sarprasin Logo"
+            class="login-logo">
+
+        <h1 class="card-title">
+
+            Sarprasin 2.0
+
+        </h1>
+
+        <p class="card-subtitle">
+
+            Smart School Asset Management System
+
+        </p>
+
+    </header>
+
+    <!-- ==========================================
+         Login Form
+    =========================================== -->
+
+    <form
+        id="loginForm"
+        class="form"
+        autocomplete="off">
+
+        <!-- Email -->
+
+        <div class="form-group">
+
+            <label for="email">
+
+                Email
+
+            </label>
+
+            <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="nama@sman1sooko.sch.id"
+                required>
+
+        </div>
+
+        <!-- Password -->
+
+        <div class="form-group">
+
+            <label for="password">
+
+                Password
+
+            </label>
+
+            <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                required>
+
+        </div>
+
+        <!-- Remember -->
+
+        <div class="form-group form-inline">
+
+            <label class="checkbox">
+
+                <input
+                    id="remember"
+                    name="remember"
+                    type="checkbox">
+
+                <span>
+
+                    Ingat saya
+
+                </span>
+
+            </label>
+
+            <a
+                href="#"
+                class="link">
+
+                Lupa Password?
+
+            </a>
+
+        </div>
+
+        <!-- Error -->
+
+        <div
+            id="loginError"
+            class="alert alert-danger hidden">
+
+        </div>
+
+        <!-- Loading -->
+
+        <div
+            id="loginLoading"
+            class="loading hidden">
+
+            Memproses login...
+
+        </div>
+
+        <!-- Submit -->
+
+        <button
+            type="submit"
+            class="btn btn-primary btn-block">
+
+            Masuk
+
+        </button>
+
+    </form>
+
+    <!-- ==========================================
+         Footer
+    =========================================== -->
+
+    <footer class="card-footer login-footer">
+
+        <small>
+
+            © 2026 SMAN 1 Sooko Mojokerto
+
+        </small>
+
+    </footer>
+
+</section>
+

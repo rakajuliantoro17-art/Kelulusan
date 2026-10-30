@@ -1,0 +1,180 @@
+<!--
+==========================================================
+Sarprasin 2.0
+QR Code Form Component
+File : src/components/forms/qr-form.html
+Version : 1.0.0
+==========================================================
+-->
+
+<section class="card card-glass qr-form-card">
+
+    <!-- ==========================================
+         Header
+    =========================================== -->
+
+    <header class="card-header">
+
+        <div>
+
+            <h2 class="card-title">
+
+                QR Code Aset
+
+            </h2>
+
+            <p class="card-subtitle">
+
+                Scan atau buat QR Code untuk identifikasi aset.
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ==========================================
+         Form
+    =========================================== -->
+
+    <form
+        id="qrForm"
+        class="form"
+        autocomplete="off">
+
+        <div class="form-grid">
+
+            <!-- Kode Aset -->
+
+            <div class="form-group form-col-2">
+
+                <label for="assetCode">
+
+                    Kode Aset
+
+                </label>
+
+                <input
+                    id="assetCode"
+                    name="assetCode"
+                    type="text"
+                    placeholder="AST-2026-000001"
+                    required>
+
+            </div>
+
+            <!-- Nama Aset -->
+
+            <div class="form-group form-col-2">
+
+                <label for="assetName">
+
+                    Nama Aset
+
+                </label>
+
+                <input
+                    id="assetName"
+                    name="assetName"
+                    type="text"
+                    readonly>
+
+            </div>
+
+            <!-- Preview QR -->
+
+            <div class="form-group form-col-2">
+
+                <label>
+
+                    Preview QR Code
+
+                </label>
+
+                <div
+                    id="qrPreview"
+                    class="qr-preview">
+
+                    <div class="qr-placeholder">
+
+                        QR Code akan tampil di sini
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Scanner -->
+
+            <div class="form-group form-col-2">
+
+                <label>
+
+                    Scanner Kamera
+
+                </label>
+
+                <div
+                    id="qrScanner"
+                    class="qr-scanner">
+
+                    <p>
+
+                        Kamera belum diaktifkan.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ======================================
+             Footer
+        ======================================= -->
+
+        <footer class="form-footer">
+
+            <button
+                type="button"
+                id="scanQrButton"
+                class="btn btn-outline">
+
+                Scan QR
+
+            </button>
+
+            <button
+                type="button"
+                id="generateQrButton"
+                class="btn btn-secondary">
+
+                Generate QR
+
+            </button>
+
+            <button
+                type="button"
+                id="downloadQrButton"
+                class="btn btn-success">
+
+                Unduh QR
+
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Simpan
+
+            </button>
+
+        </footer>
+
+    </form>
+
+</section>
+

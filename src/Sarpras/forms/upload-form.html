@@ -1,0 +1,271 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Upload Form Component
+File : src/components/forms/upload-form.html
+Version : 1.0.0
+==========================================================
+-->
+
+<section class="card card-glass upload-form-card">
+
+    <!-- ==========================================
+         Header
+    =========================================== -->
+
+    <header class="card-header">
+
+        <div>
+
+            <h2 class="card-title">
+
+                Upload Dokumen
+
+            </h2>
+
+            <p class="card-subtitle">
+
+                Unggah foto aset, dokumen pendukung, atau berkas laporan.
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ==========================================
+         Form
+    =========================================== -->
+
+    <form
+        id="uploadForm"
+        class="form"
+        enctype="multipart/form-data"
+        autocomplete="off">
+
+        <div class="form-grid">
+
+            <!-- Jenis Dokumen -->
+
+            <div class="form-group">
+
+                <label for="documentType">
+
+                    Jenis Dokumen
+
+                </label>
+
+                <select
+                    id="documentType"
+                    name="documentType"
+                    required>
+
+                    <option value="">
+                        Pilih Jenis
+                    </option>
+
+                    <option value="asset-photo">
+                        Foto Aset
+                    </option>
+
+                    <option value="maintenance-photo">
+                        Foto Maintenance
+                    </option>
+
+                    <option value="invoice">
+                        Invoice / Nota
+                    </option>
+
+                    <option value="manual">
+                        Manual / Panduan
+                    </option>
+
+                    <option value="report">
+                        Dokumen Laporan
+                    </option>
+
+                    <option value="other">
+                        Lainnya
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Kode Referensi -->
+
+            <div class="form-group">
+
+                <label for="referenceCode">
+
+                    Kode Referensi
+
+                </label>
+
+                <input
+                    id="referenceCode"
+                    name="referenceCode"
+                    type="text"
+                    placeholder="AST-2026-000001">
+
+            </div>
+
+            <!-- Nama File -->
+
+            <div class="form-group form-col-2">
+
+                <label for="uploadFile">
+
+                    Pilih File
+
+                </label>
+
+                <input
+                    id="uploadFile"
+                    name="uploadFile"
+                    type="file"
+                    accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"
+                    required>
+
+            </div>
+
+            <!-- Drag & Drop -->
+
+            <div class="form-group form-col-2">
+
+                <label>
+
+                    Area Upload
+
+                </label>
+
+                <div
+                    id="dropZone"
+                    class="upload-dropzone">
+
+                    <div class="upload-dropzone-content">
+
+                        <span class="upload-icon">
+
+                            📁
+
+                        </span>
+
+                        <p>
+
+                            Seret file ke sini atau klik untuk memilih file.
+
+                        </p>
+
+                        <small>
+
+                            Format: JPG, PNG, PDF, DOCX, XLSX<br>
+                            Maksimum ukuran: 10 MB
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Preview -->
+
+            <div class="form-group form-col-2">
+
+                <label>
+
+                    Preview
+
+                </label>
+
+                <div
+                    id="uploadPreview"
+                    class="upload-preview">
+
+                    <div class="upload-placeholder">
+
+                        Belum ada file dipilih.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Progress -->
+
+            <div class="form-group form-col-2">
+
+                <label>
+
+                    Progress Upload
+
+                </label>
+
+                <progress
+                    id="uploadProgress"
+                    value="0"
+                    max="100">
+
+                    0%
+
+                </progress>
+
+                <small
+                    id="uploadStatus">
+
+                    Menunggu file...
+
+                </small>
+
+            </div>
+
+            <!-- Keterangan -->
+
+            <div class="form-group form-col-2">
+
+                <label for="description">
+
+                    Keterangan
+
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="4"
+                    placeholder="Tambahkan informasi mengenai file yang diunggah..."></textarea>
+
+            </div>
+
+        </div>
+
+        <!-- ======================================
+             Footer
+        ======================================= -->
+
+        <footer class="form-footer">
+
+            <button
+                type="reset"
+                class="btn btn-outline">
+
+                Reset
+
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Upload File
+
+            </button>
+
+        </footer>
+
+    </form>
+
+</section>
