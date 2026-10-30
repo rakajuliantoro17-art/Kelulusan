@@ -1,0 +1,54 @@
+/* ======================================================
+   Sarprasin 2.0
+   Main Stylesheet
+====================================================== */
+
+/* Base */
+@import "./base/reset.css";
+@import "./base/variables.css";
+@import "./base/typography.css";
+@import "./base/animations.css";
+@import "./base/utilities.css";
+
+/* Layout */
+@import "./layout/body.css";
+@import "./layout/grid.css";
+@import "./layout/sidebar.css";
+@import "./layout/topbar.css";
+@import "./layout/dashboard.css";
+@import "./layout/footer.css";
+
+/* Components */
+@import "./components/buttons.css";
+@import "./components/cards.css";
+@import "./components/forms.css";
+@import "./components/tables.css";
+@import "./components/modal.css";
+@import "./components/navbar.css";
+@import "./components/dropdown.css";
+@import "./components/badge.css";
+@import "./components/alert.css";
+@import "./components/loading.css";
+@import "./components/notification.css";
+
+/* Pages */
+@import "./pages/login.css";
+@import "./pages/home.css";
+@import "./pages/asset.css";
+@import "./pages/maintenance.css";
+@import "./pages/report.css";
+@import "./pages/profile.css";
+@import "./pages/settings.css";
+@import "./pages/executive.css";
+@import "./pages/portal.css";
+
+/* Theme */
+@import "./themes/light.css";
+@import "./themes/dark.css";
+
+/* Responsive */
+@import "./responsive/tablet.css";
+@import "./responsive/mobile.css";
+
+/* shell sidebar/toggle HARUS terakhir */
+@import "./layout/shell.css";

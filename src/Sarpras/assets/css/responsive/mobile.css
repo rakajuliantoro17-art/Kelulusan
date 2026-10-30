@@ -1,0 +1,863 @@
+/*
+==========================================================
+MOBILE RESPONSIVE STYLE
+SMANSASOO Digital System
+Module : Mobile Adaptation Layer
+Version : 1.0.0
+==========================================================
+*/
+
+
+/* ======================================================
+   MOBILE GLOBAL RESET
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+html,
+body {
+
+
+    width:100%;
+
+
+    overflow-x:hidden;
+
+
+
+}
+
+
+
+* {
+
+
+    -webkit-tap-highlight-color:transparent;
+
+
+
+}
+
+
+
+}
+
+
+
+/* ======================================================
+   MAIN CONTENT
+====================================================== */
+
+
+@media(max-width:1024px){
+
+
+.main-content {
+
+
+    margin-left:0 !important;
+
+
+}
+
+
+
+}
+
+
+
+@media(max-width:768px){
+
+
+.main-content {
+
+
+    padding:
+
+    20px;
+
+
+
+    padding-top:90px;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   SIDEBAR MOBILE
+====================================================== */
+
+
+@media(max-width:1024px){
+
+
+.sidebar {
+
+
+    transform:
+
+    translateX(-100%);
+
+
+
+}
+
+
+
+.sidebar.active {
+
+
+    transform:
+
+    translateX(0);
+
+
+
+}
+
+
+
+.sidebar-overlay.active {
+
+
+    display:block;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   TOPBAR MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.topbar {
+
+
+    height:65px;
+
+
+
+    left:0 !important;
+
+
+
+    padding:
+
+    0 15px;
+
+
+
+}
+
+
+
+.topbar-toggle {
+
+
+    width:38px;
+
+
+    height:38px;
+
+
+
+}
+
+
+
+.topbar-user {
+
+
+    padding:5px;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   GRID SYSTEM MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.grid-2,
+.grid-3,
+.grid-4,
+.grid-5,
+.grid-6,
+
+
+.dashboard-grid,
+.stats-grid,
+.panel-grid,
+.card-grid,
+
+
+.executive-kpi-grid,
+.asset-stat-grid,
+.report-summary-grid {
+
+
+    grid-template-columns:
+
+    1fr !important;
+
+
+
+}
+
+
+
+.content-grid,
+.monitor-grid,
+.report-grid,
+.asset-detail,
+.profile-layout,
+.settings-layout {
+
+
+    grid-template-columns:
+
+    1fr !important;
+
+
+
+}
+
+
+
+}
+
+
+
+/* ======================================================
+   CARD MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.glass,
+.asset-card,
+.executive-kpi,
+.report-summary-card,
+.settings-panel,
+.profile-panel {
+
+
+    border-radius:18px;
+
+
+
+    padding:18px;
+
+
+
+}
+
+
+
+}
+
+
+
+/* ======================================================
+   TYPOGRAPHY MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+h1 {
+
+
+    font-size:1.6rem !important;
+
+
+
+}
+
+
+
+h2 {
+
+
+    font-size:1.3rem !important;
+
+
+
+}
+
+
+
+h3 {
+
+
+    font-size:1.05rem !important;
+
+
+
+}
+
+
+
+p {
+
+
+    font-size:.9rem;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   BUTTON MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+button,
+.btn,
+.hero-btn,
+.login-btn,
+.asset-btn,
+.report-btn {
+
+
+    min-height:44px;
+
+
+
+    padding:
+
+    12px 18px;
+
+
+
+}
+
+
+
+.hero-actions,
+.asset-actions,
+.report-actions {
+
+
+    width:100%;
+
+
+
+    flex-direction:column;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   FORM MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+input,
+select,
+textarea {
+
+
+    width:100%;
+
+
+
+    min-height:44px;
+
+
+
+    font-size:16px;
+
+
+
+}
+
+
+
+.form-grid {
+
+
+    grid-template-columns:
+
+    1fr !important;
+
+
+
+}
+
+
+
+}
+
+
+
+/* ======================================================
+   TABLE RESPONSIVE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.table-wrapper,
+.report-table-wrapper {
+
+
+    width:100%;
+
+
+
+    overflow-x:auto;
+
+
+
+    -webkit-overflow-scrolling:touch;
+
+
+
+}
+
+
+
+table {
+
+
+    min-width:700px;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   HOME PAGE MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.hero {
+
+
+    min-height:auto;
+
+
+
+    padding:
+
+    100px 20px 40px;
+
+
+
+}
+
+
+
+.hero-container {
+
+
+    gap:30px;
+
+
+
+}
+
+
+
+.hero-image img {
+
+
+    max-width:280px;
+
+
+
+}
+
+
+
+.feature-section {
+
+
+    padding:
+
+    40px 20px;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   LOGIN MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.login-page {
+
+
+    padding:
+
+    20px;
+
+
+
+}
+
+
+
+.login-card {
+
+
+    width:100%;
+
+
+
+}
+
+
+
+.login-brand {
+
+
+    display:none;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   PROFILE MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.profile-card {
+
+
+    width:100%;
+
+
+
+}
+
+
+
+.profile-data {
+
+
+    grid-template-columns:
+
+    1fr !important;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   EXECUTIVE DASHBOARD MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.executive-header {
+
+
+    margin-bottom:20px;
+
+
+
+}
+
+
+
+.executive-chart {
+
+
+    height:220px;
+
+
+
+}
+
+
+
+.performance {
+
+
+    flex-direction:column;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   ASSET MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.asset-filter {
+
+
+    gap:10px;
+
+
+
+}
+
+
+
+.asset-grid {
+
+
+    grid-template-columns:
+
+    1fr;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   SETTINGS MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.settings-menu {
+
+
+    overflow-x:auto;
+
+
+
+}
+
+
+
+.settings-menu-item {
+
+
+    white-space:nowrap;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   NOTIFICATION MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.notification {
+
+
+    width:
+
+    calc(100% - 30px);
+
+
+
+    right:15px;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   FOOTER MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.footer {
+
+
+    text-align:center;
+
+
+
+    padding:
+
+    25px 15px;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   SAFE AREA MOBILE
+====================================================== */
+
+
+@supports(padding:env(safe-area-inset-bottom)){
+
+
+@media(max-width:768px){
+
+
+.mobile-safe {
+
+
+    padding-bottom:
+
+    env(safe-area-inset-bottom);
+
+
+
+}
+
+
+
+}
+
+
+}

@@ -1,0 +1,228 @@
+/* ==========================================================
+   Sarprasin 2.0
+   Widescreen Responsive
+   File : src/assets/css/responsive/widescreen.css
+   Target : >= 1440px
+   Version : 1.0.0
+========================================================== */
+
+@media screen and (min-width:1440px){
+
+    /* ======================================================
+       Container
+    ====================================================== */
+
+    .container{
+
+        max-width:1800px;
+
+        margin:0 auto;
+
+        padding:0 32px;
+
+    }
+
+    .content{
+
+        padding:32px;
+
+    }
+
+    /* ======================================================
+       Sidebar
+    ====================================================== */
+
+    .sidebar{
+
+        width:300px;
+
+    }
+
+    .main{
+
+        margin-left:300px;
+
+    }
+
+    /* ======================================================
+       Dashboard Grid
+    ====================================================== */
+
+    .dashboard-grid{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(auto-fit,minmax(360px,1fr));
+
+        gap:28px;
+
+    }
+
+    .kpi-grid{
+
+        display:grid;
+
+        grid-template-columns:repeat(6,1fr);
+
+        gap:24px;
+
+    }
+
+    /* ======================================================
+       Executive Dashboard
+    ====================================================== */
+
+    .executive-grid{
+
+        display:grid;
+
+        grid-template-columns:
+            2fr 1fr;
+
+        gap:32px;
+
+    }
+
+    /* ======================================================
+       Asset Grid
+    ====================================================== */
+
+    .asset-grid{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(4,minmax(0,1fr));
+
+        gap:24px;
+
+    }
+
+    /* ======================================================
+       Cards
+    ====================================================== */
+
+    .card{
+
+        min-height:220px;
+
+    }
+
+    .card-header{
+
+        padding:1.5rem 2rem;
+
+    }
+
+    .card-body{
+
+        padding:2rem;
+
+    }
+
+    .card-footer{
+
+        padding:1.25rem 2rem;
+
+    }
+
+    .card-kpi-value{
+
+        font-size:2.5rem;
+
+    }
+
+    .card-kpi-label{
+
+        font-size:1rem;
+
+    }
+
+    /* ======================================================
+       Charts
+    ====================================================== */
+
+    .chart-container{
+
+        min-height:480px;
+
+    }
+
+    /* ======================================================
+       Tables
+    ====================================================== */
+
+    .table-responsive{
+
+        overflow-x:auto;
+
+    }
+
+    table{
+
+        min-width:1200px;
+
+    }
+
+    th,
+    td{
+
+        padding:1rem;
+
+    }
+
+    /* ======================================================
+       Forms
+    ====================================================== */
+
+    .form-row{
+
+        grid-template-columns:
+            repeat(3,minmax(0,1fr));
+
+    }
+
+    /* ======================================================
+       Modal
+    ====================================================== */
+
+    .modal-xl .modal-dialog{
+
+        max-width:1400px;
+
+    }
+
+    /* ======================================================
+       Typography
+    ====================================================== */
+
+    h1{
+
+        font-size:3rem;
+
+    }
+
+    h2{
+
+        font-size:2.4rem;
+
+    }
+
+    h3{
+
+        font-size:2rem;
+
+    }
+
+    /* ======================================================
+       Utilities
+    ====================================================== */
+
+    .hide-widescreen{
+
+        display:none !important;
+
+    }
+
+}

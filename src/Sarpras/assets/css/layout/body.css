@@ -1,0 +1,505 @@
+/*
+==========================================================
+BODY LAYOUT STYLE
+SMANSASOO Digital System
+Version : 1.0.0
+==========================================================
+*/
+
+
+/* ======================================================
+   GLOBAL BODY
+   (token warna/spacing/blur diambil dari base/variables.css
+   supaya satu sumber kebenaran untuk seluruh app)
+====================================================== */
+
+
+body {
+
+
+    margin:0;
+
+
+    min-height:100vh;
+
+
+    font-family:
+
+    "Inter",
+    "Poppins",
+    "Segoe UI",
+    sans-serif;
+
+
+
+    color:var(--text-primary);
+
+
+
+    background:
+
+    linear-gradient(
+        135deg,
+        rgba(15,23,42,.75),
+        rgba(30,64,175,.45)
+    ),
+
+
+    url("/images/119.jpg");
+
+
+
+    background-size:cover;
+
+
+    background-position:center;
+
+
+    background-attachment:fixed;
+
+
+
+    overflow-x:hidden;
+
+
+
+}
+
+
+
+/* ======================================================
+   MAIN APP WRAPPER
+====================================================== */
+
+
+.app {
+
+
+    min-height:100vh;
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+}
+
+
+
+/* ======================================================
+   CONTENT AREA
+====================================================== */
+
+
+.main-content {
+
+
+    flex:1;
+
+
+    padding-top:90px;
+
+
+    padding-left:30px;
+
+
+    padding-right:30px;
+
+
+    padding-bottom:30px;
+
+
+
+}
+
+
+
+/* ======================================================
+   PAGE CONTAINER
+====================================================== */
+
+
+.container {
+
+
+    width:100%;
+
+
+    max-width:1400px;
+
+
+    margin:auto;
+
+
+}
+
+
+
+/* ======================================================
+   GLASS SECTION — iOS 26 style
+   Dipakai bareng dengan .card-glass, .btn-glass, dll
+   yang sudah mereferensi variable yang sama di
+   base/variables.css, supaya efeknya konsisten
+   di semua komponen.
+====================================================== */
+
+
+.glass {
+
+
+    background:var(--glass-bg);
+
+
+    backdrop-filter:saturate(180%) blur(var(--blur));
+
+    -webkit-backdrop-filter:saturate(180%) blur(var(--blur));
+
+
+    border:1px solid var(--glass-border);
+
+
+    border-radius:var(--radius-lg);
+
+
+    box-shadow:var(--shadow-glass);
+
+
+    position:relative;
+
+}
+
+
+/* Garis highlight tipis di tepi atas — ciri khas kaca iOS */
+
+.glass::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:inherit;
+
+    padding:1px;
+
+    background:linear-gradient(
+        160deg,
+        rgba(255,255,255,.45),
+        rgba(255,255,255,0) 40%
+    );
+
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+
+    -webkit-mask-composite:xor;
+
+    mask-composite:exclude;
+
+    pointer-events:none;
+
+}
+
+
+
+/* ======================================================
+   PAGE TITLE
+====================================================== */
+
+
+.page-title {
+
+
+    font-size:
+
+    1.8rem;
+
+
+    font-weight:700;
+
+
+    margin-bottom:20px;
+
+
+
+}
+
+
+
+.page-subtitle {
+
+
+    color:
+
+    var(--muted-text);
+
+
+
+    font-size:.95rem;
+
+
+}
+
+
+
+/* ======================================================
+   SECTION SPACING
+====================================================== */
+
+
+.section {
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+/* ======================================================
+   SCROLLBAR
+====================================================== */
+
+
+::-webkit-scrollbar {
+
+
+    width:8px;
+
+
+}
+
+
+
+::-webkit-scrollbar-track {
+
+
+    background:
+
+    rgba(255,255,255,.05);
+
+
+}
+
+
+
+::-webkit-scrollbar-thumb {
+
+
+    background:
+
+    rgba(255,255,255,.35);
+
+
+
+    border-radius:20px;
+
+
+}
+
+
+
+::-webkit-scrollbar-thumb:hover {
+
+
+    background:
+
+    rgba(255,255,255,.55);
+
+
+}
+
+
+
+/* ======================================================
+   TEXT SELECTION
+====================================================== */
+
+
+::selection {
+
+
+    background:
+
+    rgba(59,130,246,.5);
+
+
+
+    color:white;
+
+
+}
+
+
+
+/* ======================================================
+   LINK DEFAULT
+====================================================== */
+
+
+a {
+
+
+    color:inherit;
+
+
+}
+
+
+
+/* ======================================================
+   IMAGE DEFAULT
+====================================================== */
+
+
+img {
+
+
+    max-width:100%;
+
+
+    display:block;
+
+
+}
+
+
+
+/* ======================================================
+   DASHBOARD MODE
+====================================================== */
+
+
+.dashboard-layout {
+
+
+    display:flex;
+
+
+    min-height:100vh;
+
+
+}
+
+
+
+/* CONTENT BESIDE SIDEBAR */
+
+.dashboard-content {
+
+
+    flex:1;
+
+
+    margin-left:260px;
+
+
+    padding:90px 30px 30px;
+
+
+
+}
+
+
+
+/* ======================================================
+   AUTH / LANDING PAGE
+====================================================== */
+
+
+.center-layout {
+
+
+    min-height:100vh;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+    padding:30px;
+
+
+}
+
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+
+@media(max-width:1024px){
+
+
+.main-content {
+
+
+    padding-left:20px;
+
+
+    padding-right:20px;
+
+
+}
+
+
+
+.dashboard-content {
+
+
+    margin-left:0;
+
+
+}
+
+
+}
+
+
+
+@media(max-width:768px){
+
+
+body {
+
+
+    background-attachment:
+
+    scroll;
+
+
+}
+
+
+
+.main-content {
+
+
+    padding-top:80px;
+
+
+}
+
+
+
+.page-title {
+
+
+    font-size:1.5rem;
+
+
+}
+
+
+
+}

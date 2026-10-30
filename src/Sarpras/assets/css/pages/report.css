@@ -1,0 +1,914 @@
+/*
+==========================================================
+REPORT PAGE STYLE
+SMANSASOO Digital System
+Module : Reporting & Analytics
+Version : 1.0.0
+==========================================================
+*/
+
+
+/* ======================================================
+   REPORT WRAPPER
+====================================================== */
+
+
+.report-page {
+
+
+    width:100%;
+
+
+}
+
+
+
+/* ======================================================
+   REPORT HEADER
+====================================================== */
+
+
+.report-header {
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+
+    margin-bottom:30px;
+
+
+
+}
+
+
+
+.report-title {
+
+
+    color:white;
+
+
+
+}
+
+
+
+.report-title h1 {
+
+
+    margin:0;
+
+
+
+    font-size:2rem;
+
+
+
+}
+
+
+
+.report-title p {
+
+
+    margin-top:8px;
+
+
+
+    color:
+
+    rgba(255,255,255,.7);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   REPORT ACTION
+====================================================== */
+
+
+.report-actions {
+
+
+    display:flex;
+
+
+    gap:12px;
+
+
+
+}
+
+
+
+.report-btn {
+
+
+    padding:
+
+    12px 18px;
+
+
+
+    border-radius:14px;
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.25);
+
+
+
+    background:
+
+    rgba(255,255,255,.12);
+
+
+
+    color:white;
+
+
+
+    cursor:pointer;
+
+
+
+    transition:.25s ease;
+
+
+
+}
+
+
+
+.report-btn:hover {
+
+
+    background:
+
+    rgba(255,255,255,.3);
+
+
+
+}
+
+
+
+.report-btn.export {
+
+
+    background:
+
+    rgba(37,99,235,.6);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   FILTER PANEL
+====================================================== */
+
+
+.report-filter {
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+
+    gap:15px;
+
+
+
+    padding:20px;
+
+
+
+    margin-bottom:25px;
+
+
+
+    border-radius:20px;
+
+
+
+    background:
+
+    rgba(255,255,255,.12);
+
+
+
+    backdrop-filter:
+
+    saturate(180%) blur(15px);
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.2);
+
+
+
+}
+
+
+
+.report-filter select,
+.report-filter input {
+
+
+    padding:
+
+    12px 15px;
+
+
+
+    border-radius:12px;
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.25);
+
+
+
+    background:
+
+    rgba(255,255,255,.1);
+
+
+
+    color:white;
+
+
+
+    outline:none;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   REPORT SUMMARY CARD
+====================================================== */
+
+
+.report-summary-grid {
+
+
+    display:grid;
+
+
+
+    grid-template-columns:
+
+    repeat(4,1fr);
+
+
+
+    gap:20px;
+
+
+
+    margin-bottom:30px;
+
+
+
+}
+
+
+
+.report-summary-card {
+
+
+    padding:22px;
+
+
+
+    border-radius:20px;
+
+
+
+    background:
+
+    rgba(255,255,255,.12);
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.2);
+
+
+
+    backdrop-filter:
+
+    saturate(180%) blur(15px);
+
+
+
+}
+
+
+
+.report-summary-label {
+
+
+    font-size:.8rem;
+
+
+
+    color:
+
+    rgba(255,255,255,.65);
+
+
+
+}
+
+
+
+.report-summary-value {
+
+
+    margin-top:10px;
+
+
+
+    color:white;
+
+
+
+    font-size:2rem;
+
+
+
+    font-weight:700;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   REPORT GRID
+====================================================== */
+
+
+.report-grid {
+
+
+    display:grid;
+
+
+
+    grid-template-columns:
+
+    2fr 1fr;
+
+
+
+    gap:25px;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   REPORT PANEL
+====================================================== */
+
+
+.report-panel {
+
+
+    padding:25px;
+
+
+
+    border-radius:22px;
+
+
+
+    background:
+
+    rgba(255,255,255,.12);
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.2);
+
+
+
+    backdrop-filter:
+
+    saturate(180%) blur(15px);
+
+
+
+}
+
+
+
+.report-panel-header {
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+
+    margin-bottom:20px;
+
+
+
+    color:white;
+
+
+
+}
+
+
+
+.report-panel-header h3 {
+
+
+    margin:0;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   CHART AREA
+====================================================== */
+
+
+.report-chart {
+
+
+    height:320px;
+
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+
+    border-radius:18px;
+
+
+
+    background:
+
+    rgba(255,255,255,.08);
+
+
+
+    color:
+
+    rgba(255,255,255,.6);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   REPORT TABLE
+====================================================== */
+
+
+.report-table-wrapper {
+
+
+    width:100%;
+
+
+
+    overflow-x:auto;
+
+
+
+}
+
+
+
+.report-table {
+
+
+    width:100%;
+
+
+
+    border-collapse:collapse;
+
+
+
+    color:white;
+
+
+
+}
+
+
+
+.report-table th {
+
+
+    padding:
+
+    14px;
+
+
+
+    text-align:left;
+
+
+
+    font-size:.8rem;
+
+
+
+    color:
+
+    rgba(255,255,255,.7);
+
+
+
+    border-bottom:
+
+    1px solid rgba(255,255,255,.2);
+
+
+
+}
+
+
+
+.report-table td {
+
+
+    padding:
+
+    14px;
+
+
+
+    font-size:.85rem;
+
+
+
+    border-bottom:
+
+    1px solid rgba(255,255,255,.1);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   REPORT STATUS
+====================================================== */
+
+
+.report-status {
+
+
+    display:inline-flex;
+
+
+    padding:
+
+    6px 12px;
+
+
+
+    border-radius:20px;
+
+
+
+    font-size:.75rem;
+
+
+
+}
+
+
+
+.status-complete {
+
+
+    background:
+
+    rgba(34,197,94,.2);
+
+
+
+    color:#86efac;
+
+
+
+}
+
+
+
+.status-process {
+
+
+    background:
+
+    rgba(250,204,21,.2);
+
+
+
+    color:#fde047;
+
+
+
+}
+
+
+
+.status-failed {
+
+
+    background:
+
+    rgba(239,68,68,.2);
+
+
+
+    color:#fca5a5;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   EXPORT CARD
+====================================================== */
+
+
+.export-card {
+
+
+    margin-top:25px;
+
+
+
+    padding:25px;
+
+
+
+    border-radius:22px;
+
+
+
+    background:
+
+    linear-gradient(
+        135deg,
+        rgba(37,99,235,.45),
+        rgba(15,23,42,.65)
+    );
+
+
+
+    color:white;
+
+
+
+}
+
+
+
+.export-card h3 {
+
+
+    margin-top:0;
+
+
+
+}
+
+
+
+.export-option {
+
+
+    display:flex;
+
+
+    gap:12px;
+
+
+
+    margin-top:15px;
+
+
+
+}
+
+
+
+.export-item {
+
+
+    padding:
+
+    10px 15px;
+
+
+
+    border-radius:12px;
+
+
+
+    background:
+
+    rgba(255,255,255,.15);
+
+
+
+    cursor:pointer;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+
+@media(max-width:1200px){
+
+
+.report-summary-grid {
+
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+
+
+}
+
+
+
+.report-grid {
+
+
+    grid-template-columns:
+
+    1fr;
+
+
+
+}
+
+
+
+}
+
+
+
+@media(max-width:768px){
+
+
+.report-header {
+
+
+    flex-direction:column;
+
+
+    align-items:flex-start;
+
+
+
+    gap:15px;
+
+
+
+}
+
+
+
+.report-filter {
+
+
+    flex-direction:column;
+
+
+    align-items:stretch;
+
+
+
+}
+
+
+
+.report-summary-grid {
+
+
+    grid-template-columns:
+
+    1fr;
+
+
+
+}
+
+
+
+.report-actions {
+
+
+    width:100%;
+
+
+
+}
+
+
+
+.report-btn {
+
+
+    flex:1;
+
+
+
+}
+
+
+
+}

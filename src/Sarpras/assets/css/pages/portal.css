@@ -1,0 +1,157 @@
+/*
+==========================================================
+SARPRASIN v2.0
+HALAMAN DEPAN (PORTAL) & PORTAL PUBLIK
+File : src/assets/css/pages/portal.css
+Responsif: dirancang mobile-first karena diakses lewat HP.
+==========================================================
+*/
+
+.pt-body { min-height: 100vh; color: #fff; }
+
+.pt-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px;
+    background: rgba(15, 23, 42, .75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+
+.pt-brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 700; }
+.pt-brand img { width: 36px; height: 36px; object-fit: contain; }
+.pt-brand small { display: block; font-weight: 400; font-size: .7rem; opacity: .75; }
+
+.pt-links { display: flex; gap: 6px; margin-left: auto; align-items: center; flex-wrap: wrap; }
+.pt-links a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: .9rem;
+}
+.pt-links a:hover { background: rgba(255, 255, 255, .14); }
+.pt-links a.pt-cta { background: #2563eb; }
+.pt-links a.pt-cta:hover { background: #1d4ed8; }
+
+.pt-wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+.pt-hero { padding: 64px 0 36px; text-align: center; }
+.pt-hero h1 { font-size: clamp(1.8rem, 5vw, 3rem); margin: 0 0 12px; }
+.pt-hero p { max-width: 640px; margin: 0 auto 24px; opacity: .88; line-height: 1.6; }
+.pt-hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.pt-section { padding: 28px 0; }
+.pt-section h2 { margin: 0 0 6px; }
+.pt-section > .pt-wrap > p { margin: 0 0 18px; opacity: .8; }
+
+.pt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+}
+
+.pt-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .1);
+    border: 1px solid rgba(255, 255, 255, .18);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff;
+    text-decoration: none;
+    transition: transform .2s, background .2s;
+}
+.pt-card:hover { transform: translateY(-3px); background: rgba(255, 255, 255, .16); }
+.pt-card.disabled { opacity: .45; pointer-events: none; }
+.pt-card .pt-icon { font-size: 2rem; }
+.pt-card h3 { margin: 0; }
+.pt-card p { margin: 0; font-size: .88rem; opacity: .85; line-height: 1.5; flex: 1; }
+.pt-card small { opacity: .7; }
+
+.pt-tag {
+    align-self: flex-start;
+    font-size: .72rem;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .18);
+}
+.pt-tag.open { background: rgba(34, 197, 94, .35); }
+
+.pt-kpi {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+}
+.pt-kpi > div {
+    padding: 18px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .1);
+    border: 1px solid rgba(255, 255, 255, .18);
+    text-align: center;
+}
+.pt-kpi strong { display: block; font-size: 1.9rem; }
+.pt-kpi span { font-size: .8rem; opacity: .8; }
+
+.pt-bar { height: 14px; border-radius: 999px; background: rgba(255, 255, 255, .18); overflow: hidden; margin: 10px 0 4px; }
+.pt-bar > i { display: block; height: 100%; background: #22c55e; }
+
+.pt-note { font-size: .8rem; opacity: .7; margin-top: 10px; }
+
+.pt-footer { padding: 28px 20px; text-align: center; font-size: .8rem; opacity: .7; }
+
+.btn-primary.pt-btn, .btn-ghost.pt-btn { padding: 12px 22px; }
+
+/* Badge melayang pintu masuk petugas */
+.pt-fab {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 60;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+    transition: transform .2s, background .2s;
+}
+.pt-fab:hover { background: #1d4ed8; transform: translateY(-2px); }
+
+@media (max-width: 640px) {
+    .pt-nav { padding: 10px 14px; gap: 8px; }
+    .pt-links { flex-wrap: nowrap; }
+    .pt-links a { padding: 8px 10px; font-size: .82rem; white-space: nowrap; }
+    .pt-hide-sm { display: none; }
+    .pt-brand small { display: none; }
+    .pt-hero { padding: 40px 0 24px; }
+}
+
+/* Portal Eksekutif: bar komposisi kondisi, persen berwarna */
+.cond-bar { display: flex; height: 34px; border-radius: 8px; overflow: hidden; background: rgba(148,163,184,.15); margin: 6px 0; }
+.cond-bar .seg { display: flex; align-items: center; justify-content: center; font-size: .78rem; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; }
+.seg.ok, .pct.ok { background: #16a34a; }
+.seg.warn, .pct.warn { background: #d97706; }
+.seg.bad, .pct.bad { background: #dc2626; }
+.pct { display: inline-block; min-width: 48px; text-align: center; padding: 2px 8px; border-radius: 999px; color: #fff; font-weight: 600; font-size: .82rem; background: #64748b; }
+.exec-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 1024px) { .exec-two { grid-template-columns: 1fr; } }
+.dashboard-stat small { opacity: .7; }
+
+/* Impor data */
+.imp-warn td { background: rgba(217, 119, 6, .12); }
+.imp-error td { background: rgba(220, 38, 38, .14); }
+.imp-notes { font-size: .78rem; min-width: 260px; }
+.dashboard-table td input[type="text"], .dashboard-table td select { max-width: 200px; }

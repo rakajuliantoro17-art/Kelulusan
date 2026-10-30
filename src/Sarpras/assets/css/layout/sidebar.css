@@ -1,0 +1,756 @@
+/*
+==========================================================
+SIDEBAR LAYOUT STYLE
+SMANSASOO Digital System
+Version : 1.0.0
+==========================================================
+*/
+
+
+/* ======================================================
+   SIDEBAR BASE
+====================================================== */
+
+
+.sidebar {
+
+
+    width:260px;
+
+
+    height:100vh;
+
+
+    position:fixed;
+
+
+    top:0;
+
+
+    left:0;
+
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+
+    padding:20px;
+
+
+
+    z-index:1000;
+
+
+
+    background:
+
+    rgba(15,23,42,.65);
+
+
+
+    backdrop-filter:
+
+    saturate(180%) blur(18px);
+
+
+
+    -webkit-backdrop-filter:
+
+    saturate(180%) blur(18px);
+
+
+
+    border-right:
+
+    1px solid rgba(255,255,255,.15);
+
+
+
+    transition:.3s ease;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   SIDEBAR HEADER
+====================================================== */
+
+
+.sidebar-header {
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:12px;
+
+
+
+    padding-bottom:25px;
+
+
+
+    border-bottom:
+
+    1px solid rgba(255,255,255,.15);
+
+
+
+}
+
+
+
+.sidebar-logo {
+
+
+    width:45px;
+
+
+    height:45px;
+
+
+
+    object-fit:contain;
+
+
+
+    border-radius:50%;
+
+
+
+}
+
+
+
+.sidebar-brand {
+
+
+    color:white;
+
+
+
+}
+
+
+
+.sidebar-brand h3 {
+
+
+    margin:0;
+
+
+    font-size:1.1rem;
+
+
+}
+
+
+
+.sidebar-brand span {
+
+
+    display:block;
+
+
+    margin-top:3px;
+
+
+    font-size:.75rem;
+
+
+    color:
+
+    rgba(255,255,255,.65);
+
+
+}
+
+
+
+
+
+/* ======================================================
+   SIDEBAR MENU
+====================================================== */
+
+
+.sidebar-menu {
+
+
+    flex:1;
+
+
+
+    margin-top:25px;
+
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+
+    gap:8px;
+
+
+
+    overflow-y:auto;
+
+
+
+}
+
+
+
+.sidebar-menu-title {
+
+
+    margin:
+
+    15px 10px 8px;
+
+
+
+    font-size:.7rem;
+
+
+    text-transform:uppercase;
+
+
+
+    letter-spacing:1px;
+
+
+
+    color:
+
+    rgba(255,255,255,.5);
+
+
+
+}
+
+
+
+
+.sidebar-link {
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:14px;
+
+
+
+    padding:
+
+    12px 14px;
+
+
+
+    border-radius:14px;
+
+
+
+    text-decoration:none;
+
+
+
+    color:
+
+    rgba(255,255,255,.75);
+
+
+
+    transition:.25s ease;
+
+
+
+}
+
+
+
+.sidebar-link:hover {
+
+
+    background:
+
+    rgba(255,255,255,.15);
+
+
+
+    color:white;
+
+
+
+    transform:
+
+    translateX(5px);
+
+
+
+}
+
+
+
+
+.sidebar-link.active {
+
+
+    background:
+
+    rgba(255,255,255,.22);
+
+
+
+    color:white;
+
+
+
+    box-shadow:
+
+    0 10px 25px rgba(0,0,0,.15);
+
+
+
+}
+
+
+
+.sidebar-icon {
+
+
+    width:24px;
+
+
+    text-align:center;
+
+
+
+    font-size:1.1rem;
+
+
+}
+
+
+
+
+
+.sidebar-text {
+
+
+    flex:1;
+
+
+
+    font-size:.9rem;
+
+
+
+}
+
+
+
+/* ======================================================
+   MENU BADGE
+====================================================== */
+
+
+.sidebar-badge {
+
+
+    min-width:22px;
+
+
+    height:22px;
+
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+
+    padding:0 6px;
+
+
+
+    border-radius:20px;
+
+
+
+    background:#ef4444;
+
+
+
+    color:white;
+
+
+
+    font-size:.7rem;
+
+
+    font-weight:700;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   SIDEBAR FOOTER PROFILE
+====================================================== */
+
+
+.sidebar-footer {
+
+
+    padding-top:20px;
+
+
+
+    border-top:
+
+    1px solid rgba(255,255,255,.15);
+
+
+
+}
+
+
+
+
+
+.sidebar-profile {
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+
+    gap:12px;
+
+
+
+    padding:12px;
+
+
+
+    border-radius:16px;
+
+
+
+    background:
+
+    rgba(255,255,255,.1);
+
+
+
+}
+
+
+
+.profile-avatar {
+
+
+    width:40px;
+
+
+    height:40px;
+
+
+
+    border-radius:50%;
+
+
+
+    object-fit:cover;
+
+
+
+}
+
+
+
+.profile-info {
+
+
+    flex:1;
+
+
+    color:white;
+
+
+}
+
+
+
+.profile-info h4 {
+
+
+    margin:0;
+
+
+    font-size:.85rem;
+
+
+}
+
+
+
+.profile-info span {
+
+
+    font-size:.75rem;
+
+
+    color:
+
+    rgba(255,255,255,.6);
+
+
+}
+
+
+
+
+
+/* ======================================================
+   LOGOUT BUTTON
+====================================================== */
+
+
+.sidebar-logout {
+
+
+    margin-top:12px;
+
+
+
+    width:100%;
+
+
+
+    padding:12px;
+
+
+
+    border-radius:14px;
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.2);
+
+
+
+    background:
+
+    rgba(239,68,68,.15);
+
+
+
+    color:#fecaca;
+
+
+
+    cursor:pointer;
+
+
+
+    transition:.25s ease;
+
+
+
+}
+
+
+
+.sidebar-logout:hover {
+
+
+    background:
+
+    rgba(239,68,68,.35);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   SIDEBAR SCROLLBAR
+====================================================== */
+
+
+.sidebar-menu::-webkit-scrollbar {
+
+
+    width:5px;
+
+
+}
+
+
+.sidebar-menu::-webkit-scrollbar-thumb {
+
+
+    background:
+
+    rgba(255,255,255,.25);
+
+
+
+    border-radius:20px;
+
+
+
+}
+
+
+
+
+/* ======================================================
+   MOBILE TOGGLE STATE
+====================================================== */
+
+
+.sidebar-overlay {
+
+
+    display:none;
+
+
+    position:fixed;
+
+
+    inset:0;
+
+
+
+    background:
+
+    rgba(0,0,0,.5);
+
+
+
+    z-index:999;
+
+
+
+}
+
+
+
+.sidebar.open {
+
+
+    transform:
+
+    translateX(0);
+
+
+
+}
+
+
+
+
+/* ======================================================
+   RESPONSIVE TABLET
+====================================================== */
+
+
+@media(max-width:1024px){
+
+
+.sidebar {
+
+
+    transform:
+
+    translateX(-100%);
+
+
+
+}
+
+
+
+.sidebar-overlay.active {
+
+
+    display:block;
+
+
+
+}
+
+
+
+}
+
+
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.sidebar {
+
+
+    width:240px;
+
+
+}
+
+
+
+.sidebar-header {
+
+
+    padding-bottom:20px;
+
+
+}
+
+
+
+}

@@ -1,0 +1,773 @@
+/*
+==========================================================
+LIGHT THEME STYLE
+SMANSASOO Digital System
+Module : Light Mode Theme
+Version : 1.0.0
+==========================================================
+*/
+
+
+/* ======================================================
+   LIGHT THEME VARIABLES
+====================================================== */
+
+
+.light-theme {
+
+
+    --bg-primary:
+
+    #f8fafc;
+
+
+    --bg-secondary:
+
+    #e2e8f0;
+
+
+    --bg-card:
+
+    rgba(255,255,255,.75);
+
+
+
+    --bg-glass:
+
+    rgba(255,255,255,.55);
+
+
+
+    --border-color:
+
+    rgba(15,23,42,.1);
+
+
+
+    --text-primary:
+
+    #0f172a;
+
+
+
+    --text-secondary:
+
+    #475569;
+
+
+
+    --text-muted:
+
+    #64748b;
+
+
+
+    --accent-primary:
+
+    #2563eb;
+
+
+
+    --accent-secondary:
+
+    #3b82f6;
+
+
+
+    --success:
+
+    #16a34a;
+
+
+
+    --warning:
+
+    #ca8a04;
+
+
+
+    --danger:
+
+    #dc2626;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   GLOBAL BACKGROUND
+====================================================== */
+
+
+.light-theme body {
+
+
+    background:
+
+    linear-gradient(
+        135deg,
+        #f8fafc,
+        #dbeafe
+    );
+
+
+
+    color:
+
+    var(--text-primary);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   GLASS COMPONENT
+====================================================== */
+
+
+.light-theme .glass,
+.light-theme .card,
+.light-theme .panel,
+.light-theme .dashboard-card {
+
+
+    background:
+
+    var(--bg-glass);
+
+
+
+    border:
+
+    1px solid var(--border-color);
+
+
+
+    box-shadow:
+
+    0 10px 30px rgba(15,23,42,.08);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   NAVBAR
+====================================================== */
+
+
+.light-theme .navbar {
+
+
+    background:
+
+    rgba(255,255,255,.7);
+
+
+
+    border-bottom:
+
+    1px solid var(--border-color);
+
+
+
+}
+
+
+
+.light-theme .navbar-brand,
+.light-theme .navbar-menu a {
+
+
+    color:
+
+    var(--text-primary);
+
+
+
+}
+
+
+
+.light-theme .navbar-menu a:hover {
+
+
+    color:
+
+    var(--accent-primary);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   SIDEBAR
+====================================================== */
+
+
+.light-theme .sidebar {
+
+
+    background:
+
+    rgba(255,255,255,.85);
+
+
+
+    border-right:
+
+    1px solid var(--border-color);
+
+
+
+    box-shadow:
+
+    5px 0 25px rgba(15,23,42,.05);
+
+
+
+}
+
+
+
+.light-theme .sidebar-link {
+
+
+    color:
+
+    var(--text-secondary);
+
+
+
+}
+
+
+
+.light-theme .sidebar-link:hover,
+.light-theme .sidebar-link.active {
+
+
+    background:
+
+    rgba(37,99,235,.1);
+
+
+
+    color:
+
+    var(--accent-primary);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   TOPBAR
+====================================================== */
+
+
+.light-theme .topbar {
+
+
+    background:
+
+    rgba(255,255,255,.75);
+
+
+
+    border-bottom:
+
+    1px solid var(--border-color);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   TYPOGRAPHY
+====================================================== */
+
+
+.light-theme h1,
+.light-theme h2,
+.light-theme h3,
+.light-theme h4 {
+
+
+    color:
+
+    var(--text-primary);
+
+
+
+}
+
+
+
+.light-theme p {
+
+
+    color:
+
+    var(--text-secondary);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   FORM ELEMENT
+====================================================== */
+
+
+.light-theme input,
+.light-theme select,
+.light-theme textarea {
+
+
+    background:
+
+    rgba(255,255,255,.8);
+
+
+
+    border:
+
+    1px solid var(--border-color);
+
+
+
+    color:
+
+    var(--text-primary);
+
+
+
+}
+
+
+
+.light-theme input::placeholder {
+
+
+    color:
+
+    var(--text-muted);
+
+
+
+}
+
+
+
+.light-theme input:focus {
+
+
+    border-color:
+
+    var(--accent-primary);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   BUTTON
+====================================================== */
+
+
+.light-theme .btn,
+.light-theme button {
+
+
+    color:
+
+    var(--text-primary);
+
+
+
+    border:
+
+    1px solid var(--border-color);
+
+
+
+}
+
+
+
+.light-theme .btn-primary,
+.light-theme .primary {
+
+
+    background:
+
+    linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+
+
+
+    color:white;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   TABLE
+====================================================== */
+
+
+.light-theme table {
+
+
+    color:
+
+    var(--text-primary);
+
+
+
+}
+
+
+
+.light-theme th {
+
+
+    background:
+
+    rgba(15,23,42,.05);
+
+
+
+    color:
+
+    var(--text-secondary);
+
+
+
+}
+
+
+
+.light-theme td {
+
+
+    border-bottom:
+
+    1px solid rgba(15,23,42,.08);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   BADGE STATUS
+====================================================== */
+
+
+.light-theme .status-success {
+
+
+    background:
+
+    rgba(22,163,74,.12);
+
+
+
+    color:
+
+    #15803d;
+
+
+
+}
+
+
+
+.light-theme .status-warning {
+
+
+    background:
+
+    rgba(202,138,4,.12);
+
+
+
+    color:
+
+    #a16207;
+
+
+
+}
+
+
+
+.light-theme .status-danger {
+
+
+    background:
+
+    rgba(220,38,38,.12);
+
+
+
+    color:
+
+    #b91c1c;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   LOGIN
+====================================================== */
+
+
+.light-theme .login-card {
+
+
+    background:
+
+    rgba(255,255,255,.85);
+
+
+
+    box-shadow:
+
+    0 20px 40px rgba(15,23,42,.15);
+
+
+
+}
+
+
+
+.light-theme .login-header,
+.light-theme .login-brand {
+
+
+    color:
+
+    var(--text-primary);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   HOME PAGE
+====================================================== */
+
+
+.light-theme .hero-content {
+
+
+    color:
+
+    var(--text-primary);
+
+
+
+}
+
+
+
+.light-theme .hero-content p {
+
+
+    color:
+
+    var(--text-secondary);
+
+
+
+}
+
+
+
+.light-theme .feature-card {
+
+
+    background:
+
+    rgba(255,255,255,.65);
+
+
+
+    color:
+
+    var(--text-primary);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   DASHBOARD
+====================================================== */
+
+
+.light-theme .stat-card,
+.light-theme .dashboard-widget {
+
+
+    background:
+
+    rgba(255,255,255,.75);
+
+
+
+    border:
+
+    1px solid var(--border-color);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   REPORT
+====================================================== */
+
+
+.light-theme .report-panel,
+.light-theme .report-summary-card {
+
+
+    background:
+
+    rgba(255,255,255,.8);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   PROFILE
+====================================================== */
+
+
+.light-theme .profile-card,
+.light-theme .profile-panel {
+
+
+    background:
+
+    rgba(255,255,255,.8);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   SETTINGS
+====================================================== */
+
+
+.light-theme .settings-menu,
+.light-theme .settings-panel {
+
+
+    background:
+
+    rgba(255,255,255,.8);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   FOOTER
+====================================================== */
+
+
+.light-theme footer {
+
+
+    background:
+
+    rgba(255,255,255,.7);
+
+
+
+    color:
+
+    var(--text-muted);
+
+
+
+}

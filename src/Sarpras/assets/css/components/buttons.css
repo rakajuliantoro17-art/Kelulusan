@@ -1,0 +1,426 @@
+/* ==========================================================
+   Sarprasin 2.0
+   Button Component
+   File : src/assets/css/components/buttons.css
+   Version : 1.0.0
+========================================================== */
+
+/* ==========================================================
+   Base Button
+========================================================== */
+
+.btn{
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:.5rem;
+
+    min-height:44px;
+
+    padding:.75rem 1.25rem;
+
+    border:1px solid transparent;
+    border-radius:var(--radius);
+
+    font-size:.95rem;
+    font-weight:600;
+    line-height:1;
+
+    cursor:pointer;
+    user-select:none;
+
+    transition:var(--transition);
+
+    text-decoration:none;
+
+    white-space:nowrap;
+
+}
+
+/* ==========================================================
+   Hover
+========================================================== */
+
+.btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:var(--shadow);
+
+}
+
+/* ==========================================================
+   Active
+========================================================== */
+
+.btn:active{
+
+    transform:translateY(0);
+
+}
+
+/* ==========================================================
+   Disabled
+========================================================== */
+
+.btn:disabled,
+.btn.disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+    pointer-events:none;
+
+}
+
+/* ==========================================================
+   Primary
+========================================================== */
+
+.btn-primary{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+.btn-primary:hover{
+
+    background:var(--primary-dark);
+
+}
+
+/* ==========================================================
+   Secondary
+========================================================== */
+
+.btn-secondary{
+
+    background:var(--secondary-light);
+
+    color:#fff;
+
+}
+
+/* ==========================================================
+   Success
+========================================================== */
+
+.btn-success{
+
+    background:var(--success);
+
+    color:#fff;
+
+}
+
+/* ==========================================================
+   Warning
+========================================================== */
+
+.btn-warning{
+
+    background:var(--warning);
+
+    color:#fff;
+
+}
+
+/* ==========================================================
+   Danger
+========================================================== */
+
+.btn-danger{
+
+    background:var(--danger);
+
+    color:#fff;
+
+}
+
+/* ==========================================================
+   Info
+========================================================== */
+
+.btn-info{
+
+    background:var(--info);
+
+    color:#fff;
+
+}
+
+/* ==========================================================
+   Outline
+========================================================== */
+
+.btn-outline{
+
+    background:transparent;
+
+    border:1px solid var(--border-color);
+
+    color:var(--text-primary);
+
+}
+
+.btn-outline-primary{
+
+    background:transparent;
+
+    border-color:var(--primary);
+
+    color:var(--primary);
+
+}
+
+.btn-outline-primary:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+.btn-outline-success{
+
+    border-color:var(--success);
+
+    color:var(--success);
+
+}
+
+.btn-outline-success:hover{
+
+    background:var(--success);
+
+    color:#fff;
+
+}
+
+.btn-outline-danger{
+
+    border-color:var(--danger);
+
+    color:var(--danger);
+
+}
+
+.btn-outline-danger:hover{
+
+    background:var(--danger);
+
+    color:#fff;
+
+}
+
+/* ==========================================================
+   Ghost
+========================================================== */
+
+.btn-ghost{
+
+    background:transparent;
+
+    color:var(--text-primary);
+
+}
+
+.btn-ghost:hover{
+
+    background:rgba(255,255,255,.08);
+
+}
+
+/* ==========================================================
+   Glass
+========================================================== */
+
+.btn-glass{
+
+    background:var(--glass-bg);
+
+    border:1px solid var(--glass-border);
+
+    color:var(--text-primary);
+
+    backdrop-filter:saturate(180%) blur(var(--blur));
+
+    -webkit-backdrop-filter:saturate(180%) blur(var(--blur));
+
+}
+
+/* ==========================================================
+   Sizes
+========================================================== */
+
+.btn-sm{
+
+    min-height:36px;
+
+    padding:.5rem .9rem;
+
+    font-size:.85rem;
+
+}
+
+.btn-lg{
+
+    min-height:52px;
+
+    padding:1rem 1.75rem;
+
+    font-size:1rem;
+
+}
+
+/* ==========================================================
+   Width
+========================================================== */
+
+.btn-block{
+
+    width:100%;
+
+}
+
+.btn-icon{
+
+    width:44px;
+
+    height:44px;
+
+    padding:0;
+
+}
+
+.btn-icon.btn-sm{
+
+    width:36px;
+
+    height:36px;
+
+}
+
+.btn-icon.btn-lg{
+
+    width:52px;
+
+    height:52px;
+
+}
+
+/* ==========================================================
+   Loading
+========================================================== */
+
+.btn-loading{
+
+    pointer-events:none;
+
+    opacity:.8;
+
+}
+
+.btn-loading::after{
+
+    content:"";
+
+    width:16px;
+
+    height:16px;
+
+    margin-left:.5rem;
+
+    border:2px solid rgba(255,255,255,.35);
+
+    border-top-color:#fff;
+
+    border-radius:50%;
+
+    animation:spinner .8s linear infinite;
+
+}
+
+/* ==========================================================
+   Floating Action Button
+========================================================== */
+
+.btn-fab{
+
+    position:fixed;
+
+    right:24px;
+
+    bottom:24px;
+
+    width:60px;
+
+    height:60px;
+
+    padding:0;
+
+    border-radius:50%;
+
+    z-index:var(--z-fixed);
+
+    box-shadow:var(--shadow-lg);
+
+}
+
+/* ==========================================================
+   Button Group
+========================================================== */
+
+.btn-group{
+
+    display:inline-flex;
+
+    gap:.5rem;
+
+    flex-wrap:wrap;
+
+}
+
+/* ==========================================================
+   Responsive
+========================================================== */
+
+@media (max-width:768px){
+
+    .btn{
+
+        width:100%;
+
+    }
+
+    .btn-group{
+
+        width:100%;
+
+        flex-direction:column;
+
+    }
+
+    .btn-icon{
+
+        width:44px;
+
+    }
+
+    .btn-fab{
+
+        right:16px;
+
+        bottom:16px;
+
+        width:56px;
+
+        height:56px;
+
+    }
+
+}

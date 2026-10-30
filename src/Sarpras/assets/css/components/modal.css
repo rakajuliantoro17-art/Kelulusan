@@ -1,0 +1,321 @@
+/* ==========================================================
+   Sarprasin 2.0
+   Modal Component
+   File : src/assets/css/components/modal.css
+   Version : 1.0.0
+========================================================== */
+
+/* ==========================================================
+   Overlay
+========================================================== */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:2rem;
+
+    background:var(--overlay);
+
+    backdrop-filter:saturate(180%) blur(var(--blur));
+
+    -webkit-backdrop-filter:saturate(180%) blur(var(--blur));
+
+    z-index:var(--z-modal);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:
+        opacity var(--transition),
+        visibility var(--transition);
+
+}
+
+.modal.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+/* ==========================================================
+   Dialog
+========================================================== */
+
+.modal-dialog{
+
+    width:100%;
+
+    max-width:600px;
+
+    max-height:90vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    overflow:hidden;
+
+    background:var(--surface);
+
+    border:1px solid var(--border-color);
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:var(--shadow-lg);
+
+    transform:translateY(20px) scale(.98);
+
+    transition:
+        transform var(--transition);
+
+}
+
+.modal.show .modal-dialog{
+
+    transform:translateY(0) scale(1);
+
+}
+
+/* ==========================================================
+   Glass Variant
+========================================================== */
+
+.modal-glass .modal-dialog{
+
+    background:var(--glass-bg);
+
+    border:1px solid var(--glass-border);
+
+    backdrop-filter:saturate(180%) blur(var(--blur));
+
+    -webkit-backdrop-filter:saturate(180%) blur(var(--blur));
+
+    box-shadow:var(--shadow-glass);
+
+}
+
+/* ==========================================================
+   Header
+========================================================== */
+
+.modal-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:1rem;
+
+    padding:1.25rem 1.5rem;
+
+    border-bottom:1px solid var(--border-color);
+
+}
+
+.modal-title{
+
+    margin:0;
+
+    font-size:1.2rem;
+
+    font-weight:700;
+
+    color:var(--text-primary);
+
+}
+
+.modal-close{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.modal-close:hover{
+
+    background:rgba(255,255,255,.08);
+
+}
+
+/* ==========================================================
+   Body
+========================================================== */
+
+.modal-body{
+
+    flex:1;
+
+    overflow:auto;
+
+    padding:1.5rem;
+
+    color:var(--text-secondary);
+
+}
+
+/* ==========================================================
+   Footer
+========================================================== */
+
+.modal-footer{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    align-items:center;
+
+    gap:.75rem;
+
+    padding:1rem 1.5rem;
+
+    border-top:1px solid var(--border-color);
+
+}
+
+/* ==========================================================
+   Sizes
+========================================================== */
+
+.modal-sm .modal-dialog{
+
+    max-width:400px;
+
+}
+
+.modal-lg .modal-dialog{
+
+    max-width:900px;
+
+}
+
+.modal-xl .modal-dialog{
+
+    max-width:1200px;
+
+}
+
+.modal-fullscreen .modal-dialog{
+
+    width:100%;
+
+    max-width:none;
+
+    height:100%;
+
+    max-height:none;
+
+    border-radius:0;
+
+}
+
+/* ==========================================================
+   Scrollable Body
+========================================================== */
+
+.modal-scroll .modal-body{
+
+    overflow-y:auto;
+
+}
+
+/* ==========================================================
+   Centered Content
+========================================================== */
+
+.modal-center .modal-body{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+/* ==========================================================
+   Image Preview
+========================================================== */
+
+.modal-image{
+
+    width:100%;
+
+    max-height:70vh;
+
+    object-fit:contain;
+
+}
+
+/* ==========================================================
+   Responsive
+========================================================== */
+
+@media (max-width:768px){
+
+    .modal{
+
+        padding:1rem;
+
+        align-items:flex-end;
+
+    }
+
+    .modal-dialog{
+
+        max-width:100%;
+
+        max-height:92vh;
+
+        border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+
+    }
+
+    .modal-header{
+
+        padding:1rem 1.25rem;
+
+    }
+
+    .modal-body{
+
+        padding:1.25rem;
+
+    }
+
+    .modal-footer{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+}

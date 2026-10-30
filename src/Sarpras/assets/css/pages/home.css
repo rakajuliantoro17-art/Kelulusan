@@ -1,0 +1,874 @@
+/*
+==========================================================
+HOME PAGE STYLE
+SMANSASOO Digital System
+Module : Landing Page
+Version : 1.0.0
+==========================================================
+*/
+
+
+/* ======================================================
+   HOME WRAPPER
+====================================================== */
+
+
+.home-page {
+
+
+    min-height:100vh;
+
+
+    width:100%;
+
+
+
+}
+
+
+
+/* ======================================================
+   HERO SECTION
+====================================================== */
+
+
+.hero {
+
+
+    min-height:
+
+    calc(100vh - 70px);
+
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+
+    padding:
+
+    40px;
+
+
+
+}
+
+
+
+/* ======================================================
+   HERO CONTAINER
+====================================================== */
+
+
+.hero-container {
+
+
+    max-width:1200px;
+
+
+    width:100%;
+
+
+
+    display:grid;
+
+
+
+    grid-template-columns:
+
+    1.2fr 1fr;
+
+
+
+    gap:50px;
+
+
+
+    align-items:center;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   HERO TEXT
+====================================================== */
+
+
+.hero-content {
+
+
+    color:white;
+
+
+
+}
+
+
+
+.hero-content h1 {
+
+
+    margin:0;
+
+
+
+    font-size:
+
+    clamp(2.2rem,5vw,4rem);
+
+
+
+    line-height:1.15;
+
+
+
+    font-weight:800;
+
+
+
+}
+
+
+
+.hero-content h1 span {
+
+
+    color:#60a5fa;
+
+
+
+}
+
+
+
+.hero-content p {
+
+
+    margin-top:20px;
+
+
+
+    max-width:550px;
+
+
+
+    font-size:1.05rem;
+
+
+
+    line-height:1.7;
+
+
+
+    color:
+
+    rgba(255,255,255,.75);
+
+
+
+}
+
+
+
+/* ======================================================
+   HERO ACTION
+====================================================== */
+
+
+.hero-actions {
+
+
+    display:flex;
+
+
+    gap:15px;
+
+
+
+    margin-top:30px;
+
+
+
+}
+
+
+
+.hero-btn {
+
+
+    padding:
+
+    14px 24px;
+
+
+
+    border-radius:16px;
+
+
+
+    text-decoration:none;
+
+
+
+    color:white;
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.25);
+
+
+
+    background:
+
+    rgba(255,255,255,.15);
+
+
+
+    transition:.25s ease;
+
+
+
+}
+
+
+
+.hero-btn:hover {
+
+
+    transform:
+
+    translateY(-3px);
+
+
+
+    background:
+
+    rgba(255,255,255,.3);
+
+
+
+}
+
+
+
+.hero-btn.primary {
+
+
+    background:
+
+    linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   HERO IMAGE
+====================================================== */
+
+
+.hero-image {
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+
+}
+
+
+
+.hero-image img {
+
+
+    width:100%;
+
+
+    max-width:450px;
+
+
+
+    animation:
+
+    floating 5s ease-in-out infinite;
+
+
+
+}
+
+
+
+
+
+@keyframes floating {
+
+
+    0%,
+    100% {
+
+
+        transform:
+
+        translateY(0);
+
+
+    }
+
+
+
+    50% {
+
+
+        transform:
+
+        translateY(-15px);
+
+
+    }
+
+
+}
+
+
+
+
+/* ======================================================
+   FEATURE SECTION
+====================================================== */
+
+
+.feature-section {
+
+
+    padding:
+
+    60px 40px;
+
+
+
+}
+
+
+
+.feature-title {
+
+
+    text-align:center;
+
+
+    color:white;
+
+
+
+    margin-bottom:40px;
+
+
+
+}
+
+
+
+.feature-title h2 {
+
+
+    margin:0;
+
+
+
+    font-size:2rem;
+
+
+
+}
+
+
+
+.feature-title p {
+
+
+    color:
+
+    rgba(255,255,255,.7);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   FEATURE GRID
+====================================================== */
+
+
+.feature-grid {
+
+
+    max-width:1200px;
+
+
+
+    margin:auto;
+
+
+
+    display:grid;
+
+
+
+    grid-template-columns:
+
+    repeat(4,1fr);
+
+
+
+    gap:20px;
+
+
+
+}
+
+
+
+/* ======================================================
+   FEATURE CARD
+====================================================== */
+
+
+.feature-card {
+
+
+    padding:25px;
+
+
+
+    text-align:center;
+
+
+
+    border-radius:22px;
+
+
+
+    background:
+
+    rgba(255,255,255,.12);
+
+
+
+    backdrop-filter:
+
+    saturate(180%) blur(15px);
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.2);
+
+
+
+    color:white;
+
+
+
+    transition:.25s ease;
+
+
+
+}
+
+
+
+.feature-card:hover {
+
+
+    transform:
+
+    translateY(-8px);
+
+
+
+}
+
+
+
+.feature-icon {
+
+
+    width:60px;
+
+
+    height:60px;
+
+
+
+    margin:
+
+    0 auto 15px;
+
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+
+    border-radius:18px;
+
+
+
+    background:
+
+    rgba(255,255,255,.2);
+
+
+
+    font-size:28px;
+
+
+
+}
+
+
+
+.feature-card h3 {
+
+
+    margin:10px 0;
+
+
+
+}
+
+
+
+.feature-card p {
+
+
+    font-size:.85rem;
+
+
+
+    color:
+
+    rgba(255,255,255,.7);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   STAT SECTION
+====================================================== */
+
+
+.home-stat {
+
+
+    max-width:1000px;
+
+
+    margin:
+
+    50px auto;
+
+
+
+    display:grid;
+
+
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
+
+
+    gap:20px;
+
+
+
+}
+
+
+
+.home-stat-item {
+
+
+    padding:25px;
+
+
+
+    text-align:center;
+
+
+
+    border-radius:20px;
+
+
+
+    background:
+
+    rgba(255,255,255,.1);
+
+
+
+    color:white;
+
+
+
+}
+
+
+
+.home-stat-item h2 {
+
+
+    margin:0;
+
+
+
+    font-size:2rem;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   CTA SECTION
+====================================================== */
+
+
+.home-cta {
+
+
+    max-width:1000px;
+
+
+
+    margin:
+
+    60px auto;
+
+
+
+    padding:40px;
+
+
+
+    text-align:center;
+
+
+
+    border-radius:25px;
+
+
+
+    background:
+
+    linear-gradient(
+        135deg,
+        rgba(37,99,235,.5),
+        rgba(15,23,42,.7)
+    );
+
+
+
+    color:white;
+
+
+
+}
+
+
+
+.home-cta h2 {
+
+
+    margin-top:0;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+
+@media(max-width:1024px){
+
+
+.hero-container {
+
+
+    grid-template-columns:
+
+    1fr;
+
+
+
+    text-align:center;
+
+
+
+}
+
+
+
+.hero-content p {
+
+
+    margin-left:auto;
+
+
+    margin-right:auto;
+
+
+
+}
+
+
+
+.hero-actions {
+
+
+    justify-content:center;
+
+
+
+}
+
+
+
+.feature-grid {
+
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+
+
+}
+
+
+
+}
+
+
+
+@media(max-width:768px){
+
+
+.hero {
+
+
+    padding:
+
+    30px 20px;
+
+
+
+}
+
+
+
+.hero-actions {
+
+
+    flex-direction:column;
+
+
+
+}
+
+
+
+.feature-grid {
+
+
+    grid-template-columns:
+
+    1fr;
+
+
+
+}
+
+
+
+.home-stat {
+
+
+    grid-template-columns:
+
+    1fr;
+
+
+
+}
+
+
+
+.feature-section {
+
+
+    padding:
+
+    40px 20px;
+
+
+
+}
+
+
+
+}

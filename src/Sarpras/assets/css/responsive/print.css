@@ -1,0 +1,291 @@
+/* ==========================================================
+   Sarprasin 2.0
+   Print Stylesheet
+   File : src/assets/css/responsive/print.css
+   Version : 1.0.0
+========================================================== */
+
+@media print{
+
+    /* ======================================================
+       Page
+    ====================================================== */
+
+    @page{
+
+        size:A4 portrait;
+
+        margin:15mm;
+
+    }
+
+    /* ======================================================
+       Global
+    ====================================================== */
+
+    *{
+
+        background:transparent !important;
+
+        color:#000 !important;
+
+        box-shadow:none !important;
+
+        text-shadow:none !important;
+
+        filter:none !important;
+
+        backdrop-filter:none !important;
+
+        -webkit-backdrop-filter:none !important;
+
+    }
+
+    html,
+    body{
+
+        background:#ffffff !important;
+
+        color:#000;
+
+        font-size:11pt;
+
+        line-height:1.5;
+
+    }
+
+    /* ======================================================
+       Hide UI Elements
+    ====================================================== */
+
+    .sidebar,
+    .topbar,
+    .drawer,
+    .navbar,
+    .footer,
+    .fab,
+    .btn,
+    .modal,
+    .loading-overlay,
+    .dropdown,
+    .notification,
+    .toast,
+    .search-box,
+    .pagination,
+    .filters,
+    .actions,
+    .no-print{
+
+        display:none !important;
+
+    }
+
+    /* ======================================================
+       Layout
+    ====================================================== */
+
+    .main,
+    .content,
+    .container{
+
+        width:100% !important;
+
+        margin:0 !important;
+
+        padding:0 !important;
+
+        max-width:none !important;
+
+    }
+
+    /* ======================================================
+       Headings
+    ====================================================== */
+
+    h1,h2,h3,h4,h5,h6{
+
+        page-break-after:avoid;
+
+        break-after:avoid;
+
+        color:#000;
+
+    }
+
+    /* ======================================================
+       Paragraph
+    ====================================================== */
+
+    p{
+
+        orphans:3;
+
+        widows:3;
+
+    }
+
+    /* ======================================================
+       Card
+    ====================================================== */
+
+    .card{
+
+        border:1px solid #000;
+
+        margin-bottom:12pt;
+
+        page-break-inside:avoid;
+
+        break-inside:avoid;
+
+    }
+
+    .card-header,
+    .card-footer{
+
+        border-color:#000;
+
+    }
+
+    /* ======================================================
+       Tables
+    ====================================================== */
+
+    table{
+
+        width:100%;
+
+        border-collapse:collapse;
+
+        page-break-inside:auto;
+
+    }
+
+    thead{
+
+        display:table-header-group;
+
+    }
+
+    tfoot{
+
+        display:table-footer-group;
+
+    }
+
+    tr{
+
+        page-break-inside:avoid;
+
+        break-inside:avoid;
+
+    }
+
+    th,
+    td{
+
+        border:1px solid #000;
+
+        padding:6pt;
+
+        font-size:10pt;
+
+        text-align:left;
+
+    }
+
+    th{
+
+        font-weight:700;
+
+    }
+
+    /* ======================================================
+       Images
+    ====================================================== */
+
+    img{
+
+        max-width:100%;
+
+        page-break-inside:avoid;
+
+        break-inside:avoid;
+
+    }
+
+    /* ======================================================
+       Links
+    ====================================================== */
+
+    a{
+
+        text-decoration:none;
+
+        color:#000;
+
+    }
+
+    a[href]::after{
+
+        content:"";
+
+    }
+
+    /* ======================================================
+       Forms
+    ====================================================== */
+
+    input,
+    textarea,
+    select{
+
+        border:1px solid #000;
+
+        background:#fff;
+
+    }
+
+    /* ======================================================
+       Badge
+    ====================================================== */
+
+    .badge{
+
+        border:1px solid #000;
+
+        background:#fff;
+
+    }
+
+    /* ======================================================
+       Alert
+    ====================================================== */
+
+    .alert{
+
+        border:1px solid #000;
+
+    }
+
+    /* ======================================================
+       Prevent Bad Break
+    ====================================================== */
+
+    .avoid-break{
+
+        page-break-inside:avoid;
+
+        break-inside:avoid;
+
+    }
+
+    .page-break{
+
+        page-break-before:always;
+
+        break-before:page;
+
+    }
+
+}

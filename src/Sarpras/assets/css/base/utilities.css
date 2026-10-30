@@ -1,0 +1,302 @@
+/* ==========================================================
+   Sarprasin 2.0
+   Utility Classes
+   File : src/assets/css/base/utilities.css
+   Version : 1.0.0
+========================================================== */
+
+/* ==========================================================
+   Display
+========================================================== */
+
+.d-none { display: none !important; }
+.d-block { display: block !important; }
+.d-inline { display: inline !important; }
+.d-inline-block { display: inline-block !important; }
+
+.flex { display: flex !important; }
+.inline-flex { display: inline-flex !important; }
+
+.grid { display: grid !important; }
+
+/* ==========================================================
+   Flex
+========================================================== */
+
+.flex-row { flex-direction: row; }
+.flex-column { flex-direction: column; }
+
+.flex-wrap { flex-wrap: wrap; }
+
+.items-start { align-items: flex-start; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
+
+.justify-start { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+
+.gap-1 { gap: .25rem; }
+.gap-2 { gap: .5rem; }
+.gap-3 { gap: .75rem; }
+.gap-4 { gap: 1rem; }
+.gap-5 { gap: 1.5rem; }
+
+/* ==========================================================
+   Width & Height
+========================================================== */
+
+.w-100 { width: 100%; }
+.h-100 { height: 100%; }
+
+.min-vh-100 {
+    min-height: 100vh;
+}
+
+/* ==========================================================
+   Margin
+========================================================== */
+
+.m-0 { margin: 0; }
+
+.mt-1 { margin-top: .25rem; }
+.mt-2 { margin-top: .5rem; }
+.mt-3 { margin-top: .75rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-5 { margin-top: 1.5rem; }
+
+.mb-1 { margin-bottom: .25rem; }
+.mb-2 { margin-bottom: .5rem; }
+.mb-3 { margin-bottom: .75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-5 { margin-bottom: 1.5rem; }
+
+.ml-auto {
+    margin-left: auto;
+}
+
+.mr-auto {
+    margin-right: auto;
+}
+
+/* ==========================================================
+   Padding
+========================================================== */
+
+.p-0 { padding: 0; }
+
+.p-1 { padding: .25rem; }
+.p-2 { padding: .5rem; }
+.p-3 { padding: .75rem; }
+.p-4 { padding: 1rem; }
+.p-5 { padding: 1.5rem; }
+
+.pt-4 { padding-top: 1rem; }
+.pb-4 { padding-bottom: 1rem; }
+
+/* ==========================================================
+   Border Radius
+========================================================== */
+
+.rounded-sm { border-radius: .25rem; }
+.rounded { border-radius: .5rem; }
+.rounded-lg { border-radius: 1rem; }
+.rounded-xl { border-radius: 1.5rem; }
+.rounded-full { border-radius: 9999px; }
+
+/* ==========================================================
+   Shadow
+========================================================== */
+
+.shadow-sm {
+
+    box-shadow:
+        0 2px 6px rgba(0,0,0,.08);
+
+}
+
+.shadow {
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,.15);
+
+}
+
+.shadow-lg {
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,.22);
+
+}
+
+/* ==========================================================
+   Glass Effect
+========================================================== */
+
+.glass {
+
+    background: rgba(255,255,255,.10);
+
+    backdrop-filter: saturate(180%) blur(18px);
+
+    -webkit-backdrop-filter: saturate(180%) blur(18px);
+
+    border: 1px solid rgba(255,255,255,.18);
+
+}
+
+.glass-dark {
+
+    background: rgba(15,23,42,.55);
+
+    backdrop-filter: saturate(180%) blur(20px);
+
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+
+    border: 1px solid rgba(255,255,255,.08);
+
+}
+
+/* ==========================================================
+   Background
+========================================================== */
+
+.bg-primary {
+    background: var(--primary);
+}
+
+.bg-success {
+    background: var(--success);
+}
+
+.bg-warning {
+    background: var(--warning);
+}
+
+.bg-danger {
+    background: var(--danger);
+}
+
+.bg-white {
+    background: #ffffff;
+}
+
+.bg-transparent {
+    background: transparent;
+}
+
+/* ==========================================================
+   Border
+========================================================== */
+
+.border {
+    border: 1px solid var(--border-color);
+}
+
+.border-0 {
+    border: none;
+}
+
+/* ==========================================================
+   Overflow
+========================================================== */
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.overflow-auto {
+    overflow: auto;
+}
+
+/* ==========================================================
+   Position
+========================================================== */
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.fixed {
+    position: fixed;
+}
+
+/* ==========================================================
+   Cursor
+========================================================== */
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-default {
+    cursor: default;
+}
+
+/* ==========================================================
+   Opacity
+========================================================== */
+
+.opacity-0 { opacity: 0; }
+.opacity-25 { opacity: .25; }
+.opacity-50 { opacity: .5; }
+.opacity-75 { opacity: .75; }
+.opacity-100 { opacity: 1; }
+
+/* ==========================================================
+   Transition
+========================================================== */
+
+.transition {
+
+    transition: all .25s ease;
+
+}
+
+/* ==========================================================
+   Text Overflow
+========================================================== */
+
+.text-truncate {
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+}
+
+/* ==========================================================
+   Z-Index
+========================================================== */
+
+.z-10 { z-index: 10; }
+.z-50 { z-index: 50; }
+.z-100 { z-index: 100; }
+
+/* ==========================================================
+   Responsive Helpers
+========================================================== */
+
+@media (max-width:768px){
+
+    .mobile-hidden{
+
+        display:none !important;
+
+    }
+
+    .mobile-block{
+
+        display:block !important;
+
+    }
+
+}

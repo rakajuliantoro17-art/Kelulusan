@@ -1,0 +1,384 @@
+/* ==========================================================
+   Sarprasin 2.0
+   Form Component
+   File : src/assets/css/components/forms.css
+   Version : 1.0.0
+========================================================== */
+
+/* ==========================================================
+   Form Layout
+========================================================== */
+
+.form{
+    display:flex;
+    flex-direction:column;
+    gap:1.25rem;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:1rem;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:.5rem;
+}
+
+/* ==========================================================
+   Label
+========================================================== */
+
+.form-label{
+    font-size:.9rem;
+    font-weight:600;
+    color:var(--text-primary);
+}
+
+.form-required::after{
+    content:" *";
+    color:var(--danger);
+}
+
+/* ==========================================================
+   Input Base
+========================================================== */
+
+.form-control{
+
+    width:100%;
+    min-height:44px;
+
+    padding:.75rem 1rem;
+
+    background:var(--surface);
+
+    color:var(--text-primary);
+
+    border:1px solid var(--border-color);
+
+    border-radius:var(--radius);
+
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition),
+        background var(--transition);
+
+}
+
+.form-control::placeholder{
+    color:var(--text-muted);
+}
+
+.form-control:hover{
+    border-color:var(--primary-light);
+}
+
+.form-control:focus{
+
+    border-color:var(--primary);
+
+    box-shadow:0 0 0 3px rgba(37,99,235,.18);
+
+}
+
+/* ==========================================================
+   Textarea
+========================================================== */
+
+textarea.form-control{
+    min-height:120px;
+    resize:vertical;
+}
+
+/* ==========================================================
+   Select
+========================================================== */
+
+select.form-control{
+
+    appearance:none;
+
+    background-image:
+        linear-gradient(45deg,transparent 50%,currentColor 50%),
+        linear-gradient(135deg,currentColor 50%,transparent 50%);
+
+    background-position:
+        calc(100% - 18px) calc(50% - 3px),
+        calc(100% - 12px) calc(50% - 3px);
+
+    background-size:6px 6px;
+
+    background-repeat:no-repeat;
+
+    padding-right:2.8rem;
+
+}
+
+/* ==========================================================
+   Input Group
+========================================================== */
+
+.input-group{
+
+    display:flex;
+
+    width:100%;
+
+}
+
+.input-group-text{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:0 1rem;
+
+    background:var(--surface-light);
+
+    border:1px solid var(--border-color);
+
+    color:var(--text-secondary);
+
+}
+
+.input-group .form-control{
+
+    border-radius:0;
+
+}
+
+.input-group .input-group-text:first-child{
+
+    border-radius:var(--radius) 0 0 var(--radius);
+
+}
+
+.input-group .form-control:last-child{
+
+    border-radius:0 var(--radius) var(--radius) 0;
+
+}
+
+/* ==========================================================
+   Helper Text
+========================================================== */
+
+.form-text{
+
+    font-size:.8rem;
+
+    color:var(--text-muted);
+
+}
+
+/* ==========================================================
+   Validation
+========================================================== */
+
+.is-valid{
+
+    border-color:var(--success) !important;
+
+}
+
+.is-valid:focus{
+
+    box-shadow:0 0 0 3px rgba(16,185,129,.2);
+
+}
+
+.is-invalid{
+
+    border-color:var(--danger) !important;
+
+}
+
+.is-invalid:focus{
+
+    box-shadow:0 0 0 3px rgba(239,68,68,.2);
+
+}
+
+.invalid-feedback{
+
+    font-size:.8rem;
+
+    color:var(--danger);
+
+}
+
+.valid-feedback{
+
+    font-size:.8rem;
+
+    color:var(--success);
+
+}
+
+/* ==========================================================
+   Checkbox
+========================================================== */
+
+.form-check{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:.65rem;
+
+}
+
+.form-check input{
+
+    width:18px;
+
+    height:18px;
+
+    accent-color:var(--primary);
+
+}
+
+/* ==========================================================
+   Radio
+========================================================== */
+
+.form-radio{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:.65rem;
+
+}
+
+.form-radio input{
+
+    accent-color:var(--primary);
+
+}
+
+/* ==========================================================
+   Switch
+========================================================== */
+
+.switch{
+
+    position:relative;
+
+    display:inline-block;
+
+    width:52px;
+
+    height:28px;
+
+}
+
+.switch input{
+
+    opacity:0;
+
+    width:0;
+
+    height:0;
+
+}
+
+.switch-slider{
+
+    position:absolute;
+
+    inset:0;
+
+    cursor:pointer;
+
+    background:#94a3b8;
+
+    border-radius:999px;
+
+    transition:var(--transition);
+
+}
+
+.switch-slider::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:22px;
+
+    height:22px;
+
+    left:3px;
+
+    top:3px;
+
+    background:#fff;
+
+    border-radius:50%;
+
+    transition:var(--transition);
+
+}
+
+.switch input:checked + .switch-slider{
+
+    background:var(--primary);
+
+}
+
+.switch input:checked + .switch-slider::before{
+
+    transform:translateX(24px);
+
+}
+
+/* ==========================================================
+   Glass Variant
+========================================================== */
+
+.form-glass .form-control{
+
+    background:var(--glass-bg);
+
+    backdrop-filter:saturate(180%) blur(var(--blur));
+
+    -webkit-backdrop-filter:saturate(180%) blur(var(--blur));
+
+    border:1px solid var(--glass-border);
+
+}
+
+/* ==========================================================
+   Disabled
+========================================================== */
+
+.form-control:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+}
+
+/* ==========================================================
+   Responsive
+========================================================== */
+
+@media (max-width:768px){
+
+    .form-row{
+
+        grid-template-columns:1fr;
+
+    }
+
+}

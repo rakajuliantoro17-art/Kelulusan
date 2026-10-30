@@ -1,0 +1,315 @@
+/* ==========================================================
+   Sarprasin 2.0
+   Dropdown Component
+   File : src/assets/css/components/dropdown.css
+   Version : 1.0.0
+========================================================== */
+
+/* ==========================================================
+   Container
+========================================================== */
+
+.dropdown{
+
+    position:relative;
+
+    display:inline-block;
+
+}
+
+/* ==========================================================
+   Toggle Button
+========================================================== */
+
+.dropdown-toggle{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:.75rem;
+
+    width:100%;
+    min-height:44px;
+
+    padding:.75rem 1rem;
+
+    background:var(--surface);
+
+    color:var(--text-primary);
+
+    border:1px solid var(--border-color);
+
+    border-radius:var(--radius);
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.dropdown-toggle:hover{
+
+    border-color:var(--primary);
+
+}
+
+.dropdown-toggle:focus-visible{
+
+    border-color:var(--primary);
+
+    box-shadow:0 0 0 3px rgba(37,99,235,.18);
+
+}
+
+/* ==========================================================
+   Arrow
+========================================================== */
+
+.dropdown-arrow{
+
+    transition:transform var(--transition);
+
+}
+
+.dropdown.open .dropdown-arrow{
+
+    transform:rotate(180deg);
+
+}
+
+/* ==========================================================
+   Menu
+========================================================== */
+
+.dropdown-menu{
+
+    position:absolute;
+
+    top:calc(100% + .5rem);
+
+    left:0;
+
+    min-width:220px;
+
+    width:100%;
+
+    padding:.5rem;
+
+    background:var(--surface);
+
+    border:1px solid var(--border-color);
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow);
+
+    display:none;
+
+    z-index:var(--z-dropdown);
+
+}
+
+.dropdown.open .dropdown-menu{
+
+    display:block;
+
+    animation:fadeIn .2s ease;
+
+}
+
+/* ==========================================================
+   Glass Variant
+========================================================== */
+
+.dropdown-glass .dropdown-menu{
+
+    background:var(--glass-bg);
+
+    backdrop-filter:saturate(180%) blur(var(--blur));
+
+    -webkit-backdrop-filter:saturate(180%) blur(var(--blur));
+
+    border:1px solid var(--glass-border);
+
+    box-shadow:var(--shadow-glass);
+
+}
+
+/* ==========================================================
+   Item
+========================================================== */
+
+.dropdown-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:.75rem;
+
+    width:100%;
+
+    padding:.75rem .9rem;
+
+    border-radius:calc(var(--radius) - 4px);
+
+    color:var(--text-primary);
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.dropdown-item:hover{
+
+    background:rgba(255,255,255,.08);
+
+}
+
+.dropdown-item.active{
+
+    background:rgba(37,99,235,.15);
+
+    color:var(--primary);
+
+    font-weight:600;
+
+}
+
+.dropdown-item.disabled{
+
+    opacity:.5;
+
+    pointer-events:none;
+
+}
+
+/* ==========================================================
+   Divider
+========================================================== */
+
+.dropdown-divider{
+
+    height:1px;
+
+    margin:.45rem 0;
+
+    background:var(--border-color);
+
+}
+
+/* ==========================================================
+   Header
+========================================================== */
+
+.dropdown-header{
+
+    padding:.5rem .9rem;
+
+    font-size:.75rem;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    color:var(--text-muted);
+
+}
+
+/* ==========================================================
+   Footer
+========================================================== */
+
+.dropdown-footer{
+
+    padding:.5rem;
+
+    border-top:1px solid var(--border-color);
+
+}
+
+/* ==========================================================
+   Search
+========================================================== */
+
+.dropdown-search{
+
+    width:100%;
+
+    padding:.75rem;
+
+    margin-bottom:.5rem;
+
+    border:1px solid var(--border-color);
+
+    border-radius:var(--radius-sm);
+
+    background:transparent;
+
+    color:var(--text-primary);
+
+}
+
+/* ==========================================================
+   Sizes
+========================================================== */
+
+.dropdown-sm .dropdown-toggle{
+
+    min-height:36px;
+
+    padding:.55rem .85rem;
+
+    font-size:.875rem;
+
+}
+
+.dropdown-lg .dropdown-toggle{
+
+    min-height:52px;
+
+    padding:.9rem 1.2rem;
+
+}
+
+/* ==========================================================
+   Right Align
+========================================================== */
+
+.dropdown-right .dropdown-menu{
+
+    left:auto;
+
+    right:0;
+
+}
+
+/* ==========================================================
+   Full Width
+========================================================== */
+
+.dropdown-block{
+
+    width:100%;
+
+}
+
+/* ==========================================================
+   Responsive
+========================================================== */
+
+@media (max-width:768px){
+
+    .dropdown-menu{
+
+        width:100%;
+
+        min-width:100%;
+
+    }
+
+}

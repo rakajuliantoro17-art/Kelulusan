@@ -1,0 +1,586 @@
+/*
+==========================================================
+FOOTER LAYOUT STYLE
+SMANSASOO Digital System
+Version : 1.0.0
+==========================================================
+*/
+
+
+/* ======================================================
+   FOOTER BASE
+====================================================== */
+
+
+.footer {
+
+
+    width:100%;
+
+
+    padding:30px;
+
+
+
+    margin-top:auto;
+
+
+
+    background:
+
+    rgba(255,255,255,.10);
+
+
+
+    backdrop-filter:
+
+    saturate(180%) blur(15px);
+
+
+
+    -webkit-backdrop-filter:
+
+    saturate(180%) blur(15px);
+
+
+
+    border-top:
+
+    1px solid rgba(255,255,255,.2);
+
+
+
+    color:white;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   FOOTER CONTAINER
+====================================================== */
+
+
+.footer-container {
+
+
+    max-width:1400px;
+
+
+    margin:auto;
+
+
+
+    display:grid;
+
+
+
+    grid-template-columns:
+
+    2fr 1fr 1fr;
+
+
+
+    gap:30px;
+
+
+
+}
+
+
+
+/* ======================================================
+   FOOTER BRAND
+====================================================== */
+
+
+.footer-brand {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:12px;
+
+
+
+}
+
+
+
+.footer-logo {
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:12px;
+
+
+}
+
+
+
+.footer-logo img {
+
+
+    width:45px;
+
+
+    height:45px;
+
+
+    object-fit:contain;
+
+
+    border-radius:50%;
+
+
+}
+
+
+
+.footer-logo h3 {
+
+
+    margin:0;
+
+
+    font-size:1.2rem;
+
+
+}
+
+
+
+.footer-description {
+
+
+    max-width:400px;
+
+
+
+    color:
+
+    rgba(255,255,255,.7);
+
+
+
+    font-size:.9rem;
+
+
+
+    line-height:1.6;
+
+
+}
+
+
+
+
+
+/* ======================================================
+   FOOTER MENU
+====================================================== */
+
+
+.footer-title {
+
+
+    font-size:1rem;
+
+
+    font-weight:700;
+
+
+    margin-bottom:15px;
+
+
+
+}
+
+
+
+
+
+.footer-menu {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:10px;
+
+
+
+    list-style:none;
+
+
+    padding:0;
+
+
+    margin:0;
+
+
+
+}
+
+
+
+.footer-menu a {
+
+
+    text-decoration:none;
+
+
+
+    color:
+
+    rgba(255,255,255,.75);
+
+
+
+    font-size:.9rem;
+
+
+
+    transition:.25s ease;
+
+
+
+}
+
+
+
+.footer-menu a:hover {
+
+
+    color:white;
+
+
+
+    transform:
+
+    translateX(5px);
+
+
+
+}
+
+
+
+/* ======================================================
+   FOOTER SOCIAL
+====================================================== */
+
+
+.footer-social {
+
+
+    display:flex;
+
+
+    gap:12px;
+
+
+}
+
+
+
+.footer-social a {
+
+
+    width:38px;
+
+
+    height:38px;
+
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+
+    border-radius:50%;
+
+
+
+    background:
+
+    rgba(255,255,255,.15);
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.2);
+
+
+
+    color:white;
+
+
+
+    text-decoration:none;
+
+
+
+    transition:.25s ease;
+
+
+
+}
+
+
+
+.footer-social a:hover {
+
+
+    background:
+
+    rgba(255,255,255,.3);
+
+
+
+    transform:
+
+    translateY(-3px);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   SYSTEM STATUS
+====================================================== */
+
+
+.footer-status {
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:8px;
+
+
+
+    margin-top:15px;
+
+
+
+    font-size:.85rem;
+
+
+    color:
+
+    rgba(255,255,255,.75);
+
+
+
+}
+
+
+
+.status-indicator {
+
+
+    width:10px;
+
+
+    height:10px;
+
+
+    border-radius:50%;
+
+
+
+    background:#22c55e;
+
+
+
+    box-shadow:
+
+    0 0 10px rgba(34,197,94,.8);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   COPYRIGHT
+====================================================== */
+
+
+.footer-bottom {
+
+
+    margin-top:30px;
+
+
+    padding-top:20px;
+
+
+
+    border-top:
+
+    1px solid rgba(255,255,255,.15);
+
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+
+    color:
+
+    rgba(255,255,255,.65);
+
+
+
+    font-size:.85rem;
+
+
+
+}
+
+
+
+/* ======================================================
+   DASHBOARD FOOTER
+====================================================== */
+
+
+.dashboard-footer {
+
+
+    margin-left:260px;
+
+
+    padding:
+
+    20px 30px;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+
+@media(max-width:1024px){
+
+
+
+.footer-container {
+
+
+    grid-template-columns:
+
+    1fr 1fr;
+
+
+
+}
+
+
+
+.dashboard-footer {
+
+
+    margin-left:0;
+
+
+}
+
+
+
+}
+
+
+
+@media(max-width:768px){
+
+
+
+.footer {
+
+
+    padding:25px 15px;
+
+
+}
+
+
+
+.footer-container {
+
+
+    grid-template-columns:
+
+    1fr;
+
+
+}
+
+
+
+.footer-bottom {
+
+
+    flex-direction:column;
+
+
+    gap:10px;
+
+
+    text-align:center;
+
+
+}
+
+
+
+}

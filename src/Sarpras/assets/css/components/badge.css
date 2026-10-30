@@ -1,0 +1,284 @@
+/* ==========================================================
+   Sarprasin 2.0
+   Badge Component
+   File : src/assets/css/components/badge.css
+   Version : 1.0.0
+========================================================== */
+
+/* ==========================================================
+   Base Badge
+========================================================== */
+
+.badge{
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:.4rem;
+
+    min-height:28px;
+
+    padding:.35rem .8rem;
+
+    border-radius:var(--radius-full);
+
+    font-size:.75rem;
+    font-weight:600;
+
+    line-height:1;
+
+    white-space:nowrap;
+
+    user-select:none;
+
+    transition:var(--transition);
+
+}
+
+/* ==========================================================
+   Size
+========================================================== */
+
+.badge-xs{
+
+    padding:.2rem .55rem;
+
+    font-size:.65rem;
+
+}
+
+.badge-sm{
+
+    padding:.3rem .7rem;
+
+    font-size:.72rem;
+
+}
+
+.badge-lg{
+
+    padding:.5rem 1rem;
+
+    font-size:.85rem;
+
+}
+
+/* ==========================================================
+   Filled
+========================================================== */
+
+.badge-primary{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+.badge-success{
+
+    background:var(--success);
+
+    color:#fff;
+
+}
+
+.badge-warning{
+
+    background:var(--warning);
+
+    color:#fff;
+
+}
+
+.badge-danger{
+
+    background:var(--danger);
+
+    color:#fff;
+
+}
+
+.badge-info{
+
+    background:var(--info);
+
+    color:#fff;
+
+}
+
+.badge-secondary{
+
+    background:var(--secondary-light);
+
+    color:#fff;
+
+}
+
+/* ==========================================================
+   Soft
+========================================================== */
+
+.badge-soft-primary{
+
+    background:rgba(37,99,235,.12);
+
+    color:var(--primary);
+
+}
+
+.badge-soft-success{
+
+    background:rgba(16,185,129,.12);
+
+    color:var(--success);
+
+}
+
+.badge-soft-warning{
+
+    background:rgba(245,158,11,.12);
+
+    color:var(--warning);
+
+}
+
+.badge-soft-danger{
+
+    background:rgba(239,68,68,.12);
+
+    color:var(--danger);
+
+}
+
+.badge-soft-info{
+
+    background:rgba(59,130,246,.12);
+
+    color:var(--info);
+
+}
+
+/* ==========================================================
+   Outline
+========================================================== */
+
+.badge-outline{
+
+    background:transparent;
+
+    border:1px solid var(--border-color);
+
+    color:var(--text-primary);
+
+}
+
+.badge-outline-primary{
+
+    border:1px solid var(--primary);
+
+    color:var(--primary);
+
+}
+
+.badge-outline-success{
+
+    border:1px solid var(--success);
+
+    color:var(--success);
+
+}
+
+.badge-outline-warning{
+
+    border:1px solid var(--warning);
+
+    color:var(--warning);
+
+}
+
+.badge-outline-danger{
+
+    border:1px solid var(--danger);
+
+    color:var(--danger);
+
+}
+
+/* ==========================================================
+   Glass
+========================================================== */
+
+.badge-glass{
+
+    background:var(--glass-bg);
+
+    border:1px solid var(--glass-border);
+
+    backdrop-filter:saturate(180%) blur(var(--blur));
+
+    -webkit-backdrop-filter:saturate(180%) blur(var(--blur));
+
+    color:var(--text-primary);
+
+}
+
+/* ==========================================================
+   Dot
+========================================================== */
+
+.badge-dot{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:.45rem;
+
+}
+
+.badge-dot::before{
+
+    content:"";
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:currentColor;
+
+}
+
+/* ==========================================================
+   Status Animation
+========================================================== */
+
+.badge-live{
+
+    animation:pulse 2s infinite;
+
+}
+
+/* ==========================================================
+   Hover
+========================================================== */
+
+.badge:hover{
+
+    transform:translateY(-1px);
+
+    box-shadow:var(--shadow-sm);
+
+}
+
+/* ==========================================================
+   Cursor
+========================================================== */
+
+.badge-clickable{
+
+    cursor:pointer;
+
+}

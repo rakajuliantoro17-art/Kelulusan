@@ -1,0 +1,345 @@
+/*
+==========================================================
+SARPRASIN v2.0
+ADMIN SHELL (sidebar toggle + overlay)
+File : src/assets/css/layout/shell.css
+
+Di-import PALING AKHIR di app.css supaya menang atas
+aturan sidebar lama di tablet.css / mobile.css.
+State dikontrol lewat class di <body>:
+  .sidebar-collapsed  -> desktop: sidebar disembunyikan
+  .sidebar-open       -> mobile/tablet: sidebar tampil + overlay
+==========================================================
+*/
+
+.shell-loading {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1rem;
+    z-index: 3000;
+    background: rgba(15, 23, 42, .85);
+}
+
+.shell-loading[hidden] { display: none; }
+
+/* ---------- Desktop (> 1024px) ---------- */
+
+body.has-shell .sidebar {
+    width: 260px;
+    transform: translateX(0);
+    transition: transform .3s ease;
+    z-index: 1000;
+}
+
+body.has-shell .topbar {
+    left: 260px;
+    transition: left .3s ease;
+}
+
+body.has-shell .dashboard-main {
+    margin-left: 260px;
+    transition: margin-left .3s ease;
+}
+
+body.has-shell.sidebar-collapsed .sidebar { transform: translateX(-100%); }
+body.has-shell.sidebar-collapsed .topbar { left: 0; }
+body.has-shell.sidebar-collapsed .dashboard-main { margin-left: 0; }
+
+/* ---------- Overlay ---------- */
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .5);
+    z-index: 999;
+}
+
+/* ---------- Tablet / HP (<= 1024px) ---------- */
+
+@media (max-width: 1024px) {
+
+    body.has-shell .sidebar { transform: translateX(-100%); }
+    body.has-shell.sidebar-open .sidebar { transform: translateX(0); }
+    body.has-shell.sidebar-open .sidebar-overlay { display: block; }
+
+    body.has-shell .topbar,
+    body.has-shell.sidebar-collapsed .topbar { left: 0; }
+
+    body.has-shell .dashboard-main,
+    body.has-shell.sidebar-collapsed .dashboard-main { margin-left: 0; }
+}
+
+/* ---------- Komponen halaman admin ---------- */
+
+.page-toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.page-toolbar input {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, .25);
+    background: rgba(255, 255, 255, .12);
+    color: inherit;
+}
+
+.page-empty {
+    padding: 24px;
+    text-align: center;
+    opacity: .8;
+}
+
+.table-wrap { overflow-x: auto; }
+
+/* ======================================================
+   Tombol, modal & form (dipakai Asset / Ruangan)
+====================================================== */
+
+.btn-primary, .btn-ghost, .btn-mini {
+    display: inline-block;
+    border: 0;
+    cursor: pointer;
+    border-radius: 10px;
+    font: inherit;
+    text-decoration: none;
+    color: #fff;
+}
+
+.btn-primary { padding: 10px 16px; background: #2563eb; }
+.btn-primary:hover { background: #1d4ed8; }
+.btn-primary:disabled { opacity: .6; cursor: wait; }
+
+.btn-ghost {
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, .15);
+    border: 1px solid rgba(255, 255, 255, .3);
+}
+
+.btn-mini {
+    padding: 5px 10px;
+    font-size: .8rem;
+    background: rgba(255, 255, 255, .18);
+    margin-right: 4px;
+}
+.btn-mini.danger { background: rgba(220, 38, 38, .75); }
+
+.page-toolbar select {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, .25);
+    background: rgba(15, 23, 42, .6);
+    color: inherit;
+}
+
+.hint { opacity: .75; font-size: .85rem; margin: 6px 0 0; }
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(0, 0, 0, .6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.modal-box {
+    width: min(720px, 100%);
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 22px;
+    background: rgba(15, 23, 42, .92);
+    color: #fff;
+    border-radius: 16px;
+}
+
+.modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+.modal-head h3 { margin: 0; }
+.modal-close { background: none; border: 0; color: inherit; font-size: 1.2rem; cursor: pointer; }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+}
+.form-field { display: flex; flex-direction: column; gap: 4px; font-size: .85rem; }
+.form-field.full { grid-column: 1 / -1; }
+.form-field input, .form-field select, .form-field textarea {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, .25);
+    background: rgba(255, 255, 255, .1);
+    color: #fff;
+    font: inherit;
+}
+.form-field select option { color: #111; }
+.form-error { color: #fca5a5; margin: 10px 0 0; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+
+@media (max-width: 640px) {
+    .form-grid { grid-template-columns: 1fr; }
+}
+
+/* ======================================================
+   KIR (kertas putih, dipakai di layar & cetak)
+====================================================== */
+
+.kir-sheet {
+    background: #fff;
+    color: #000;
+    padding: 28px 34px;
+    border-radius: 8px;
+    max-width: 794px;
+    margin: 0 auto;
+    font-family: "Times New Roman", Georgia, serif;
+    font-size: 12pt;
+    overflow-x: auto;
+}
+
+.kir-head { display: flex; align-items: center; gap: 16px; border-bottom: 3px double #000; padding-bottom: 10px; }
+.kir-logo { width: 64px; height: 64px; object-fit: contain; }
+.kir-head-text { flex: 1; text-align: center; line-height: 1.35; }
+.kir-head-text strong { font-size: 15pt; }
+.kir-addr { font-size: 10pt; }
+.kir-title { text-align: center; margin: 14px 0 10px; font-size: 14pt; }
+
+.kir-meta { width: 100%; margin-bottom: 10px; border-collapse: collapse; }
+.kir-meta td { padding: 1px 6px 1px 0; vertical-align: top; }
+.kir-meta td:first-child { width: 150px; white-space: nowrap; }
+
+.kir-table { width: 100%; border-collapse: collapse; font-size: 11pt; }
+.kir-table th, .kir-table td { border: 1px solid #000; padding: 4px 6px; color: #000; background: #fff; }
+.kir-table th { text-align: center; background: #f1f1f1; }
+.kir-table .c { text-align: center; }
+.kir-table .r { text-align: right; }
+.kir-note { font-size: 10pt; margin: 6px 0 0; }
+
+.kir-sign { display: flex; justify-content: space-between; margin-top: 18px; text-align: center; page-break-inside: avoid; }
+.kir-sign > div { min-width: 260px; }
+.kir-sign-space { height: 64px; }
+.kir-sign-slot { min-width: 260px; }
+.kir-sign-center { justify-content: center; }
+.kir-meta .r { text-align: right; }
+.kir-numrow th { font-size: 9pt; background: #fff; padding: 1px 4px; }
+
+/* ======================================================
+   CETAK
+====================================================== */
+
+@page { size: A4 portrait; margin: 12mm; }
+
+@media print {
+    body, body.dark-theme { background: #fff !important; }
+
+    .sidebar, .topbar, .sidebar-overlay, .no-print, .modal-backdrop, .shell-loading {
+        display: none !important;
+    }
+
+    body.has-shell .dashboard-main,
+    body.has-shell.sidebar-collapsed .dashboard-main {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .kir-sheet {
+        padding: 0;
+        max-width: none;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    .kir-table thead { display: table-header-group; }
+    .kir-table tr { page-break-inside: avoid; }
+}
+
+/* Kotak centang banyak (mis. ruangan yang ditugaskan) */
+.check-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 6px 12px;
+    max-height: 180px;
+    overflow: auto;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, .25);
+    background: rgba(255, 255, 255, .08);
+}
+.check-item { display: flex; gap: 8px; align-items: center; font-size: .85rem; }
+.check-item input { width: auto; padding: 0; }
+
+/* ======================================================
+   User Management: chip status, kartu kredensial, legenda role
+====================================================== */
+
+.chip {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: .78rem;
+    border: 1px solid rgba(255, 255, 255, .25);
+}
+.chip-on  { background: rgba(16, 185, 129, .25); color: #a7f3d0; }
+.chip-off { background: rgba(239, 68, 68, .25);  color: #fecaca; }
+
+.cred-box { width: min(520px, 100%); }
+.cred-list {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 8px 16px;
+    margin: 14px 0 0;
+}
+.cred-list dt { opacity: .7; }
+.cred-list dd { margin: 0; word-break: break-all; }
+.cred-list code {
+    padding: 3px 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, .15);
+    font-size: 1rem;
+    letter-spacing: .5px;
+}
+
+.role-legend { margin: 0; padding-left: 18px; line-height: 1.7; }
+
+.page-toolbar { flex-wrap: wrap; }
+
+/* ======================================================
+   Kontras teks pada permukaan yang selalu gelap
+   Heading/paragraf memakai --text-primary / --text-secondary yang
+   bernilai GELAP pada tema "light" (bawaan), padahal modal & sidebar
+   berlatar gelap. Di sini warnanya dipaksa mengikuti induk (putih).
+====================================================== */
+
+.modal-box h1, .modal-box h2, .modal-box h3, .modal-box h4, .modal-box p,
+.sidebar-brand h3, .profile-info h4 {
+    color: inherit;
+}
+
+.dashboard-panel .hint,
+.dashboard-panel .role-legend {
+    color: rgba(255, 255, 255, .85);
+}
+.role-legend strong { color: #fff; }
+
+/* Toolbar halaman: teks filter, jumlah baris, dan placeholder harus terbaca di atas panel gelap */
+.page-toolbar select { color: #fff; }
+.page-toolbar select option { color: #111; background: #fff; }
+.page-toolbar span { color: rgba(255, 255, 255, .85); }
+.page-toolbar input::placeholder { color: rgba(255, 255, 255, .6); }

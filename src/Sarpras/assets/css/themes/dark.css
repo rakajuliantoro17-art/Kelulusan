@@ -1,0 +1,656 @@
+/*
+==========================================================
+DARK THEME STYLE
+SMANSASOO Digital System
+Module : Dark Mode Theme
+Version : 1.0.0
+==========================================================
+*/
+
+
+/* ======================================================
+   DARK THEME VARIABLES
+====================================================== */
+
+
+.dark-theme {
+
+
+    --bg-primary:
+
+    #020617;
+
+
+    --bg-secondary:
+
+    #0f172a;
+
+
+    --bg-card:
+
+    rgba(15,23,42,.75);
+
+
+
+    --bg-glass:
+
+    rgba(255,255,255,.08);
+
+
+
+    --border-color:
+
+    rgba(255,255,255,.12);
+
+
+
+    --text-primary:
+
+    #f8fafc;
+
+
+
+    --text-secondary:
+
+    #cbd5e1;
+
+
+
+    --text-muted:
+
+    #94a3b8;
+
+
+
+    --accent-primary:
+
+    #2563eb;
+
+
+
+    --accent-secondary:
+
+    #60a5fa;
+
+
+
+    --success:
+
+    #22c55e;
+
+
+
+    --warning:
+
+    #facc15;
+
+
+
+    --danger:
+
+    #ef4444;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   GLOBAL DARK BACKGROUND
+====================================================== */
+
+
+.dark-theme body {
+
+
+    background:
+
+    linear-gradient(
+        135deg,
+        #020617,
+        #0f172a
+    );
+
+
+
+    color:
+
+    var(--text-primary);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   GLASS COMPONENT
+====================================================== */
+
+
+.dark-theme .glass,
+.dark-theme .card,
+.dark-theme .panel,
+.dark-theme .dashboard-card {
+
+
+    background:
+
+    var(--bg-card);
+
+
+
+    border-color:
+
+    var(--border-color);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   NAVBAR
+====================================================== */
+
+
+.dark-theme .navbar {
+
+
+    background:
+
+    rgba(2,6,23,.65);
+
+
+
+    border-bottom:
+
+    1px solid var(--border-color);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   SIDEBAR
+====================================================== */
+
+
+.dark-theme .sidebar {
+
+
+    background:
+
+    rgba(2,6,23,.85);
+
+
+
+    border-right:
+
+    1px solid var(--border-color);
+
+
+
+}
+
+
+
+.dark-theme .sidebar-link {
+
+
+    color:
+
+    var(--text-secondary);
+
+
+
+}
+
+
+
+.dark-theme .sidebar-link:hover,
+.dark-theme .sidebar-link.active {
+
+
+    background:
+
+    rgba(96,165,250,.15);
+
+
+
+    color:white;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   TOPBAR
+====================================================== */
+
+
+.dark-theme .topbar {
+
+
+    background:
+
+    rgba(2,6,23,.65);
+
+
+
+    border-bottom:
+
+    1px solid var(--border-color);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   TEXT
+====================================================== */
+
+
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme h3,
+.dark-theme h4 {
+
+
+    color:
+
+    var(--text-primary);
+
+
+
+}
+
+
+
+.dark-theme p {
+
+
+    color:
+
+    var(--text-secondary);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   INPUT FORM
+====================================================== */
+
+
+.dark-theme input,
+.dark-theme select,
+.dark-theme textarea {
+
+
+    background:
+
+    rgba(255,255,255,.08);
+
+
+
+    border-color:
+
+    var(--border-color);
+
+
+
+    color:white;
+
+
+
+}
+
+
+
+.dark-theme input::placeholder {
+
+
+    color:
+
+    var(--text-muted);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   BUTTON
+====================================================== */
+
+
+.dark-theme .btn,
+.dark-theme button {
+
+
+    border-color:
+
+    var(--border-color);
+
+
+
+}
+
+
+
+.dark-theme .btn-primary,
+.dark-theme .primary {
+
+
+    background:
+
+    linear-gradient(
+        135deg,
+        #2563eb,
+        #60a5fa
+    );
+
+
+
+    color:white;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   TABLE
+====================================================== */
+
+
+.dark-theme table {
+
+
+    color:
+
+    var(--text-primary);
+
+
+
+}
+
+
+
+.dark-theme th {
+
+
+    background:
+
+    rgba(255,255,255,.05);
+
+
+
+    color:
+
+    var(--text-secondary);
+
+
+
+}
+
+
+
+.dark-theme td {
+
+
+    border-color:
+
+    rgba(255,255,255,.08);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   STATUS BADGE
+====================================================== */
+
+
+.dark-theme .status-success {
+
+
+    background:
+
+    rgba(34,197,94,.15);
+
+
+
+    color:#86efac;
+
+
+
+}
+
+
+
+.dark-theme .status-warning {
+
+
+    background:
+
+    rgba(250,204,21,.15);
+
+
+
+    color:#fde047;
+
+
+
+}
+
+
+
+.dark-theme .status-danger {
+
+
+    background:
+
+    rgba(239,68,68,.15);
+
+
+
+    color:#fca5a5;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   LOGIN PAGE
+====================================================== */
+
+
+.dark-theme .login-card {
+
+
+    background:
+
+    rgba(15,23,42,.85);
+
+
+
+}
+
+
+
+.dark-theme .login-btn {
+
+
+    background:
+
+    linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   DASHBOARD
+====================================================== */
+
+
+.dark-theme .stat-card,
+.dark-theme .dashboard-widget {
+
+
+    background:
+
+    rgba(15,23,42,.75);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   REPORT PAGE
+====================================================== */
+
+
+.dark-theme .report-chart {
+
+
+    background:
+
+    rgba(255,255,255,.05);
+
+
+
+}
+
+
+
+.dark-theme .report-summary-card {
+
+
+    background:
+
+    rgba(15,23,42,.7);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   SETTINGS PAGE
+====================================================== */
+
+
+.dark-theme .settings-menu,
+.dark-theme .settings-panel {
+
+
+    background:
+
+    rgba(15,23,42,.75);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   PROFILE PAGE
+====================================================== */
+
+
+.dark-theme .profile-card,
+.dark-theme .profile-panel {
+
+
+    background:
+
+    rgba(15,23,42,.75);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   FOOTER
+====================================================== */
+
+
+.dark-theme footer {
+
+
+    background:
+
+    rgba(2,6,23,.8);
+
+
+
+    color:
+
+    var(--text-muted);
+
+
+
+}

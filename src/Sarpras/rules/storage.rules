@@ -1,0 +1,165 @@
+rules_version = '2';
+
+service firebase.storage {
+
+  match /b/{bucket}/o {
+
+    // ======================================================
+    // AUTH HELPERS
+    // ======================================================
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function hasRole(role) {
+      return signedIn() &&
+             request.auth.token.level == role;
+    }
+
+    function isAdmin() {
+      return hasRole("admin");
+    }
+
+    function isExecutive() {
+      return hasRole("executive");
+    }
+
+    function isUser() {
+      return hasRole("user");
+    }
+
+    // ======================================================
+    // ASSET IMAGES
+    // /assets/{assetId}/filename.jpg
+    // ======================================================
+
+    match /assets/{assetId}/{fileName} {
+
+      allow read:
+        if signedIn();
+
+      allow write:
+        if isAdmin() || isUser();
+
+      allow delete:
+        if isAdmin();
+
+    }
+
+    // ======================================================
+    // USER PROFILE
+    // /profiles/{uid}/avatar.png
+    // ======================================================
+
+    match /profiles/{userId}/{fileName} {
+
+      allow read:
+        if signedIn();
+
+      allow write:
+        if signedIn()
+        && request.auth.uid == userId;
+
+      allow delete:
+        if request.auth.uid == userId
+        || isAdmin();
+
+    }
+
+    // ======================================================
+    // REPORT PDF
+    // ======================================================
+
+    match /reports/{fileName} {
+
+      allow read:
+        if signedIn();
+
+      allow write:
+        if isAdmin();
+
+      allow delete:
+        if isAdmin();
+
+    }
+
+    // ======================================================
+    // BACKUP
+    // ======================================================
+
+    match /backup/{fileName} {
+
+      allow read:
+        if isAdmin();
+
+      allow write:
+        if isAdmin();
+
+      allow delete:
+        if isAdmin();
+
+    }
+
+    // ======================================================
+    // IMPORT
+    // ======================================================
+
+    match /imports/{fileName} {
+
+      allow read:
+        if isAdmin();
+
+      allow write:
+        if isAdmin();
+
+      allow delete:
+        if isAdmin();
+
+    }
+
+    // ======================================================
+    // EXPORT
+    // ======================================================
+
+    match /exports/{fileName} {
+
+      allow read:
+        if signedIn();
+
+      allow write:
+        if isAdmin();
+
+      allow delete:
+        if isAdmin();
+
+    }
+
+    // ======================================================
+    // PUBLIC
+    // ======================================================
+
+    match /public/{allPaths=**} {
+
+      allow read:
+        if true;
+
+      allow write:
+        if isAdmin();
+
+    }
+
+    // ======================================================
+    // DEFAULT
+    // ======================================================
+
+    match /{allPaths=**} {
+
+      allow read, write:
+        if false;
+
+    }
+
+  }
+
+}

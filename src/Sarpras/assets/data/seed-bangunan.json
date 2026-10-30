@@ -1,0 +1,260 @@
+{
+ "buildings": [
+  {
+   "id": "GD-A",
+   "kodeBangunan": "GD-A",
+   "namaBangunan": "Gedung A",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang TU\nRuang Meeting\nRuang KS\nRuang Wakasek",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-B",
+   "kodeBangunan": "GD-B",
+   "namaBangunan": "Gedung B",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang Guru\nRuang Staff & Arsip\nKamar Mandi Guru\nRuang Pantri\nMusholah Guru",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-C",
+   "kodeBangunan": "GD-C",
+   "namaBangunan": "Gedung C",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang Kelas XI 3\nRuang Kelas XI 4\nRuang Kelas XI 5\nRuang Pembayaran",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-D",
+   "kodeBangunan": "GD-D",
+   "namaBangunan": "Gedung D",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang Kelas XI 6\nRuang Kelas XI 7\nRuang Kelas XI 8\nRuang Kelas XI 9\nRuang Server",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-E",
+   "kodeBangunan": "GD-E",
+   "namaBangunan": "Gedung E",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang Kelas XII 1\nRuang Kelas XII 2\nRuang Kelas XII 3\nRuang Kelas XII 4\nRuang Kelas XII 5\nRuang Kelas XII 6",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-F",
+   "kodeBangunan": "GD-F",
+   "namaBangunan": "Gedung F",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang Kelas XII 7",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-G",
+   "kodeBangunan": "GD-G",
+   "namaBangunan": "Gedung G",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang Kelas XII 8\nRuang Kelas XI 10\nRuang Kelas XI 11\nRuang Kelas XI 12",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-H",
+   "kodeBangunan": "GD-H",
+   "namaBangunan": "Gedung H",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang Kelas X 7\nRuang Kelas X 8\nRuang Kelas X 9\nRuang Kelas X 10\nRuang Kelas X 11\nRuang Kelas X 12\nRuang Olahraga",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-I",
+   "kodeBangunan": "GD-I",
+   "namaBangunan": "Gedung I",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang Kelas XII 9\nRuang Kelas XII 10\nRuang Kelas XII 11\nRuang Kelas XII 12\nRuang BK\nLaboratorium Kimia\nLaboratorium Fisika",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-J",
+   "kodeBangunan": "GD-J",
+   "namaBangunan": "Gedung J",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Laboratorium Biologi",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-K",
+   "kodeBangunan": "GD-K",
+   "namaBangunan": "Gedung K",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Laboratorium Komputer 1\nLaboratorium Komputer 2\nLaboratorium Komputer 3",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-L",
+   "kodeBangunan": "GD-L",
+   "namaBangunan": "Gedung L",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Laboratorium Komputer 4",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-M",
+   "kodeBangunan": "GD-M",
+   "namaBangunan": "Gedung M",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Perpustakaan",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-N",
+   "kodeBangunan": "GD-N",
+   "namaBangunan": "Gedung N",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang Kelas 1\nRuang Kelas 2\nRuang Kelas 3\nRuang Kelas 4\nRuang Kelas 5\nRuang Kelas 6\nRuang Osis",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-O",
+   "kodeBangunan": "GD-O",
+   "namaBangunan": "Gedung O",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Kamar Mandi Siswa 1",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-P",
+   "kodeBangunan": "GD-P",
+   "namaBangunan": "Gedung P",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Kantin Siswa Utara",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-Q",
+   "kodeBangunan": "GD-Q",
+   "namaBangunan": "Gedung Q",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Rumah Dinas Guru/Karyawan\nGudang Bekas\nGudang Komputer\nGudang Tukang",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-R",
+   "kodeBangunan": "GD-R",
+   "namaBangunan": "Gedung R",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Kamar Mandi Siswa 2",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-S",
+   "kodeBangunan": "GD-S",
+   "namaBangunan": "Gedung S",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Kamar Mandi Siswa 3",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-T",
+   "kodeBangunan": "GD-T",
+   "namaBangunan": "Gedung T",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Kantin Siswa Tengah",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-U",
+   "kodeBangunan": "GD-U",
+   "namaBangunan": "Gedung U",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Rumah Dinas Karyawan",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-V",
+   "kodeBangunan": "GD-V",
+   "namaBangunan": "Gedung V",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang Studio\nRuang Gamelan\nKamar Mandi Siswa 5",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-W",
+   "kodeBangunan": "GD-W",
+   "namaBangunan": "Gedung W",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang UKS",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-X",
+   "kodeBangunan": "GD-X",
+   "namaBangunan": "Gedung X",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Kamar Mandi Guru",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-Y",
+   "kodeBangunan": "GD-Y",
+   "namaBangunan": "Gedung Y",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Graha Cita / BSP",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-Z",
+   "kodeBangunan": "GD-Z",
+   "namaBangunan": "Gedung Z",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang Osis\nRuang Kopsis\nRuang Kosma",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-AA",
+   "kodeBangunan": "GD-AA",
+   "namaBangunan": "Gedung AA",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Masjid Ibnu Sina\nKamar Mandi Siswa 4",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-AB",
+   "kodeBangunan": "GD-AB",
+   "namaBangunan": "Gedung AB",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Aula Graha Makarim\nKamar Mandi Tamu",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-AC",
+   "kodeBangunan": "GD-AC",
+   "namaBangunan": "Gedung AC",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Ruang Kelas XI 1\nRuang Kelas XI 2",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-AD",
+   "kodeBangunan": "GD-AD",
+   "namaBangunan": "Gedung AD",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Perpustakaan Kosong",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-AE",
+   "kodeBangunan": "GD-AE",
+   "namaBangunan": "Gedung AE",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Kantin Kosong",
+   "sumber": "spreadsheet-KIB"
+  },
+  {
+   "id": "GD-AF",
+   "kodeBangunan": "GD-AF",
+   "namaBangunan": "Gedung AF",
+   "jenis": "LAINNYA",
+   "daftarRuang": "Pos Satpam",
+   "sumber": "spreadsheet-KIB"
+  }
+ ]
+}

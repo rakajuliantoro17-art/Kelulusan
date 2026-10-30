@@ -1,0 +1,403 @@
+/* ==========================================================
+   Sarprasin 2.0
+   Typography
+   File : src/assets/css/base/typography.css
+   Version : 1.0.0
+========================================================== */
+
+/* ==========================================================
+   Google Font
+========================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+/* ==========================================================
+   Root Typography
+========================================================== */
+
+html {
+    font-size: 16px;
+}
+
+body {
+
+    font-family:
+        "Inter",
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
+
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+
+    color: var(--text-primary);
+
+}
+
+/* ==========================================================
+   Headings
+========================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+    font-weight: 700;
+
+    color: var(--text-primary);
+
+    line-height: 1.25;
+
+    margin-bottom: .75rem;
+
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+/* ==========================================================
+   Paragraph
+========================================================== */
+
+p {
+
+    margin-bottom: 1rem;
+
+    color: var(--text-secondary);
+
+}
+
+/* ==========================================================
+   Links
+========================================================== */
+
+a {
+
+    color: var(--primary);
+
+    transition: color .2s ease;
+
+}
+
+a:hover {
+
+    color: var(--primary-dark);
+
+}
+
+/* ==========================================================
+   Strong
+========================================================== */
+
+strong,
+b {
+
+    font-weight: 700;
+
+}
+
+/* ==========================================================
+   Small
+========================================================== */
+
+small {
+
+    font-size: .875rem;
+
+    color: var(--text-muted);
+
+}
+
+/* ==========================================================
+   Code
+========================================================== */
+
+code,
+pre {
+
+    font-family:
+
+        "Fira Code",
+        Consolas,
+        monospace;
+
+}
+
+code {
+
+    padding: .15rem .4rem;
+
+    border-radius: 6px;
+
+    background: rgba(255,255,255,.08);
+
+}
+
+pre {
+
+    overflow-x: auto;
+
+    padding: 1rem;
+
+    border-radius: 12px;
+
+    background: rgba(255,255,255,.05);
+
+}
+
+/* ==========================================================
+   Lists
+========================================================== */
+
+ul {
+
+    padding-left: 1.25rem;
+
+    list-style: disc;
+
+}
+
+ol {
+
+    padding-left: 1.25rem;
+
+    list-style: decimal;
+
+}
+
+li {
+
+    margin-bottom: .35rem;
+
+}
+
+/* ==========================================================
+   Table Text
+========================================================== */
+
+th {
+
+    font-weight: 600;
+
+}
+
+td,
+th {
+
+    padding: .75rem;
+
+}
+
+/* ==========================================================
+   Helper Classes
+========================================================== */
+
+.text-xs {
+
+    font-size: .75rem;
+
+}
+
+.text-sm {
+
+    font-size: .875rem;
+
+}
+
+.text-base {
+
+    font-size: 1rem;
+
+}
+
+.text-lg {
+
+    font-size: 1.125rem;
+
+}
+
+.text-xl {
+
+    font-size: 1.25rem;
+
+}
+
+.text-2xl {
+
+    font-size: 1.5rem;
+
+}
+
+.text-3xl {
+
+    font-size: 2rem;
+
+}
+
+.font-light {
+
+    font-weight: 300;
+
+}
+
+.font-normal {
+
+    font-weight: 400;
+
+}
+
+.font-medium {
+
+    font-weight: 500;
+
+}
+
+.font-semibold {
+
+    font-weight: 600;
+
+}
+
+.font-bold {
+
+    font-weight: 700;
+
+}
+
+.font-extrabold {
+
+    font-weight: 800;
+
+}
+
+.text-center {
+
+    text-align: center;
+
+}
+
+.text-left {
+
+    text-align: left;
+
+}
+
+.text-right {
+
+    text-align: right;
+
+}
+
+.text-uppercase {
+
+    text-transform: uppercase;
+
+}
+
+.text-lowercase {
+
+    text-transform: lowercase;
+
+}
+
+.text-capitalize {
+
+    text-transform: capitalize;
+
+}
+
+.text-primary {
+
+    color: var(--primary);
+
+}
+
+.text-secondary {
+
+    color: var(--text-secondary);
+
+}
+
+.text-success {
+
+    color: var(--success);
+
+}
+
+.text-warning {
+
+    color: var(--warning);
+
+}
+
+.text-danger {
+
+    color: var(--danger);
+
+}
+
+.text-muted {
+
+    color: var(--text-muted);
+
+}
+
+/* ==========================================================
+   Responsive
+========================================================== */
+
+@media (max-width: 768px) {
+
+    html {
+
+        font-size: 15px;
+
+    }
+
+    h1 {
+
+        font-size: 2rem;
+
+    }
+
+    h2 {
+
+        font-size: 1.75rem;
+
+    }
+
+    h3 {
+
+        font-size: 1.5rem;
+
+    }
+
+}

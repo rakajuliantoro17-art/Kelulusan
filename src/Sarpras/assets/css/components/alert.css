@@ -1,0 +1,283 @@
+/* ==========================================================
+   Sarprasin 2.0
+   Alert Component
+   File : src/assets/css/components/alert.css
+   Version : 1.0.0
+========================================================== */
+
+/* ==========================================================
+   Base Alert
+========================================================== */
+
+.alert{
+
+    display:flex;
+    align-items:flex-start;
+    gap:1rem;
+
+    width:100%;
+
+    padding:1rem 1.25rem;
+
+    margin-bottom:1rem;
+
+    border-radius:var(--radius);
+
+    border:1px solid transparent;
+
+    background:var(--surface);
+
+    color:var(--text-primary);
+
+    box-shadow:var(--shadow-sm);
+
+    animation:fadeIn .25s ease;
+
+}
+
+/* ==========================================================
+   Icon
+========================================================== */
+
+.alert-icon{
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    width:42px;
+    height:42px;
+
+    flex-shrink:0;
+
+    border-radius:50%;
+
+    font-size:1.15rem;
+
+}
+
+/* ==========================================================
+   Content
+========================================================== */
+
+.alert-content{
+
+    flex:1;
+
+}
+
+.alert-title{
+
+    font-size:1rem;
+
+    font-weight:700;
+
+    margin-bottom:.25rem;
+
+    color:var(--text-primary);
+
+}
+
+.alert-message{
+
+    font-size:.92rem;
+
+    line-height:1.6;
+
+    color:var(--text-secondary);
+
+}
+
+/* ==========================================================
+   Close Button
+========================================================== */
+
+.alert-close{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:34px;
+
+    height:34px;
+
+    cursor:pointer;
+
+    border-radius:50%;
+
+    transition:var(--transition);
+
+}
+
+.alert-close:hover{
+
+    background:rgba(255,255,255,.08);
+
+}
+
+/* ==========================================================
+   Success
+========================================================== */
+
+.alert-success{
+
+    border-left:5px solid var(--success);
+
+    background:rgba(16,185,129,.12);
+
+}
+
+.alert-success .alert-icon{
+
+    background:rgba(16,185,129,.15);
+
+    color:var(--success);
+
+}
+
+/* ==========================================================
+   Warning
+========================================================== */
+
+.alert-warning{
+
+    border-left:5px solid var(--warning);
+
+    background:rgba(245,158,11,.12);
+
+}
+
+.alert-warning .alert-icon{
+
+    background:rgba(245,158,11,.15);
+
+    color:var(--warning);
+
+}
+
+/* ==========================================================
+   Danger
+========================================================== */
+
+.alert-danger{
+
+    border-left:5px solid var(--danger);
+
+    background:rgba(239,68,68,.12);
+
+}
+
+.alert-danger .alert-icon{
+
+    background:rgba(239,68,68,.15);
+
+    color:var(--danger);
+
+}
+
+/* ==========================================================
+   Info
+========================================================== */
+
+.alert-info{
+
+    border-left:5px solid var(--info);
+
+    background:rgba(59,130,246,.12);
+
+}
+
+.alert-info .alert-icon{
+
+    background:rgba(59,130,246,.15);
+
+    color:var(--info);
+
+}
+
+/* ==========================================================
+   Glass Variant
+========================================================== */
+
+.alert-glass{
+
+    background:var(--glass-bg);
+
+    backdrop-filter:saturate(180%) blur(var(--blur));
+
+    -webkit-backdrop-filter:saturate(180%) blur(var(--blur));
+
+    border:1px solid var(--glass-border);
+
+    box-shadow:var(--shadow-glass);
+
+}
+
+/* ==========================================================
+   Compact Variant
+========================================================== */
+
+.alert-sm{
+
+    padding:.75rem 1rem;
+
+    font-size:.875rem;
+
+}
+
+.alert-lg{
+
+    padding:1.5rem;
+
+}
+
+/* ==========================================================
+   Fixed Toast
+========================================================== */
+
+.alert-toast{
+
+    position:fixed;
+
+    top:24px;
+
+    right:24px;
+
+    width:360px;
+
+    max-width:calc(100vw - 32px);
+
+    z-index:var(--z-toast);
+
+    animation:notificationPop .3s ease;
+
+}
+
+/* ==========================================================
+   Responsive
+========================================================== */
+
+@media (max-width:768px){
+
+    .alert{
+
+        flex-direction:column;
+
+    }
+
+    .alert-toast{
+
+        left:16px;
+
+        right:16px;
+
+        width:auto;
+
+        top:16px;
+
+    }
+
+}

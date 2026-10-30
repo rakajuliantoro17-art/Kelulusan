@@ -1,0 +1,608 @@
+/*
+==========================================================
+GRID LAYOUT STYLE
+SMANSASOO Digital System
+Version : 1.0.0
+==========================================================
+*/
+
+
+/* ======================================================
+   MAIN GRID SYSTEM
+====================================================== */
+
+
+.grid {
+
+
+    display:grid;
+
+
+    gap:20px;
+
+
+
+    width:100%;
+
+
+
+}
+
+
+
+/* ======================================================
+   COLUMN GRID
+====================================================== */
+
+
+.grid-1 {
+
+
+    grid-template-columns:1fr;
+
+
+}
+
+
+
+.grid-2 {
+
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+
+}
+
+
+
+.grid-3 {
+
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
+
+}
+
+
+
+.grid-4 {
+
+
+    grid-template-columns:
+
+    repeat(4,1fr);
+
+
+}
+
+
+
+.grid-5 {
+
+
+    grid-template-columns:
+
+    repeat(5,1fr);
+
+
+}
+
+
+
+.grid-6 {
+
+
+    grid-template-columns:
+
+    repeat(6,1fr);
+
+
+}
+
+
+
+
+
+/* ======================================================
+   AUTO RESPONSIVE GRID
+====================================================== */
+
+
+.grid-auto {
+
+
+    grid-template-columns:
+
+    repeat(
+        auto-fit,
+        minmax(250px,1fr)
+    );
+
+
+}
+
+
+
+/* ======================================================
+   DASHBOARD GRID
+====================================================== */
+
+
+.dashboard-grid {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(4,1fr);
+
+
+
+    gap:20px;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   STAT CARD GRID
+====================================================== */
+
+
+.stats-grid {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(4,1fr);
+
+
+
+    gap:20px;
+
+
+
+}
+
+
+
+.stat-card {
+
+
+    min-height:130px;
+
+
+}
+
+
+
+/* ======================================================
+   CONTENT SPLIT GRID
+====================================================== */
+
+
+.content-grid {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    2fr 1fr;
+
+
+
+    gap:20px;
+
+
+
+}
+
+
+
+.content-grid.reverse {
+
+
+    grid-template-columns:
+
+    1fr 2fr;
+
+
+}
+
+
+
+
+/* ======================================================
+   PANEL GRID
+====================================================== */
+
+
+.panel-grid {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
+
+
+    gap:20px;
+
+
+
+}
+
+
+
+/* ======================================================
+   CARD GRID
+====================================================== */
+
+
+.card-grid {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(
+        auto-fit,
+        minmax(280px,1fr)
+    );
+
+
+
+    gap:20px;
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   GAP UTILITIES
+====================================================== */
+
+
+.gap-sm {
+
+
+    gap:10px;
+
+
+}
+
+
+
+.gap-md {
+
+
+    gap:20px;
+
+
+}
+
+
+
+.gap-lg {
+
+
+    gap:30px;
+
+
+}
+
+
+
+.gap-xl {
+
+
+    gap:40px;
+
+
+}
+
+
+
+
+/* ======================================================
+   COLUMN SPAN
+====================================================== */
+
+
+.col-span-2 {
+
+
+    grid-column:
+
+    span 2;
+
+
+}
+
+
+
+.col-span-3 {
+
+
+    grid-column:
+
+    span 3;
+
+
+}
+
+
+
+.col-full {
+
+
+    grid-column:
+
+    1 / -1;
+
+
+}
+
+
+
+/* ======================================================
+   ROW SPAN
+====================================================== */
+
+
+.row-span-2 {
+
+
+    grid-row:
+
+    span 2;
+
+
+}
+
+
+
+.row-span-3 {
+
+
+    grid-row:
+
+    span 3;
+
+
+}
+
+
+
+
+/* ======================================================
+   ALIGNMENT
+====================================================== */
+
+
+.grid-center {
+
+
+    place-items:center;
+
+
+}
+
+
+
+.grid-start {
+
+
+    align-items:start;
+
+
+}
+
+
+
+.grid-end {
+
+
+    align-items:end;
+
+
+}
+
+
+
+
+
+/* ======================================================
+   DASHBOARD MONITORING LAYOUT
+====================================================== */
+
+
+.monitor-grid {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    3fr 1fr;
+
+
+
+    gap:20px;
+
+
+
+}
+
+
+
+.monitor-card {
+
+
+    min-height:250px;
+
+
+}
+
+
+
+
+/* ======================================================
+   FORM GRID
+====================================================== */
+
+
+.form-grid {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+
+
+    gap:20px;
+
+
+
+}
+
+
+
+.form-full {
+
+
+    grid-column:
+
+    1 / -1;
+
+
+}
+
+
+
+
+
+/* ======================================================
+   RESPONSIVE TABLET
+====================================================== */
+
+
+@media(max-width:1200px){
+
+
+.grid-4,
+.grid-5,
+.grid-6,
+.dashboard-grid,
+.stats-grid {
+
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+
+}
+
+
+
+.panel-grid {
+
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+
+}
+
+
+
+.monitor-grid {
+
+
+    grid-template-columns:
+
+    1fr;
+
+
+}
+
+
+
+}
+
+
+
+/* ======================================================
+   RESPONSIVE MOBILE
+====================================================== */
+
+
+@media(max-width:768px){
+
+
+.grid-2,
+.grid-3,
+.grid-4,
+.grid-5,
+.grid-6,
+.dashboard-grid,
+.stats-grid,
+.panel-grid,
+.content-grid,
+.form-grid {
+
+
+    grid-template-columns:
+
+    1fr;
+
+
+}
+
+
+
+.col-span-2,
+.col-span-3 {
+
+
+    grid-column:
+
+    span 1;
+
+
+}
+
+
+
+}
