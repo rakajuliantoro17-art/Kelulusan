@@ -1,0 +1,31 @@
+export const STATUS = {
+
+    ACTIVE: "ACTIVE",
+
+    INACTIVE: "INACTIVE",
+
+    PENDING: "PENDING",
+
+    ARCHIVED: "ARCHIVED"
+
+};
+
+export const USER_ROLE = {
+
+    SUPER_ADMIN: "SUPER_ADMIN",
+
+    ADMIN_SARPRAS: "ADMIN_SARPRAS",
+
+    STAFF_SARPRAS: "STAFF_SARPRAS",
+
+    TU: "TU",
+
+    GURU: "GURU",
+
+    WALI_KELAS: "WALI_KELAS",
+
+    KETUA_KELAS: "KETUA_KELAS",
+
+    STAFF_NON_SARPRAS: "STAFF_NON_SARPRAS"
+
+};
