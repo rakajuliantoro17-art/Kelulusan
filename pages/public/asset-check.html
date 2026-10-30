@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+SARPRASIN - Cek Asset
+</title>
+
+
+<link rel="icon" href="/assets/logo/logo.png">
+
+
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<link rel="stylesheet" href="/assets/css/pages/public.css">
+
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="public-container">
+
+
+
+
+
+<!-- =====================================
+     HEADER
+====================================== -->
+
+
+<header class="public-header">
+
+
+<img
+
+src="/assets/logo/logo.png"
+
+class="school-logo"
+
+alt="SMAN 1 Sooko"
+
+
+>
+
+
+
+<div>
+
+
+<h1>
+
+SARPRASIN
+
+</h1>
+
+
+<p>
+
+Smart School Asset Management System
+
+</p>
+
+
+</div>
+
+
+
+</header>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     LOADING
+====================================== -->
+
+
+<section
+
+id="assetLoading"
+
+class="loading-box"
+
+
+>
+
+
+<div class="spinner"></div>
+
+
+<p>
+
+Memuat data aset...
+
+</p>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     ERROR
+====================================== -->
+
+
+<section
+
+id="assetError"
+
+class="error-box"
+
+style="display:none"
+
+
+>
+
+
+<div class="error-icon">
+
+⚠️
+
+</div>
+
+
+<h2>
+
+Asset Tidak Ditemukan
+
+</h2>
+
+
+<p>
+
+QR Code tidak valid atau data tidak tersedia.
+
+</p>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     ASSET CARD
+====================================== -->
+
+
+<section
+
+id="assetCard"
+
+class="asset-card"
+
+style="display:none"
+
+
+>
+
+
+
+
+
+<div class="asset-header">
+
+
+
+<div class="asset-icon">
+
+📦
+
+</div>
+
+
+
+
+<div>
+
+
+<h2
+
+id="assetName"
+
+>
+
+Nama Asset
+
+</h2>
+
+
+<p
+
+id="assetCode"
+
+>
+
+Kode Asset
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     IMAGE
+====================================== -->
+
+
+<div
+
+class="asset-image-wrapper"
+
+
+>
+
+
+<img
+
+id="assetImage"
+
+src=""
+
+alt="Asset Image"
+
+style="display:none"
+
+
+>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     INFORMATION
+====================================== -->
+
+
+<div class="asset-info">
+
+
+
+
+
+<div class="info-item">
+
+
+<span>
+
+Kategori
+
+</span>
+
+
+<strong
+
+id="assetCategory"
+
+>
+
+-
+
+</strong>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="info-item">
+
+
+<span>
+
+Lokasi
+
+</span>
+
+
+<strong
+
+id="assetRoom"
+
+>
+
+-
+
+</strong>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="info-item">
+
+
+<span>
+
+Kondisi
+
+</span>
+
+
+<strong
+
+id="assetCondition"
+
+>
+
+-
+
+</strong>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="info-item">
+
+
+<span>
+
+Status
+
+</span>
+
+
+<strong
+
+id="assetStatus"
+
+>
+
+-
+
+</strong>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="info-item">
+
+
+<span>
+
+Tahun Perolehan
+
+</span>
+
+
+<strong
+
+id="assetYear"
+
+>
+
+-
+
+</strong>
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     VERIFICATION
+====================================== -->
+
+
+<div class="verification-box">
+
+
+<div>
+
+🔒
+
+</div>
+
+
+<p>
+
+Data ini terverifikasi dari sistem SARPRASIN
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     FOOTER
+====================================== -->
+
+
+<footer class="public-footer">
+
+
+<p>
+
+© 2026 SMAN 1 Sooko Mojokerto
+
+</p>
+
+
+<p>
+
+Smart School Asset Management System
+
+</p>
+
+
+</footer>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<script type="module" src="/src/pages/public/asset-check.js"></script>
+
+
+</body>
+
+
+</html>

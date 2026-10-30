@@ -1,0 +1,801 @@
+/*
+==========================================================
+SARPRASIN v2.0
+SMANSASOO Digital System
+
+EXECUTIVE DASHBOARD STYLE
+
+Page : Executive
+Version : 1.0.0
+==========================================================
+*/
+
+
+/* ======================================================
+   EXECUTIVE WRAPPER
+====================================================== */
+
+
+.executive-page {
+
+
+    padding:
+
+    24px;
+
+
+    min-height:
+
+    calc(100vh - 70px);
+
+
+}
+
+
+
+.executive-header {
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+.executive-title h1 {
+
+
+    font-size:2rem;
+
+
+    font-weight:700;
+
+
+    color:var(--text-primary);
+
+
+
+}
+
+
+
+.executive-title p {
+
+
+    margin-top:8px;
+
+
+    color:var(--text-secondary);
+
+
+}
+
+
+
+
+
+/* ======================================================
+   KPI SECTION
+====================================================== */
+
+
+.executive-kpi-grid {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(4,1fr);
+
+
+    gap:20px;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+
+
+.executive-kpi-card {
+
+
+    padding:24px;
+
+
+    border-radius:22px;
+
+
+    background:
+
+    var(--bg-card);
+
+
+    border:
+
+    1px solid var(--border-color);
+
+
+    backdrop-filter:
+
+    blur(14px);
+
+
+    transition:.3s ease;
+
+
+}
+
+
+
+.executive-kpi-card:hover {
+
+
+    transform:
+
+    translateY(-5px);
+
+
+
+}
+
+
+
+
+.executive-kpi-label {
+
+
+    font-size:.9rem;
+
+
+    color:var(--text-secondary);
+
+
+}
+
+
+
+.executive-kpi-value {
+
+
+    margin-top:10px;
+
+
+    font-size:2.2rem;
+
+
+    font-weight:800;
+
+
+    color:var(--text-primary);
+
+
+}
+
+
+
+.executive-kpi-trend {
+
+
+    margin-top:12px;
+
+
+    font-size:.85rem;
+
+
+}
+
+
+
+
+.trend-up {
+
+
+    color:
+
+    var(--success);
+
+
+}
+
+
+
+.trend-down {
+
+
+    color:
+
+    var(--danger);
+
+
+}
+
+
+
+
+
+/* ======================================================
+   EXECUTIVE GRID
+====================================================== */
+
+
+.executive-grid {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    2fr 1fr;
+
+
+    gap:24px;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+
+
+.executive-panel {
+
+
+    padding:24px;
+
+
+    border-radius:22px;
+
+
+    background:
+
+    var(--bg-card);
+
+
+    border:
+
+    1px solid var(--border-color);
+
+
+}
+
+
+
+
+
+.executive-panel h3 {
+
+
+    font-size:1.1rem;
+
+
+    margin-bottom:20px;
+
+
+    color:
+
+    var(--text-primary);
+
+
+}
+
+
+
+
+
+/* ======================================================
+   CHART AREA
+====================================================== */
+
+
+.executive-chart {
+
+
+    width:100%;
+
+
+    height:320px;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+}
+
+
+
+
+
+.chart-container {
+
+
+    width:100%;
+
+
+    height:100%;
+
+
+}
+
+
+
+
+
+/* ======================================================
+   ASSET SUMMARY
+====================================================== */
+
+
+.asset-summary {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:16px;
+
+
+}
+
+
+
+
+.asset-summary-item {
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+    padding:15px;
+
+
+    border-radius:15px;
+
+
+    background:
+
+    rgba(255,255,255,.08);
+
+
+}
+
+
+
+
+
+.asset-summary-label {
+
+
+    color:
+
+    var(--text-secondary);
+
+
+}
+
+
+
+
+.asset-summary-value {
+
+
+    font-weight:700;
+
+
+}
+
+
+
+
+
+/* ======================================================
+   CONDITION INDICATOR
+====================================================== */
+
+
+.condition-list {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:14px;
+
+
+}
+
+
+
+.condition-item {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    120px 1fr 50px;
+
+
+    align-items:center;
+
+
+    gap:12px;
+
+
+}
+
+
+
+.condition-bar {
+
+
+    height:10px;
+
+
+    border-radius:20px;
+
+
+    overflow:hidden;
+
+
+    background:
+
+    rgba(148,163,184,.25);
+
+
+}
+
+
+
+.condition-progress {
+
+
+    height:100%;
+
+
+    border-radius:20px;
+
+
+}
+
+
+
+
+
+.condition-good {
+
+
+    background:
+
+    #22c55e;
+
+
+}
+
+
+
+.condition-warning {
+
+
+    background:
+
+    #eab308;
+
+
+}
+
+
+
+.condition-danger {
+
+
+    background:
+
+    #ef4444;
+
+
+}
+
+
+
+
+
+/* ======================================================
+   RECENT REPORT
+====================================================== */
+
+
+.executive-report {
+
+
+    margin-top:25px;
+
+
+}
+
+
+
+.executive-table {
+
+
+    width:100%;
+
+
+    border-collapse:collapse;
+
+
+}
+
+
+
+.executive-table th {
+
+
+    text-align:left;
+
+
+    padding:14px;
+
+
+    color:
+
+    var(--text-secondary);
+
+
+}
+
+
+
+.executive-table td {
+
+
+    padding:14px;
+
+
+    border-bottom:
+
+    1px solid var(--border-color);
+
+
+    color:
+
+    var(--text-primary);
+
+
+}
+
+
+
+
+
+/* ======================================================
+   QUICK ACTION
+====================================================== */
+
+
+.executive-action {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
+
+    gap:15px;
+
+
+}
+
+
+
+.executive-action button {
+
+
+    padding:15px;
+
+
+    border-radius:16px;
+
+
+    border:
+
+    1px solid var(--border-color);
+
+
+    background:
+
+    var(--bg-glass);
+
+
+    cursor:pointer;
+
+
+    transition:.25s;
+
+
+}
+
+
+
+.executive-action button:hover {
+
+
+    transform:
+
+    translateY(-3px);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   DARK MODE ADAPTATION
+====================================================== */
+
+
+.dark-theme .executive-panel,
+.dark-theme .executive-kpi-card {
+
+
+    background:
+
+    rgba(15,23,42,.75);
+
+
+
+}
+
+
+
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+
+@media(max-width:1200px){
+
+
+.executive-kpi-grid {
+
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+
+
+}
+
+
+
+.executive-grid {
+
+
+    grid-template-columns:
+
+    1fr;
+
+
+
+}
+
+
+}
+
+
+
+@media(max-width:768px){
+
+
+.executive-page {
+
+
+    padding:16px;
+
+
+}
+
+
+
+.executive-header {
+
+
+    flex-direction:column;
+
+
+    align-items:flex-start;
+
+
+    gap:15px;
+
+
+}
+
+
+
+.executive-kpi-grid {
+
+
+    grid-template-columns:
+
+    1fr;
+
+
+
+}
+
+
+
+.executive-action {
+
+
+    grid-template-columns:
+
+    1fr;
+
+
+
+}
+
+
+
+.condition-item {
+
+
+    grid-template-columns:
+
+    90px 1fr 40px;
+
+
+
+}
+
+
+}

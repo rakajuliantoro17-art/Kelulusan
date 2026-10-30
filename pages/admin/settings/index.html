@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | SARPRASIN</title>
+    <link rel="icon" href="/logo/icon.png">
+    <link rel="stylesheet" href="/src/assets/css/app.css">
+</head>
+<body>
+
+    <div class="shell-loading" id="shellLoading">Memeriksa sesi login...</div>
+
+    <!-- Isi halaman. Disembunyikan sampai login admin terverifikasi,
+         lalu dipindahkan ke dalam layout sidebar oleh admin-shell.js -->
+    <div id="pageContent" hidden>
+        <div class="dashboard-title">
+            <h2>Settings</h2>
+            <span>Pengaturan akun &amp; sistem</span>
+        </div>
+        <div class="dashboard-panel glass">
+            <p>Nama: <strong id="setName">-</strong></p>
+            <p>Role: <strong id="setRole">-</strong></p>
+            <p>Versi aplikasi: <strong>SARPRASIN 2.0</strong></p>
+            <p>Status koneksi: <strong id="setStatus">-</strong></p>
+        </div>
+
+        <div class="dashboard-panel glass" id="importPanel" hidden>
+            <div class="dashboard-title"><h2 style="font-size:1.1rem">Impor Data Awal dari Spreadsheet</h2></div>
+            <p>Memasukkan <strong id="impRooms">0</strong> ruangan dan <strong id="impAssets">0</strong> barang
+               dari spreadsheet "Inventarisasi Asset" ke database aplikasi. Data yang sudah ada tidak ditimpa,
+               jadi aman dijalankan lebih dari sekali.</p>
+            <p class="hint">Lokasi di spreadsheet yang mirip digabung (mis. "Labkom 1,3,4" dan "Labkom 4" menjadi satu ruang Labkom).
+               Kode barang dibuat ulang agar unik; kode lama disimpan di kolom "kodeLama".</p>
+            <button type="button" class="btn-primary" id="importBtn">⬇️ Impor Data Awal</button>
+            <p class="hint" id="importMsg"></p>
+        </div>
+
+        <div class="dashboard-panel glass" id="importBldPanel" hidden>
+            <div class="dashboard-title"><h2 style="font-size:1.1rem">Impor Daftar Bangunan (KIB)</h2></div>
+            <p>Memasukkan <strong id="impBld">0</strong> gedung (Gedung A s.d. AF) beserta daftar ruang di dalamnya dari sheet KIB
+               spreadsheet sekolah. Data yang sudah ada tidak ditimpa. Jenis, luas, dan kondisi gedung diisi lewat menu Bangunan.</p>
+            <button type="button" class="btn-primary" id="importBldBtn">⬇️ Impor Bangunan</button>
+            <p class="hint" id="importBldMsg"></p>
+        </div>
+    </div>
+
+    <script type="module" src="/src/assets/js/pages/admin-settings.js"></script>
+</body>
+</html>

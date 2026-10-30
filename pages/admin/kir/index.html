@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartu Inventaris Ruangan | SARPRASIN</title>
+    <link rel="icon" href="/logo/icon.png">
+    <link rel="stylesheet" href="/src/assets/css/app.css">
+</head>
+<body>
+
+    <div class="shell-loading" id="shellLoading">Memeriksa sesi login...</div>
+
+    <div id="pageContent" hidden>
+
+        <div class="dashboard-title no-print">
+            <h2>Kartu Inventaris Ruangan (KIR)</h2>
+            <span>Pilih ruangan, cek pratinjau, lalu cetak</span>
+        </div>
+
+        <div class="dashboard-panel glass no-print">
+            <div class="page-toolbar">
+                <select id="roomSelect"><option value="">- pilih ruangan / kelas -</option></select>
+                <button type="button" class="btn-primary" id="printBtn">🖨️ Cetak / Simpan PDF</button>
+            </div>
+            <p class="hint">Format mengikuti KIR di spreadsheet sekolah. Di jendela cetak pilih "Simpan sebagai PDF" bila ingin berkas digital (A4 portrait).</p>
+            <details>
+                <summary>Penandatangan (nama &amp; NIP)</summary>
+                <div class="page-toolbar">
+                    <input type="text" id="pengurusNama" placeholder="Nama Pengurus Barang">
+                    <input type="text" id="pengurusNip" placeholder="NIP Pengurus Barang">
+                </div>
+                <div class="page-toolbar">
+                    <input type="text" id="wakaNama" placeholder="Nama Wakasek Sarpras">
+                    <input type="text" id="wakaNip" placeholder="NIP Wakasek Sarpras">
+                </div>
+                <div class="page-toolbar">
+                    <input type="text" id="kepsekNama" placeholder="Nama Kepala Sekolah">
+                    <input type="text" id="kepsekPangkat" placeholder="Pangkat (mis. Pembina Utama Muda)">
+                    <input type="text" id="kepsekNip" placeholder="NIP Kepala Sekolah">
+                </div>
+                <button type="button" class="btn-ghost" id="saveSignersBtn" hidden>💾 Simpan penandatangan</button>
+                <p class="hint" id="signerMsg">Nama &amp; NIP disimpan di database (bukan di kode), hanya admin yang bisa menyimpan.</p>
+            </details>
+        </div>
+
+        <div id="kirSheet" class="kir-sheet">
+            <p class="page-empty">Pilih ruangan untuk menampilkan kartu inventaris.</p>
+        </div>
+
+    </div>
+
+    <script type="module" src="/src/assets/js/pages/admin-kir.js"></script>
+</body>
+</html>

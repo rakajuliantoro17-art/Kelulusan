@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+SARPRASIN - Smart School Asset Management System
+</title>
+
+
+<link rel="icon" href="/assets/logo/logo.png">
+
+
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<link rel="stylesheet" href="/assets/css/pages/public.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="public-container">
+
+
+
+<!-- =====================================
+     NAVBAR
+====================================== -->
+
+<header class="public-navbar">
+
+
+<div class="brand">
+
+
+<img
+
+src="/assets/logo/logo.png"
+
+alt="Logo"
+
+>
+
+
+<div>
+
+<h1>
+SARPRASIN
+</h1>
+
+<span>
+SMAN 1 Sooko Mojokerto
+</span>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<nav>
+
+
+<a href="/public/home.html">
+Home
+</a>
+
+
+<a href="/public/asset-check.html">
+Cek Asset
+</a>
+
+
+<a href="/public/faq.html">
+FAQ
+</a>
+
+
+<a href="/public/help.html">
+Help
+</a>
+
+
+<a href="/pages/login/index.html"
+class="login-link">
+
+Login
+
+</a>
+
+
+</nav>
+
+
+
+</header>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     HERO
+====================================== -->
+
+
+<section class="hero-section">
+
+
+<div class="hero-content">
+
+
+<span class="hero-badge">
+
+🏫 Digital Sarpras System
+
+</span>
+
+
+
+
+<h2>
+
+Kelola Aset Sekolah
+
+Lebih Modern & Terintegrasi
+
+</h2>
+
+
+
+
+<p>
+
+SARPRASIN adalah sistem manajemen sarana
+dan prasarana sekolah berbasis digital
+untuk pencatatan, monitoring, dan
+pengelolaan aset SMAN 1 Sooko Mojokerto.
+
+</p>
+
+
+
+
+
+<div class="hero-action">
+
+
+<a
+
+href="/pages/login/index.html"
+
+class="primary-button"
+
+>
+
+Masuk Sistem
+
+</a>
+
+
+
+
+<a
+
+href="/public/asset-check.html"
+
+class="secondary-button"
+
+>
+
+Scan Asset
+
+</a>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="hero-image">
+
+
+<img
+
+src="/assets/images/dashboard-preview.png"
+
+alt="SARPRASIN Dashboard"
+
+onerror="this.style.display='none'"
+
+>
+
+
+</div>
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     QUICK ACCESS
+====================================== -->
+
+
+<section class="quick-section">
+
+
+<h2>
+
+Layanan Publik
+
+</h2>
+
+
+
+
+<div class="quick-grid">
+
+
+
+
+
+<div class="quick-card">
+
+
+<div>
+
+📦
+
+</div>
+
+
+<h3>
+Cek Asset
+</h3>
+
+
+<p>
+Verifikasi aset melalui QR Code.
+</p>
+
+
+<a href="/public/asset-check.html">
+
+Buka
+
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="quick-card">
+
+
+<div>
+
+❓
+
+</div>
+
+
+<h3>
+FAQ
+</h3>
+
+
+<p>
+Temukan jawaban pertanyaan umum.
+</p>
+
+
+<a href="/public/faq.html">
+
+Buka
+
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="quick-card">
+
+
+<div>
+
+🆘
+
+</div>
+
+
+<h3>
+Help Center
+</h3>
+
+
+<p>
+Panduan penggunaan sistem.
+</p>
+
+
+<a href="/public/help.html">
+
+Buka
+
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="quick-card">
+
+
+<div>
+
+📞
+
+</div>
+
+
+<h3>
+Kontak
+
+</h3>
+
+
+<p>
+Hubungi pengelola sistem.
+</p>
+
+
+<a href="/public/contact.html">
+
+Buka
+
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     STATISTIC
+====================================== -->
+
+
+<section class="public-stat-section">
+
+
+<h2>
+
+SARPRASIN Dalam Angka
+
+</h2>
+
+
+
+
+
+<div class="stat-grid">
+
+
+
+<div class="stat-card">
+
+
+<strong id="totalAsset">
+
+-
+
+</strong>
+
+
+<span>
+Total Asset
+</span>
+
+
+</div>
+
+
+
+
+
+<div class="stat-card">
+
+
+<strong id="totalRoom">
+
+-
+
+</strong>
+
+
+<span>
+Ruangan
+</span>
+
+
+</div>
+
+
+
+
+
+<div class="stat-card">
+
+
+<strong id="totalCategory">
+
+-
+
+</strong>
+
+
+<span>
+Kategori
+</span>
+
+
+</div>
+
+
+
+
+
+<div class="stat-card">
+
+
+<strong>
+
+24/7
+
+</strong>
+
+
+<span>
+Monitoring
+</span>
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     FEATURE
+====================================== -->
+
+
+<section class="feature-section">
+
+
+<h2>
+
+Fitur Utama
+
+</h2>
+
+
+
+
+
+<div class="feature-list">
+
+
+<div>
+
+✅
+
+Digital Inventory
+
+</div>
+
+
+<div>
+
+✅
+
+QR Asset Verification
+
+</div>
+
+
+<div>
+
+✅
+
+Realtime Monitoring
+
+</div>
+
+
+<div>
+
+✅
+
+Maintenance Tracking
+
+</div>
+
+
+<div>
+
+✅
+
+Report Generator
+
+</div>
+
+
+<div>
+
+✅
+
+Role Based Access
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     VERSION
+====================================== -->
+
+
+<section class="release-card">
+
+
+<h3>
+
+🚀 SARPRASIN v2.0
+
+</h3>
+
+
+<p>
+
+Smart School Asset Management System
+
+</p>
+
+
+
+<a href="/public/changelog.html">
+
+Lihat Update Sistem →
+
+</a>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     FOOTER
+====================================== -->
+
+
+<footer class="public-footer">
+
+
+<p>
+
+© 2026 SMAN 1 Sooko Mojokerto
+
+</p>
+
+
+<p>
+
+SARPRASIN Digital System
+
+</p>
+
+
+</footer>
+
+
+
+</div>
+
+
+
+
+
+
+
+<script
+
+type="module"
+
+src="/src/pages/public/home.js"
+
+></script>
+
+
+
+</body>
+
+</html>

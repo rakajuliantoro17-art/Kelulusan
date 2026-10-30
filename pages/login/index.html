@@ -1,0 +1,318 @@
+<!--
+==========================================================
+SARPRASIN
+Smart School Asset Management System
+
+LOGIN PAGE
+
+Version : 2.1.0
+Author  : SMAN 1 Sooko Mojokerto
+==========================================================
+-->
+
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="SARPRASIN - Smart School Asset Management System">
+
+    <meta
+        name="theme-color"
+        content="#0F172A">
+
+    <title>
+        Login | SARPRASIN
+    </title>
+
+    <!-- ======================================================
+         ICON
+    ======================================================= -->
+
+    <link
+        rel="icon"
+        href="/logo/icon.png">
+
+    <!-- ======================================================
+         GLOBAL CSS
+         (app.css meng-@import semua modul, termasuk
+         pages/login.css — dipertahankan agar token &
+         efek glass identik dengan app utama)
+    ======================================================= -->
+
+    <link
+        rel="stylesheet"
+        href="/src/assets/css/app.css">
+
+    <!-- ======================================================
+         LOGIN PAGE-SPECIFIC CSS (override/tambahan lokal)
+    ======================================================= -->
+
+    <link
+        rel="stylesheet"
+        href="./style.css">
+
+</head>
+
+<body class="login-body">
+
+    <!-- ======================================================
+         BACKGROUND
+    ======================================================= -->
+
+    <div class="login-background"></div>
+
+    <div class="login-overlay"></div>
+
+    <!-- ======================================================
+         LOGIN
+    ======================================================= -->
+
+    <main class="login-container">
+
+        <section class="login-card">
+
+            <!-- ==========================
+                 BRAND
+            =========================== -->
+
+            <header class="login-brand">
+
+                <img
+                    src="/logo/icon.png"
+                    alt="SARPRASIN"
+                    class="login-logo">
+
+                <h1>
+                    SARPRASIN
+                </h1>
+
+                <p>
+                    Smart School Asset Management System
+                </p>
+
+            </header>
+
+            <!-- ==========================
+                 LOGIN FORM
+            =========================== -->
+
+            <form
+                id="loginForm"
+                autocomplete="on"
+                novalidate>
+
+                <div class="form-group">
+
+                    <label for="email">
+
+                        Email
+
+                    </label>
+
+                    <input
+                        id="email"
+                        type="email"
+                        autocomplete="username"
+                        placeholder="nama@sman1sooko.sch.id"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">
+
+                        Password
+
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            id="password"
+                            type="password"
+                            autocomplete="current-password"
+                            placeholder="Masukkan password"
+                            required>
+
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="password-toggle"
+                            aria-label="Tampilkan Password">
+
+                            👁
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="login-options">
+
+                    <label class="remember-me">
+
+                        <input
+                            id="remember"
+                            type="checkbox">
+
+                        <span>
+                            Ingat Saya
+                        </span>
+
+                    </label>
+
+                    <a
+                        href="/src/pages/public/forgot-password.html"
+                        class="forgot-password">
+
+                        Lupa Password?
+
+                    </a>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="login-button">
+
+                    Masuk ke SARPRASIN
+
+                </button>
+
+                <div
+                    id="loginMessage"
+                    class="login-message"
+                    role="status"
+                    aria-live="polite">
+
+                </div>
+
+            </form>
+
+            <!-- ==========================
+                 SYSTEM STATUS
+            =========================== -->
+
+            <section class="system-status">
+
+                <div class="status-item">
+
+                    <span class="status-label">
+
+                        Sistem
+
+                    </span>
+
+                    <span
+                        id="systemStatus"
+                        class="status-value">
+
+                        Siap
+
+                    </span>
+
+                </div>
+
+                <div class="status-item">
+
+                    <span class="status-label">
+
+                        Firebase
+
+                    </span>
+
+                    <span
+                        id="firebaseStatus"
+                        class="status-value">
+
+                        Connecting...
+
+                    </span>
+
+                </div>
+
+                <div class="status-item">
+
+                    <span class="status-label">
+
+                        Versi
+
+                    </span>
+
+                    <span class="status-value">
+
+                        v2.1.0
+
+                    </span>
+
+                </div>
+
+            </section>
+
+            <!-- ==========================
+                 FOOTER
+            =========================== -->
+
+            <footer class="login-footer">
+
+                <p>
+
+                    © 2026 SMAN 1 Sooko Mojokerto
+
+                </p>
+
+                <small>
+
+                    SARPRASIN • Smart School Asset Management
+
+                </small>
+
+            </footer>
+
+        </section>
+
+    </main>
+
+    <!-- ======================================================
+         LOGIN SCRIPT
+    ======================================================= -->
+
+    <!-- Penjaga: bila script login gagal dimuat (mis. konfigurasi Firebase di Vercel kosong),
+         tampilkan pesan, jangan diam saja -->
+    <script>
+        (function () {
+            var f = document.getElementById("loginForm");
+            var m = document.getElementById("loginMessage");
+            function show(t) { if (m) { m.textContent = t; m.className = "login-message error"; } }
+            window.addEventListener("error", function (e) {
+                if (!window.__loginReady) show("Gagal memuat sistem login: " + (e.message || "kesalahan script") + " (cek variabel VITE_FIREBASE_* di Vercel, lalu Redeploy).");
+            });
+            if (f) f.addEventListener("submit", function (e) {
+                if (!window.__loginReady) {
+                    e.preventDefault();
+                    show("Sistem login belum siap. Kemungkinan variabel VITE_FIREBASE_* di Vercel belum diisi atau belum di-redeploy. Buka Console (F12) untuk detail.");
+                }
+            });
+        })();
+    </script>
+
+    <script
+        type="module"
+        src="./script.js">
+    </script>
+
+</body>
+
+</html>

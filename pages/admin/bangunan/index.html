@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangunan | SARPRASIN</title>
+    <link rel="icon" href="/logo/icon.png">
+    <link rel="stylesheet" href="/src/assets/css/app.css">
+</head>
+<body>
+
+    <div class="shell-loading" id="shellLoading">Memeriksa sesi login...</div>
+
+    <div id="pageContent" hidden>
+        <div class="dashboard-title">
+            <h2>Bangunan</h2>
+            <span>Gedung sekolah, ruang di dalamnya, dan isinya</span>
+        </div>
+
+        <div class="dashboard-panel glass">
+            <div class="page-toolbar">
+                <input type="search" id="searchInput" placeholder="Cari bangunan...">
+                <button type="button" class="btn-primary" id="addBtn">➕ Tambah Bangunan</button>
+            </div>
+            <div class="page-toolbar"><span id="rowCount"></span></div>
+            <div class="table-wrap">
+                <table class="table dashboard-table">
+                    <thead><tr><th>Kode</th><th>Nama Bangunan</th><th>Jenis</th><th>Lantai</th><th>Luas (m²)</th><th>Kondisi</th><th>Jml Ruang</th><th>Jml Barang</th><th>Aksi</th></tr></thead>
+                    <tbody id="dataTable"><tr><td colspan="9" class="page-empty">Memuat data...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/assets/js/pages/admin-bangunan.js"></script>
+</body>
+</html>

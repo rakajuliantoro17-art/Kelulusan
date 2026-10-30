@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset | SARPRASIN</title>
+    <link rel="icon" href="/logo/icon.png">
+    <link rel="stylesheet" href="/src/assets/css/app.css">
+</head>
+<body>
+
+    <div class="shell-loading" id="shellLoading">Memeriksa sesi login...</div>
+
+    <!-- Isi halaman. Disembunyikan sampai login admin terverifikasi,
+         lalu dipindahkan ke dalam layout sidebar oleh admin-shell.js -->
+    <div id="pageContent" hidden>
+        <div class="dashboard-title">
+            <h2>Asset</h2>
+            <span>Inventaris sarana &amp; prasarana per ruangan</span>
+        </div>
+
+        <div class="dashboard-panel glass">
+            <div class="page-toolbar">
+                <input type="search" id="searchInput" placeholder="Cari nama / kode barang...">
+                <select id="roomFilter"><option value="">Semua ruangan</option></select>
+                <a class="btn-ghost" id="kirBtn" href="/admin/kir">🖨️ Cetak KIR</a>
+                <button type="button" class="btn-primary" id="addBtn">➕ Tambah Asset</button>
+            </div>
+            <div class="page-toolbar"><span id="rowCount"></span></div>
+            <div class="table-wrap">
+                <table class="table dashboard-table">
+                    <thead><tr>
+                        <th>Kode</th><th>Nama Barang</th><th>Merk/Model</th><th>Ruang</th>
+                        <th>Jml</th><th>Kondisi</th><th>Tahun</th><th>Nilai</th><th>Foto</th><th>Aksi</th>
+                    </tr></thead>
+                    <tbody id="dataTable"><tr><td colspan="10" class="page-empty">Memuat data...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/assets/js/pages/admin-asset.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Eksekutif | SARPRASIN</title>
+    <link rel="icon" href="/logo/icon.png">
+    <link rel="stylesheet" href="/src/assets/css/app.css">
+</head>
+<body>
+
+    <div class="shell-loading" id="shellLoading">Memeriksa sesi login...</div>
+
+    <div id="pageContent" hidden>
+        <div class="dashboard-title">
+            <h2>Kondisi Sarana &amp; Prasarana Saat Ini</h2>
+            <span id="asOf"></span>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-stat glass"><div class="stat-icon">📦</div><span>Total Barang</span><h2 id="kpiBarang">0</h2></div>
+            <div class="dashboard-stat glass"><div class="stat-icon">🏢</div><span>Bangunan</span><h2 id="kpiBangunan">0</h2></div>
+            <div class="dashboard-stat glass"><div class="stat-icon">🏫</div><span>Ruangan</span><h2 id="kpiRuang">0</h2></div>
+            <div class="dashboard-stat glass"><div class="stat-icon">💰</div><span>Nilai Perolehan</span><h2 id="kpiNilai" style="font-size:1.3rem">Rp 0</h2></div>
+            <div class="dashboard-stat glass"><div class="stat-icon">✅</div><span>Kondisi Baik</span><h2 id="kpiBaik">0%</h2><small id="kpiBaikN"></small></div>
+            <div class="dashboard-stat glass"><div class="stat-icon">🔧</div><span>Perlu Perbaikan</span><h2 id="kpiRR">0%</h2><small id="kpiRRN"></small></div>
+            <div class="dashboard-stat glass"><div class="stat-icon">⛔</div><span>Rusak Berat</span><h2 id="kpiRB">0%</h2><small id="kpiRBN"></small></div>
+            <div class="dashboard-stat glass"><div class="stat-icon">🛒</div><span>Pengadaan Tahun Ini</span><h2 id="kpiBeli" style="font-size:1.3rem">Rp 0</h2><small id="kpiBeliN"></small></div>
+            <div class="dashboard-stat glass"><div class="stat-icon">📣</div><span>Laporan Kerusakan Baru</span><h2 id="kpiLapor">0</h2></div>
+            <div class="dashboard-stat glass"><div class="stat-icon">🕓</div><span>Menunggu Verifikasi</span><h2 id="kpiVerif">0</h2></div>
+        </div>
+
+        <div class="dashboard-panel glass">
+            <div class="page-toolbar">
+                <strong>Komposisi kondisi</strong>
+                <span style="flex:1"></span>
+                <button type="button" class="btn-ghost" id="publishBtn">🌐 Perbarui Ringkasan Publik</button>
+                <a class="btn-primary" href="/admin/kir">🖨️ Cetak KIR</a>
+            </div>
+            <div class="cond-bar" id="condBar"></div>
+            <p class="hint" id="publishMsg"></p>
+        </div>
+
+        <div class="dashboard-panel glass">
+            <div class="page-toolbar"><strong>Kondisi per ruangan</strong></div>
+            <div class="table-wrap">
+                <table class="table dashboard-table">
+                    <thead><tr><th>Ruangan</th><th>Penanggung Jawab</th><th>Jml</th><th>Baik</th><th>Perlu Perbaikan</th><th>Rusak Berat</th><th>% Baik</th></tr></thead>
+                    <tbody id="roomTable"><tr><td colspan="7" class="page-empty">Memuat data...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="dashboard-panel glass">
+            <div class="page-toolbar"><strong>Kondisi per bangunan</strong></div>
+            <div class="table-wrap">
+                <table class="table dashboard-table">
+                    <thead><tr><th>Bangunan</th><th>Kondisi Bangunan</th><th>Ruangan</th><th>Jml Barang</th><th>% Baik</th></tr></thead>
+                    <tbody id="buildingTable"><tr><td colspan="5" class="page-empty">Memuat data...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="dashboard-grid exec-two">
+            <div class="dashboard-panel glass">
+                <div class="page-toolbar"><strong>Menurut sumber dana</strong></div>
+                <div class="table-wrap"><table class="table dashboard-table">
+                    <thead><tr><th>Sumber</th><th>Jml Barang</th><th>Nilai</th><th>% Baik</th></tr></thead>
+                    <tbody id="fundTable"></tbody></table></div>
+            </div>
+            <div class="dashboard-panel glass">
+                <div class="page-toolbar"><strong>Menurut tahun pengadaan</strong></div>
+                <div class="table-wrap"><table class="table dashboard-table">
+                    <thead><tr><th>Tahun</th><th>Jml Barang</th><th>Nilai</th><th>% Baik</th></tr></thead>
+                    <tbody id="yearTable"></tbody></table></div>
+            </div>
+        </div>
+
+        <div class="dashboard-panel glass">
+            <div class="page-toolbar"><strong>Prioritas perbaikan / penggantian</strong><span id="prioCount"></span></div>
+            <div class="table-wrap">
+                <table class="table dashboard-table">
+                    <thead><tr><th>Barang</th><th>Ruangan</th><th>Jml</th><th>Kondisi</th><th>Tahun</th></tr></thead>
+                    <tbody id="prioTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/assets/js/pages/executive.js"></script>
+</body>
+</html>

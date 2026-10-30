@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impor Data | SARPRASIN</title>
+    <link rel="icon" href="/logo/icon.png">
+    <link rel="stylesheet" href="/src/assets/css/app.css">
+</head>
+<body>
+
+    <div class="shell-loading" id="shellLoading">Memeriksa sesi login...</div>
+
+    <div id="pageContent" hidden>
+        <div class="dashboard-title">
+            <h2>Impor Data Barang</h2>
+            <span>Unggah Excel/CSV, sistem merapikan otomatis, Anda tinjau sebelum disimpan</span>
+        </div>
+
+        <div class="dashboard-panel glass">
+            <div class="page-toolbar">
+                <input type="file" id="fileInput" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                <a class="btn-ghost" href="/contoh/contoh-impor-aset.xlsx" download>📄 Unduh file contoh (.xlsx)</a>
+            </div>
+            <p class="hint">Format yang diterima: file contoh di atas, atau KIR per ruangan seperti di spreadsheet sekolah (satu sheet = satu ruangan).
+               Pembersih bekerja dengan aturan dan pencocokan nama mirip, bukan AI eksternal; semua perubahan otomatis dicatat di kolom "Catatan hasil".</p>
+            <p class="hint" id="fileMsg"></p>
+        </div>
+
+        <div id="reviewPanel" hidden>
+            <div class="dashboard-grid" id="impStats"></div>
+
+            <div class="dashboard-panel glass">
+                <div class="page-toolbar">
+                    <label><input type="checkbox" id="onlyProblems"> Tampilkan hanya yang perlu dicek</label>
+                    <span style="flex:1"></span>
+                    <button type="button" class="btn-ghost" id="reportBtn">⬇️ Unduh laporan masalah (CSV)</button>
+                    <button type="button" class="btn-primary" id="commitBtn">✅ Impor baris terpilih</button>
+                </div>
+                <p class="hint" id="commitMsg"></p>
+                <div class="table-wrap">
+                    <table class="table dashboard-table">
+                        <thead><tr>
+                            <th>Ikut</th><th>Asal</th><th>Ruangan</th><th>Nama Barang</th><th>Merk</th><th>Thn</th>
+                            <th>Kode Resmi</th><th>Jml</th><th>Kondisi</th><th>Sumber</th><th>Nilai</th><th>Catatan hasil</th>
+                        </tr></thead>
+                        <tbody id="dataTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/assets/js/pages/admin-impor.js"></script>
+</body>
+</html>

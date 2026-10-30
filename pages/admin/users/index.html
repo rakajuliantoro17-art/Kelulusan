@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management | SARPRASIN</title>
+    <link rel="icon" href="/logo/icon.png">
+    <link rel="stylesheet" href="/src/assets/css/app.css">
+</head>
+<body>
+
+    <div class="shell-loading" id="shellLoading">Memeriksa sesi login...</div>
+
+    <!-- Isi halaman. Disembunyikan sampai login admin terverifikasi,
+         lalu dipindahkan ke dalam layout sidebar oleh admin-shell.js -->
+    <div id="pageContent" hidden>
+        <div class="dashboard-title">
+            <h2>User Management</h2>
+            <span>Buat akun, atur role, dan penugasan ruangan</span>
+        </div>
+
+        <div class="dashboard-panel glass">
+            <div class="page-toolbar">
+                <input type="search" id="searchInput" placeholder="Cari nama / email / role...">
+                <select id="roleFilter" aria-label="Filter role"></select>
+                <button type="button" class="btn-primary" id="addBtn">➕ Buat Akun Baru</button>
+                <button type="button" class="btn-ghost" id="importBtn">📥 Impor dari Spreadsheet</button>
+                <button type="button" class="btn-ghost" id="sheetPullBtn" title="Ambil baris dari sheet 'Akun' di Google Spreadsheet">🔄 Tarik dari Sheet</button>
+                <button type="button" class="btn-ghost" id="sheetPushBtn" title="Tulis daftar akun ke sheet 'Daftar Akun'">📤 Kirim ke Sheet</button>
+                <button type="button" class="btn-ghost" id="exportBtn">⬇ Ekspor daftar akun</button>
+                <button type="button" class="btn-ghost" id="linkBtn">Daftarkan UID yang sudah ada</button>
+            </div>
+            <div class="page-toolbar"><span id="rowCount"></span></div>
+            <div class="table-wrap">
+                <table class="table dashboard-table">
+                    <thead><tr><th>Nama</th><th>Email</th><th>Role</th><th>Ruangan</th><th>Status</th><th>Aksi</th></tr></thead>
+                    <tbody id="dataTable"><tr><td colspan="6" class="page-empty">Memuat data...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="dashboard-panel glass" style="margin-top:20px;">
+            <div class="dashboard-title"><h2 style="font-size:1.05rem;">Hak akses tiap role</h2></div>
+            <ul class="role-legend">
+                <li><strong>Administrator</strong> semua data, hapus data, kelola akun (hanya role ini yang bisa membuka halaman ini)</li>
+                <li><strong>Staff Sarpras, Arsiparis</strong> isi dan revisi aset, ruangan, bangunan, pengadaan</li>
+                <li><strong>Waka Sarpras</strong> melihat semua data dan mengisi ringkasan untuk Portal Eksekutif</li>
+                <li><strong>Operator, Guru, Wali Kelas, Viewer</strong> hanya ruangan yang ditugaskan: tambah barang dasar, ubah kondisi, lapor kerusakan</li>
+            </ul>
+            <p class="hint">Akun yang dinonaktifkan langsung tidak bisa masuk. Pada mode gratis, ganti password lewat tombol Email reset; menghapus akun hanya menghapus profil (akun login tetap ada di Firebase Authentication).</p>
+        </div>
+    </div>
+
+    <script type="module" src="/src/assets/js/pages/admin-users.js"></script>
+</body>
+</html>

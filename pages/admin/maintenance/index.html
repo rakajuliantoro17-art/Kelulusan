@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance | SARPRASIN</title>
+    <link rel="icon" href="/logo/icon.png">
+    <link rel="stylesheet" href="/src/assets/css/app.css">
+</head>
+<body>
+
+    <div class="shell-loading" id="shellLoading">Memeriksa sesi login...</div>
+
+    <!-- Isi halaman. Disembunyikan sampai login admin terverifikasi,
+         lalu dipindahkan ke dalam layout sidebar oleh admin-shell.js -->
+    <div id="pageContent" hidden>
+        <div class="dashboard-title">
+            <h2>Maintenance</h2>
+            <span>Perawatan & perbaikan aset</span>
+        </div>
+
+        <div class="dashboard-panel glass">
+            <div class="page-toolbar">
+                <input type="search" id="searchInput" placeholder="Cari...">
+                <span id="rowCount"></span>
+            </div>
+            <div class="table-wrap">
+                <table class="table dashboard-table">
+                    <thead><tr><th>Aset</th><th>Keterangan</th><th>Status</th><th>Tanggal</th></tr></thead>
+                    <tbody id="dataTable"><tr><td colspan="4" class="page-empty">Memuat data...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/assets/js/pages/admin-maintenance.js"></script>
+</body>
+</html>

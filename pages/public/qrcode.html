@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="id">
+
+
+<head>
+
+
+<meta charset="UTF-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<title>
+
+SARPRASIN - QR Asset
+
+</title>
+
+
+
+
+<link rel="icon" href="/assets/logo/logo.png">
+
+
+
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<link rel="stylesheet" href="/assets/css/pages/public.css">
+
+<link rel="stylesheet" href="/assets/css/pages/qrcode.css">
+
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="qr-wrapper">
+
+
+
+
+
+
+
+<!-- ============================
+     HEADER
+============================= -->
+
+
+<header class="qr-header">
+
+
+<img
+
+src="/assets/logo/logo.png"
+
+alt="SARPRASIN"
+
+
+>
+
+
+<div>
+
+
+<h1>
+
+SARPRASIN
+
+</h1>
+
+
+<p>
+
+Digital Asset Verification
+
+</p>
+
+
+</div>
+
+
+
+</header>
+
+
+
+
+
+
+
+
+
+<!-- ============================
+     SCAN AREA
+============================= -->
+
+
+<section class="qr-scanner-card">
+
+
+
+<div class="qr-icon">
+
+📷
+
+</div>
+
+
+
+<h2>
+
+Scan QR Asset
+
+</h2>
+
+
+
+<p>
+
+Arahkan kamera ke QR Code aset sekolah.
+
+</p>
+
+
+
+
+
+<button
+
+id="startScanner"
+
+class="qr-button"
+
+>
+
+Mulai Scan
+
+</button>
+
+
+
+
+<div
+
+id="reader"
+
+class="scanner-box"
+
+style="display:none"
+
+></div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ============================
+     RESULT
+============================= -->
+
+
+<section
+
+id="assetResult"
+
+class="asset-result"
+
+style="display:none"
+
+>
+
+
+
+
+
+<div class="asset-header">
+
+
+<span>
+
+📦
+
+</span>
+
+
+<h2>
+
+Informasi Asset
+
+</h2>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="asset-data">
+
+
+
+<div>
+
+<label>
+
+Kode Asset
+
+</label>
+
+
+<strong id="assetCode">
+
+-
+
+</strong>
+
+</div>
+
+
+
+
+
+
+<div>
+
+<label>
+
+Nama Asset
+
+</label>
+
+
+<strong id="assetName">
+
+-
+
+</strong>
+
+</div>
+
+
+
+
+
+
+<div>
+
+<label>
+
+Kategori
+
+</label>
+
+
+<strong id="assetCategory">
+
+-
+
+</strong>
+
+</div>
+
+
+
+
+
+
+<div>
+
+<label>
+
+Lokasi
+
+</label>
+
+
+<strong id="assetLocation">
+
+-
+
+</strong>
+
+</div>
+
+
+
+
+
+
+<div>
+
+<label>
+
+Kondisi
+
+</label>
+
+
+<strong id="assetCondition">
+
+-
+
+</strong>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ============================
+     MANUAL CHECK
+============================= -->
+
+
+<section class="manual-search">
+
+
+
+<h3>
+
+Masukkan Kode Asset
+
+</h3>
+
+
+
+
+<div>
+
+
+<input
+
+id="assetInput"
+
+placeholder="Contoh: AST-0001"
+
+>
+
+
+<button
+
+id="searchAsset"
+
+>
+
+Cari
+
+</button>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ============================
+     HELP
+============================= -->
+
+
+<section class="qr-help">
+
+
+<p>
+
+Tidak menemukan informasi aset?
+
+</p>
+
+
+<a href="/public/contact.html">
+
+Hubungi Admin Sarpras
+
+</a>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+<footer>
+
+
+<p>
+
+© 2026 SMAN 1 Sooko Mojokerto
+
+</p>
+
+
+<p>
+
+SARPRASIN v2.0
+
+</p>
+
+
+</footer>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script
+
+type="module"
+
+src="/src/pages/public/qrcode.js"
+
+></script>
+
+
+
+</body>
+
+
+</html>

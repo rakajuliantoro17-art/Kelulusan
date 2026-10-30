@@ -1,0 +1,272 @@
+<!--
+==========================================================
+Sarprasin 2.0
+Announcement Page
+File : src/pages/public/announcement.html
+Version : 2.0.0
+==========================================================
+-->
+
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Pengumuman Sistem | Sarprasin 2.0</title>
+
+    <meta
+        name="description"
+        content="Pengumuman resmi Sarprasin 2.0">
+
+    <link
+        rel="stylesheet"
+        href="../../assets/css/main.css">
+
+</head>
+
+<body>
+
+    <!-- ==========================================
+         Header
+    =========================================== -->
+
+    <div id="headerContainer"></div>
+
+    <!-- ==========================================
+         Main
+    =========================================== -->
+
+    <main class="page">
+
+        <!-- ======================================
+             Page Header
+        ======================================= -->
+
+        <section class="page-header">
+
+            <h1>
+
+                Pengumuman Sistem
+
+            </h1>
+
+            <p>
+
+                Informasi terbaru mengenai Sarprasin 2.0.
+
+            </p>
+
+        </section>
+
+        <!-- ======================================
+             Announcement List
+        ======================================= -->
+
+        <section class="announcement-list">
+
+            <!-- Announcement -->
+
+            <article class="glass-card">
+
+                <span class="badge badge-info">
+
+                    Informasi
+
+                </span>
+
+                <h2>
+
+                    Selamat Datang di Sarprasin 2.0
+
+                </h2>
+
+                <p class="announcement-meta">
+
+                    Dipublikasikan
+                    <time datetime="2026-07-18">
+
+                        18 Juli 2026
+
+                    </time>
+
+                </p>
+
+                <p>
+
+                    Selamat datang di Sarprasin 2.0.
+                    Sistem ini membantu pengelolaan inventaris,
+                    pemeliharaan, audit, pelaporan, serta analisis
+                    sarana dan prasarana sekolah secara digital.
+
+                </p>
+
+            </article>
+
+            <!-- Announcement -->
+
+            <article class="glass-card">
+
+                <span class="badge badge-success">
+
+                    Pembaruan
+
+                </span>
+
+                <h2>
+
+                    Dashboard Baru Telah Tersedia
+
+                </h2>
+
+                <p class="announcement-meta">
+
+                    Dipublikasikan
+                    <time datetime="2026-07-15">
+
+                        15 Juli 2026
+
+                    </time>
+
+                </p>
+
+                <p>
+
+                    Dashboard telah diperbarui dengan statistik
+                    inventaris, grafik kondisi aset, serta
+                    monitoring maintenance secara real-time.
+
+                </p>
+
+            </article>
+
+            <!-- Announcement -->
+
+            <article class="glass-card">
+
+                <span class="badge badge-warning">
+
+                    Pemeliharaan
+
+                </span>
+
+                <h2>
+
+                    Jadwal Maintenance Sistem
+
+                </h2>
+
+                <p class="announcement-meta">
+
+                    Dipublikasikan
+                    <time datetime="2026-07-10">
+
+                        10 Juli 2026
+
+                    </time>
+
+                </p>
+
+                <p>
+
+                    Sistem akan menjalani pemeliharaan rutin
+                    setiap hari Minggu pukul
+                    <strong>00.00–02.00 WIB</strong>.
+                    Selama periode tersebut beberapa layanan
+                    mungkin tidak tersedia.
+
+                </p>
+
+            </article>
+
+            <!-- Announcement -->
+
+            <article class="glass-card">
+
+                <span class="badge badge-primary">
+
+                    Fitur Baru
+
+                </span>
+
+                <h2>
+
+                    QR Code Asset Verification
+
+                </h2>
+
+                <p class="announcement-meta">
+
+                    Dipublikasikan
+                    <time datetime="2026-07-05">
+
+                        5 Juli 2026
+
+                    </time>
+
+                </p>
+
+                <p>
+
+                    Setiap aset kini memiliki QR Code yang dapat
+                    dipindai untuk melihat informasi inventaris,
+                    lokasi, kondisi, dan riwayat pemeliharaan
+                    sesuai hak akses pengguna.
+
+                </p>
+
+            </article>
+
+        </section>
+
+        <!-- ======================================
+             Empty State
+        ======================================= -->
+
+        <section
+            class="glass-card"
+            hidden
+            id="emptyAnnouncement">
+
+            <h2>
+
+                Belum Ada Pengumuman
+
+            </h2>
+
+            <p>
+
+                Saat ini belum terdapat informasi yang dapat
+                ditampilkan.
+
+            </p>
+
+        </section>
+
+    </main>
+
+    <!-- ==========================================
+         Footer
+    =========================================== -->
+
+    <div id="footerContainer"></div>
+
+    <!-- ==========================================
+         UI Manager
+    =========================================== -->
+
+    <script
+        type="module"
+        src="../../components/ui/ui-manager.js">
+
+    </script>
+
+</body>
+
+</html>

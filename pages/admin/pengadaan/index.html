@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengadaan Barang Baru | SARPRASIN</title>
+    <link rel="icon" href="/logo/icon.png">
+    <link rel="stylesheet" href="/src/assets/css/app.css">
+</head>
+<body>
+
+    <div class="shell-loading" id="shellLoading">Memeriksa sesi login...</div>
+
+    <div id="pageContent" hidden>
+        <div class="dashboard-title">
+            <h2>Pengadaan Barang Baru</h2>
+            <span>Pembelian / penerimaan barang dari sumber dana apa pun; otomatis masuk inventaris ruangan</span>
+        </div>
+        <div class="dashboard-grid" id="fundStats"></div>
+
+        <div class="dashboard-panel glass">
+            <div class="page-toolbar">
+                <input type="search" id="searchInput" placeholder="Cari barang / vendor / nota...">
+                <button type="button" class="btn-primary" id="addBtn">➕ Catat Pembelian</button>
+            </div>
+            <div class="page-toolbar"><span id="rowCount"></span></div>
+            <div class="table-wrap">
+                <table class="table dashboard-table">
+                    <thead><tr><th>Tanggal</th><th>Barang</th><th>Ruangan</th><th>Jml</th><th>Harga Satuan</th><th>Total</th><th>Sumber Dana</th><th>Vendor / Nota</th><th>Aksi</th></tr></thead>
+                    <tbody id="dataTable"><tr><td colspan="9" class="page-empty">Memuat data...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/assets/js/pages/admin-pengadaan.js"></script>
+</body>
+</html>

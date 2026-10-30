@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan | SARPRASIN</title>
+    <link rel="icon" href="/logo/icon.png">
+    <link rel="stylesheet" href="/src/assets/css/app.css">
+</head>
+<body>
+
+    <div class="shell-loading" id="shellLoading">Memeriksa sesi login...</div>
+
+    <!-- Isi halaman. Disembunyikan sampai login admin terverifikasi,
+         lalu dipindahkan ke dalam layout sidebar oleh admin-shell.js -->
+    <div id="pageContent" hidden>
+        <div class="dashboard-title">
+            <h2>Laporan</h2>
+            <span>Jenis laporan tersedia</span>
+        </div>
+        <div class="dashboard-grid">
+            <div class="dashboard-stat glass"><div class="stat-icon">📦</div><span>Laporan Inventaris</span><h2>Segera</h2></div>
+            <div class="dashboard-stat glass"><div class="stat-icon">🏫</div><span>Laporan Ruang</span><h2>Segera</h2></div>
+            <div class="dashboard-stat glass"><div class="stat-icon">💰</div><span>Laporan Keuangan</span><h2>Segera</h2></div>
+            <div class="dashboard-stat glass"><div class="stat-icon">📑</div><span>Laporan Eksekutif</span><h2>Segera</h2></div>
+        </div>
+        <div class="dashboard-panel glass">
+            <p>Pembuatan laporan (PDF/Excel) akan diaktifkan pada tahap berikutnya.</p>
+        </div>
+    </div>
+
+    <script type="module" src="/src/assets/js/pages/admin-laporan.js"></script>
+</body>
+</html>
