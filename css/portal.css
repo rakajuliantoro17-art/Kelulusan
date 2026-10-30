@@ -150,3 +150,100 @@ main { padding: 44px 0 70px; }
 
 /* Respect native hidden state even when component styles define display. */
 [hidden] { display: none !important; }
+
+
+/* =========================================================
+   PINTUKU — Deep Glassmorphism refinement
+   Design tokens and component polish for the portal home.
+========================================================= */
+:root {
+  --portal-bg: #050c18;
+  --portal-panel: rgba(17, 32, 54, .62);
+  --portal-panel-strong: rgba(16, 31, 52, .86);
+  --portal-border: rgba(191, 218, 249, .16);
+  --portal-text: #f3f7ff;
+  --portal-muted: #a8b8ce;
+  --portal-blue: #9acfff;
+  --portal-cyan: #82e7e2;
+  --portal-radius: 26px;
+}
+body::before {
+  background:
+    radial-gradient(ellipse at 7% 9%, rgba(50, 124, 205, .25), transparent 35%),
+    radial-gradient(ellipse at 91% 16%, rgba(53, 183, 183, .16), transparent 32%),
+    radial-gradient(ellipse at 52% 84%, rgba(72, 91, 164, .17), transparent 43%),
+    linear-gradient(145deg, #050c18 0%, #0a1729 48%, #07101e 100%);
+}
+body::after { opacity: .10; background-size: 56px 56px; }
+main { padding-top: 34px; }
+.hero { min-height: 440px; padding: 54px 0 62px; gap: clamp(28px, 5vw, 72px); }
+.hero > div:first-child { position: relative; z-index: 1; }
+.hero h1 { max-width: 790px; font-size: clamp(42px, 6.1vw, 76px); line-height: 1.02; }
+.hero h1 span {
+  background: linear-gradient(100deg, #b5dcff 0%, #83e9e2 85%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero p { max-width: 660px; color: #b5c4d8; line-height: 1.9; }
+.hero-aside {
+  isolation: isolate; padding: 30px;
+  border-color: rgba(191, 218, 249, .2);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.095), transparent 44%),
+    linear-gradient(145deg, rgba(24,48,77,.76), rgba(7,19,35,.72));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.13), inset 0 -1px 0 rgba(255,255,255,.025), 0 28px 90px rgba(0,0,0,.34);
+  backdrop-filter: blur(26px) saturate(145%);
+  -webkit-backdrop-filter: blur(26px) saturate(145%);
+}
+.hero-aside::before {
+  content: ""; position: absolute; inset: 1px; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(125deg, rgba(255,255,255,.08), transparent 32%, transparent 70%, rgba(125,218,229,.045));
+  z-index: -1;
+}
+.module-card {
+  min-height: 292px; padding: 25px;
+  border-color: rgba(188,216,247,.15);
+  background:
+    linear-gradient(150deg, rgba(255,255,255,.065), transparent 44%),
+    linear-gradient(150deg, rgba(22,43,68,.78), rgba(8,21,37,.76));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.09), 0 18px 50px rgba(0,0,0,.14);
+  backdrop-filter: blur(22px) saturate(135%);
+  -webkit-backdrop-filter: blur(22px) saturate(135%);
+}
+.module-card:hover {
+  transform: translateY(-5px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.13), 0 24px 60px rgba(0,0,0,.25);
+}
+.module-card.kesiswaan { --accent: #9bd9d5; }
+.module-icon { box-shadow: inset 0 1px rgba(255,255,255,.1); }
+.module-tags span { background: rgba(255,255,255,.045); }
+.module-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 8px 0; border: 0; background: none; text-decoration: none;
+  cursor: pointer;
+}
+.module-link:focus-visible { outline: 2px solid #a9d8ff; outline-offset: 4px; border-radius: 5px; }
+.status-ready { color: #9de3d2; }
+.status-ready::before { background: #76d9bd; box-shadow: 0 0 0 4px rgba(118,217,189,.1); }
+.info-item {
+  border-color: rgba(188,216,247,.13);
+  background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+  box-shadow: inset 0 1px rgba(255,255,255,.045);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+.section-head h2 { color: #f1f6ff; }
+.section-head p { color: #aebed2; }
+.button-primary { background: linear-gradient(110deg, #b6dcff, #8de5df); box-shadow: 0 12px 34px rgba(94,177,219,.2), inset 0 1px rgba(255,255,255,.55); }
+.button-quiet { background: rgba(255,255,255,.055); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+@media (max-width: 900px) {
+  .hero { min-height: 0; padding: 40px 0 48px; }
+}
+@media (max-width: 620px) {
+  main { padding-top: 16px; }
+  .hero { padding: 28px 0 38px; }
+  .hero h1 { font-size: clamp(39px, 12vw, 56px); }
+  .hero-aside { padding: 22px; }
+  .module-card { min-height: 270px; }
+}
+@supports not ((backdrop-filter: blur(1px))) {
+  .hero-aside, .module-card, .info-item { background-color: rgba(12,25,43,.96); }
+}
