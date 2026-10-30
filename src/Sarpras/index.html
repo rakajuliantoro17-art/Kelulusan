@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ringkasan kondisi sarana dan prasarana SMAN 1 Sooko">
+    <meta name="theme-color" content="#0F172A">
+    <title>SARPRASIN | SMAN 1 Sooko</title>
+    <link rel="icon" href="/logo/icon.png">
+    <link rel="stylesheet" href="/src/assets/css/app.css">
+</head>
+<body class="pt-body">
+
+    <header class="pt-nav">
+        <a class="pt-brand" href="/">
+            <img src="/logo/icon.png" alt="">
+            <span>SARPRASIN<small>SMAN 1 Sooko</small></span>
+        </a>
+        <nav class="pt-links">
+            <a href="/login" class="pt-cta" id="authBtn">Masuk</a>
+        </nav>
+    </header>
+
+    <main class="pt-section">
+        <div class="pt-wrap">
+            <h2>Sarana &amp; Prasarana SMAN 1 Sooko</h2>
+            <p>Ringkasan kondisi sarana dan prasarana SMAN 1 Sooko untuk masyarakat, wali murid, dan alumni.</p>
+
+            <div class="pt-kpi" id="kpi">
+                <div><strong id="kBarang">-</strong><span>Total Barang</span></div>
+                <div><strong id="kRuang">-</strong><span>Ruangan</span></div>
+                <div><strong id="kBaik">-</strong><span>Kondisi Baik</span></div>
+                <div><strong id="kRusak">-</strong><span>Perlu Perbaikan</span></div>
+            </div>
+
+            <div style="margin-top:22px">
+                <strong>Tingkat kondisi baik</strong>
+                <div class="pt-bar"><i id="barBaik" style="width:0%"></i></div>
+                <span id="barLabel" class="pt-note"></span>
+            </div>
+
+            <p class="pt-note" id="note">Memuat ringkasan...</p>
+        </div>
+    </main>
+
+
+    <footer class="pt-footer">© SMAN 1 Sooko, Mojokerto — SARPRASIN 2.0</footer>
+
+    <script type="module" src="/src/assets/js/pages/public.js"></script>
+</body>
+</html>

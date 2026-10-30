@@ -1,0 +1,121 @@
+{
+  "version": 2,
+
+   "trailingSlash": false,
+
+  "redirects": [
+    {
+      "source": "/publik",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
+
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/src/pages/login/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/src/pages/admin/index.html"
+    },
+    {
+      "source": "/admin/asset",
+      "destination": "/src/pages/admin/asset/index.html"
+    },
+    {
+      "source": "/admin/ruangan",
+      "destination": "/src/pages/admin/ruangan/index.html"
+    },
+    {
+      "source": "/admin/maintenance",
+      "destination": "/src/pages/admin/maintenance/index.html"
+    },
+    {
+      "source": "/admin/laporan",
+      "destination": "/src/pages/admin/laporan/index.html"
+    },
+    {
+      "source": "/admin/users",
+      "destination": "/src/pages/admin/users/index.html"
+    },
+    {
+      "source": "/admin/settings",
+      "destination": "/src/pages/admin/settings/index.html"
+    },
+    {
+      "source": "/admin/bangunan",
+      "destination": "/src/pages/admin/bangunan/index.html"
+    },
+    {
+      "source": "/admin/pengadaan",
+      "destination": "/src/pages/admin/pengadaan/index.html"
+    },
+    {
+      "source": "/admin/impor",
+      "destination": "/src/pages/admin/impor/index.html"
+    },
+    {
+      "source": "/eksekutif",
+      "destination": "/src/pages/executive/index.html"
+    },
+    {
+      "source": "/user",
+      "destination": "/src/pages/user/index.html"
+    },
+    {
+      "source": "/admin/kir",
+      "destination": "/src/pages/admin/kir/index.html"
+    }
+  ],
+
+  "headers": [
+    {
+      "source": "/assets/fonts/(.*)\\.woff2",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/assets/css/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/assets/js/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/assets/img/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    }
+  ],
+
+  "build": {
+    "env": {
+      "APP_NAME": "SMANSASOO Digital System"
+    }
+  }
+}

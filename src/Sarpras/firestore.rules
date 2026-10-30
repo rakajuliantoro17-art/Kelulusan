@@ -1,0 +1,168 @@
+rules_version = '2';
+
+// ============================================================
+// SARPRASIN 2.0 - Firestore Security Rules
+//
+// Cara pasang: Firebase Console -> Firestore Database -> Rules
+// -> tempel seluruh isi file ini -> Publish.
+//
+// Ringkas hak akses (role dibaca dari dokumen users/{uid}.role):
+//   admin           : semua data, hapus data, kelola user
+//   staff, arsiparis: isi & revisi aset, ruangan, bangunan, pengadaan
+//   waka_sarpras    : baca semua + tulis publicSummary (portal Eksekutif)
+//   operator/guru/wali_kelas/viewer : HANYA ruangan yang ditugaskan admin
+//                     (users/{uid}.ruangan = ["KODE-RUANG", ...])
+//                     tambah barang dasar, ubah kondisi, lapor kerusakan
+//   publik (tanpa login): baca publicSummary/latest saja
+// ============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- fungsi bantu ----------
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    // punya profil + tidak dinonaktifkan
+    function hasProfile() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && userDoc().data.get('status', 'aktif') != 'nonaktif';
+    }
+
+    function role() {
+      return hasProfile() ? userDoc().data.get('role', '') : '';
+    }
+
+    function isAdmin()      { return role() == 'admin'; }
+    function isWaka()       { return role() == 'waka_sarpras'; }
+    function isDataEditor() { return role() in ['admin', 'staff', 'arsiparis']; }
+    function isStaffView()  { return role() in ['admin', 'waka_sarpras', 'staff', 'arsiparis']; }
+    function isUserRole()   { return role() in ['operator', 'guru', 'wali_kelas', 'viewer']; }
+
+    function myRooms() {
+      return userDoc().data.get('ruangan', []);
+    }
+
+    function inMyRooms(kode) {
+      return isUserRole() && (kode in myRooms());
+    }
+
+    // ---------- users ----------
+    // User hanya boleh membaca profilnya sendiri; hanya admin yang menulis
+    // (supaya tidak ada yang bisa menaikkan role-nya sendiri).
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    // ---------- ruangan ----------
+    match /rooms/{id} {
+      allow read: if hasProfile();
+      allow write: if isDataEditor();
+    }
+
+    // ---------- aset / inventaris ----------
+    match /assets/{id} {
+
+      allow read: if isStaffView()
+        || (isUserRole() && (resource.data.kodeRuang in myRooms()));
+
+      allow create: if isDataEditor()
+        || (
+          inMyRooms(request.resource.data.kodeRuang)
+          && request.resource.data.keys().hasOnly([
+               'namaBarang', 'merk', 'kodeBarang', 'kodeRuang', 'jumlah',
+               'kodeKondisi', 'keterangan', 'fotoUrl', 'tahun',
+               'createdAt', 'updatedAt', 'diinputOleh', 'perluVerifikasi'
+             ])
+          && request.resource.data.diinputOleh == request.auth.uid
+          && request.resource.data.perluVerifikasi == true
+          && request.resource.data.namaBarang is string
+          && request.resource.data.namaBarang.size() > 0
+          && request.resource.data.namaBarang.size() <= 120
+          && request.resource.data.jumlah is int
+          && request.resource.data.jumlah >= 1
+          && request.resource.data.jumlah <= 10000
+        );
+
+      allow update: if isDataEditor()
+        || (
+          isUserRole()
+          && (resource.data.kodeRuang in myRooms())
+          && request.resource.data.kodeRuang == resource.data.kodeRuang
+          && request.resource.data.diff(resource.data).affectedKeys()
+               .hasOnly(['kodeKondisi', 'keterangan', 'fotoUrl', 'updatedAt', 'diubahOleh'])
+        );
+
+      allow delete: if isAdmin();
+    }
+
+    // ---------- laporan kerusakan / perawatan ----------
+    match /maintenance/{id} {
+
+      allow read: if isStaffView()
+        || (isUserRole() && resource.data.diinputOleh == request.auth.uid);
+
+      allow create: if isDataEditor()
+        || (
+          inMyRooms(request.resource.data.kodeRuang)
+          && request.resource.data.keys().hasOnly([
+               'kodeRuang', 'assetId', 'namaBarang', 'keterangan', 'fotoUrl',
+               'status', 'tanggal', 'createdAt', 'diinputOleh', 'pelapor'
+             ])
+          && request.resource.data.diinputOleh == request.auth.uid
+          && request.resource.data.status == 'BARU'
+        );
+
+      allow update, delete: if isDataEditor();
+    }
+
+    // ---------- bangunan & pengadaan (admin) ----------
+    match /buildings/{id} {
+      allow read: if isStaffView();
+      allow write: if isDataEditor();
+    }
+
+    match /procurements/{id} {
+      allow read: if isStaffView();
+      allow write: if isDataEditor();
+    }
+
+    // ---------- laporan & master ----------
+    match /reports/{id} {
+      allow read: if isStaffView();
+      allow write: if isDataEditor();
+    }
+
+    match /master/{document=**} {
+      allow read: if hasProfile();
+      allow write: if isAdmin();
+    }
+
+    // ---------- log aktivitas ----------
+    match /logs/{id} {
+      allow create: if hasProfile();
+      allow read: if isStaffView();
+      allow update, delete: if false;
+    }
+
+    // ---------- ringkasan publik ----------
+    // Satu-satunya data yang boleh dibaca tanpa login. Isinya hanya angka agregat.
+    match /publicSummary/{id} {
+      allow read: if true;
+      allow write: if isAdmin() || isWaka();
+    }
+
+    // ---------- selain itu: tutup ----------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

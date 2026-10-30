@@ -1,0 +1,47 @@
+{
+  "name": "Sarprasin 2.0",
+  "short_name": "Sarprasin",
+  "description": "Smart Asset Management System untuk pengelolaan Sarana dan Prasarana Sekolah berbasis Firebase, AI, dan Automation.",
+  "lang": "id-ID",
+  "dir": "ltr",
+
+  "start_url": "/",
+  "scope": "/",
+
+  "display": "standalone",
+  "orientation": "portrait-primary",
+
+  "theme_color": "#0F172A",
+  "background_color": "#081428",
+
+  "categories": [
+    "education",
+    "productivity",
+    "business"
+  ],
+
+  "icons": [
+    {
+      "src": "/logo/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+
+  "screenshots": [
+    {
+      "src": "/images/119.jpg",
+      "sizes": "1920x1080",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Sarprasin Dashboard"
+    }
+  ]
+}
