@@ -208,3 +208,22 @@ FIX (v1.1.0):
     --ease-ios:cubic-bezier(.4,0,.2,1);
 
 }
+
+/* SMANSASOO DIGITAL ECOSYSTEM — shared visual tokens. PINTUKU is the visual reference; module behavior remains independent. */
+:root {
+  --eco-night: #050c18;
+  --eco-night-soft: #0a1729;
+  --eco-panel: rgba(17, 32, 54, .62);
+  --eco-panel-strong: rgba(16, 31, 52, .86);
+  --eco-border: rgba(191, 218, 249, .16);
+  --eco-text: #f3f7ff;
+  --eco-muted: #a8b8ce;
+  --eco-blue: #9acfff;
+  --eco-cyan: #82e7e2;
+  --eco-gold: #f3d08b;
+  --eco-glass-blur: 26px;
+  --eco-glass-saturate: 145%;
+  --eco-radius-card: 24px;
+  --eco-shadow-deep: 0 24px 70px rgba(0, 0, 0, .22);
+  --eco-font: "Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, sans-serif;
+}
