@@ -9,13 +9,13 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/css/portal-shell.css">
   <link rel="stylesheet" href="/css/portal.css">
-  <link rel="stylesheet" href="/css/portal-kpi.css">
+  <link rel="stylesheet" href="/css/portal-stats.css">
   <script src="/js/portal-shell.js" defer></script>
-  <script src="/js/kpi.js" defer></script>
+  <script src="/js/visit-stats.js" defer></script>
 </head>
 <body data-portal-module="kesiswaan">
   <div data-portal-header></div>
-  <main class="portal-wrap kpi-scope" data-module="kesiswaan" style="min-height:calc(100vh - 180px);padding-bottom:56px">
+  <main class="portal-wrap vs-scope" data-module="kesiswaan" style="min-height:calc(100vh - 180px);padding-bottom:56px">
     <header class="mod-hero">
       <div class="eyebrow">Module 03 · Kesiswaan</div>
       <h1>Dashboard Kesiswaan</h1>
@@ -23,8 +23,8 @@
       <div class="mod-crumb"><a class="button button-quiet" href="/">← Kembali ke beranda</a></div>
     </header>
 
-    <div class="kpi-section-title"><h2>Indikator utama</h2></div>
-    <section aria-label="Indikator utama Kesiswaan" data-kpi-dashboard="kesiswaan"><p class="kpi-hint" role="status">Memuat indikator…</p></section>
+    <h2 class="mod-section-title">Statistik kunjungan</h2>
+    <section class="vs-wrap" aria-label="Statistik kunjungan kesiswaan" data-visit-stats="kesiswaan" data-full><p class="vs-empty" role="status">Memuat statistik…</p></section>
 
     <div class="mod-grid">
       <section class="mod-panel" aria-labelledby="svc-t">
@@ -40,7 +40,7 @@
       </section>
       <section class="mod-panel" aria-labelledby="int-t">
         <h3 id="int-t">Kesiapan integrasi</h3>
-        <p class="lead">Status ini berasal dari dokumentasi repositori, bukan dari data contoh. Sumber: <strong>yasmincntk99/kesiswaan</strong>.</p>
+        <p class="lead">Status ini berasal dari dokumentasi repositori. Sumber: <strong>yasmincntk99/kesiswaan</strong>.</p>
         <ul class="mod-list">
           <li><span class="chip ok">Selesai</span><span>Dispatcher /api/kesiswaan memetakan handler asli tanpa mengubah kontrak</span></li>
           <li><span class="chip wip">Belum</span><span>Halaman modul belum dipindahkan ke route /kesiswaan/</span></li>
@@ -48,14 +48,7 @@
           <li><span class="chip wip">Belum</span><span>Build dan smoke test Vercel belum dikonfirmasi</span></li>
         </ul>
       </section>
-      <section class="mod-panel" aria-labelledby="att-t" data-kpi-module="kesiswaan">
-        <h3 id="att-t">Catatan penting</h3>
-        <ul class="mod-list" data-kpi-list="attention" data-kpi-module="kesiswaan"></ul>
-      </section>
-      <section class="mod-panel" aria-labelledby="act-t">
-        <h3 id="act-t">Aktivitas terbaru</h3>
-        <ul class="mod-list" data-kpi-list="activity" data-kpi-module="kesiswaan"></ul>
-      </section>
+      <section class="mod-panel" style="grid-column:1/-1" aria-labelledby="note-t"><h3 id="note-t">Catatan penting</h3><p class="lead" style="margin:0">Data kesiswaan sensitif. Halaman publik hanya boleh menampilkan agregat; data per siswa wajib lewat otorisasi server.</p></section>
       <section class="mod-panel" style="grid-column:1/-1" aria-labelledby="api-t"><h3 id="api-t">Kontrak API terdaftar</h3><p class="lead">Operasi yang dipetakan dispatcher. Autentikasi dan otorisasi tetap diperiksa di setiap handler.</p><ul class="mod-list"><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=cek-poin</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=dashboard</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=pelanggaran</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=pembinaan</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=stats</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=surat</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=tata-tertib</code></li><li><span class="chip">GET/POST</span><code>/api/kesiswaan?op=admin-auth</code></li></ul></section>
     </div>
   </main>

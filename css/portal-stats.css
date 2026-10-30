@@ -1,0 +1,73 @@
+/* Statistik kunjungan & halaman dashboard modul PINTUKU. Mengikuti token portal.css (gelap default, html[data-theme="light"]). */
+.sr-only { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+
+.vs-scope[data-module="akademik"], .module-card.academic { --vs-accent:#83bdff; }
+.vs-scope[data-module="sarpras"], .module-card.sarpras { --vs-accent:#7de1c4; }
+.vs-scope[data-module="kesiswaan"], .module-card.kesiswaan { --vs-accent:#9bd9d5; }
+.vs { --vs-line:rgba(187,210,239,.16); --vs-text:#eef5ff; --vs-muted:#a9bbd2; --vs-track:rgba(255,255,255,.08); }
+html[data-theme="light"] .vs-scope[data-module="akademik"], html[data-theme="light"] .module-card.academic { --vs-accent:#1d5f9e; }
+html[data-theme="light"] .vs-scope[data-module="sarpras"], html[data-theme="light"] .module-card.sarpras { --vs-accent:#0b7a5f; }
+html[data-theme="light"] .vs-scope[data-module="kesiswaan"], html[data-theme="light"] .module-card.kesiswaan { --vs-accent:#0f7776; }
+html[data-theme="light"] .vs { --vs-line:rgba(74,101,137,.2); --vs-text:#17263b; --vs-muted:#53667f; --vs-track:rgba(74,101,137,.12); }
+
+.vs-empty { margin:0; color:var(--vs-muted); font-size:13px; line-height:1.7; }
+.vs-total { display:flex; align-items:baseline; gap:8px; }
+.vs-total-n { font-size:28px; font-weight:800; letter-spacing:-.03em; font-variant-numeric:tabular-nums; color:var(--vs-text); }
+.vs-total span { color:var(--vs-muted); font-size:12px; font-weight:700; }
+.vs-list { display:grid; gap:11px; margin:14px 0 0; padding:0; list-style:none; }
+.vs-row-top { display:flex; justify-content:space-between; gap:12px; font-size:12px; }
+.vs-name { color:var(--vs-text); font-weight:700; }
+.vs-val { color:var(--vs-muted); font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.vs-track { display:block; height:7px; margin-top:6px; border-radius:99px; background:var(--vs-track); overflow:hidden; }
+.vs-fill { display:block; height:100%; border-radius:99px; background:var(--vs-accent); transition:width .7s cubic-bezier(.2,.8,.2,1); }
+
+.module-card .vs-mini { margin-top:18px; padding-top:16px; border-top:1px solid var(--vs-line); }
+.module-card .vs-mini::before { content:"Statistik kunjungan"; display:block; margin-bottom:8px; color:var(--vs-muted); font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+
+/* Dashboard modul */
+.vs-full { padding:22px; border:1px solid var(--vs-line); border-radius:22px; background:rgba(255,255,255,.035); backdrop-filter:blur(14px); }
+html[data-theme="light"] .vs-full { background:rgba(255,255,255,.8); }
+.vs-top { display:flex; justify-content:space-between; align-items:flex-end; gap:18px; flex-wrap:wrap; }
+.vs-big-label { color:var(--vs-muted); font-size:13px; font-weight:700; }
+.vs-bigrow { margin-top:6px; }
+.vs-big { font-size:clamp(34px,5vw,50px); font-weight:800; letter-spacing:-.04em; font-variant-numeric:tabular-nums; color:var(--vs-text); line-height:1.1; }
+.vs-meta { margin:8px 0 0; max-width:520px; color:var(--vs-muted); font-size:12px; line-height:1.7; }
+.vs-tools { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.vs-seg { display:inline-flex; padding:3px; gap:2px; border:1px solid var(--vs-line); border-radius:11px; }
+.vs-seg button, .vs-refresh { min-height:34px; padding:0 12px; border:0; border-radius:8px; background:transparent; color:var(--vs-muted); font:inherit; font-size:12px; font-weight:700; cursor:pointer; }
+.vs-refresh { border:1px solid var(--vs-line); border-radius:11px; }
+.vs-seg button:hover, .vs-refresh:hover { color:var(--vs-text); }
+.vs-seg button[aria-pressed="true"] { background:rgba(255,255,255,.1); color:var(--vs-text); box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--vs-accent),transparent 55%); }
+html[data-theme="light"] .vs-seg button[aria-pressed="true"] { background:#fff; }
+.vs-refresh:disabled { opacity:.6; cursor:progress; }
+.vs-seg button:focus-visible, .vs-refresh:focus-visible { outline:2px solid var(--vs-accent); outline-offset:2px; }
+.vs-full .vs-list { gap:16px; margin-top:22px; }
+.vs-full .vs-row-top { font-size:14px; }
+.vs-full .vs-track { height:10px; }
+
+/* Panel modul */
+.mod-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:16px; }
+.mod-panel { padding:22px; border:1px solid rgba(181,207,238,.14); border-radius:20px; background:rgba(255,255,255,.035); }
+.mod-panel h3 { margin:0 0 14px; font-size:15px; letter-spacing:-.01em; }
+.mod-panel p.lead { margin:0 0 14px; color:#a9bbd2; font-size:13px; line-height:1.8; }
+.mod-list { display:grid; gap:10px; margin:0; padding:0; list-style:none; }
+.mod-list li { display:flex; gap:10px; align-items:flex-start; color:#d6e3f4; font-size:13px; line-height:1.65; }
+.chip { flex:0 0 auto; min-width:78px; padding:2px 9px; border:1px solid rgba(187,210,239,.2); border-radius:999px; text-align:center; font-size:11px; font-weight:800; color:#b9c9de; }
+.chip.ok { color:#8fe6c6; border-color:rgba(143,230,198,.4); }
+.chip.wip { color:#ffd28a; border-color:rgba(255,210,138,.4); }
+html[data-theme="light"] .mod-panel { border-color:rgba(74,101,137,.17); background:rgba(255,255,255,.8); box-shadow:0 10px 28px rgba(45,74,111,.06); }
+html[data-theme="light"] .mod-panel p.lead { color:#53667f; }
+html[data-theme="light"] .mod-list li { color:#27405c; }
+html[data-theme="light"] .chip { color:#47607c; border-color:rgba(74,101,137,.25); }
+html[data-theme="light"] .chip.ok { color:#0b6f4a; border-color:rgba(11,111,74,.4); }
+html[data-theme="light"] .chip.wip { color:#8a5300; border-color:rgba(138,83,0,.4); }
+.mod-hero { padding:clamp(28px,6vh,70px) 0 8px; }
+.mod-hero h1 { margin:16px 0 12px; font-size:clamp(34px,5vw,56px); line-height:1.08; letter-spacing:-.05em; }
+.mod-hero p { max-width:780px; margin:0; color:#a9bbd2; font-size:15px; line-height:1.9; }
+html[data-theme="light"] .mod-hero p { color:#53667f; }
+.mod-crumb { display:inline-flex; gap:8px; margin-top:18px; }
+.mod-section-title { margin:36px 0 14px; font-size:22px; letter-spacing:-.03em; }
+
+@media (max-width:900px) { .mod-grid { grid-template-columns:1fr; } }
+@media (max-width:420px) { .vs-full { padding:16px; } }
+@media (prefers-reduced-motion:reduce) { .vs-fill { transition:none; } }
