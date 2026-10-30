@@ -1,0 +1,305 @@
+{
+ "sample": true,
+ "sampleNote": "Data contoh untuk pratinjau tampilan. Belum terhubung ke sumber data sekolah; angka bukan data resmi.",
+ "periodLabels": {
+  "7": [
+   "Sen",
+   "Sel",
+   "Rab",
+   "Kam",
+   "Jum",
+   "Sab",
+   "Min"
+  ],
+  "30": [
+   "H1-3",
+   "H4-6",
+   "H7-9",
+   "H10-12",
+   "H13-15",
+   "H16-18",
+   "H19-21",
+   "H22-24",
+   "H25-27",
+   "H28-30"
+  ],
+  "sem": [
+   "M1",
+   "M2",
+   "M3",
+   "M4",
+   "M5",
+   "M6",
+   "M7",
+   "M8",
+   "M9",
+   "M10",
+   "M11",
+   "M12"
+  ]
+ },
+ "module": "akademik",
+ "title": "Akademik",
+ "kpis": [
+  {
+   "id": "views",
+   "label": "Kunjungan layanan",
+   "unit": "",
+   "decimals": 0,
+   "hint": "Jumlah kunjungan ke halaman layanan Akademik pada periode terpilih.",
+   "goodWhen": "up",
+   "periods": {
+    "7": {
+     "value": 1284,
+     "delta": 8.4,
+     "series": [
+      1043.0,
+      943.0,
+      992.0,
+      1243.0,
+      1315.0,
+      1192.0,
+      1284
+     ]
+    },
+    "30": {
+     "value": 5410,
+     "delta": 5.1,
+     "series": [
+      4210.0,
+      4096.0,
+      4773.0,
+      5185.0,
+      4547.0,
+      4265.0,
+      5032.0,
+      5407.0,
+      5077.0,
+      5410
+     ]
+    },
+    "sem": {
+     "value": 31860,
+     "delta": 12.7,
+     "series": [
+      24486.0,
+      24914.0,
+      27721.0,
+      26148.0,
+      23763.0,
+      27769.0,
+      32396.0,
+      30370.0,
+      28178.0,
+      31153.0,
+      31953.0,
+      31860
+     ]
+    }
+   }
+  },
+  {
+   "id": "cek",
+   "label": "Pengecekan nilai & kelulusan",
+   "unit": "",
+   "decimals": 0,
+   "hint": "Berapa kali siswa/orang tua memeriksa nilai, kenaikan kelas, atau status kelulusan.",
+   "goodWhen": "up",
+   "periods": {
+    "7": {
+     "value": 642,
+     "delta": 11.2,
+     "series": [
+      500.0,
+      493.0,
+      583.0,
+      642.0,
+      570.0,
+      540.0,
+      642
+     ]
+    },
+    "30": {
+     "value": 2480,
+     "delta": 6.8,
+     "series": [
+      1906.0,
+      1950.0,
+      2181.0,
+      2068.0,
+      1888.0,
+      2216.0,
+      2596.0,
+      2444.0,
+      2276.0,
+      2480
+     ]
+    },
+    "sem": {
+     "value": 14920,
+     "delta": 9.3,
+     "series": [
+      10291.0,
+      11729.0,
+      12717.0,
+      11918.0,
+      12626.0,
+      14742.0,
+      14236.0,
+      12165.0,
+      12958.0,
+      15076.0,
+      14728.0,
+      14920
+     ]
+    }
+   }
+  },
+  {
+   "id": "ann",
+   "label": "Pengumuman terbit",
+   "unit": "",
+   "decimals": 0,
+   "hint": "Pengumuman akademik yang dipublikasikan pada periode terpilih.",
+   "goodWhen": "up",
+   "periods": {
+    "7": {
+     "value": 6,
+     "delta": 20.0,
+     "series": [
+      5.0,
+      5.0,
+      5.0,
+      5.0,
+      5.0,
+      6.0,
+      6
+     ]
+    },
+    "30": {
+     "value": 19,
+     "delta": -5.0,
+     "series": [
+      13.0,
+      15.0,
+      16.0,
+      15.0,
+      16.0,
+      19.0,
+      19.0,
+      16.0,
+      17.0,
+      19
+     ]
+    },
+    "sem": {
+     "value": 104,
+     "delta": 4.0,
+     "series": [
+      77.0,
+      92.0,
+      90.0,
+      84.0,
+      92.0,
+      96.0,
+      85.0,
+      86.0,
+      106.0,
+      111.0,
+      99.0,
+      104
+     ]
+    }
+   }
+  },
+  {
+   "id": "verif",
+   "label": "Data terverifikasi",
+   "unit": "%",
+   "decimals": 1,
+   "hint": "Persentase data nilai/kenaikan yang sudah diverifikasi sebelum dipublikasikan.",
+   "goodWhen": "up",
+   "periods": {
+    "7": {
+     "value": 97.4,
+     "delta": 0.6,
+     "series": [
+      93.8,
+      96.1,
+      97.5,
+      95.8,
+      96.7,
+      99.9,
+      97.4
+     ]
+    },
+    "30": {
+     "value": 96.8,
+     "delta": 0.9,
+     "series": [
+      94.5,
+      98.0,
+      97.0,
+      95.1,
+      96.7,
+      97.3,
+      94.4,
+      94.4,
+      98.4,
+      96.8
+     ]
+    },
+    "sem": {
+     "value": 95.9,
+     "delta": 1.8,
+     "series": [
+      97.1,
+      96.9,
+      93.3,
+      93.3,
+      95.9,
+      95.3,
+      94.1,
+      96.7,
+      98.3,
+      95.0,
+      93.1,
+      95.9
+     ]
+    }
+   }
+  }
+ ],
+ "attention": [
+  {
+   "level": "info",
+   "text": "Build dan smoke test Vercel Akademik belum dikonfirmasi."
+  },
+  {
+   "level": "warn",
+   "text": "Aset biner (gambar/audio) masih dilayani lewat rewrite ke repo sumber."
+  },
+  {
+   "level": "info",
+   "text": "Variabel lingkungan Google Sheets dan Upstash perlu diisi di Vercel."
+  }
+ ],
+ "activity": [
+  {
+   "when": "Hari ini",
+   "text": "Pengumuman jadwal asesmen diterbitkan"
+  },
+  {
+   "when": "Kemarin",
+   "text": "Rekap kenaikan kelas XI diperbarui"
+  },
+  {
+   "when": "2 hari lalu",
+   "text": "Verifikasi nilai mata pelajaran selesai"
+  },
+  {
+   "when": "4 hari lalu",
+   "text": "Halaman prestasi ditambah entri baru"
+  }
+ ]
+}

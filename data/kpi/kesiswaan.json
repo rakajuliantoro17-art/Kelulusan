@@ -1,0 +1,305 @@
+{
+ "sample": true,
+ "sampleNote": "Data contoh untuk pratinjau tampilan. Belum terhubung ke sumber data sekolah; angka bukan data resmi.",
+ "periodLabels": {
+  "7": [
+   "Sen",
+   "Sel",
+   "Rab",
+   "Kam",
+   "Jum",
+   "Sab",
+   "Min"
+  ],
+  "30": [
+   "H1-3",
+   "H4-6",
+   "H7-9",
+   "H10-12",
+   "H13-15",
+   "H16-18",
+   "H19-21",
+   "H22-24",
+   "H25-27",
+   "H28-30"
+  ],
+  "sem": [
+   "M1",
+   "M2",
+   "M3",
+   "M4",
+   "M5",
+   "M6",
+   "M7",
+   "M8",
+   "M9",
+   "M10",
+   "M11",
+   "M12"
+  ]
+ },
+ "module": "kesiswaan",
+ "title": "Kesiswaan",
+ "kpis": [
+  {
+   "id": "poin",
+   "label": "Cek poin siswa",
+   "unit": "",
+   "decimals": 0,
+   "hint": "Pemeriksaan poin oleh siswa/orang tua. Hanya angka agregat; tidak menampilkan data per siswa.",
+   "goodWhen": "up",
+   "periods": {
+    "7": {
+     "value": 318,
+     "delta": 6.0,
+     "series": [
+      248.0,
+      254.0,
+      292.0,
+      288.0,
+      255.0,
+      287.0,
+      318
+     ]
+    },
+    "30": {
+     "value": 1240,
+     "delta": 3.4,
+     "series": [
+      880.0,
+      967.0,
+      1063.0,
+      998.0,
+      1030.0,
+      1239.0,
+      1270.0,
+      1094.0,
+      1102.0,
+      1240
+     ]
+    },
+    "sem": {
+     "value": 7390,
+     "delta": 8.8,
+     "series": [
+      5204.0,
+      6320.0,
+      6428.0,
+      5993.0,
+      6541.0,
+      7008.0,
+      6203.0,
+      5892.0,
+      7148.0,
+      7865.0,
+      7201.0,
+      7390
+     ]
+    }
+   }
+  },
+  {
+   "id": "bina",
+   "label": "Pembinaan berjalan",
+   "unit": "",
+   "decimals": 0,
+   "hint": "Kasus yang sedang dalam proses pembinaan (agregat, tanpa identitas).",
+   "goodWhen": "down",
+   "periods": {
+    "7": {
+     "value": 14,
+     "delta": -12.5,
+     "series": [
+      10.0,
+      11.0,
+      12.0,
+      12.0,
+      12.0,
+      15.0,
+      14
+     ]
+    },
+    "30": {
+     "value": 22,
+     "delta": -8.3,
+     "series": [
+      15.0,
+      19.0,
+      19.0,
+      18.0,
+      20.0,
+      21.0,
+      19.0,
+      18.0,
+      22.0,
+      22
+     ]
+    },
+    "sem": {
+     "value": 38,
+     "delta": -4.0,
+     "series": [
+      32.0,
+      34.0,
+      30.0,
+      29.0,
+      33.0,
+      33.0,
+      31.0,
+      36.0,
+      41.0,
+      37.0,
+      33.0,
+      38
+     ]
+    }
+   }
+  },
+  {
+   "id": "langgar",
+   "label": "Pelanggaran tercatat",
+   "unit": "",
+   "decimals": 0,
+   "hint": "Jumlah pelanggaran tercatat pada periode terpilih (agregat). Turun lebih baik.",
+   "goodWhen": "down",
+   "periods": {
+    "7": {
+     "value": 23,
+     "delta": -9.4,
+     "series": [
+      16.0,
+      20.0,
+      21.0,
+      20.0,
+      22.0,
+      24.0,
+      23
+     ]
+    },
+    "30": {
+     "value": 88,
+     "delta": -6.1,
+     "series": [
+      74.0,
+      80.0,
+      71.0,
+      69.0,
+      79.0,
+      79.0,
+      75.0,
+      85.0,
+      98.0,
+      88
+     ]
+    },
+    "sem": {
+     "value": 512,
+     "delta": -11.3,
+     "series": [
+      441.0,
+      397.0,
+      360.0,
+      424.0,
+      481.0,
+      452.0,
+      450.0,
+      507.0,
+      493.0,
+      427.0,
+      466.0,
+      512
+     ]
+    }
+   }
+  },
+  {
+   "id": "surat",
+   "label": "Surat terbit",
+   "unit": "",
+   "decimals": 0,
+   "hint": "Surat pembinaan/panggilan yang diterbitkan melalui modul.",
+   "goodWhen": "up",
+   "periods": {
+    "7": {
+     "value": 5,
+     "delta": 25.0,
+     "series": [
+      4.0,
+      5.0,
+      4.0,
+      4.0,
+      5.0,
+      5.0,
+      5
+     ]
+    },
+    "30": {
+     "value": 17,
+     "delta": 4.0,
+     "series": [
+      15.0,
+      13.0,
+      12.0,
+      14.0,
+      16.0,
+      15.0,
+      15.0,
+      17.0,
+      17.0,
+      17
+     ]
+    },
+    "sem": {
+     "value": 96,
+     "delta": -2.0,
+     "series": [
+      75.0,
+      69.0,
+      77.0,
+      92.0,
+      88.0,
+      77.0,
+      83.0,
+      91.0,
+      85.0,
+      87.0,
+      104.0,
+      96
+     ]
+    }
+   }
+  }
+ ],
+ "attention": [
+  {
+   "level": "warn",
+   "text": "Data kesiswaan sensitif: tampilan publik hanya boleh agregat. Otorisasi wajib di server."
+  },
+  {
+   "level": "info",
+   "text": "Identitas program tetap Gerakan Disiplin Sekolah."
+  },
+  {
+   "level": "info",
+   "text": "Panel Komisi Disiplin dan ringkasan eksekutif memakai hak akses terpisah."
+  }
+ ],
+ "activity": [
+  {
+   "when": "Hari ini",
+   "text": "Tata tertib versi terbaru dipublikasikan"
+  },
+  {
+   "when": "Kemarin",
+   "text": "Rekap pembinaan mingguan diperbarui"
+  },
+  {
+   "when": "2 hari lalu",
+   "text": "Kartu QR siswa angkatan baru dibuat"
+  },
+  {
+   "when": "4 hari lalu",
+   "text": "Surat pembinaan diterbitkan"
+  }
+ ]
+}
