@@ -10,7 +10,10 @@ const HANDLERS = {
   "kelas-summary": () => require("../src/akademik/api/kelas-summary"),
   stats: () => require("../src/akademik/api/stats"),
   "admin-auth": () => require("../src/akademik/api/admin-auth"),
-  announcements: () => require("../src/akademik/api/announcements")
+  announcements: () => require("../src/akademik/api/announcements"),
+  absensi: () => require("../src/akademik/api/absensi"),
+  "absensi-rekap": () => require("../src/akademik/api/absensi-rekap"),
+  "absensi-students": () => require("../src/akademik/api/absensi-students")
 };
 
 module.exports = async function akademikDispatcher(req, res) {
