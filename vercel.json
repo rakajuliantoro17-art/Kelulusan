@@ -67,7 +67,7 @@
     },
     {
       "source": "/akademik/assets/(.*)",
-      "destination": "https://raw.githubusercontent.com/rakajuliantoro17-art/smansasoo-academic-portal/main/assets/$1"
+      "destination": "/src/akademik/assets/$1"
     },
     {
       "source": "/akademik/(.*)",
