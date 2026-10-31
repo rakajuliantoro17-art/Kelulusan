@@ -180,6 +180,62 @@
     {
       "source": "/api/akademik/announcements",
       "destination": "/api/akademik?op=announcements"
+    },
+    {
+      "source": "/api/akademik/absensi",
+      "destination": "/api/akademik?op=absensi"
+    },
+    {
+      "source": "/api/akademik/absensi-rekap",
+      "destination": "/api/akademik?op=absensi-rekap"
+    },
+    {
+      "source": "/api/akademik/absensi-students",
+      "destination": "/api/akademik?op=absensi-students"
+    },
+    {
+      "source": "/api/kenaikan",
+      "destination": "/api/akademik?op=kenaikan"
+    },
+    {
+      "source": "/api/kelulusan",
+      "destination": "/api/akademik?op=kelulusan"
+    },
+    {
+      "source": "/api/nilai",
+      "destination": "/api/akademik?op=nilai"
+    },
+    {
+      "source": "/api/kelas-list",
+      "destination": "/api/akademik?op=kelas-list"
+    },
+    {
+      "source": "/api/kelas-summary",
+      "destination": "/api/akademik?op=kelas-summary"
+    },
+    {
+      "source": "/api/stats",
+      "destination": "/api/akademik?op=stats"
+    },
+    {
+      "source": "/api/admin-auth",
+      "destination": "/api/akademik?op=admin-auth"
+    },
+    {
+      "source": "/api/announcements",
+      "destination": "/api/akademik?op=announcements"
+    },
+    {
+      "source": "/api/absensi",
+      "destination": "/api/akademik?op=absensi"
+    },
+    {
+      "source": "/api/absensi-rekap",
+      "destination": "/api/akademik?op=absensi-rekap"
+    },
+    {
+      "source": "/api/absensi-students",
+      "destination": "/api/akademik?op=absensi-students"
     }
   ]
 }
