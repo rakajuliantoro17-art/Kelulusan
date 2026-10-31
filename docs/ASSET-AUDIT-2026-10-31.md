@@ -79,3 +79,43 @@ Katalog `public/assets/` saat audit memuat kelompok berikut:
 - Tidak ada font placeholder yang dipakai sebagai font produksi.
 - Halaman utama dan halaman legacy yang masih didukung lulus smoke test.
 - Tidak ada perubahan pada API, autentikasi, hak akses, atau data aplikasi sebagai efek samping migrasi aset.
+
+
+## Hasil perluasan audit — 31 Oktober 2026
+
+### Cakupan yang sudah diperiksa
+
+Pemeriksaan lanjutan dilakukan terhadap **270 dari 639 berkas HTML/CSS/JavaScript** pada empat modul. Seluruh berkas HTML dan CSS dalam cakupan modul sudah ditelusuri untuk referensi aset; **369 berkas JavaScript belum diperiksa menyeluruh**. Dengan demikian, status audit tetap parsial dan belum boleh disebut audit tuntas.
+
+### Temuan tambahan dari HTML/CSS
+
+| Modul | Lokasi | Temuan / tindakan |
+|---|---|---|
+| Sarpras | `src/Sarpras/assets/css/layout/body.css:48` | Background memakai `/images/119.jpg`, sedangkan file yang tersedia berada di `/assets/sarpras/images/119.jpg`. Kandidat path tidak cocok. |
+| Sarpras | `src/Sarpras/cards/asset-card.html:19`, `user-card.html:21` | Referensi `/public/images/no-image.png` dan `/public/images/avatar-default.png`; target tersebut tidak ditemukan dalam katalog aset publik saat ini. |
+| Sarpras | `src/Sarpras/forms/login-form.html:19`, beberapa komponen layout | Memakai `/logo/icon.png`; target tersebut tidak ada di katalog aset. Gunakan ikon publik bersama setelah memastikan ukuran dan tampilan. |
+| Sarpras | `src/Sarpras/layout/app-profile-menu.html`, `app-sidebar.html` | Referensi `../../assets/img/avatar.png` dan `../../assets/img/logo.png`; folder/file target tidak ditemukan dalam katalog aset publik. |
+| Sarpras | `src/Sarpras/index.html` dan banyak halaman legacy | Ada referensi absolut `/src/assets/css/app.css`, `/src/assets/js/pages/*.js`, dan `/src/pages/public/*.js`. Berkas sumber sebenarnya berada di bawah `src/Sarpras/...`; perlu verifikasi routing/build karena URL root tersebut tidak identik dengan lokasi source. |
+| Sarpras | `src/Sarpras/legacy/pages/public/*.html` | Beberapa halaman memakai `/assets/logo/logo.png`; katalog publik sekarang menyediakan logo di `/assets/shared/logos/sman1-sooko.png`, bukan di jalur lama. |
+| Akademik | `src/akademik/css/*.css`, `css/kelulusan/glass.css`, dan `css/legacy-graduation/glass.css` | Background masih merujuk `../assets/images/*` atau `../../assets/images/*`. Aset gambar yang tersedia sekarang berada di `/assets/akademik/images/*` dan `/assets/shared/images/*`. |
+| Akademik | `src/akademik/pages/*.html` | Halaman-halaman masih memakai ikon `../assets/icons/icon.png` dan logo `../assets/logo/logo.png`; target lama tidak tersedia dalam katalog aset. |
+| Akademik | `src/akademik/pages/_template.html` | Favicon `../assets/logo/favicon.ico` dan logo `../assets/logo/logo.png` masih menggunakan lokasi lama. |
+| Akademik | `src/akademik/pages/kelulusan.html` | Halaman ini sudah memakai ikon dan logo publik bersama; menjadi contoh pola URL kanonis. |
+| Kesiswaan | `src/kesiswaan/css/glass.css`, `kesiswaan.css:706` | Background masih memakai `../assets/images/scc.jpg` dan `../assets/images/syari.jpg`; aset tersedia di `/assets/shared/images/`. |
+| Kesiswaan | `src/kesiswaan/pages/*.html` | Logo dan ikon masih memakai `../assets/logo/logo.png` serta `../assets/icons/icon.png`; target tersebut tidak ada di katalog aset saat ini. |
+| PINTUKU | `src/pintuku/dashboard/index.html` | Menggunakan ikon/favicon publik bersama yang valid secara struktur; tetap ada ketergantungan pemetaan registry runtime yang belum dibuat. |
+
+### Catatan validasi struktur dan routing
+
+- File `public/assets/sarpras/images/119.jpg` memang tersedia; CSS Sarpras yang meminta `/images/119.jpg` tidak menunjuk ke lokasi kanonis tersebut.
+- File ikon publik yang tersedia adalah `/assets/shared/icons/app-icon.png` dan `/assets/shared/icons/favicon.ico`. Tidak ditemukan folder root `/logo/` atau `/public/images/` dalam katalog file saat ini.
+- `vercel.json` memiliki rewrite khusus Akademik dan Kesiswaan, tetapi tidak terlihat rewrite khusus untuk direktori Sarpras. Ini perlu diperiksa bersama pola URL `/src/assets/...` sebelum perubahan dilakukan.
+- Jangan menyimpulkan semua route Sarpras pasti gagal hanya dari nama path: hasil akhirnya bergantung pada konfigurasi deployment/build yang benar-benar digunakan. Namun, konfigurasi saat ini belum memberi bukti pemetaan untuk seluruh path tersebut.
+- Jalur CSS/JS lokal, route halaman, URL CDN, dan fragment seperti `href="#"` bukan otomatis referensi media yang harus dimigrasikan. Audit berikutnya perlu memisahkan kategori-kategori itu.
+
+### Langkah audit berikutnya
+
+1. Periksa 369 berkas JavaScript yang tersisa, terutama string path yang dibangun dinamis, konfigurasi, shell, service, dan modul upload/preview gambar.
+2. Cocokkan semua path lokal dengan daftar file aktual serta rewrite Vercel.
+3. Buat daftar final per file: path lama, target yang disarankan, tingkat kepastian, dan apakah memerlukan perubahan routing.
+4. Setelah inventaris JavaScript selesai, baru mulai tahap perbaikan sumber secara terkontrol. Jangan mengubah API, autentikasi, atau route aplikasi sebagai efek samping.
