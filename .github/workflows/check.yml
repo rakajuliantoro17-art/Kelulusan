@@ -98,7 +98,7 @@ jobs:
         run: |
           node <<'NODE'
           const fs = require('fs');
-          const allowedDirs = new Set(['.github', 'src', 'docs', 'public']);
+          const allowedDirs = new Set(['.git', '.github', 'src', 'docs', 'public']);
           const entries = fs.readdirSync('.').filter(name => fs.statSync(name).isDirectory());
           const unexpected = entries.filter(name => !allowedDirs.has(name));
           if (unexpected.length) throw new Error('Unexpected root directories: ' + unexpected.join(', '));
