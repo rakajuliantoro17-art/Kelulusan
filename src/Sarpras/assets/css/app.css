@@ -52,3 +52,6 @@
 
 /* shell sidebar/toggle HARUS terakhir */
 @import "./layout/shell.css";
+
+/* Floating settings drawer — visual shell shared with dashboard portals */
+@import "./layout/settings-drawer.css";

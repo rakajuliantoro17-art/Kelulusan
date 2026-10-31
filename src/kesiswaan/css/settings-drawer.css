@@ -1,0 +1,49 @@
+/* Shared visual language for the floating gear and settings side panel */
+.settings-trigger{
+    position:fixed; right:22px; bottom:22px; z-index:1200;
+    display:grid; place-items:center; width:52px; height:52px;
+    border:1px solid rgba(255,255,255,.38); border-radius:50%;
+    color:#fff; cursor:pointer;
+    background:linear-gradient(145deg,rgba(255,255,255,.28),rgba(255,255,255,.08));
+    -webkit-backdrop-filter:blur(22px) saturate(180%);
+    backdrop-filter:blur(22px) saturate(180%);
+    box-shadow:0 12px 32px rgba(2,18,38,.32),inset 0 1px 0 rgba(255,255,255,.35);
+    transition:transform .28s ease,box-shadow .28s ease,background .28s ease;
+}
+.settings-trigger:hover{transform:translateY(-3px) rotate(24deg);box-shadow:0 16px 38px rgba(2,18,38,.42),inset 0 1px 0 rgba(255,255,255,.42)}
+.settings-trigger:focus-visible,.settings-close:focus-visible,.theme-toggle:focus-visible{outline:3px solid var(--primary-light,#72B8FF);outline-offset:3px}
+.settings-trigger[aria-expanded="true"]{transform:rotate(55deg);background:linear-gradient(145deg,rgba(15,76,129,.88),rgba(10,53,91,.9))}
+.settings-drawer-overlay{position:fixed;inset:0;z-index:1190;background:rgba(3,12,28,.42);opacity:0;pointer-events:none;transition:opacity .28s ease}
+.settings-drawer-overlay.open{opacity:1;pointer-events:auto}
+.settings-drawer{
+    position:fixed;inset:0 0 0 auto;z-index:1195;width:min(370px,90vw);height:100vh;height:100dvh;
+    display:flex;flex-direction:column;overflow:hidden;
+    color:var(--text,#172033);
+    background:linear-gradient(155deg,rgba(255,255,255,.86),rgba(238,246,255,.72));
+    border-left:1px solid rgba(255,255,255,.55);
+    box-shadow:-24px 0 70px rgba(1,15,35,.28);
+    -webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);
+    transform:translateX(105%);transition:transform .36s cubic-bezier(.2,.75,.25,1);
+}
+html[data-theme="dark"] .settings-drawer{color:#f5f7fb;background:linear-gradient(155deg,rgba(22,31,48,.94),rgba(10,20,37,.92));border-left-color:rgba(255,255,255,.12)}
+.settings-drawer.open{transform:translateX(0)}
+.settings-drawer-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 22px 20px;border-bottom:1px solid rgba(100,130,165,.2)}
+.settings-drawer-head>div{display:flex;flex-direction:column;gap:5px;min-width:0}
+.settings-drawer-head strong{font-size:1.08rem;letter-spacing:-.02em}
+.settings-drawer-head small{font-size:.74rem;opacity:.68}
+.settings-close{width:36px;height:36px;flex:0 0 auto;border:1px solid rgba(120,145,175,.22);border-radius:50%;background:rgba(255,255,255,.28);color:inherit;font-size:1.35rem;cursor:pointer}
+.settings-drawer-body{padding:20px 22px;overflow:auto}
+.settings-row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px;border:1px solid rgba(120,145,175,.2);border-radius:18px;background:rgba(255,255,255,.26);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+html[data-theme="dark"] .settings-row{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.1)}
+.settings-row-text{display:flex;flex-direction:column;gap:5px;min-width:0}
+.settings-row-title{font-size:.9rem;font-weight:750}
+.settings-row-desc{font-size:.75rem;line-height:1.45;opacity:.66}
+.theme-toggle{position:relative;width:66px;height:36px;padding:3px;flex:0 0 auto;border:1px solid rgba(100,130,165,.22);border-radius:99px;background:rgba(25,48,76,.16);cursor:pointer}
+.theme-toggle-track{display:flex;align-items:center;justify-content:space-between;padding:0 4px;font-size:13px}
+.theme-toggle-thumb{position:absolute;top:3px;left:3px;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2);transition:transform .22s ease}
+.theme-toggle.is-dark .theme-toggle-thumb,.theme-toggle[aria-pressed="true"] .theme-toggle-thumb{transform:translateX(30px)}
+.settings-note{margin:14px 2px;font-size:.76rem;line-height:1.5;opacity:.62}
+.settings-shortcut{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding:14px 15px;border:1px solid rgba(120,145,175,.2);border-radius:15px;color:inherit;text-decoration:none;background:rgba(255,255,255,.2);font-size:.84rem;font-weight:650}
+.settings-shortcut:hover{background:rgba(255,255,255,.4)}
+@media(max-width:600px){.settings-trigger{right:16px;bottom:16px;width:48px;height:48px}.settings-drawer{width:min(360px,92vw)}}
+@media(prefers-reduced-motion:reduce){.settings-trigger,.settings-drawer,.settings-drawer-overlay,.theme-toggle-thumb{transition:none}}

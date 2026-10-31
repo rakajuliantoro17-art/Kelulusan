@@ -297,8 +297,8 @@ window.SettingsDrawer = (() => {
 
 })();
 
-document.addEventListener("DOMContentLoaded", () => {
-
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", SettingsDrawer.initialize, { once: true });
+} else {
     SettingsDrawer.initialize();
-
-});
+}

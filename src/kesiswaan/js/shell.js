@@ -681,14 +681,13 @@ window.Shell = (() => {
             ? SHELL_SCRIPT_SRC.replace(/js\/shell\.js.*$/, "")
             : "/";
 
-        if (!document.querySelector('link[href*="stats-panel.css"]')) {
-
+        ["stats-panel.css", "settings-drawer.css"].forEach((file) => {
+            if (document.querySelector(`link[href*="${file}"]`)) return;
             const css = document.createElement("link");
             css.rel = "stylesheet";
-            css.href = base + "css/stats-panel.css";
+            css.href = base + "css/" + file;
             document.head.appendChild(css);
-
-        }
+        });
 
         const load = (file) => new Promise((resolve, reject) => {
 
@@ -709,7 +708,8 @@ window.Shell = (() => {
             .catch((e) => console.warn("Statistik gagal dimuat", e))
             .then(() => load("admin-auth.js"))
             .then(() => load("admin-badge.js"))
-            .catch((e) => console.warn("Badge admin gagal dimuat", e));
+            .then(() => load("settings-drawer.js"))
+            .catch((e) => console.warn("Komponen shell gagal dimuat", e));
 
     }
 

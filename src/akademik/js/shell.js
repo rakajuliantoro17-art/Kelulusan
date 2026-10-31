@@ -541,12 +541,20 @@ window.Shell = (() => {
 
         });
 
-        // Urutan penting: tracker dulu, baru panel; lalu Pengaturan (butuh admin-auth)
+        // Urutan penting: tracker, panel statistik, autentikasi, lalu drawer pengaturan.
+        ["stats-panel.css", "settings-drawer.css"].forEach((file) => {
+            if (document.querySelector(`link[href*="${file}"]`)) return;
+            const css = document.createElement("link");
+            css.rel = "stylesheet";
+            css.href = base + "css/" + file;
+            document.head.appendChild(css);
+        });
+
         load("stats-tracker.js")
             .then(() => load("stats-panel.js"))
             .catch((e) => console.warn("Statistik gagal dimuat", e))
             .then(() => load("admin-auth.js"))
-            .then(() => load("settings-panel.js"))
+            .then(() => load("settings-drawer.js"))
             .catch((e) => console.warn("Panel Pengaturan gagal dimuat", e));
 
     }
