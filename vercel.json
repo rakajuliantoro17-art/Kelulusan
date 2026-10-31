@@ -70,6 +70,14 @@
       "destination": "/src/akademik/assets/$1"
     },
     {
+      "source": "/akademik/dashboard",
+      "destination": "/src/akademik/dashboard/index.html"
+    },
+    {
+      "source": "/akademik/dashboard/",
+      "destination": "/src/akademik/dashboard/index.html"
+    },
+    {
       "source": "/akademik/(.*)",
       "destination": "/src/akademik/$1"
     },
