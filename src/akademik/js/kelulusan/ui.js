@@ -132,7 +132,7 @@ window.UI = (() => {
         <div class="${cardClass}">
 
             <div class="print-letterhead">
-                <img src="../assets/logo/logo.png" alt="Logo ${escapeHTML(CONFIG.SCHOOL_NAME)}">
+                <img src="/assets/shared/logos/sman1-sooko.png" alt="Logo ${escapeHTML(CONFIG.SCHOOL_NAME)}">
                 <h3>${escapeHTML(CONFIG.SCHOOL_NAME)}</h3>
                 <p>Hasil Pengumuman Kelulusan</p>
             </div>
