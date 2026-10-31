@@ -5,62 +5,71 @@ on:
     branches:
       - main
       - development
-
   pull_request:
     branches:
       - main
 
 jobs:
   project-check:
-
-    name: Verify Project Structure
-
+    name: Verify Integrated Project
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Project Information
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Check Required Core Files
         run: |
-          echo "=================================="
-          echo "SMANSASOO Graduation Portal"
-          echo "Version : 1.0.0"
-          echo "Branch  : $GITHUB_REF_NAME"
-          echo "=================================="
+          test -f index.html
+          test -f README.md
+          test -f LICENSE
+          test -f manifest.json
+          test -f sw.js
+          test -f vercel.json
+          test -d assets
+          test -d css
+          test -d js
+          test -d src/akademik
+          test -d src/kesiswaan
+          echo "Core project structure OK"
 
-      - name: Check Required Files
+      - name: Validate JSON Configuration
         run: |
+          node -e "JSON.parse(require('fs').readFileSync('vercel.json', 'utf8'))"
+          node -e "JSON.parse(require('fs').readFileSync('src/akademik/manifest.json', 'utf8'))"
+          echo "JSON configuration OK"
 
-          test -f index.html || exit 1
-          test -f README.md || exit 1
-          test -f LICENSE || exit 1
-          test -f manifest.json || exit 1
-          test -f sw.js || exit 1
-          test -f vercel.json || exit 1
-
-          echo "Core files OK"
-
-      - name: Check Required Directories
+      - name: Check JavaScript Syntax
         run: |
+          find api src/akademik/api src/akademik/js -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+          echo "JavaScript syntax OK"
 
-          test -d assets || exit 1
-          test -d css || exit 1
-          test -d js || exit 1
-
-          echo "Project folders OK"
-
-      - name: Display Repository Structure
+      - name: Verify Academic API Route Contract
         run: |
-
-          echo "Repository Tree"
-          ls -R
+          node <<'NODE'
+          const fs = require('fs');
+          const config = JSON.parse(fs.readFileSync('vercel.json', 'utf8'));
+          const dispatcher = fs.readFileSync('api/akademik.js', 'utf8');
+          const routes = [
+            'kenaikan', 'kelulusan', 'nilai', 'kelas-list', 'kelas-summary',
+            'stats', 'admin-auth', 'announcements', 'absensi',
+            'absensi-rekap', 'absensi-students'
+          ];
+          for (const op of routes) {
+            if (!dispatcher.includes(op)) throw new Error('Handler missing: ' + op);
+            const mapped = config.rewrites.some(rule =>
+              rule.destination === '/api/akademik?op=' + op &&
+              (rule.source === '/api/' + op || rule.source === '/api/akademik/' + op)
+            );
+            if (!mapped) throw new Error('Vercel rewrite missing for: ' + op);
+          }
+          console.log('Academic API route contract OK');
+          NODE
 
       - name: Success
-        run: |
-
-          echo "=================================="
-          echo "Project verification completed."
-          echo "Ready for Vercel Deployment."
-          echo "=================================="
+        run: echo "Integrated project verification completed."
