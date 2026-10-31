@@ -161,10 +161,10 @@ Kartu & Pindai QR siswa.
     function kartuHTML(s) {
         const foto = s.foto ? `<img src="${esc(s.foto)}" alt="" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'qr-id-nofoto',textContent:'FOTO'}))">` : `<span class="qr-id-nofoto">FOTO</span>`;
         return `<article class="qr-card">
-            <header class="qr-id-kop"><img src="../assets/logo/jatim-transparan.png" alt="">
+            <header class="qr-id-kop"><img src="/assets/kesiswaan/logos/jatim-transparan.png" alt="">
                 <div><small>PEMERINTAH PROVINSI JAWA TIMUR · DINAS PENDIDIKAN</small><strong>SMA NEGERI 1 SOOKO MOJOKERTO</strong>
                 <small>Jl. R.A. Basuni No. 361 Sooko, Kab. Mojokerto 61361</small></div>
-                <img src="../assets/logo/logo.png" alt=""></header>
+                <img src="/assets/shared/logos/sman1-sooko.png" alt=""></header>
             <div class="qr-id-body">
                 <div class="qr-id-foto">${foto}</div>
                 <div class="qr-id-data"><span class="qr-id-label">KARTU PELAJAR</span>
