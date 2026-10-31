@@ -38,24 +38,43 @@ Website di-host menggunakan Vercel dan seluruh source code dikelola melalui GitH
 
 ---
 
-## 📁 Struktur Project
+## 📁 Struktur Modul di Repository Terpadu
+
+Modul Akademik saat ini menjadi bagian dari repository **Kelulusan**, bukan lagi berdiri sebagai root project terpisah. Lokasi aktifnya:
 
 ```text
-smansasoo-academic-portal/
-│
-├── assets/
-├── css/
-├── docs/
-├── js/
-├── pages/
-│
-├── index.html
-├── vercel.json
-├── sw.js
-├── README.md
-├── LICENSE
-└── .gitignore
+Kelulusan/
+├── api/
+│   └── akademik.js             # Dispatcher Vercel (root API)
+├── src/
+│   └── akademik/
+│       ├── assets/
+│       │   ├── audio/
+│       │   ├── icons/
+│       │   ├── images/
+│       │   └── logo/
+│       ├── css/
+│       │   └── kelulusan/      # Style khusus halaman kelulusan
+│       ├── data/               # Data JSON statis
+│       ├── docs/               # Dokumentasi teknis modul
+│       ├── js/
+│       │   ├── kelulusan/      # Logic khusus halaman kelulusan
+│       │   └── vendor/         # Library pihak ketiga lokal
+│       ├── pages/              # Halaman fitur Akademik
+│       ├── api/                # Handler yang dipanggil dispatcher root
+│       ├── index.html
+│       ├── manifest.json
+│       └── sw.js
+└── vercel.json                 # Routing dan deployment utama
 ```
+
+**Aturan penataan:**
+- `src/akademik/` adalah batas modul; aset, halaman, data, CSS, dan JS milik Akademik tetap berada di sini.
+- `api/akademik.js` di root adalah pintu masuk serverless Vercel. Handler implementasinya tetap berada di `src/akademik/api/` dan dipanggil oleh dispatcher.
+- Aset publik Akademik dilayani dari `src/akademik/assets/` melalui rewrite pada `vercel.json` root. Jangan mengarahkan aset ke repository lama.
+- CSS dan JavaScript khusus kelulusan tetap dikelompokkan di folder `kelulusan/`; jangan diratakan ke folder induk.
+- File CSS/JS fitur lain tetap di lokasi saat ini sampai seluruh referensi HTML, script, stylesheet, dan Service Worker dipetakan. Pemindahan massal tanpa audit jalur dapat menyebabkan halaman gagal memuat.
+- `src/akademik/vercel.json` dan `src/akademik/package.json` dipertahankan sebagai konfigurasi/metadata modul; konfigurasi deployment aktif tetap `vercel.json` di root repository.
 
 ---
 
