@@ -119,7 +119,7 @@
     },
     {
       "source": "/",
-      "destination": "/index.html"
+      "destination": "/src/pintuku/dashboard/index.html"
     },
     {
       "source": "/api/kesiswaan/admin-auth",
