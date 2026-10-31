@@ -36,7 +36,7 @@ menolak permintaan tanpa login (lihat docs/ADMIN-AUTH.md).
     // 12 Serverless Functions di paket Vercel Hobby).
     const LOGIN_URL = "/api/admin-auth";
     const VERIFY_URL = "/api/admin-auth";
-    const PROTECTED_API = /^\/api\/absensi-/;
+    const PROTECTED_API = /^\/api\/absensi(?:-|$)/;
 
     const thisScript = document.currentScript;
     const requirePage = !!(thisScript && thisScript.hasAttribute("data-require-admin"));
