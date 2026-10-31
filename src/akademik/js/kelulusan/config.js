@@ -114,19 +114,19 @@ window.CONFIG = {
 
     BACKGROUND_IMAGE:
 
-    "../assets/images/scc.jpg",
+    "/assets/shared/images/scc.jpg",
 
     LOGO:
 
-    "../assets/logo/logo.png",
+    "/assets/shared/logos/sman1-sooko.png",
 
     ICON:
 
-    "../assets/icons/icon.png",
+    "/assets/shared/icons/app-icon.png",
 
     FAVICON:
 
-    "../assets/favicon.ico",
+    "/assets/shared/icons/favicon.ico",
 
 
 
@@ -150,7 +150,7 @@ window.CONFIG = {
 
     AUDIO_URL:
 
-    "../assets/audio/lulus.mp3",
+    "/assets/akademik/audio/lulus.mp3",
 
 
 
