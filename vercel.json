@@ -58,6 +58,10 @@
   ],
   "rewrites": [
     {
+      "source": "/sw.js",
+      "destination": "/src/pintuku/pwa/sw.js"
+    },
+    {
       "source": "/akademik/",
       "destination": "/src/akademik/index.html"
     },
