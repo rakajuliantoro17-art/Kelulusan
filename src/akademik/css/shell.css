@@ -285,7 +285,7 @@ hamburger di navbar (overlay dari kiri, klik overlay = tutup).
     inset:0;
     z-index:0;
 
-    background-image:url("../assets/images/drh.jpg");
+    background-image:url("/assets/shared/images/drh.jpg");
     background-size:cover;
     background-position:center;
 

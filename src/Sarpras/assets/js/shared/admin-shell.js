@@ -169,7 +169,7 @@ function buildShell({ portal, role, name, activeKey, title }) {
     wrapper.innerHTML = `
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <img src="/logo/icon.png" alt="SARPRASIN" class="sidebar-logo">
+                <img src="/assets/shared/icons/app-icon.png" alt="SARPRASIN" class="sidebar-logo">
                 <div class="sidebar-brand">
                     <h3>SARPRASIN</h3>
                     <span>${escapeHtml(cfg.label)}</span>
@@ -178,7 +178,7 @@ function buildShell({ portal, role, name, activeKey, title }) {
             <nav class="sidebar-menu">${menuHtml(MENUS[portal], role, activeKey)}</nav>
             <div class="sidebar-footer">
                 <div class="sidebar-profile">
-                    <img src="/logo/icon.png" alt="User" class="profile-avatar">
+                    <img src="/assets/shared/icons/app-icon.png" alt="User" class="profile-avatar">
                     <div class="profile-info">
                         <h4>${escapeHtml(name)}</h4>
                         <span>${escapeHtml(roleLabel(role))}</span>
@@ -203,7 +203,7 @@ function buildShell({ portal, role, name, activeKey, title }) {
                     <button class="topbar-action" id="themeToggle" type="button"
                         aria-label="Ganti tema">🌙</button>
                     <div class="topbar-user">
-                        <img src="/logo/icon.png" alt="User" class="topbar-avatar">
+                        <img src="/assets/shared/icons/app-icon.png" alt="User" class="topbar-avatar">
                         <div class="topbar-user-info">
                             <h4>${escapeHtml(name)}</h4>
                             <span>${escapeHtml(roleLabel(role))}</span>

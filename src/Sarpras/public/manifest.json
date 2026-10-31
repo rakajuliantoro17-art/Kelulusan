@@ -22,13 +22,13 @@
 
   "icons": [
     {
-      "src": "/logo/icon.png",
+      "src": "/assets/shared/icons/app-icon.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/logo/icon.png",
+      "src": "/assets/shared/icons/app-icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -37,7 +37,7 @@
 
   "screenshots": [
     {
-      "src": "/images/119.jpg",
+      "src": "/assets/sarpras/images/119.jpg",
       "sizes": "1920x1080",
       "type": "image/jpeg",
       "form_factor": "wide",

@@ -12,7 +12,7 @@
   "dir": "ltr",
   "icons": [
     {
-      "src": "assets/icons/icon.png",
+      "src": "/assets/shared/icons/app-icon.png",
       "sizes": "any",
       "type": "image/png",
       "purpose": "any"

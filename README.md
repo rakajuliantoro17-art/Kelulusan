@@ -54,3 +54,8 @@ Tahap ini adalah reposisi source dan perapian struktur repository. Konfigurasi V
 - Endpoint tulis dan data siswa harus tetap dilindungi autentikasi serta otorisasi server.
 - Service worker tidak boleh menyimpan respons API privat atau data siswa.
 - Integrasi modul harus mempertahankan kontrak backend dan sumber data masing-masing.
+
+
+## Asset management
+
+Seluruh aset statis bersama (gambar, background, ikon, logo, font, audio, dan media) dikelola di `public/assets/`. Aturan folder dan pemakaian URL dijelaskan di [docs/ASSET-ARCHITECTURE.md](docs/ASSET-ARCHITECTURE.md).
