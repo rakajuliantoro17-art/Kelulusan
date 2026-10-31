@@ -55,47 +55,36 @@ button{
 
 html[data-theme="dark"]{
 
-    /* Shared SMANSASOO ecosystem palette — PINTUKU is the visual reference. */
-    --primary:var(--eco-blue);
-    --primary-light:#b5dcff;
-    --primary-dark:#0a355b;
+    --primary:#4FA3FF;
+    --primary-light:#7CC0FF;
+    --primary-dark:#1E6FBF;
 
-    --secondary:var(--eco-gold);
-    --secondary-light:#ffe2aa;
-    --secondary-dark:#d5ad69;
+    --secondary:#FFC93C;
+    --secondary-light:#FFDD7A;
+    --secondary-dark:#E0A800;
 
-    --success:#76d9bd;
-    --warning:#f2c879;
-    --danger:#ff8585;
-    --info:#82c9ff;
+    --success:#32D74B;
+    --warning:#FFB020;
+    --danger:#FF6961;
+    --info:#5AC8FA;
 
-    --background:var(--eco-night);
-    --surface:var(--eco-panel);
-    --surface-alt:var(--eco-panel-strong);
+    --background:#000000;
+    --surface:#1C1C1E;
+    --surface-alt:#2C2C2E;
 
-    --text:var(--eco-text);
-    --text-light:var(--eco-muted);
-    --text-muted:#8297b2;
-    --text-white:#ffffff;
+    --text:#F5F5F7;
+    --text-light:#AEAEB2;
+    --text-muted:#8E8E93;
+    --text-white:#FFFFFF;
 
-    --border:var(--eco-border);
-    --border-light:rgba(191,218,249,.10);
+    --border:rgba(255,255,255,.12);
+    --border-light:rgba(255,255,255,.08);
 
-    --shadow-sm:0 8px 24px rgba(0,0,0,.18);
-    --shadow-md:0 16px 42px rgba(0,0,0,.22);
-    --shadow-lg:var(--eco-shadow-deep);
+    --shadow-sm:0 2px 10px rgba(0,0,0,.45);
+    --shadow-md:0 10px 30px rgba(0,0,0,.55);
+    --shadow-lg:0 20px 50px rgba(0,0,0,.65);
 
-    /* Shared liquid-glass material scale. */
-    --glass-blur:var(--eco-glass-blur);
-    --glass-saturate:var(--eco-glass-saturate);
-    --glass-tint-top:rgba(255,255,255,.16);
-    --glass-tint-bottom:rgba(255,255,255,.055);
-    --glass-border:var(--eco-border);
-    --glass-highlight:rgba(255,255,255,.22);
-    --glass-radius:var(--eco-radius-card);
-    --glass-radius-sm:18px;
-
-    color-scheme:dark;
+    color-scheme: dark;
 
 }
 
@@ -112,8 +101,8 @@ html[data-theme="light"]{
 .ios-material{
 
     background:color-mix(in srgb, var(--surface) 78%, transparent);
-    backdrop-filter:saturate(var(--eco-glass-saturate)) blur(var(--eco-glass-blur));
-    -webkit-backdrop-filter:saturate(var(--eco-glass-saturate)) blur(var(--eco-glass-blur));
+    backdrop-filter:saturate(180%) blur(24px);
+    -webkit-backdrop-filter:saturate(180%) blur(24px);
     border:1px solid var(--border-light);
 }
 
