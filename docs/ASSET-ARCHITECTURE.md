@@ -19,6 +19,17 @@ public/assets/
     └── signatures/
 ```
 
+## Central asset registry
+
+The canonical registry source is `src/shared/assets/registry.js`. It exposes the framework-free global `window.SMANAssets` for classic-script and legacy-page compatibility:
+
+```js
+const logoSekolah = SMANAssets.get("shared.logos.school");
+const audioKelulusan = SMANAssets.get("akademik.audio.lulus");
+```
+
+The registry is source code, not a public media file. During the build stage, publish it at the stable URL `/js/asset-registry.js` and load it before module scripts that consume it. Existing pages may continue using direct `/assets/...` URLs; the registry is the preferred source for new and refactored code. Add approved files explicitly rather than constructing arbitrary paths.
+
 ## Rules
 - Use `/assets/shared/...` for media shared by multiple modules.
 - Use `/assets/<module>/...` for module-specific media.
