@@ -25,51 +25,61 @@ jobs:
 
       - name: Check Required Core Files
         run: |
-          test -f index.html
           test -f README.md
           test -f LICENSE
-          test -f manifest.json
-          test -f sw.js
           test -f vercel.json
-          test -d assets
-          test -d css
-          test -d js
+          test -d src/pintuku/dashboard
+          test -f src/pintuku/dashboard/index.html
+          test -f src/pintuku/dashboard/sarpras.html
+          test -d src/pintuku/assets/css
+          test -d src/pintuku/assets/js
+          test -f src/pintuku/pwa/manifest.json
+          test -f src/pintuku/pwa/sw.js
+          test -d src/server/api
+          test -f src/server/api/akademik.js
+          test -f src/server/api/kesiswaan.js
+          test -d public/assets
           test -d src/akademik
           test -d src/kesiswaan
+          test -d src/Sarpras
+          test -d src/Sarpras/legacy/config
+          test -d src/Sarpras/legacy/init
+          test -d src/Sarpras/legacy/layouts
+          test -d src/Sarpras/legacy/pages
+          test -d src/Sarpras/legacy/router
           test -f src/akademik/dashboard/index.html
           test -d src/akademik/legacy-graduation
-          test ! -e akademik
-          test ! -e data
-          test ! -f css/animation.css
-          test ! -f css/glass.css
-          test ! -f css/responsive.css
-          test ! -f css/style.css
-          test ! -f css/variables.css
-          test ! -f js/api.js
-          test ! -f js/app.js
-          test ! -f js/config.js
-          test ! -f js/search.js
-          test ! -f js/ui.js
-          test ! -f js/utils.js
+          test ! -e api
+          test ! -e assets
+          test ! -e config
+          test ! -e css
+          test ! -e init
+          test ! -e js
+          test ! -e layouts
+          test ! -e pages
+          test ! -e router
+          test ! -e sarpras
+          test ! -e manifest.json
+          test ! -e sw.js
           echo "Core project structure OK"
 
       - name: Validate JSON Configuration
         run: |
           node -e "JSON.parse(require('fs').readFileSync('vercel.json', 'utf8'))"
+          node -e "JSON.parse(require('fs').readFileSync('src/pintuku/pwa/manifest.json', 'utf8'))"
           node -e "JSON.parse(require('fs').readFileSync('src/akademik/manifest.json', 'utf8'))"
           echo "JSON configuration OK"
 
       - name: Check JavaScript Syntax
         run: |
-          find api src/akademik/api src/akademik/js -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+          find src/server/api src/akademik/api src/akademik/js src/kesiswaan/api src/Sarpras -type f -name '*.js' -print0 | xargs -0 -n1 node --check
           echo "JavaScript syntax OK"
 
-      - name: Verify Academic API Route Contract
+      - name: Verify Academic API Source Contract
         run: |
           node <<'NODE'
           const fs = require('fs');
-          const config = JSON.parse(fs.readFileSync('vercel.json', 'utf8'));
-          const dispatcher = fs.readFileSync('api/akademik.js', 'utf8');
+          const dispatcher = fs.readFileSync('src/server/api/akademik.js', 'utf8');
           const routes = [
             'kenaikan', 'kelulusan', 'nilai', 'kelas-list', 'kelas-summary',
             'stats', 'admin-auth', 'announcements', 'absensi',
@@ -77,13 +87,22 @@ jobs:
           ];
           for (const op of routes) {
             if (!dispatcher.includes(op)) throw new Error('Handler missing: ' + op);
-            const mapped = config.rewrites.some(rule =>
-              rule.destination === '/api/akademik?op=' + op &&
-              (rule.source === '/api/' + op || rule.source === '/api/akademik/' + op)
-            );
-            if (!mapped) throw new Error('Vercel rewrite missing for: ' + op);
           }
-          console.log('Academic API route contract OK');
+          if (!dispatcher.includes('../../akademik/api/')) {
+            throw new Error('Academic dispatcher import base path is incorrect');
+          }
+          console.log('Academic API source contract OK');
+          NODE
+
+      - name: Verify Repository Root Policy
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const allowedDirs = new Set(['.github', 'src', 'docs', 'public']);
+          const entries = fs.readdirSync('.').filter(name => fs.statSync(name).isDirectory());
+          const unexpected = entries.filter(name => !allowedDirs.has(name));
+          if (unexpected.length) throw new Error('Unexpected root directories: ' + unexpected.join(', '));
+          console.log('Repository root policy OK');
           NODE
 
       - name: Success
