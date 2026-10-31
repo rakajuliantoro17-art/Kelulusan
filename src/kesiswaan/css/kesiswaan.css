@@ -703,7 +703,7 @@ body[data-page="admin"] .header h1 span{display:inline}
 .kd-tayang{position:fixed;inset:0;z-index:9999;color:#fff;display:flex;flex-direction:column;overflow:hidden;
     --font-xs:clamp(.8rem,1vw,1.1rem);--font-sm:clamp(.95rem,1.3vw,1.4rem);--font-md:clamp(1.05rem,1.5vw,1.6rem);--space-lg:clamp(.9rem,1.6vw,1.8rem)}
 .kd-tayang.kd-hidden{display:none !important}
-.kd-tayang-bg{position:absolute;inset:-3%;z-index:-1;background:url("../assets/images/scc.jpg") center/cover no-repeat;filter:blur(5px) brightness(.62) saturate(1.2)}
+.kd-tayang-bg{position:absolute;inset:-3%;z-index:-1;background:url("/assets/shared/images/scc.jpg") center/cover no-repeat;filter:blur(5px) brightness(.62) saturate(1.2)}
 .kd-tayang-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,53,91,.4),rgba(7,26,53,.7))}
 .kd-tayang-head{display:flex;align-items:center;gap:1rem;padding:clamp(.8rem,2vw,1.6rem) clamp(1rem,3vw,3rem);border-bottom:1px solid rgba(255,255,255,.18);background:rgba(7,26,53,.35);backdrop-filter:blur(10px)}
 .kd-tayang-logo{height:clamp(2.4rem,4.5vw,4rem);width:auto}
