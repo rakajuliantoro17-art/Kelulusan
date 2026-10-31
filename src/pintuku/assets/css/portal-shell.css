@@ -6,7 +6,7 @@
   --portal-shell-accent: #8ccaff;
 }
 .portal-shell-header {
-  position: sticky; top: 0; z-index: 100;
+  position: static;
   color: var(--portal-shell-text);
   background: linear-gradient(110deg, rgba(5,12,24,.9), rgba(10,24,42,.78));
   border-bottom: 1px solid var(--portal-shell-line); box-shadow: 0 12px 38px rgba(0,0,0,.14);
@@ -86,3 +86,7 @@
 @media (max-width:650px) {
   .portal-shell-mark img { width:32px; height:32px; }
 }
+
+/* Tanpa navbar: hanya lencana merek, tidak menempel dan tanpa bilah. */
+.portal-shell-header { background: none; border-bottom: 0; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.portal-shell-inner { min-height: 72px; justify-content: flex-start; }
