@@ -1,0 +1,311 @@
+/*
+==========================================================
+SMANSASOO Kesiswaan — Dashboard Visual Layer
+Scope: halaman utama data-page="home" saja.
+Arah: deep liquid glass, navy + gold, readable dashboard.
+==========================================================
+*/
+
+body[data-page="home"]{
+    --home-content-width:1440px;
+}
+
+/* Hero/header — identitas sekolah menjadi satu bidang yang rapi */
+body[data-page="home"] .header{
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+    padding:clamp(1.7rem,3.4vw,3.25rem) 0 clamp(1.55rem,2.8vw,2.6rem);
+    text-align:left;
+    background:
+        radial-gradient(70% 150% at 92% 0%,rgba(255,213,79,.18),transparent 58%),
+        linear-gradient(115deg,rgba(5,24,48,.86),rgba(9,49,83,.68) 58%,rgba(7,30,54,.78));
+    border-bottom:1px solid rgba(255,255,255,.2);
+    box-shadow:0 18px 55px rgba(2,12,28,.2),inset 0 1px 0 rgba(255,255,255,.16);
+    -webkit-backdrop-filter:blur(22px) saturate(160%);
+    backdrop-filter:blur(22px) saturate(160%);
+}
+body[data-page="home"] .header::after{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    width:360px;
+    height:360px;
+    right:7%;
+    top:-245px;
+    border:1px solid rgba(255,213,79,.2);
+    border-radius:50%;
+    box-shadow:0 0 0 34px rgba(255,255,255,.025),0 0 0 72px rgba(255,255,255,.018);
+    pointer-events:none;
+}
+body[data-page="home"] .header .container{
+    width:min(calc(100% - 3rem),var(--home-content-width));
+    max-width:var(--home-content-width);
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:clamp(64px,7vw,92px) minmax(0,1fr);
+    grid-template-rows:auto auto auto;
+    column-gap:clamp(1rem,2vw,1.6rem);
+    align-items:center;
+    justify-items:start;
+    text-align:left;
+}
+body[data-page="home"] .header .logo{
+    grid-column:1;
+    grid-row:1 / 4;
+    width:clamp(64px,7vw,92px);
+    max-height:96px;
+    object-fit:contain;
+    margin:0;
+    padding:8px;
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:22px;
+    background:rgba(255,255,255,.1);
+    box-shadow:0 12px 28px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.25);
+}
+body[data-page="home"] .header .kd-eyebrow{
+    grid-column:2;
+    grid-row:1;
+    margin:0 0 .35rem;
+    color:#FFE08A;
+    font-size:.72rem;
+    font-weight:800;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+}
+body[data-page="home"] .header h1{
+    grid-column:2;
+    grid-row:2;
+    margin:0;
+    color:#fff;
+    font-size:clamp(1.65rem,3vw,2.65rem);
+    line-height:1.12;
+    letter-spacing:-.045em;
+    font-weight:800;
+}
+body[data-page="home"] .header h1 span{
+    display:inline;
+    color:#FFD966;
+}
+body[data-page="home"] .header p{
+    grid-column:2;
+    grid-row:3;
+    margin:.55rem 0 0;
+    color:rgba(235,244,255,.76);
+    font-size:.88rem;
+}
+body[data-page="home"] .header p strong{
+    color:#fff;
+    font-weight:750;
+}
+
+/* Area dashboard: center pada ruang konten setelah sidebar */
+body[data-page="home"] .kd-wrap{
+    width:min(94%,var(--home-content-width));
+    max-width:var(--home-content-width);
+    padding:clamp(1.15rem,2.2vw,2rem) 0 4.5rem;
+    gap:clamp(1rem,1.8vw,1.45rem);
+}
+body[data-page="home"] .kd-wrap > #dash{
+    gap:clamp(1rem,1.8vw,1.45rem);
+}
+
+/* Pencarian poin: hero utama dengan kontras tinggi */
+body[data-page="home"] .kd-cekhero{
+    position:relative;
+    padding:clamp(1.2rem,2.3vw,1.9rem);
+    border:1px solid rgba(255,221,122,.48);
+    border-radius:24px;
+    background:
+        radial-gradient(100% 160% at 100% 0%,rgba(255,213,79,.2),transparent 54%),
+        linear-gradient(120deg,rgba(8,43,76,.88),rgba(13,65,105,.72));
+    box-shadow:0 20px 48px rgba(0,12,28,.25),inset 0 1px 0 rgba(255,255,255,.22);
+}
+body[data-page="home"] .kd-cekhero h2{
+    font-size:clamp(1.12rem,1.7vw,1.42rem);
+    letter-spacing:-.025em;
+}
+body[data-page="home"] .kd-cekhero p{
+    max-width:54ch;
+    line-height:1.65;
+}
+body[data-page="home"] .kd-cekhero-ico{
+    display:grid;
+    place-items:center;
+    width:54px;
+    height:54px;
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:17px;
+    background:rgba(255,255,255,.12);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
+    font-size:1.55rem;
+}
+body[data-page="home"] .kd-cekhero-form .kd-input{
+    min-height:46px;
+    border:1px solid rgba(255,255,255,.3);
+    border-radius:13px;
+    background:rgba(255,255,255,.94);
+    color:#102B46;
+    box-shadow:inset 0 1px 2px rgba(0,0,0,.06);
+}
+body[data-page="home"] .kd-cekhero-form .kd-btn,
+body[data-page="home"] .kd-cekhero-scan{
+    min-height:46px;
+    border-radius:13px;
+    box-shadow:0 8px 20px rgba(0,0,0,.16);
+}
+body[data-page="home"] .kd-cekhero-scan{
+    flex:0 0 auto;
+    border:1px solid rgba(255,221,122,.56);
+    background:rgba(255,255,255,.1);
+    color:#FFE8A6;
+}
+
+/* Filter periode + chip status */
+body[data-page="home"] .kd-toolbar{
+    padding:.8rem .9rem;
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:18px;
+    background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.055));
+    box-shadow:0 10px 28px rgba(0,10,24,.13),inset 0 1px 0 rgba(255,255,255,.16);
+    -webkit-backdrop-filter:blur(18px) saturate(150%);
+    backdrop-filter:blur(18px) saturate(150%);
+}
+body[data-page="home"] .kd-seg{
+    border-color:rgba(255,255,255,.22);
+    background:rgba(3,19,38,.3);
+}
+body[data-page="home"] .kd-seg button[aria-pressed="true"]{
+    background:linear-gradient(135deg,#FFE28A,#F4B400);
+    color:#173653;
+    box-shadow:0 4px 14px rgba(244,180,0,.24),inset 0 1px 0 rgba(255,255,255,.55);
+}
+body[data-page="home"] .kd-chip{
+    background:rgba(255,255,255,.11);
+    border-color:rgba(255,255,255,.2);
+    color:#F7FAFF;
+}
+body[data-page="home"] .kd-chip--demo{
+    color:#FFE39A;
+    background:rgba(255,190,55,.13);
+    border-color:rgba(255,210,100,.34);
+}
+body[data-page="home"] .kd-chip--live{
+    color:#A7F3C0;
+    background:rgba(34,197,94,.12);
+    border-color:rgba(74,222,128,.3);
+}
+
+/* KPI cards: accent tipis, elevasi dan angka lebih tegas */
+body[data-page="home"] #dash .kd-grid--kpi .kd-kpi{
+    min-height:146px;
+    padding:1.35rem;
+    border-radius:20px;
+    border-color:rgba(255,255,255,.25);
+    background:
+        radial-gradient(100% 130% at 100% 0%,rgba(255,255,255,.16),transparent 56%),
+        linear-gradient(150deg,rgba(255,255,255,.18),rgba(255,255,255,.055)),
+        rgba(5,25,47,.64);
+    box-shadow:0 16px 38px rgba(0,9,24,.2),inset 0 1px 0 rgba(255,255,255,.28);
+    transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease;
+}
+body[data-page="home"] #dash .kd-grid--kpi .kd-kpi:hover{
+    transform:translateY(-3px);
+    border-color:rgba(255,221,122,.55);
+    box-shadow:0 22px 42px rgba(0,9,24,.27),inset 0 1px 0 rgba(255,255,255,.32);
+}
+body[data-page="home"] #dash .kd-grid--kpi .kd-kpi:nth-child(1){border-top:2px solid rgba(93,190,255,.8)}
+body[data-page="home"] #dash .kd-grid--kpi .kd-kpi:nth-child(2){border-top:2px solid rgba(115,224,174,.8)}
+body[data-page="home"] #dash .kd-grid--kpi .kd-kpi:nth-child(3){border-top:2px solid rgba(255,211,104,.85)}
+body[data-page="home"] #dash .kd-grid--kpi .kd-kpi:nth-child(4){border-top:2px solid rgba(255,132,132,.8)}
+body[data-page="home"] #dash .kd-grid--kpi .kd-kpi-value{
+    font-size:clamp(2.15rem,3.3vw,3rem);
+    letter-spacing:-.055em;
+}
+body[data-page="home"] #dash .kd-grid--kpi .kd-kpi-label{
+    color:rgba(242,248,255,.78);
+    letter-spacing:.09em;
+}
+body[data-page="home"] #dash .kd-grid--kpi .kd-kpi-foot{
+    color:rgba(235,244,255,.72);
+}
+
+/* Grafik dan panel informasi */
+body[data-page="home"] #dash > .kd-grid:not(.kd-grid--kpi) .kd-card{
+    min-width:0;
+    border-radius:21px;
+    border-color:rgba(255,255,255,.23);
+    background:
+        radial-gradient(100% 90% at 100% 0%,rgba(255,255,255,.1),transparent 52%),
+        linear-gradient(155deg,rgba(255,255,255,.16),rgba(255,255,255,.055)),
+        rgba(5,25,47,.62);
+    box-shadow:0 16px 42px rgba(0,9,24,.19),inset 0 1px 0 rgba(255,255,255,.25);
+}
+body[data-page="home"] #dash .kd-card-title{
+    color:#fff;
+    font-size:1.02rem;
+    letter-spacing:-.02em;
+}
+body[data-page="home"] #dash .kd-card-sub{
+    color:rgba(235,244,255,.68);
+    line-height:1.55;
+}
+body[data-page="home"] #dash .kd-empty{
+    color:rgba(235,244,255,.72);
+}
+body[data-page="home"] #dash .kd-bars li{
+    border-color:rgba(255,255,255,.12);
+}
+body[data-page="home"] #dash .kd-bars .kd-bar-track{
+    background:rgba(255,255,255,.13);
+}
+body[data-page="home"] #dash .kd-feed li{
+    border-color:rgba(255,255,255,.13);
+}
+body[data-page="home"] .kd-grid--cta .kd-cta{
+    border-radius:18px;
+    border-color:rgba(255,255,255,.22);
+    background:linear-gradient(140deg,rgba(255,255,255,.16),rgba(255,255,255,.055)),rgba(5,25,47,.62);
+    box-shadow:0 12px 32px rgba(0,9,24,.18),inset 0 1px 0 rgba(255,255,255,.2);
+}
+
+/* Fokus keyboard, motion, dan ukuran layar */
+body[data-page="home"] .kd-wrap a:focus-visible,
+body[data-page="home"] .kd-wrap button:focus-visible,
+body[data-page="home"] .kd-wrap input:focus-visible{
+    outline:3px solid #FFE08A;
+    outline-offset:3px;
+}
+@media(max-width:700px){
+    body[data-page="home"] .header .container{
+        width:min(calc(100% - 2rem),var(--home-content-width));
+        grid-template-columns:58px minmax(0,1fr);
+        column-gap:.9rem;
+    }
+    body[data-page="home"] .header .logo{
+        width:58px;
+        max-height:68px;
+        padding:6px;
+        border-radius:16px;
+    }
+    body[data-page="home"] .header h1{font-size:clamp(1.35rem,6vw,1.9rem)}
+    body[data-page="home"] .header p{font-size:.78rem}
+    body[data-page="home"] .kd-wrap{width:min(94%,var(--home-content-width));padding-top:1rem}
+    body[data-page="home"] .kd-toolbar{align-items:stretch}
+    body[data-page="home"] .kd-seg{width:100%;justify-content:space-between}
+    body[data-page="home"] .kd-seg button{flex:1;padding:.48rem .42rem;font-size:.72rem}
+    body[data-page="home"] .kd-chips{width:100%}
+    body[data-page="home"] .kd-cekhero{border-radius:19px}
+    body[data-page="home"] .kd-cekhero-txt{align-items:flex-start}
+    body[data-page="home"] .kd-cekhero-ico{width:44px;height:44px;border-radius:14px;font-size:1.25rem}
+    body[data-page="home"] .kd-cekhero-scan{width:100%}
+}
+@media(max-width:380px){
+    body[data-page="home"] .header .container{grid-template-columns:48px minmax(0,1fr);column-gap:.7rem}
+    body[data-page="home"] .header .logo{width:48px;max-height:58px}
+    body[data-page="home"] .header h1{font-size:1.25rem}
+}
+@media(prefers-reduced-motion:reduce){
+    body[data-page="home"] #dash .kd-grid--kpi .kd-kpi{transition:none}
+    body[data-page="home"] #dash .kd-grid--kpi .kd-kpi:hover{transform:none}
+}
