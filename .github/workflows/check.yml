@@ -36,6 +36,21 @@ jobs:
           test -d js
           test -d src/akademik
           test -d src/kesiswaan
+          test -f src/akademik/dashboard/index.html
+          test -d src/akademik/legacy-graduation
+          test ! -e akademik
+          test ! -e data
+          test ! -f css/animation.css
+          test ! -f css/glass.css
+          test ! -f css/responsive.css
+          test ! -f css/style.css
+          test ! -f css/variables.css
+          test ! -f js/api.js
+          test ! -f js/app.js
+          test ! -f js/config.js
+          test ! -f js/search.js
+          test ! -f js/ui.js
+          test ! -f js/utils.js
           echo "Core project structure OK"
 
       - name: Validate JSON Configuration
