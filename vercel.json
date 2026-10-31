@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "buildCommand": "node src/tools/build.js",
+  "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
@@ -60,6 +62,26 @@
     {
       "source": "/sw.js",
       "destination": "/src/pintuku/pwa/sw.js"
+    },
+    {
+      "source": "/sarpras",
+      "destination": "/src/pintuku/dashboard/sarpras.html"
+    },
+    {
+      "source": "/sarpras/",
+      "destination": "/src/pintuku/dashboard/sarpras.html"
+    },
+    {
+      "source": "/css/(.*)",
+      "destination": "/src/pintuku/assets/css/$1"
+    },
+    {
+      "source": "/js/(.*)",
+      "destination": "/src/pintuku/assets/js/$1"
+    },
+    {
+      "source": "/manifest.json",
+      "destination": "/src/pintuku/pwa/manifest.json"
     },
     {
       "source": "/akademik/",

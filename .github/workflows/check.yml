@@ -49,7 +49,8 @@ jobs:
           test -d src/Sarpras/legacy/router
           test -f src/akademik/dashboard/index.html
           test -d src/akademik/legacy-graduation
-          test ! -e api
+          test -f api/akademik.js
+          test -f api/kesiswaan.js
           test ! -e assets
           test ! -e config
           test ! -e css
@@ -98,12 +99,23 @@ jobs:
         run: |
           node <<'NODE'
           const fs = require('fs');
-          const allowedDirs = new Set(['.git', '.github', 'src', 'docs', 'public']);
+          // 'api' wajib ada di root: Vercel hanya mendaftarkan fungsi serverless dari /api root.
+          // Isinya hanya shim tipis yang me-require src/server/api/*.
+          const allowedDirs = new Set(['.git', '.github', 'src', 'docs', 'public', 'api']);
           const entries = fs.readdirSync('.').filter(name => fs.statSync(name).isDirectory());
           const unexpected = entries.filter(name => !allowedDirs.has(name));
           if (unexpected.length) throw new Error('Unexpected root directories: ' + unexpected.join(', '));
           console.log('Repository root policy OK');
           NODE
+
+      # Harus setelah Root Policy: langkah ini membuat dist/ (di-ignore git) di root.
+      - name: Build Static Output
+        run: |
+          node --check src/tools/build.js
+          node src/tools/build.js
+          test -f dist/src/pintuku/dashboard/index.html
+          test ! -e dist/src/server
+          echo "Static output OK"
 
       - name: Success
         run: echo "Integrated project verification completed."
