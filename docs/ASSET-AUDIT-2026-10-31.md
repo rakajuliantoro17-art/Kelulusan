@@ -119,3 +119,42 @@ Pemeriksaan lanjutan dilakukan terhadap **270 dari 639 berkas HTML/CSS/JavaScrip
 2. Cocokkan semua path lokal dengan daftar file aktual serta rewrite Vercel.
 3. Buat daftar final per file: path lama, target yang disarankan, tingkat kepastian, dan apakah memerlukan perubahan routing.
 4. Setelah inventaris JavaScript selesai, baru mulai tahap perbaikan sumber secara terkontrol. Jangan mengubah API, autentikasi, atau route aplikasi sebagai efek samping.
+
+## Log tindak lanjut — 31 Oktober 2026
+
+### Pemeriksaan JavaScript lanjutan
+
+- Tree repository pada branch `main` memuat **373 berkas JavaScript** pada area `src/akademik`, `src/kesiswaan`, `src/Sarpras`, `src/pintuku`, `src/shared`, dan `src/server`.
+- Pemeriksaan lanjutan secara terarah dilakukan pada 16 berkas inti, termasuk registry, shell portal, shell Akademik/Kesiswaan, konfigurasi kelulusan, layanan aset Sarpras, dan dispatcher API.
+- Pemeriksaan ini **belum mencakup seluruh 373 berkas**. Karena itu, status audit tetap parsial; string path dinamis pada berkas JavaScript lain masih perlu diperiksa.
+
+### Perbaikan sumber yang sudah diterapkan
+
+Tiga berkas Akademik diperbarui agar menggunakan lokasi aset publik kanonis yang memang ada di repository:
+
+| Berkas | Perbaikan |
+|---|---|
+| `src/akademik/js/shell.js` | Logo navbar dari `/assets/logo/logo.png` ke `/assets/shared/logos/sman1-sooko.png`. |
+| `src/akademik/js/kelulusan/config.js` | Background, logo, ikon, favicon, dan audio kelulusan dipindahkan ke URL kanonis di `/assets/shared/` dan `/assets/akademik/audio/`. |
+| `src/akademik/js/kelulusan/ui.js` | Logo kop hasil cetak memakai `/assets/shared/logos/sman1-sooko.png`. |
+
+Total **7 referensi** diperbaiki. File target telah ditemukan pada katalog `public/assets/` saat audit. Perubahan ini hanya mengganti URL media; logika pencarian, hasil kelulusan, audio, dan alur aplikasi tidak diubah.
+
+Commit terakhir perbaikan sumber: `1ec5691c92f63d0bede534ab467e1998bd5523e0`.
+
+### Status integrasi registry
+
+- `src/shared/assets/registry.js` tersedia dan memuat pemetaan aset bersama serta aset per modul.
+- Dashboard PINTUKU memanggil `/js/asset-registry.js`, sedangkan sumber registry masih berada di `src/shared/assets/registry.js`.
+- Pemetaan build dari source registry ke URL runtime tersebut belum dibuktikan. Oleh sebab itu, perubahan di atas memakai URL publik kanonis langsung dan tidak menambah ketergantungan runtime pada registry.
+- Integrasi registry lintas modul ditunda sampai mekanisme build/output statis ditetapkan dan diuji. Ini mencegah halaman bergantung pada URL JavaScript yang belum tentu disajikan deployment.
+
+### Pekerjaan yang masih terbuka
+
+1. Lanjutkan pemeriksaan seluruh JavaScript, khususnya path media yang dibangun dari variabel/template string dan pemanggilan upload/preview.
+2. Audit manifest Akademik dan validitas file ikon PWA; audit font Sarpras yang masih berupa placeholder 1 byte.
+3. Periksa path komponen/halaman Sarpras yang belum memiliki target publik kanonis.
+4. Tentukan adapter build untuk registry dan source aplikasi sebelum memetakan URL runtime.
+5. Jalankan smoke test pada hasil build/deployment untuk memastikan gambar, audio, ikon, font, dan halaman benar-benar termuat.
+
+**Batas validasi:** commit sumber berhasil dibuat di GitHub. Belum ada klaim bahwa hasil deployment Vercel atau seluruh halaman runtime telah lulus pengujian.
