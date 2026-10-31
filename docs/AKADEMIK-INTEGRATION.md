@@ -4,6 +4,11 @@ Dokumen ini mencatat kontrak integrasi modul Akademik setelah dipindahkan ke rep
 
 ## Batas modul
 
+- Semua kode dan aset khusus Akademik berada di `src/akademik/`; tidak ada direktori `akademik/` atau `data/` khusus Akademik di root.
+- Berkas lama dari aplikasi Graduation Portal yang tidak lagi menjadi entrypoint aktif diarsipkan di `src/akademik/legacy-graduation/` dan tidak dipetakan sebagai route publik.
+- Dashboard ringkasan integrasi berada di `src/akademik/dashboard/index.html` dan diakses melalui `/akademik/dashboard`.
+- Direktori root `assets/`, `css/`, dan `js/` hanya menampung aset bersama PINTUKU. `api/akademik.js` tetap di root karena merupakan serverless dispatcher Vercel.
+
 - Frontend, CSS, JavaScript, data statis, PWA, dan handler backend Akademik berada di `src/akademik/`.
 - Vercel hanya menggunakan konfigurasi deployment di `/vercel.json` pada root repository.
 - Serverless API Akademik masuk melalui satu dispatcher: `/api/akademik.js`.
