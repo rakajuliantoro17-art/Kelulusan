@@ -80,7 +80,7 @@ window.CONFIG = {
     },
 
     SAMPLE_DATA_URL:
-        "/data/sample.json",
+        "/akademik/data/sample.json",
 
     API_TIMEOUT: 10000,
 
@@ -106,16 +106,16 @@ window.CONFIG = {
     ====================================================== */
 
     BACKGROUND_IMAGE:
-        "/assets/images/scc.jpg",
+        "/akademik/assets/images/scc.jpg",
 
     LOGO:
-        "/assets/logo/logo.png",
+        "/akademik/assets/logo/logo.png",
 
     ICON:
-        "/assets/icons/icon.png",
+        "/akademik/assets/icons/icon.png",
 
     FAVICON:
-        "/assets/favicon.ico",
+        "/akademik/assets/icons/icon.png",
 
     /* ======================================================
        CELEBRATION
@@ -132,7 +132,7 @@ window.CONFIG = {
     ENABLE_AUDIO: true,
 
     AUDIO_URL:
-        "/assets/audio/naik-kelas.mp3",
+        "/akademik/assets/audio/naik-kelas.mp3",
 
     CONFETTI_PARTICLE: 180,
 
