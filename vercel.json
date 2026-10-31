@@ -2,7 +2,7 @@
   "version": 2,
   "buildCommand": "node src/tools/build.js",
   "outputDirectory": "dist",
-  "cleanUrls": true,
+  "cleanUrls": false,
   "trailingSlash": false,
   "headers": [
     {
