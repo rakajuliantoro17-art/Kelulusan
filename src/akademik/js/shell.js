@@ -173,7 +173,7 @@ window.Shell = (() => {
                 </button>
 
                 <a href="/index.html" class="app-navbar-brand">
-                    <img src="/assets/logo/logo.png" alt="Logo ${CONFIG.SCHOOL_NAME}">
+                    <img src="/assets/shared/logos/sman1-sooko.png" alt="Logo ${CONFIG.SCHOOL_NAME}">
                     <strong>${CONFIG.SCHOOL_NAME}</strong>
                 </a>
 
