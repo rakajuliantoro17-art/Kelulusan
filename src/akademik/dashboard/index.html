@@ -11,13 +11,83 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/akademik/css/variables.css">
-  <link rel="stylesheet" href="/akademik/css/shell.css">
+  <link rel="icon" href="/assets/shared/icons/app-icon.png">
+  <link rel="apple-touch-icon" href="/assets/shared/icons/app-icon.png">
+  <!-- Shared PINTUKU layer: typography, global components and visit analytics -->
   <link rel="stylesheet" href="/css/portal.css">
   <link rel="stylesheet" href="/css/portal-stats.css">
+  <!-- Legacy Akademik design system: theme, layout, liquid glass and shell -->
+  <link rel="stylesheet" href="/akademik/css/variables.css">
+  <link rel="stylesheet" href="/akademik/css/theme.css">
+  <link rel="stylesheet" href="/akademik/css/style.css">
+  <link rel="stylesheet" href="/akademik/css/responsive.css">
+  <link rel="stylesheet" href="/akademik/css/glass.css">
+  <link rel="stylesheet" href="/akademik/css/animation.css">
+  <link rel="stylesheet" href="/akademik/css/shell.css">
+  <style>
+    /* Dashboard bridge: retain Akademik's original liquid-glass identity
+       while following PINTUKU's spacing and responsive content rhythm. */
+    body { background: transparent; }
+    .bg-layer {
+      position: fixed; inset: 0; z-index: -2; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 12% 8%, rgba(59,130,196,.38), transparent 42%),
+        radial-gradient(ellipse at 88% 18%, rgba(244,180,0,.14), transparent 36%),
+        linear-gradient(145deg, #07182b 0%, #0b2946 48%, #101827 100%);
+    }
+    .portal-wrap {
+      width: min(100% - 36px, 1240px);
+      margin: 0 auto;
+      padding: clamp(24px, 4vw, 48px) 0 64px !important;
+      color: var(--text);
+    }
+    .mod-hero {
+      position: relative; overflow: hidden;
+      padding: clamp(24px, 4vw, 42px);
+      margin: 0 0 30px;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(255,255,255,.20), rgba(255,255,255,.07));
+      box-shadow: 0 18px 50px rgba(0,0,0,.20), inset 0 1px rgba(255,255,255,.22);
+      -webkit-backdrop-filter: blur(28px) saturate(160%);
+      backdrop-filter: blur(28px) saturate(160%);
+      color: #fff;
+    }
+    .mod-hero .eyebrow { color: #ffdc78; font-size: .76rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .mod-hero h1 { margin: 8px 0 10px; color: #fff; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.12; letter-spacing: -.035em; }
+    .mod-hero p { max-width: 760px; margin: 0; color: rgba(255,255,255,.82); line-height: 1.7; }
+    .mod-crumb { margin-top: 22px; }
+    .mod-crumb .button { border: 1px solid rgba(255,255,255,.32); background: rgba(255,255,255,.12); color: #fff; border-radius: 999px; }
+    .mod-section-title { margin: 28px 0 14px; color: #fff; font-size: 1.12rem; font-weight: 750; }
+    .vs-wrap, .mod-panel {
+      border: 1px solid rgba(255,255,255,.20);
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(255,255,255,.19), rgba(255,255,255,.075));
+      box-shadow: 0 12px 34px rgba(0,0,0,.16), inset 0 1px rgba(255,255,255,.18);
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
+      backdrop-filter: blur(24px) saturate(150%);
+      color: #fff;
+    }
+    .vs-wrap { padding: 18px; }
+    .mod-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; margin-top: 18px; }
+    .mod-panel { padding: clamp(18px, 2.5vw, 26px); min-width: 0; }
+    .mod-panel h3 { margin: 0 0 14px; color: #fff; font-size: 1rem; }
+    .mod-panel .lead { color: rgba(255,255,255,.76); line-height: 1.65; }
+    .mod-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .mod-list li { display: flex; align-items: flex-start; gap: 10px; color: rgba(255,255,255,.88); line-height: 1.5; }
+    .mod-list .chip { flex: 0 0 auto; }
+    .mod-panel code { color: #ffe29a; overflow-wrap: anywhere; }
+    @media (max-width: 760px) {
+      .portal-wrap { width: min(100% - 24px, 1240px); padding-top: 20px !important; }
+      .mod-grid { grid-template-columns: 1fr; gap: 14px; }
+      .mod-hero { border-radius: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .bg-layer { animation: none !important; } }
+  </style>
   <script src="/js/visit-stats.js" defer></script>
 </head>
 <body data-page="home">
+  <div class="bg-layer" aria-hidden="true"></div>
   <div id="shellNav"></div>
   <main class="portal-wrap vs-scope" data-module="akademik" style="min-height:calc(100vh - 180px);padding-bottom:56px">
     <header class="mod-hero">
