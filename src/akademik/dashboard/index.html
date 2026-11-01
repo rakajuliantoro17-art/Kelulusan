@@ -86,6 +86,7 @@
     .service-copy small { color:rgba(255,255,255,.70); font-size:.8rem; line-height:1.45; }
     .service-arrow { color:#ffdc78; font-size:1.05rem; opacity:.8; }
     .service-card-external { border-style:dashed; }
+    .service-card-primary { border-color:rgba(255,220,120,.48); background:linear-gradient(145deg,rgba(244,180,0,.20),rgba(255,255,255,.075)); }
     @media (max-width:760px) { .service-grid { grid-template-columns:1fr; gap:12px; } .service-card { min-height:88px; padding:16px; border-radius:17px; } .service-icon { flex-basis:44px; width:44px; height:44px; } }
     @media (prefers-reduced-motion:reduce) { .service-card { transition:none; } .service-card:hover { transform:none; } }
 
@@ -114,6 +115,7 @@
 
     <h2 class="mod-section-title">Akses layanan akademik</h2>
     <div class="service-grid" aria-label="Daftar layanan akademik">
+      <a class="service-card service-card-primary" href="/akademik/"><span class="service-icon">🏫</span><span class="service-copy"><strong>Kenaikan Kelas</strong><small>Cek hasil kenaikan dan pembagian kelas baru</small></span><span class="service-arrow">↗</span></a>
       <a class="service-card" href="/akademik/pages/pengumuman.html"><span class="service-icon">📢</span><span class="service-copy"><strong>Pengumuman</strong><small>Informasi dan pemberitahuan sekolah</small></span><span class="service-arrow">↗</span></a>
       <a class="service-card" href="/akademik/pages/nilai.html"><span class="service-icon">📝</span><span class="service-copy"><strong>Nilai Akademik</strong><small>Akses informasi nilai peserta didik</small></span><span class="service-arrow">↗</span></a>
       <a class="service-card" href="/akademik/pages/kelulusan.html"><span class="service-icon">🎓</span><span class="service-copy"><strong>Kelulusan</strong><small>Layanan informasi hasil kelulusan</small></span><span class="service-arrow">↗</span></a>
