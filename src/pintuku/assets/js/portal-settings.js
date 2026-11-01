@@ -7,7 +7,7 @@
   // Daftar modul untuk pintasan di panel. Modul baru (Humas, TU, Operasional): tambah satu baris di sini
   // dan satu kartu <article class="module-card"> di dashboard/index.html.
   const MODULES = [
-    { id: "akademik", label: "Akademik", href: "/akademik/" },
+    { id: "akademik", label: "Akademik", href: "/akademik/dashboard" },
     { id: "sarpras", label: "Sarana & Prasarana", href: "/sarpras/" },
     { id: "kesiswaan", label: "Kesiswaan", href: "/kesiswaan/" }
   ];

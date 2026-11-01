@@ -57,9 +57,9 @@
   };
 
   const MESSAGES = {
-    off: "Statistik kunjungan belum diaktifkan di server.",
-    na: "Penghitung kunjungan belum tersedia untuk modul ini.",
-    error: "Statistik kunjungan belum dapat dimuat saat ini."
+    off: "Data kunjungan akan tampil di sini setelah penghitung diaktifkan.",
+    na: "Belum ada data kunjungan untuk modul ini.",
+    error: "Data kunjungan sedang tidak dapat dimuat. Coba lagi nanti."
   };
   const message = (state) => el("p", { class: "vs-empty", role: "status", text: MESSAGES[state] });
 
@@ -78,19 +78,22 @@
     ]);
   };
 
+  const kpi = (valueNode, label) => el("div", { class: "vs-kpi" }, [valueNode, el("span", { class: "vs-kpi-l", text: label })]);
+
+  // Ringkasan ringan di kartu: dua angka kunci. Tanpa data nyata, tampil "—" dengan keterangan ramah.
   const renderCompact = (root, res) => {
     root.textContent = "";
     root.classList.add("vs", "vs-mini");
-    if (res.state !== "ok") { root.appendChild(message(res.state)); return; }
-    const { total, rows } = res.data;
-    const totalEl = el("strong", { class: "vs-total-n", text: "0" });
-    root.appendChild(el("div", { class: "vs-total" }, [totalEl, el("span", { text: "total kunjungan" })]));
-    countUp(totalEl, total);
-    const top = rows.slice().sort((a, b) => b.value - a.value).slice(0, 3);
-    const max = top.length ? top[0].value : 0;
-    const list = el("ul", { class: "vs-list" });
-    top.forEach((r) => list.appendChild(bar(r, max, total)));
-    root.appendChild(list);
+    const ok = res.state === "ok";
+    const totalEl = el("strong", { class: "vs-kpi-n", text: ok ? "0" : "—" });
+    let topLabel = "—";
+    if (ok) {
+      const top = res.data.rows.slice().sort((a, b) => b.value - a.value)[0];
+      if (top && top.value > 0) topLabel = top.label;
+    }
+    const topEl = el("strong", { class: "vs-kpi-n vs-kpi-text", text: topLabel, title: topLabel !== "—" ? topLabel : null });
+    root.appendChild(el("div", { class: "vs-kpis" }, [kpi(totalEl, "Total kunjungan"), kpi(topEl, "Paling sering dibuka")]));
+    if (ok) countUp(totalEl, res.data.total); else root.appendChild(message(res.state));
   };
 
   const renderFull = (root, res, id) => {
@@ -141,6 +144,20 @@
 
   const cache = {};
   const get = (id) => cache[id] || (cache[id] = load(id));
+
+  // Total gabungan untuk ringkasan di beranda: hanya dari modul yang datanya benar-benar ada.
+  const sumRoot = document.querySelector("[data-visit-sum]");
+  if (sumRoot) {
+    Promise.all(Object.keys(ENDPOINTS).map(get)).then((all) => {
+      const ok = all.filter((r) => r.state === "ok");
+      if (!ok.length) return;
+      const n = el("strong", { class: "vs-sum-n", text: "0" });
+      sumRoot.textContent = "";
+      sumRoot.append(n, el("span", { text: " kunjungan tercatat" }));
+      sumRoot.hidden = false;
+      countUp(n, ok.reduce((t, r) => t + r.data.total, 0));
+    });
+  }
   document.querySelectorAll("[data-visit-stats]").forEach((root) => {
     const id = root.dataset.visitStats;
     get(id).then((res) => (root.hasAttribute("data-full") ? renderFull(root, res, id) : renderCompact(root, res)));

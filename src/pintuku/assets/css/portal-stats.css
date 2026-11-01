@@ -22,7 +22,7 @@ html[data-theme="light"] .vs { --vs-line:rgba(74,101,137,.2); --vs-text:#17263b;
 .vs-fill { display:block; height:100%; border-radius:99px; background:var(--vs-accent); transition:width .7s cubic-bezier(.2,.8,.2,1); }
 
 .module-card .vs-mini { margin-top:18px; padding-top:16px; border-top:1px solid var(--vs-line); }
-.module-card .vs-mini::before { content:"Statistik kunjungan"; display:block; margin-bottom:8px; color:var(--vs-muted); font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+.module-card .vs-mini::before { content:"Ringkasan kunjungan"; display:block; margin-bottom:8px; color:var(--vs-muted); font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
 
 /* Dashboard modul */
 .vs-full { padding:22px; border:1px solid var(--vs-line); border-radius:22px; background:rgba(255,255,255,.035); backdrop-filter:blur(14px); }
@@ -71,3 +71,14 @@ html[data-theme="light"] .mod-hero p { color:#53667f; }
 @media (max-width:900px) { .mod-grid { grid-template-columns:1fr; } }
 @media (max-width:420px) { .vs-full { padding:16px; } }
 @media (prefers-reduced-motion:reduce) { .vs-fill { transition:none; } }
+
+/* KPI ringan pada kartu modul */
+.vs-kpis { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.vs-kpi { display:flex; flex-direction:column; justify-content:space-between; gap:4px; min-width:0; padding:11px 12px; border:1px solid var(--vs-line); border-radius:13px; background:rgba(255,255,255,.035); }
+html[data-theme="light"] .vs-kpi { background:rgba(63,111,161,.05); }
+.vs-kpi-n { font-size:22px; font-weight:800; letter-spacing:-.03em; line-height:1.15; font-variant-numeric:tabular-nums; color:var(--vs-text); }
+.vs-kpi-text { font-size:14px; letter-spacing:-.01em; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; min-height:2.3em; }
+.vs-kpi-l { color:var(--vs-muted); font-size:11px; font-weight:700; }
+.vs-mini .vs-empty { margin-top:10px; font-size:12px; }
+.vs-sum { margin:12px 0 0; color:var(--portal-muted); font-size:12px; }
+.vs-sum-n { color:var(--portal-text); font-size:15px; font-variant-numeric:tabular-nums; }
