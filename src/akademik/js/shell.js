@@ -132,6 +132,7 @@ window.Shell = (() => {
 
     const NAV_LINKS = [
         { key: "home", label: "Dashboard Akademik", href: "/akademik/dashboard", icon: "🏠" },
+        { key: "kenaikan-kelas", label: "Kenaikan Kelas", href: "/akademik/", icon: "🏫" },
         { key: "pengumuman", label: "Pengumuman", href: "/akademik/pages/pengumuman.html", icon: "📢" },
         { key: "nilai", label: "Nilai", href: "/akademik/pages/nilai.html", icon: "📝" },
         { key: "kelulusan", label: "Kelulusan", href: "/akademik/pages/kelulusan.html", icon: "🎓" },
