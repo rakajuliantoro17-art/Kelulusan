@@ -7,17 +7,18 @@
   <script>try{var t=localStorage.getItem("pintuku-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>
   <meta name="description" content="Dashboard modul Akademik — PINTUKU, SMAN 1 Sooko Mojokerto.">
   <title>Dashboard Akademik · PINTUKU</title>
-  <link rel="manifest" href="/manifest.json">
-  <link rel="stylesheet" href="/css/portal-shell.css">
+  <link rel="manifest" href="/akademik/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/akademik/css/variables.css">
+  <link rel="stylesheet" href="/akademik/css/shell.css">
   <link rel="stylesheet" href="/css/portal.css">
   <link rel="stylesheet" href="/css/portal-stats.css">
-  <link rel="stylesheet" href="/css/portal-settings.css">
-  <script src="/js/portal-shell.js" defer></script>
   <script src="/js/visit-stats.js" defer></script>
-  <script src="/js/portal-settings.js" defer></script>
 </head>
-<body data-portal-module="akademik">
-  <div data-portal-header></div>
+<body data-page="home">
+  <div id="shellNav"></div>
   <main class="portal-wrap vs-scope" data-module="akademik" style="min-height:calc(100vh - 180px);padding-bottom:56px">
     <header class="mod-hero">
       <div class="eyebrow">Module 01 · Akademik</div>
@@ -56,6 +57,9 @@
       <section class="mod-panel" style="grid-column:1/-1" aria-labelledby="api-t"><h3 id="api-t">Kontrak API terdaftar</h3><p class="lead">Operasi yang dipetakan dispatcher. Autentikasi dan otorisasi tetap diperiksa di setiap handler.</p><ul class="mod-list"><li><span class="chip">GET/POST</span><code>/api/akademik?op=kenaikan</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=kelulusan</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=nilai</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=kelas-list</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=kelas-summary</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=stats</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=admin-auth</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=announcements</code></li></ul></section>
     </div>
   </main>
-  <div data-portal-footer></div>
+  <div id="shellFooter"></div>
+  <script src="/akademik/js/config.js"></script>
+  <script src="/akademik/js/utils.js"></script>
+  <script src="/akademik/js/shell.js"></script>
 </body>
 </html>
