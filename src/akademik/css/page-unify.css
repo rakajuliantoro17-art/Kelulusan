@@ -1,0 +1,118 @@
+/* ==========================================================
+   page-unify.css -- menyeragamkan halaman pencarian NIS
+   (Kenaikan Kelas & Kelulusan) dengan Dashboard Akademik:
+   kartu hero kaca rata-kiri, lebar konten sama (1240px),
+   form satu baris. Dimuat PALING AKHIR agar menimpa style lama.
+   Hanya menyasar body[data-page] di bawah; halaman lain aman.
+   ========================================================== */
+
+body[data-page="kenaikan-kelas"],
+body[data-page="kelulusan"] { --u-wrap: min(100% - 36px, 1240px); }
+
+/* Konten tidak lagi "ditarik" ke bawah sidebar -> pusat konten = pusat area kanan sidebar. */
+body[data-page="kenaikan-kelas"] .app-content > .header,
+body[data-page="kenaikan-kelas"] .app-content > .app-fullbleed,
+body[data-page="kelulusan"] .app-content > .header,
+body[data-page="kelulusan"] .app-content > .app-fullbleed {
+  margin-left: 0 !important;
+  width: 100% !important;
+}
+
+/* Hero: kartu kaca rata-kiri seperti .mod-hero di dashboard */
+body[data-page="kenaikan-kelas"] .header,
+body[data-page="kelulusan"] .header { padding: clamp(24px, 4vw, 48px) 0 0; text-align: left; }
+
+body[data-page="kenaikan-kelas"] .header .container,
+body[data-page="kelulusan"] .header .container {
+  width: var(--u-wrap);
+  margin: 0 auto;
+  align-items: flex-start;
+  padding: clamp(24px, 4vw, 42px);
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(255,255,255,.20), rgba(255,255,255,.07));
+  box-shadow: 0 18px 50px rgba(0,0,0,.20), inset 0 1px rgba(255,255,255,.22);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  backdrop-filter: blur(28px) saturate(160%);
+  color: #fff;
+}
+body[data-page="kenaikan-kelas"] .header .logo,
+body[data-page="kelulusan"] .header .logo { width: 72px; margin: 0 0 14px; }
+body[data-page="kenaikan-kelas"] .header h1,
+body[data-page="kelulusan"] .header h1 {
+  margin: 0 0 10px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.12; letter-spacing: -.035em; text-align: left; color: #fff;
+}
+body[data-page="kenaikan-kelas"] .header h1 span,
+body[data-page="kelulusan"] .header h1 span { display: block; margin-top: 4px; color: #ffdc78; }
+body[data-page="kenaikan-kelas"] .header p,
+body[data-page="kelulusan"] .header p { margin: 0; max-width: 760px; color: rgba(255,255,255,.82); line-height: 1.7; text-align: left; }
+
+/* Kartu pencarian: lebar sama dengan konten, rata-kiri, form satu baris */
+body[data-page="kenaikan-kelas"] .search-section,
+body[data-page="kelulusan"] .search-section { padding: 22px 0 56px; align-items: stretch; justify-content: flex-start; }
+body[data-page="kenaikan-kelas"] .search-section > .container,
+body[data-page="kelulusan"] .search-section > .container { width: var(--u-wrap); margin: 0 auto; flex: none; }
+body[data-page="kenaikan-kelas"] .search-card,
+body[data-page="kelulusan"] .search-card {
+  width: 100%; max-width: none; margin: 0; padding: clamp(18px, 2.5vw, 26px); border-radius: 20px;
+}
+body[data-page="kenaikan-kelas"] .search-card h2,
+body[data-page="kelulusan"] .search-card h2 { text-align: left; margin: 0 0 6px; font-size: 1.12rem; }
+body[data-page="kenaikan-kelas"] .search-card > p,
+body[data-page="kelulusan"] .search-card > p { text-align: left; margin: 0 0 18px; }
+
+body[data-page="kenaikan-kelas"] #searchForm,
+body[data-page="kelulusan"] #searchForm { flex-direction: row; flex-wrap: wrap; align-items: stretch; gap: 12px; }
+body[data-page="kenaikan-kelas"] #searchForm input,
+body[data-page="kelulusan"] #searchForm input { flex: 1 1 260px; min-width: 0; height: 52px; min-height: 52px; padding: 0 18px; box-sizing: border-box; }
+body[data-page="kenaikan-kelas"] #searchForm button,
+body[data-page="kelulusan"] #searchForm button { flex: 0 0 auto; height: 52px; min-height: 52px; padding: 0 28px; white-space: nowrap; }
+
+@media (max-width: 760px) {
+  body[data-page="kenaikan-kelas"], body[data-page="kelulusan"] { --u-wrap: min(100% - 24px, 1240px); }
+  body[data-page="kenaikan-kelas"] .header .container, body[data-page="kelulusan"] .header .container { border-radius: 20px; }
+  body[data-page="kenaikan-kelas"] #searchForm button, body[data-page="kelulusan"] #searchForm button { flex: 1 1 100%; }
+}
+
+/* ---- Kelulusan: markup berbeda (.container membungkus header + pencarian) ---- */
+body[data-page="kelulusan"] .app-content > .container { width: var(--u-wrap); margin: 0 auto; }
+body[data-page="kelulusan"] .container > .header {
+  margin: clamp(24px, 4vw, 48px) 0 0;
+  padding: clamp(24px, 4vw, 42px);
+  display: flex; flex-direction: column; align-items: flex-start;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(255,255,255,.20), rgba(255,255,255,.07));
+  box-shadow: 0 18px 50px rgba(0,0,0,.20), inset 0 1px rgba(255,255,255,.22);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  backdrop-filter: blur(28px) saturate(160%);
+  color: #fff;
+}
+body[data-page="kelulusan"] .container > .header .container { all: unset; }
+body[data-page="kelulusan"] .search-section > .search-card { max-width: none; }
+body[data-page="kelulusan"] .search-card .badge-year { align-self: flex-start; margin: 0 0 10px; }
+@media (max-width: 760px) { body[data-page="kelulusan"] .container > .header { border-radius: 20px; } }
+
+/* Tombol: lebar mengikuti teks (tidak terpotong), mis. "Lihat Hasil Kelulusan" */
+body[data-page="kenaikan-kelas"] #searchForm button,
+body[data-page="kelulusan"] #searchForm button { width: auto; min-width: max-content; max-width: none; flex-shrink: 0; }
+@media (max-width: 760px) {
+  body[data-page="kenaikan-kelas"] #searchForm button, body[data-page="kelulusan"] #searchForm button { width: 100%; min-width: 0; }
+}
+
+/* Mode terang: teks hero gelap agar terbaca di kaca terang */
+html[data-theme="light"] body[data-page="kenaikan-kelas"] .header .container,
+html[data-theme="light"] body[data-page="kelulusan"] .container > .header {
+  background: linear-gradient(135deg, rgba(255,255,255,.78), rgba(255,255,255,.52));
+  border-color: rgba(15,76,129,.18);
+  box-shadow: 0 14px 38px rgba(15,76,129,.14), inset 0 1px rgba(255,255,255,.9);
+  color: #0b2946;
+}
+html[data-theme="light"] body[data-page="kenaikan-kelas"] .header h1,
+html[data-theme="light"] body[data-page="kelulusan"] .header h1 { color: #0b2946; }
+html[data-theme="light"] body[data-page="kenaikan-kelas"] .header h1 span,
+html[data-theme="light"] body[data-page="kelulusan"] .header h1 span { color: #b45309; }
+html[data-theme="light"] body[data-page="kenaikan-kelas"] .header p,
+html[data-theme="light"] body[data-page="kelulusan"] .header p { color: #1f3b57; }
+html[data-theme="light"] body[data-page="kenaikan-kelas"] .header p strong,
+html[data-theme="light"] body[data-page="kelulusan"] .header p strong { color: #0b2946; }
