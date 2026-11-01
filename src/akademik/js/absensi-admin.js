@@ -36,7 +36,7 @@ CHANGELOG (v1.1.0):
 (function () {
 
     const QR_FALLBACK_SRC = "/js/vendor/qrcode.min.js";
-    const LOGO_SRC = "/assets/logo/logo.png";
+    const LOGO_SRC = "//assets/shared/logos/sman1-sooko.png";
     const BATCH_SIZE = 40;
     const CARDS_PER_PAGE = 9;           // 3 x 3 di A4
     const PRINT_QR_SIZE = 512;          // px, tajam untuk cetak

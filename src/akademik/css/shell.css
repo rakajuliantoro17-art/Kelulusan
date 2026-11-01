@@ -753,3 +753,19 @@ body.sidebar-open .app-sidebar{
     }
 
 }
+
+/* ==========================================================
+   LATAR CADANGAN: halaman tanpa .bg-layer (mis. Rapor, Profil
+   Belajar) memakai foto drh.jpg yang sama dengan sidebar,
+   supaya tidak jatuh ke hitam polos.
+   ========================================================== */
+body:not(:has(.bg-layer)):not(:has(#bgLayer))::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background: url("/assets/shared/images/drh.jpg") center center / cover no-repeat;
+    filter: blur(5px) brightness(.62) saturate(1.2);
+    transform: scale(1.04);
+}

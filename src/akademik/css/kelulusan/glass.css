@@ -77,7 +77,7 @@ body{
 
     z-index:-2;
 
-    background: url("../../assets/images/scc.jpg") center center / cover no-repeat;
+    background: url("/assets/shared/images/scc.jpg") center center / cover no-repeat;
 
     filter:blur(5px) brightness(.68) saturate(1.25);
 
@@ -102,7 +102,7 @@ body{
 body.celebration .bg-layer{
 
     background:
-    url("../../assets/images/syari.jpg")
+    url("/assets/shared/images/syari.jpg")
     center center / cover no-repeat;
 
     filter:
@@ -582,7 +582,7 @@ body.celebration .bg-layer{
 
     padding:20px;
 
-    background:url('../../assets/images/syari.jpg') center/cover no-repeat;
+    background:url('/assets/shared/images/syari.jpg') center/cover no-repeat;
 
     opacity:0;
 

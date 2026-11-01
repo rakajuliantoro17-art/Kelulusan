@@ -15,7 +15,7 @@ halaman lain. Tema mengikuti data-theme pada <html>.
    halaman ini sudah pakai rgba tembus pandang dari awal, jadi
    tidak perlu diubah supaya fotonya kelihatan. */
 body[data-page="rasionalisasi"] .bg-layer {
-    background-image: url("../assets/images/Skr.jpg");
+    background-image: url("/assets/akademik/images/Skr.jpg");
 }
 
 .rs {

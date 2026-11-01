@@ -109,7 +109,7 @@ prestasi, tabel per tahun, dan daftar siswa berprestasi.
 
         <div class="prestasi-card prestasi-school-card" id="sekolah">
 
-            <img src="../assets/logo/logo.png" alt="Logo sekolah">
+            <img src="/assets/shared/logos/sman1-sooko.png" alt="Logo sekolah">
 
             <div>
                 <h2>SMAN 1 Sooko Mojokerto</h2>
