@@ -77,6 +77,18 @@
     .mod-list li { display: flex; align-items: flex-start; gap: 10px; color: rgba(255,255,255,.88); line-height: 1.5; }
     .mod-list .chip { flex: 0 0 auto; }
     .mod-panel code { color: #ffe29a; overflow-wrap: anywhere; }
+    .service-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin:0 0 28px; }
+    .service-card { display:flex; align-items:center; gap:15px; min-width:0; min-height:104px; padding:20px; color:#fff; text-decoration:none; border:1px solid rgba(255,255,255,.19); border-radius:20px; background:linear-gradient(145deg,rgba(255,255,255,.17),rgba(255,255,255,.065)); box-shadow:0 10px 28px rgba(0,0,0,.14),inset 0 1px rgba(255,255,255,.16); -webkit-backdrop-filter:blur(20px) saturate(145%); backdrop-filter:blur(20px) saturate(145%); transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease; }
+    .service-card:hover { transform:translateY(-3px); border-color:rgba(255,220,120,.62); background:linear-gradient(145deg,rgba(255,255,255,.23),rgba(255,255,255,.10)); box-shadow:0 16px 34px rgba(0,0,0,.20),inset 0 1px rgba(255,255,255,.2); }
+    .service-icon { display:grid; place-items:center; flex:0 0 48px; width:48px; height:48px; border:1px solid rgba(255,255,255,.18); border-radius:15px; background:rgba(255,255,255,.12); font-size:1.45rem; }
+    .service-copy { display:grid; gap:5px; flex:1; min-width:0; }
+    .service-copy strong { color:#fff; font-size:.98rem; font-weight:750; }
+    .service-copy small { color:rgba(255,255,255,.70); font-size:.8rem; line-height:1.45; }
+    .service-arrow { color:#ffdc78; font-size:1.05rem; opacity:.8; }
+    .service-card-external { border-style:dashed; }
+    @media (max-width:760px) { .service-grid { grid-template-columns:1fr; gap:12px; } .service-card { min-height:88px; padding:16px; border-radius:17px; } .service-icon { flex-basis:44px; width:44px; height:44px; } }
+    @media (prefers-reduced-motion:reduce) { .service-card { transition:none; } .service-card:hover { transform:none; } }
+
     @media (max-width: 760px) {
       .portal-wrap { width: min(100% - 24px, 1240px); padding-top: 20px !important; }
       .mod-grid { grid-template-columns: 1fr; gap: 14px; }
@@ -93,38 +105,25 @@
     <header class="mod-hero">
       <div class="eyebrow">Module 01 · Akademik</div>
       <h1>Dashboard Akademik</h1>
-      <p>Pusat informasi akademik: pengumuman, nilai, kenaikan kelas, kelulusan, jadwal, rapor, prestasi, dan simulasi TKA. Dashboard ini merangkum aktivitas layanan dan kesiapan integrasinya.</p>
-      <div class="mod-crumb"><a class="button button-quiet" href="/">← Kembali ke beranda</a></div>
+      <p>Satu pintu untuk mengakses layanan akademik SMAN 1 Sooko. Pilih layanan yang dibutuhkan melalui menu cepat berikut.</p>
+      <div class="mod-crumb"><a class="button button-quiet" href="/">← Kembali ke PINTUKU</a></div>
     </header>
 
     <h2 class="mod-section-title">Statistik kunjungan</h2>
     <section class="vs-wrap" aria-label="Statistik kunjungan akademik" data-visit-stats="akademik" data-full><p class="vs-empty" role="status">Memuat statistik…</p></section>
 
-    <div class="mod-grid">
-      <section class="mod-panel" aria-labelledby="svc-t">
-        <h3 id="svc-t">Cakupan layanan</h3>
-        <ul class="mod-list">
-          <li><span class="chip wip">Belum diuji</span><span>Pengumuman</span></li>
-          <li><span class="chip wip">Belum diuji</span><span>Nilai</span></li>
-          <li><span class="chip wip">Belum diuji</span><span>Kenaikan kelas</span></li>
-          <li><span class="chip wip">Belum diuji</span><span>Kelulusan</span></li>
-          <li><span class="chip wip">Belum diuji</span><span>Jadwal &amp; rapor</span></li>
-          <li><span class="chip wip">Belum diuji</span><span>Prestasi &amp; simulasi TKA</span></li>
-        </ul>
-      </section>
-      <section class="mod-panel" aria-labelledby="int-t">
-        <h3 id="int-t">Kesiapan integrasi</h3>
-        <p class="lead">Status ini berasal dari dokumentasi repositori. Sumber: <strong>smansasoo-academic-portal</strong>.</p>
-        <ul class="mod-list">
-          <li><span class="chip ok">Selesai</span><span>HTML, CSS, JS, data JSON, dan handler API inti sudah disalin</span></li>
-          <li><span class="chip ok">Selesai</span><span>URL internal disesuaikan ke namespace /akademik/</span></li>
-          <li><span class="chip wip">Belum</span><span>Aset gambar/audio masih lewat rewrite ke repo sumber</span></li>
-          <li><span class="chip wip">Belum</span><span>Build dan smoke test Vercel belum dikonfirmasi</span></li>
-          <li><span class="chip wip">Belum</span><span>Environment variables Google Sheets &amp; Upstash belum diverifikasi</span></li>
-        </ul>
-      </section>
-      <section class="mod-panel" style="grid-column:1/-1" aria-labelledby="note-t"><h3 id="note-t">Catatan penting</h3><p class="lead" style="margin:0">Service worker modul dibatasi ke /akademik/sw.js dan tidak boleh didaftarkan di scope /.</p></section>
-      <section class="mod-panel" style="grid-column:1/-1" aria-labelledby="api-t"><h3 id="api-t">Kontrak API terdaftar</h3><p class="lead">Operasi yang dipetakan dispatcher. Autentikasi dan otorisasi tetap diperiksa di setiap handler.</p><ul class="mod-list"><li><span class="chip">GET/POST</span><code>/api/akademik?op=kenaikan</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=kelulusan</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=nilai</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=kelas-list</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=kelas-summary</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=stats</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=admin-auth</code></li><li><span class="chip">GET/POST</span><code>/api/akademik?op=announcements</code></li></ul></section>
+    <h2 class="mod-section-title">Akses layanan akademik</h2>
+    <div class="service-grid" aria-label="Daftar layanan akademik">
+      <a class="service-card" href="/akademik/pages/pengumuman.html"><span class="service-icon">📢</span><span class="service-copy"><strong>Pengumuman</strong><small>Informasi dan pemberitahuan sekolah</small></span><span class="service-arrow">↗</span></a>
+      <a class="service-card" href="/akademik/pages/nilai.html"><span class="service-icon">📝</span><span class="service-copy"><strong>Nilai Akademik</strong><small>Akses informasi nilai peserta didik</small></span><span class="service-arrow">↗</span></a>
+      <a class="service-card" href="/akademik/pages/kelulusan.html"><span class="service-icon">🎓</span><span class="service-copy"><strong>Kelulusan</strong><small>Layanan informasi hasil kelulusan</small></span><span class="service-arrow">↗</span></a>
+      <a class="service-card" href="/akademik/pages/prestasi.html"><span class="service-icon">🏆</span><span class="service-copy"><strong>Prestasi</strong><small>Data dan dokumentasi prestasi sekolah</small></span><span class="service-arrow">↗</span></a>
+      <a class="service-card" href="/akademik/pages/rapor.html"><span class="service-icon">📈</span><span class="service-copy"><strong>Rapor Pendidikan</strong><small>Informasi capaian dan mutu pendidikan</small></span><span class="service-arrow">↗</span></a>
+      <a class="service-card" href="/akademik/pages/simulasi-tka.html"><span class="service-icon">🧠</span><span class="service-copy"><strong>Simulasi TKA</strong><small>Latihan dan persiapan tes akademik</small></span><span class="service-arrow">↗</span></a>
+      <a class="service-card" href="/akademik/pages/jadwal.html"><span class="service-icon">🗓️</span><span class="service-copy"><strong>Jadwal Pelajaran</strong><small>Informasi jadwal kegiatan pembelajaran</small></span><span class="service-arrow">↗</span></a>
+      <a class="service-card" href="/akademik/pages/rasionalisasi.html"><span class="service-icon">🎯</span><span class="service-copy"><strong>Rasionalisasi SNBP</strong><small>Eksplorasi peluang dan pemetaan pilihan</small></span><span class="service-arrow">↗</span></a>
+      <a class="service-card" href="/akademik/pages/profil-belajar.html"><span class="service-icon">🧭</span><span class="service-copy"><strong>Profil Belajar</strong><small>Kenali kecenderungan dan potensi belajar</small></span><span class="service-arrow">↗</span></a>
+      <a class="service-card service-card-external" href="http://lms.sman1sooko.sch.id/elearning/" target="_blank" rel="noopener"><span class="service-icon">💻</span><span class="service-copy"><strong>E-Learning</strong><small>Masuk ke ruang pembelajaran digital</small></span><span class="service-arrow">↗</span></a>
     </div>
   </main>
   <div id="shellFooter"></div>
