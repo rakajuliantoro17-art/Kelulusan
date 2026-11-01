@@ -144,6 +144,30 @@
       "destination": "/src/kesiswaan/$1"
     },
     {
+      "source": "/humas",
+      "destination": "/src/pintuku/dashboard/humas.html"
+    },
+    {
+      "source": "/humas/",
+      "destination": "/src/pintuku/dashboard/humas.html"
+    },
+    {
+      "source": "/tata-usaha",
+      "destination": "/src/pintuku/dashboard/tata-usaha.html"
+    },
+    {
+      "source": "/tata-usaha/",
+      "destination": "/src/pintuku/dashboard/tata-usaha.html"
+    },
+    {
+      "source": "/tu",
+      "destination": "/src/pintuku/dashboard/tata-usaha.html"
+    },
+    {
+      "source": "/tu/",
+      "destination": "/src/pintuku/dashboard/tata-usaha.html"
+    },
+    {
       "source": "/",
       "destination": "/src/pintuku/dashboard/index.html"
     },
