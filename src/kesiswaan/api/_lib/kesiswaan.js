@@ -117,7 +117,7 @@ async function loadWAForm() {
 async function loadSiswa() {
     if (sheets.mode() === "demo") return require("../../data/sample-siswa.json").map((s) => ({ foto: "", ...s }));
     const [raw, waForm] = await Promise.all([sheets.readTab("Data_Siswa"), loadWAForm()]);
-    return bodyRows(raw)
+    const list = bodyRows(raw)
         .map(({ cells, row }) => {
             const nis = cleanNIS(cell(cells, 0)) || `TANPA-NIS-${row}`;
             return {
@@ -129,6 +129,11 @@ async function loadSiswa() {
             };
         })
         .filter((r) => r.kelas);
+    // NIS yang dipakai lebih dari satu siswa: ditandai agar tidak salah catat ke siswa lain.
+    const hitung = new Map();
+    list.forEach((r) => hitung.set(r.nis, (hitung.get(r.nis) || 0) + 1));
+    list.forEach((r) => { if (hitung.get(r.nis) > 1) r.nisGanda = true; });
+    return list;
 }
 
 async function loadPelanggaran() {

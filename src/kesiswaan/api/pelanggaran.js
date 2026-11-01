@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
                 success: true,
                 mode: sheets.mode(),
                 canWrite: sheets.canWrite(),
-                data: { violations, siswa: siswa.map(({ wa, ...rest }) => ({ ...rest, hasWa: !!wa })), tatib, tingkat: K.tatib.tingkat, hariIni: K.todayWIB() }
+                data: { nisGanda: siswa.filter((x) => x.nisGanda).map(({ nis, nama, kelas }) => ({ nis, nama, kelas })), violations, siswa: siswa.map(({ wa, ...rest }) => ({ ...rest, hasWa: !!wa })), tatib, tingkat: K.tatib.tingkat, hariIni: K.todayWIB() }
             });
         }
 
@@ -94,6 +94,9 @@ module.exports = async (req, res) => {
                 seen.add(nis);
                 const s = siswa.find((x) => x.nis === nis);
                 if (!s) { unknown.push(nis); continue; }
+                if (s.nisGanda) {
+                    return res.status(409).json({ success: false, code: "NIS_GANDA", message: `NIS ${nis} dipakai lebih dari satu siswa di Data_Siswa. Perbaiki NIS di Google Sheet dulu agar pelanggaran tidak tercatat ke siswa yang salah. Tidak ada data yang disimpan.` });
+                }
                 entries.push({ s, sanksi: clip(it.sanksi, 200), clientId: clip(it.clientId, 64).replace(/[^A-Za-z0-9_-]/g, "") });
             }
 
