@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
                     success: false,
                     code: "READ_ONLY",
                     message: sheets.mode() === "demo"
-                        ? "Mode demo: GOOGLE_SHEET_ID belum diatur, data tidak dapat disimpan."
+                        ? "Mode demo: GOOGLE_SHEET_ID_KESISWAAN belum diatur, data tidak dapat disimpan."
                         : "Service account belum diatur, portal hanya bisa membaca. Isi baris langsung di Google Sheet atau atur GOOGLE_SERVICE_ACCOUNT_*."
                 });
             }

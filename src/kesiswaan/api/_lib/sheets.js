@@ -22,7 +22,9 @@ Tanpa dependency npm: JWT service account dibuat dengan "crypto".
 
 const crypto = require("crypto");
 
-const SHEET_ID = () => (process.env.GOOGLE_SHEET_ID || "").trim();
+// GOOGLE_SHEET_ID_KESISWAAN diprioritaskan agar tidak bentrok dengan
+// GOOGLE_SHEET_ID milik modul Nilai (Akademik); fallback ke nama lama.
+const SHEET_ID = () => (process.env.GOOGLE_SHEET_ID_KESISWAAN || process.env.GOOGLE_SHEET_ID || "").trim();
 
 function hasServiceAccount() {
     return !!(process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL && process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
@@ -136,7 +138,7 @@ function diagnostics() {
 /** Baca satu tab -> array of arrays (baris pertama = header). */
 async function readTab(tab) {
     const id = SHEET_ID();
-    if (!id) throw new Error("GOOGLE_SHEET_ID belum diatur.");
+    if (!id) throw new Error("GOOGLE_SHEET_ID_KESISWAAN belum diatur.");
 
     if (hasServiceAccount()) {
         const token = await accessToken();
