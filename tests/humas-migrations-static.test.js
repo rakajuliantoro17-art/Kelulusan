@@ -58,6 +58,6 @@ test("audit actor guard validates active staff role", () => {
 });
 
 test("no migration grants HUMAS table privileges to browser roles", () => {
-  const all = files.map(migration).join("\\n");
-  assert.doesNotMatch(all, /grant[\\s\\S]{0,160}\\bto\\s+(anon|authenticated)\\b/i);
+  const all = files.map(migration).join("\n");
+  assert.doesNotMatch(all, /grant[\s\S]{0,160}\bto\s+(anon|authenticated)\b/i);
 });
