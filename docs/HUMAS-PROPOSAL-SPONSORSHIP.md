@@ -59,3 +59,6 @@ Penulisan dilakukan melalui RPC transaksional. Timeline audit append-only. RLS a
 CI: [HUMAS PostgreSQL Integration](https://github.com/rakajuliantoro17-art/Kelulusan/actions/runs/41388297159) · [Project Check](https://github.com/rakajuliantoro17-art/Kelulusan/actions/runs/41388335846).
 
 Status: **source dan integrasi PostgreSQL CI lulus; aktivasi Production belum dilakukan.**
+
+
+Modul HUMAS berikutnya: [Tracer Study Alumni](HUMAS-ALUMNI-TRACER-STUDY.md) untuk direktori lulusan, pemutakhiran tracer, persetujuan komunikasi, dan riwayat tindak lanjut.

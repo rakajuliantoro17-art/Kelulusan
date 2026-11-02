@@ -46,6 +46,9 @@ jobs:
           test -f src/pintuku/dashboard/humas-proposal.html
           test -f src/pintuku/assets/css/humas-proposal.css
           test -f src/pintuku/assets/js/humas-proposal.js
+          test -f src/pintuku/dashboard/humas-alumni.html
+          test -f src/pintuku/assets/css/humas-alumni.css
+          test -f src/pintuku/assets/js/humas-alumni.js
           test -d public/assets
           test -d src/akademik
           test -d src/kesiswaan
@@ -84,6 +87,7 @@ jobs:
           find src/server/api src/akademik/api src/akademik/js src/kesiswaan/api src/Sarpras -type f -name '*.js' -print0 | xargs -0 -n1 node --check
           node --check src/pintuku/assets/js/humas-kemitraan.js
           node --check src/pintuku/assets/js/humas-proposal.js
+          node --check src/pintuku/assets/js/humas-alumni.js
           echo "JavaScript syntax OK"
 
       - name: Verify Academic API Source Contract
@@ -130,6 +134,9 @@ jobs:
           test -f dist/src/pintuku/dashboard/humas-proposal.html
           test -f dist/src/pintuku/assets/css/humas-proposal.css
           test -f dist/src/pintuku/assets/js/humas-proposal.js
+          test -f dist/src/pintuku/dashboard/humas-alumni.html
+          test -f dist/src/pintuku/assets/css/humas-alumni.css
+          test -f dist/src/pintuku/assets/js/humas-alumni.js
           test ! -e dist/src/server
           echo "Static output OK"
 

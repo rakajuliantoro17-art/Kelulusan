@@ -76,6 +76,8 @@ DECLARE
   v_agreement jsonb;
   v_proposal jsonb;
   v_support jsonb;
+  v_alumni jsonb;
+  v_alumni_id uuid;
   v_partner_id uuid;
   v_proposal_id uuid;
   v_support_id uuid;
@@ -338,7 +340,39 @@ BEGIN
     NULL;
   END;
 
-  RAISE NOTICE 'PASS: partner, agreement, proposal and sponsorship transactions; workflow transitions; audit immutability; role checks; and rollback';
+
+  v_alumni := humas.alumni_profile_create(v_staff,'staff_humas',
+    '{"full_name":"Alumni Uji","graduation_year":2020,"whatsapp":"08123456789","current_status":"employed","employer":"Instansi Uji","consent_events":true,"consent_fundraising":false,"consent_source":"Formulir uji"}'::jsonb);
+  v_alumni_id := (v_alumni->>'id')::uuid;
+  IF v_alumni_id IS NULL OR v_alumni->>'full_name' <> 'Alumni Uji' THEN
+    RAISE EXCEPTION 'FAIL: alumni_profile_create did not create a profile';
+  END IF;
+  PERFORM humas.alumni_contact_log_create(v_staff,'staff_humas',v_alumni_id,
+    '{"purpose":"reunion","channel":"whatsapp","outcome":"sent","summary":"Undangan uji"}'::jsonb);
+  BEGIN
+    PERFORM humas.alumni_contact_log_create(v_staff,'staff_humas',v_alumni_id,
+      '{"purpose":"fundraising","channel":"whatsapp","outcome":"sent"}'::jsonb);
+    RAISE EXCEPTION 'FAIL: fundraising contact bypassed explicit consent';
+  EXCEPTION WHEN insufficient_privilege THEN NULL;
+  END;
+  v_alumni := humas.alumni_profile_update(v_staff,'staff_humas',v_alumni_id,
+    '{"consent_fundraising":true,"consent_source":"Persetujuan ulang"}'::jsonb);
+  IF v_alumni->>'consent_fundraising' <> 'true' OR v_alumni->>'consent_source' <> 'Persetujuan ulang' THEN
+    RAISE EXCEPTION 'FAIL: alumni consent update did not persist';
+  END IF;
+  PERFORM humas.alumni_contact_log_create(v_staff,'staff_humas',v_alumni_id,
+    '{"purpose":"fundraising","channel":"whatsapp","outcome":"planned","summary":"Rencana penggalangan"}'::jsonb);
+  IF (humas.alumni_summary()->>'total_alumni')::integer <> 1
+     OR (humas.alumni_summary()->>'fundraising_reachable')::integer <> 1 THEN
+    RAISE EXCEPTION 'FAIL: alumni_summary totals are incorrect';
+  END IF;
+  BEGIN
+    UPDATE humas.alumni_contact_logs SET summary='mutated' WHERE alumni_id=v_alumni_id;
+    RAISE EXCEPTION 'FAIL: alumni contact history unexpectedly allowed UPDATE';
+  EXCEPTION WHEN insufficient_privilege THEN NULL;
+  END;
+
+  RAISE NOTICE 'PASS: partner, agreement, proposal, sponsorship, alumni consent and contact history transactions; workflow transitions; audit immutability; role checks; and rollback';
 END
 $tests$;
 

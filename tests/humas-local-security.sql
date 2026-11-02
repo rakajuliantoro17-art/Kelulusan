@@ -25,7 +25,9 @@ BEGIN
     'partner_events',
     'proposals',
     'proposal_supports',
-    'proposal_events'
+    'proposal_events',
+    'alumni_profiles',
+    'alumni_contact_logs'
   ] LOOP
     SELECT c.relrowsecurity
       INTO v_rls
@@ -138,6 +140,29 @@ BEGIN
       AND t.tgname = 'user_roles_operator_separation' AND NOT t.tgisinternal
   ) THEN
     RAISE EXCEPTION 'FAIL: operator role separation trigger is missing';
+  END IF;
+
+
+  IF NOT has_table_privilege('service_role','humas.alumni_profiles','UPDATE')
+     OR NOT has_table_privilege('service_role','humas.alumni_contact_logs','INSERT')
+     OR has_table_privilege('service_role','humas.alumni_contact_logs','UPDATE')
+     OR has_table_privilege('service_role','humas.alumni_contact_logs','DELETE') THEN
+    RAISE EXCEPTION 'FAIL: alumni table privileges are incorrect';
+  END IF;
+  IF has_function_privilege('anon','humas.alumni_profile_create(uuid,text,jsonb)','EXECUTE')
+     OR has_function_privilege('authenticated','humas.alumni_profile_create(uuid,text,jsonb)','EXECUTE')
+     OR NOT has_function_privilege('service_role','humas.alumni_profile_create(uuid,text,jsonb)','EXECUTE')
+     OR NOT has_function_privilege('service_role','humas.alumni_contact_log_create(uuid,text,uuid,jsonb)','EXECUTE') THEN
+    RAISE EXCEPTION 'FAIL: alumni RPC privileges are incorrect';
+  END IF;
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_catalog.pg_trigger t
+    JOIN pg_catalog.pg_class c ON c.oid=t.tgrelid
+    JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+    WHERE n.nspname='humas' AND c.relname='alumni_contact_logs'
+      AND t.tgname='alumni_contact_logs_append_only' AND NOT t.tgisinternal
+  ) THEN
+    RAISE EXCEPTION 'FAIL: alumni contact history append-only trigger is missing';
   END IF;
 
   RAISE NOTICE 'PASS: RLS, browser restrictions, append-only audit, proposal RPC privileges, and operator separation';

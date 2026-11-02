@@ -131,3 +131,7 @@ Untuk sementara, modul hanya menampilkan metadata dokumen jika record dokumen su
 - Local PostgreSQL runner: diperbarui untuk migration 001–008 dan jalur workflow penuh.\n- GitHub Actions workflow memakai PostgreSQL 17 ephemeral container untuk menjalankan migration dan test secara otomatis; tidak membuat database permanen atau mengakses Supabase Production.
 
 GitHub Actions berhasil menjalankan migration 001–007 pada PostgreSQL 17 ephemeral, menjalankan integrasi transaksi penuh, memverifikasi RLS/grant/trigger, dan menjalankan 30 test Node.js (30 PASS, 0 FAIL). Ini membuktikan SQL dan test harness berjalan pada PostgreSQL 17 lokal CI, bukan pada Supabase Production. Belum ada migration yang diterapkan ke Supabase Production, belum ada akun Auth yang dibuat, dan belum ada deploy yang dilakukan. Status release tetap **NO-GO untuk penggunaan operasional** sampai aktivasi Supabase dan uji Auth/Storage/Vercel nyata diselesaikan.
+
+
+## Tracer Study Alumni
+Workspace direktori alumni dan tracer study tersedia pada `/humas/alumni`. Data profil, status setelah lulus, persetujuan komunikasi per tujuan, dan riwayat kontak dikelola melalui migration 009. Pengiriman pesan otomatis belum termasuk. Aktivasi Production menunggu persetujuan dan konfigurasi terpisah.
