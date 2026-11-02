@@ -15,10 +15,22 @@
   ];
 
   const KEY = "pintuku-theme";
+  const LANG_KEY = "pintuku-language";
   const root = document.documentElement;
   const systemLight = window.matchMedia("(prefers-color-scheme: light)");
   const read = () => { try { return localStorage.getItem(KEY); } catch (_) { return null; } };
   const isLight = () => root.dataset.theme === "light";
+  const readLanguage = () => { try { return localStorage.getItem(LANG_KEY) === "en" ? "en" : "id"; } catch (_) { return "id"; } };
+  function applyLanguage(language, persist) {
+    const lang = language === "en" ? "en" : "id";
+    root.lang = lang;
+    document.body.dataset.language = lang;
+    document.querySelectorAll("[data-pintuku-language]").forEach((button) => {
+      button.setAttribute("aria-pressed", String(button.dataset.pintukuLanguage === lang));
+    });
+    if (persist) { try { localStorage.setItem(LANG_KEY, lang); } catch (_) {} }
+    document.dispatchEvent(new CustomEvent("pintuku:languagechange", { detail: { language: lang } }));
+  }
 
   function applyTheme(theme, persist) {
     const light = theme === "light";
@@ -54,6 +66,8 @@
           '<button class="ps-toggle" id="pintukuThemeToggle" type="button" aria-label="Ganti mode gelap atau terang" aria-pressed="false">' +
           '<span class="ps-toggle-track"><span aria-hidden="true">☀️</span><span aria-hidden="true">🌙</span></span><span class="ps-toggle-thumb"></span></button></div>' +
           '<p class="ps-note">Pilihan tema disimpan di perangkat ini dan berlaku di seluruh halaman portal.</p>' +
+          '<div class="ps-language"><div class="ps-row-text"><span class="ps-row-title">Bahasa / Language</span><span class="ps-row-desc">Pilih bahasa antarmuka</span></div><div class="ps-language-switch" role="group" aria-label="Pilih bahasa"><button type="button" data-pintuku-language="id" aria-pressed="true">ID</button><button type="button" data-pintuku-language="en" aria-pressed="false">EN</button></div></div>' +
+          '<p class="ps-note">Bahasa antarmuka dapat diubah kapan saja. Dokumen resmi tetap mengikuti bahasa dokumen sumber.</p>' +
           '<h2 class="ps-sub">Pintasan</h2><ul class="ps-links">' + links + '</ul>' +
         '</div></aside>';
     while (wrap.firstElementChild) document.body.appendChild(wrap.firstElementChild);
@@ -73,11 +87,14 @@
     document.getElementById("pintukuSettingsClose").addEventListener("click", () => set(false));
     document.addEventListener("keydown", (e) => { if (e.key === "Escape" && drawer.classList.contains("open")) set(false); });
     document.getElementById("pintukuThemeToggle").addEventListener("click", () => applyTheme(isLight() ? "dark" : "light", true));
+    drawer.querySelectorAll("[data-pintuku-language]").forEach((button) => button.addEventListener("click", () => applyLanguage(button.dataset.pintukuLanguage, true)));
     applyTheme(isLight() ? "light" : "dark");
+    applyLanguage(readLanguage(), false);
   }
 
   const saved = read();
   applyTheme(saved === "light" || saved === "dark" ? saved : (systemLight.matches ? "light" : "dark"));
+  applyLanguage(readLanguage(), false);
   systemLight.addEventListener && systemLight.addEventListener("change", (e) => {
     const pref = read();
     if (pref !== "light" && pref !== "dark") applyTheme(e.matches ? "light" : "dark");
