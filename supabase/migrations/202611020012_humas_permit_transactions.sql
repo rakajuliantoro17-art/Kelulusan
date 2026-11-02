@@ -22,9 +22,9 @@ on conflict (id) do update set
 -- No browser policies: object operations are performed only by the trusted server.
 drop policy if exists "humas_permit_documents_no_browser_access" on storage.objects;
 create policy "humas_permit_documents_no_browser_access"
-on storage.objects for all to anon,authenticated
-using (bucket_id='humas-permit-documents' and false)
-with check (bucket_id='humas-permit-documents' and false);
+on storage.objects as restrictive for all to anon,authenticated
+using (bucket_id<>'humas-permit-documents')
+with check (bucket_id<>'humas-permit-documents');
 
 create or replace function humas.permit_create(
   p_actor_id uuid,p_actor_role text,p_payload jsonb
