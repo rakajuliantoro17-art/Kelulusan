@@ -25,9 +25,12 @@ function setSecurityHeaders(res) {
 function readConfig() {
   const rawUrl = process.env.SUPABASE_URL;
   const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  // Prefer the modern secret key. The legacy service_role JWT remains a
+  // compatibility fallback during Supabase's key migration period.
+  const adminKey = process.env.SUPABASE_SECRET_KEY ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (!rawUrl || !publishableKey || !serviceKey) return null;
+  if (!rawUrl || !publishableKey || !adminKey) return null;
 
   let url;
   try {
@@ -40,7 +43,7 @@ function readConfig() {
   return {
     baseUrl: url.origin,
     publishableKey,
-    serviceKey
+    adminKey
   };
 }
 
@@ -97,7 +100,21 @@ async function authenticate(baseUrl, publishableKey, accessToken) {
   };
 }
 
-async function loadRoles(baseUrl, serviceKey, userId) {
+function adminApiHeaders(adminKey) {
+  const headers = {
+    apikey: adminKey,
+    "Accept-Profile": "humas",
+    Accept: "application/json"
+  };
+  // New sb_secret keys must be sent as apikey only. Legacy service_role
+  // keys are JWTs and are accepted in both headers.
+  if (!adminKey.startsWith("sb_secret_")) {
+    headers.Authorization = "Bearer " + adminKey;
+  }
+  return headers;
+}
+
+async function loadRoles(baseUrl, adminKey, userId) {
   const query = new URLSearchParams({
     select: "role_code",
     user_id: "eq." + userId,
@@ -109,12 +126,7 @@ async function loadRoles(baseUrl, serviceKey, userId) {
     baseUrl + "/rest/v1/user_roles?" + query.toString(),
     {
       method: "GET",
-      headers: {
-        apikey: serviceKey,
-        Authorization: "Bearer " + serviceKey,
-        "Accept-Profile": "humas",
-        Accept: "application/json"
-      }
+      headers: adminApiHeaders(adminKey)
     }
   );
 
@@ -135,7 +147,7 @@ async function loadRoles(baseUrl, serviceKey, userId) {
     ].includes(role)))];
 }
 
-async function loadPartners(baseUrl, serviceKey) {
+async function loadPartners(baseUrl, adminKey) {
   const query = new URLSearchParams({
     select: [
       "id", "partner_name", "partner_type", "institution_address",
@@ -150,12 +162,7 @@ async function loadPartners(baseUrl, serviceKey) {
     baseUrl + "/rest/v1/partners?" + query.toString(),
     {
       method: "GET",
-      headers: {
-        apikey: serviceKey,
-        Authorization: "Bearer " + serviceKey,
-        "Accept-Profile": "humas",
-        Accept: "application/json"
-      }
+      headers: adminApiHeaders(adminKey)
     }
   );
 
@@ -217,7 +224,7 @@ module.exports = async function humasApi(req, res) {
 
     const roles = await loadRoles(
       config.baseUrl,
-      config.serviceKey,
+      config.adminKey,
       auth.user.id
     );
 
@@ -239,7 +246,7 @@ module.exports = async function humasApi(req, res) {
         });
       }
 
-      const partners = await loadPartners(config.baseUrl, config.serviceKey);
+      const partners = await loadPartners(config.baseUrl, config.adminKey);
       return send(res, 200, {
         success: true,
         data: { partners, limit: 100 }
