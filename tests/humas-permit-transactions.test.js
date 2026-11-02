@@ -13,7 +13,10 @@ test("permit transaction RPCs enforce active HUMAS roles and legal transitions",
  assert.match(sql,/p_actor_role is distinct from 'staff_humas'/);
  assert.match(sql,/p_actor_role is distinct from v_required_role/);
  assert.match(sql,/separation_of_duties_required/);
- assert.match(sql,/reason_required/);\n assert.match(sql,/protocol_workflow_events/);\n assert.match(sql,/guest_added/);\n assert.match(sql,/task_created/);
+ assert.match(sql,/reason_required/);
+ assert.match(sql,/protocol_workflow_events/);
+ assert.match(sql,/guest_added/);
+ assert.match(sql,/task_created/);
  assert.match(sql,/create trigger permit_workflow_events_append_only/);
 });
 
