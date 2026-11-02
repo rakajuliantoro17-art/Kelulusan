@@ -112,7 +112,7 @@ Pemeriksaan 22 assertion tersebut adalah validasi teks/sumber, bukan eksekusi SQ
 **Penting:** TEST READY bukan PASS runtime. Status keseluruhan Sprint 3G tetap **BLOCKED / NO-GO** sampai runner berhasil dijalankan pada PostgreSQL lokal dan seluruh hasilnya diperiksa. Tidak ada klaim bahwa integrasi database sudah lulus.
 
 
-## Pembaruan audit lanjutan — Sprint 3G.9
+## Pembaruan Sprint 3H — workflow MoU\n\nMigration 007 menambahkan RPC untuk memperbarui draft, menjalankan transisi status MoU sesuai role, dan menghitung ringkasan dashboard. Local integration harness kini menguji jalur draft → diajukan → terverifikasi → direkomendasikan → persetujuan Kepala Sekolah → tanda tangan fisik → registrasi → arsip, termasuk penolakan self-approval. Migration 007 dan pengujian ini belum dijalankan di PostgreSQL lokal.\n\n## Pembaruan audit lanjutan — Sprint 3G.9
 
 Review ulang terhadap branch `main` menemukan dua pemeriksaan role pada `partner_update` dan `partner_set_status` yang masih memakai operator SQL `<>`. Keduanya telah diganti menjadi `IS DISTINCT FROM` agar role bernilai NULL selalu ditolak. Perbaikan ini harus diuji ulang pada PostgreSQL lokal.
 
