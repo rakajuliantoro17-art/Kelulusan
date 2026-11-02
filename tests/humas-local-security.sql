@@ -71,6 +71,12 @@ BEGIN
     RAISE EXCEPTION 'FAIL: service_role is missing required audit SELECT/INSERT';
   END IF;
 
+  IF has_table_privilege('service_role', 'humas.agreement_approvals', 'UPDATE')
+     OR has_table_privilege('service_role', 'humas.agreement_approvals', 'DELETE')
+     OR NOT has_table_privilege('service_role', 'humas.agreement_approvals', 'INSERT') THEN
+    RAISE EXCEPTION 'FAIL: approval decisions are not append-only';
+  END IF;
+
   IF has_function_privilege('anon', 'humas.partner_create(uuid,text,jsonb)', 'EXECUTE')
      OR has_function_privilege('authenticated', 'humas.partner_create(uuid,text,jsonb)', 'EXECUTE')
      OR has_function_privilege('anon', 'humas.agreement_create_draft(uuid,text,jsonb)', 'EXECUTE')
