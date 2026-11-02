@@ -183,7 +183,7 @@ as $$
   );
 $$;
 
-revoke all on function humas.agreement_update_draft(uuid,text,uuid,jsonb) from public,anon,authenticated;
+-- Approval decisions are append-only; corrections are represented by later workflow events.\nrevoke all on table humas.agreement_approvals from service_role;\ngrant select,insert on table humas.agreement_approvals to service_role;\n\nrevoke all on function humas.agreement_update_draft(uuid,text,uuid,jsonb) from public,anon,authenticated;
 revoke all on function humas.agreement_transition(uuid,text,uuid,text,text) from public,anon,authenticated;
 revoke all on function humas.dashboard_summary() from public,anon,authenticated;
 grant execute on function humas.agreement_update_draft(uuid,text,uuid,jsonb) to service_role;
