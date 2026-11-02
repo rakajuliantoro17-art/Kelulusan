@@ -14,7 +14,7 @@ maps.id["Shortcuts"]="Pintasan";maps.en["Pintasan"]="Shortcuts";
 let busy=false;
 const attrMaps={
 placeholder:{"Cari nama mitra, kategori, atau kontak...":"Search partner name, category, or contact...","Nama resmi mitra":"Official partner name","Nama narahubung":"Contact name","Alamat email atau nomor telepon":"Email address or phone number"},
-"aria-label":{"Pilih kategori":"Filter by category","Tutup":"Close"}
+"aria-label":{"Pilih kategori":"Filter by category","Tutup":"Close","Buka panel pengaturan":"Open settings panel","Tutup panel":"Close settings panel","Ganti mode gelap atau terang":"Toggle dark or light mode","Panel pengaturan":"Settings panel","Pilih bahasa":"Choose language"}
 };
 function translate(){
  if(busy)return;busy=true;
