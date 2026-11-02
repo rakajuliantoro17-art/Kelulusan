@@ -78,7 +78,9 @@ BEGIN
     has_table_privilege('service_role','humas.agreement_approvals','UPDATE'),
     has_table_privilege('service_role','humas.agreement_approvals','DELETE'),
     (SELECT rolsuper FROM pg_catalog.pg_roles WHERE rolname='service_role'),
-    (SELECT rolinherit FROM pg_catalog.pg_roles WHERE rolname='service_role'),\n    (SELECT c.relacl::text FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='humas' AND c.relname='agreement_approvals'),\n    (SELECT pg_catalog.string_agg(r.rolname, ',') FROM pg_catalog.pg_auth_members am JOIN pg_catalog.pg_roles r ON r.oid=am.roleid WHERE am.member=(SELECT oid FROM pg_catalog.pg_roles WHERE rolname='service_role'));
+    (SELECT rolinherit FROM pg_catalog.pg_roles WHERE rolname='service_role'),
+    (SELECT c.relacl::text FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='humas' AND c.relname='agreement_approvals'),
+    (SELECT pg_catalog.string_agg(r.rolname, ',') FROM pg_catalog.pg_auth_members am JOIN pg_catalog.pg_roles r ON r.oid=am.roleid WHERE am.member=(SELECT oid FROM pg_catalog.pg_roles WHERE rolname='service_role'));
 
   IF has_table_privilege('service_role', 'humas.agreement_approvals', 'UPDATE')
      OR has_table_privilege('service_role', 'humas.agreement_approvals', 'DELETE')
