@@ -17,7 +17,8 @@ function clearSession(){sessionStorage.removeItem(keys.access);sessionStorage.re
 async function rawApi(op,method="GET",body=null,auth=true){
  const headers={"Accept":"application/json"};if(body)headers["Content-Type"]="application/json";
  if(auth&&session().access)headers.Authorization="Bearer "+session().access;
- const response=await fetch("/api/humas?op="+encodeURIComponent(op),{method,headers,body:body?JSON.stringify(body):undefined,cache:"no-store"});
+ const parts=String(op).split("&");const url="/api/humas?op="+encodeURIComponent(parts.shift())+(parts.length?"&"+parts.join("&"):"");
+ const response=await fetch(url,{method,headers,body:body?JSON.stringify(body):undefined,cache:"no-store"});
  let data={};try{data=await response.json();}catch(_){}
  return{response,data};
 }
