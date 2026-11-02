@@ -14,6 +14,8 @@ Migrations 001–006 are ordered by dependency and their table/column references
 - 002 creates the server-managed user_roles mapping.
 - 003 adds partner_events and transactional partner create/update/status RPCs.
 - 004 adds the agreement register indexes and transactional draft creation.
+- 005 hardens audit actors and makes audit timelines append-only for the server role.
+- 006 prevents active `system_operator` accounts from overlapping with active business roles and rejects pre-existing conflicts.
 
 ## Findings and remediation
 1. The audit timeline tables should not retain UPDATE/DELETE privileges for the application service role. Migration 005 revokes all table privileges and restores SELECT/INSERT only.
