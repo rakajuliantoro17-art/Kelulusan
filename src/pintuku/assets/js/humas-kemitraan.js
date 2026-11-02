@@ -44,10 +44,18 @@ async function login(email,password){
  if(!result.response.ok)throw new Error(result.data.message||"Tidak dapat masuk.");
  saveSession(result.data.data);return result.data.data.user||{};
 }
-async function loadMe(){
- const me=await api("me");state.roles=Array.isArray(me.roles)?me.roles:[];
+async function loadWorkspace(){
+ const d=await api("workspace");
+ state.roles=Array.isArray(d.roles)?d.roles:[];
  if(!state.roles.some(r=>["staff_humas","vice_principal_humas","principal"].includes(r)))throw new Error("Akun belum diberi akses layanan Kemitraan & MoU.");
- showWorkspace(me.user||{});setupRoleUI();
+ showWorkspace(d.user||{});setupRoleUI();
+ const summary=d.summary||{};
+ $("kpiPartners").textContent=summary.total_partners??0;
+ $("kpiActivePartners").textContent=summary.active_partners??0;
+ $("kpiAgreements").textContent=summary.in_process??0;
+ $("kpiExpiring").textContent=summary.expiring_soon??0;
+ renderPartners(d.partners&&d.partners.partners||[]);
+ renderAgreements(d.agreements&&d.agreements.agreements||[]);
 }
 async function loadDashboard(){
  const d=await api("dashboard");
@@ -83,7 +91,7 @@ async function loadAgreements(){
 }
 async function refreshAll(){
  clearNotice();
- try{await Promise.all([loadDashboard(),loadPartners(),loadAgreements()]);}
+ try{await loadWorkspace();}
  catch(e){notice(e.message,"error");}
 }
 function openPartnerForm(p=null){
@@ -195,7 +203,7 @@ function bind(){
 async function init(){
  bind();
  if(!session().access&&!session().refresh){showLogin();return;}
- try{await loadMe();await refreshAll();}
+ try{await refreshAll();}
  catch(e){clearSession();showLogin(e.message);}
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
