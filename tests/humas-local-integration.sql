@@ -1,5 +1,5 @@
 -- HUMAS local PostgreSQL integration smoke tests.
--- All fixture data is rolled back. Run after bootstrap and migrations 001-005.
+-- All fixture data is rolled back. Run after bootstrap and migrations 001-006.
 
 DO $guard$
 BEGIN
@@ -14,19 +14,34 @@ BEGIN;
 INSERT INTO auth.users(id) VALUES
   ('10000000-0000-4000-8000-000000000001'),
   ('10000000-0000-4000-8000-000000000002'),
-  ('10000000-0000-4000-8000-000000000003')
+  ('10000000-0000-4000-8000-000000000003'),
+  ('10000000-0000-4000-8000-000000000004')
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO humas.user_roles(user_id, role_code, is_active, revoked_at)
 VALUES
   ('10000000-0000-4000-8000-000000000001', 'staff_humas', true, null),
   ('10000000-0000-4000-8000-000000000002', 'staff_humas', false, now()),
-  ('10000000-0000-4000-8000-000000000003', 'principal', true, null)
+  ('10000000-0000-4000-8000-000000000003', 'principal', true, null),
+  ('10000000-0000-4000-8000-000000000004', 'system_operator', true, null)
 ON CONFLICT (user_id, role_code) DO UPDATE
 SET is_active = EXCLUDED.is_active,
     revoked_at = EXCLUDED.revoked_at;
 
 SET LOCAL ROLE service_role;
+
+-- Technical operator must not receive an active business role.
+DO $operator_guard$
+BEGIN
+  BEGIN
+    INSERT INTO humas.user_roles(user_id, role_code, is_active, revoked_at)
+    VALUES ('10000000-0000-4000-8000-000000000004', 'staff_humas', true, null);
+    RAISE EXCEPTION 'FAIL: system_operator account accepted an active business role';
+  EXCEPTION WHEN check_violation THEN
+    NULL;
+  END;
+END
+$operator_guard$;
 
 DO $tests$
 DECLARE
