@@ -267,7 +267,7 @@ begin
          and ur.is_active=true and ur.revoked_at is null) then
     raise exception using errcode='42501', message='forbidden';
   end if;
-  if p_status not in ('draft','submitted','under_review','revision_required','approved','rejected',
+  if p_status is null or p_status not in ('draft','submitted','under_review','revision_required','approved','rejected',
     'fundraising','funded','in_progress','completed','cancelled','archived') then
     raise exception using errcode='22023', message='invalid_proposal_status';
   end if;
