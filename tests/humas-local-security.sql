@@ -83,6 +83,15 @@ BEGIN
     RAISE EXCEPTION 'FAIL: service_role is missing required business RPC EXECUTE';
   END IF;
 
+  IF has_function_privilege('anon', 'humas.agreement_transition(uuid,text,uuid,text,text)', 'EXECUTE')
+     OR has_function_privilege('authenticated', 'humas.agreement_transition(uuid,text,uuid,text,text)', 'EXECUTE')
+     OR has_function_privilege('anon', 'humas.dashboard_summary()', 'EXECUTE')
+     OR has_function_privilege('authenticated', 'humas.dashboard_summary()', 'EXECUTE')
+     OR NOT has_function_privilege('service_role', 'humas.agreement_transition(uuid,text,uuid,text,text)', 'EXECUTE')
+     OR NOT has_function_privilege('service_role', 'humas.dashboard_summary()', 'EXECUTE') THEN
+    RAISE EXCEPTION 'FAIL: operational workflow/dashboard RPC privileges are incorrect';
+  END IF;
+
   IF NOT EXISTS (
     SELECT 1 FROM pg_catalog.pg_trigger t
     JOIN pg_catalog.pg_class c ON c.oid = t.tgrelid
