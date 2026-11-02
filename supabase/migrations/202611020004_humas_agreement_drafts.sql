@@ -14,7 +14,7 @@ set search_path = ''
 as $$
 declare v_agreement humas.agreements%rowtype;
 begin
-  if p_actor_id is null or p_actor_role <> 'staff_humas' then
+  if p_actor_id is null or p_actor_role is distinct from 'staff_humas' then
     raise exception using errcode = '42501', message = 'forbidden';
   end if;
   if nullif(pg_catalog.btrim(p_payload->>'title'),'') is null
