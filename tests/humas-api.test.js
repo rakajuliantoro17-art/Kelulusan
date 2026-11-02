@@ -15,6 +15,7 @@ async function invoke({ role = "staff_humas", token = "valid-token", method = "G
   global.fetch = async (input, options = {}) => {
     const url = new URL(String(input));
     calls.push({ url, options });
+    if (url.pathname === "/auth/v1/token") return new Response(JSON.stringify({ access_token: "new-access", refresh_token: "new-refresh", expires_in: 3600, user: { id: USER_ID, email: "test@example.invalid" } }), { status: 200 });
     if (url.pathname === "/auth/v1/user") {
       if (token === "invalid-token") return new Response(JSON.stringify({ message: "invalid" }), { status: 401 });
       return new Response(JSON.stringify({ id: USER_ID, email: "test@example.invalid" }), { status: 200 });
@@ -105,4 +106,31 @@ test("invalid calendar date is rejected before database RPC", async () => {
 test("invalid pagination is rejected", async () => {
   const r = await invoke({ query: { page: "0", limit: "999" } });
   assert.equal(r.status, 400);
+});
+
+
+test("login exchanges credentials with Supabase Auth and returns a session", async () => {
+  const r = await invoke({ token: null, method: "POST", op: "login", body: { email: "test@example.invalid", password: "test-password" } });
+  assert.equal(r.status, 200);
+  assert.equal(r.payload.data.access_token, "new-access");
+  assert.ok(r.calls.some(x => x.url.pathname === "/auth/v1/token"));
+});
+
+test("dashboard uses one aggregate RPC", async () => {
+  const r = await invoke({ role: "staff_humas", op: "dashboard" });
+  assert.equal(r.status, 200);
+  assert.ok(r.calls.some(x => x.url.pathname.endsWith("/rpc/dashboard_summary")));
+});
+
+test("workflow transition sends the verified actor and selected action to SQL", async () => {
+  const r = await invoke({ role: "vice_principal_humas", method: "PATCH", op: "agreements", body: {
+    id: "33333333-3333-4333-8333-333333333333", action: "recommend", reason: "Sesuai kebutuhan sekolah"
+  } });
+  assert.equal(r.status, 200);
+  const rpc = r.calls.find(x => x.url.pathname.endsWith("/rpc/agreement_transition"));
+  assert.ok(rpc);
+  const payload = JSON.parse(rpc.options.body);
+  assert.equal(payload.p_actor_id, USER_ID);
+  assert.equal(payload.p_actor_role, "vice_principal_humas");
+  assert.equal(payload.p_action, "recommend");
 });
