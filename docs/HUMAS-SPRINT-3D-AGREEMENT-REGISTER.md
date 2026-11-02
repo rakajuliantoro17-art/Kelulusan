@@ -13,4 +13,8 @@ Only `staff_humas` can create drafts. HUMAS staff, Wakasek HUMAS, and Kepala Sek
 No edit-draft endpoint, submission, verification, recommendation, principal approval/rejection, signature, registration, archive, document upload, or TTE integration. Approval and signature remain distinct and must be implemented as separately authorized transactional workflows.
 
 ## Deployment status
-Migrations 003 and 004 are committed as source only and have not been applied to the production Supabase project. API code is not yet runtime-tested or deployed.
+Migrations 003, 004, 005, and 006 are committed as source only and have not been applied to the production Supabase project. API code is not yet runtime-tested or deployed.
+
+
+## Database security prerequisites
+The draft workflow relies on migration 005 to validate active staff actors for the `draft_created` event and migration 006 to keep technical operator accounts separate from business roles. The local integration runner includes all six migrations; runtime verification remains pending.
