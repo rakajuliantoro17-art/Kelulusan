@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f"><meta name="description" content="Pengelolaan Proposal dan Sponsorship — PINTUKU HUMAS SMAN 1 Sooko.">
+<script>try{var t=localStorage.getItem("pintuku-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>
+<title>Proposal & Sponsorship · PINTUKU</title>
+<link rel="manifest" href="/manifest.json"><link rel="icon" href="/assets/shared/icons/favicon.ico">
+<link rel="stylesheet" href="/src/pintuku/assets/css/portal-shell.css"><link rel="stylesheet" href="/src/pintuku/assets/css/portal.css"><link rel="stylesheet" href="/src/pintuku/assets/css/portal-settings.css"><link rel="stylesheet" href="/src/pintuku/assets/css/service-modules.css"><link rel="stylesheet" href="/src/pintuku/assets/css/humas-kemitraan.css"><link rel="stylesheet" href="/src/pintuku/assets/css/humas-proposal.css"><link rel="stylesheet" href="/src/pintuku/assets/css/pintuku-glass.css">
+<script src="/src/shared/assets/registry.js" defer></script><script src="/src/pintuku/assets/js/portal-shell.js" defer></script><script src="/src/pintuku/assets/js/portal-settings.js" defer></script><script src="/src/pintuku/assets/js/humas-i18n.js" defer></script><script src="/src/pintuku/assets/js/humas-proposal.js" defer></script>
+</head>
+<body data-portal-module="humas" data-i18n-scope="humas">
+<div data-portal-header></div>
+<main class="portal-wrap service-page hp-page">
+<nav class="hk-breadcrumb"><a href="/humas">HUMAS</a><span>/</span><span>Proposal & Sponsorship</span></nav>
+<header class="hp-hero">
+<div><div class="eyebrow">PINTUKU · HUMAS · PROGRAM & DUKUNGAN</div><h1>Proposal & Sponsorship</h1><p>Kelola proposal kegiatan sekolah, calon sponsor, komitmen dukungan, dan realisasi bantuan dalam satu ruang kerja.</p></div>
+<div class="hk-hero-actions"><a class="hk-btn hk-btn-ghost" href="/humas">← Katalog HUMAS</a><span id="userBadge" class="hk-user-badge" hidden></span><button class="hk-btn hk-btn-secondary" id="refreshBtn" type="button" hidden>↻ Muat ulang</button><button class="hk-btn hk-btn-ghost" id="logoutBtn" type="button" hidden>Keluar</button></div>
+</header>
+<div id="notice" class="hk-notice" role="status" aria-live="polite" hidden></div>
+<section id="loginPanel" class="hk-panel hk-login">
+<div class="hk-login-copy"><div class="eyebrow">AKSES INTERNAL</div><h2>Masuk ke layanan Proposal</h2><p>Gunakan akun PINTUKU HUMAS yang sudah aktif. Pengelolaan data dilakukan melalui layanan server PINTUKU.</p></div>
+<form id="loginForm" class="hk-login-form">
+<label>Email akun<input name="email" type="email" autocomplete="username" required maxlength="254" placeholder="nama@sekolah.id"></label>
+<label>Kata sandi<input name="password" type="password" autocomplete="current-password" required maxlength="256" placeholder="Kata sandi akun"></label>
+<button class="hk-btn hk-btn-primary" type="submit">Masuk</button>
+<small>Sesi mengikuti masa berlaku akun. Keluar untuk mengakhiri sesi pada tab ini.</small>
+</form>
+</section>
+<section id="workspace" hidden>
+<section class="hp-kpis" aria-label="Ringkasan proposal">
+<article class="hp-kpi"><span>Total proposal</span><strong id="kpiTotal">—</strong><small>Seluruh proposal tercatat</small></article>
+<article class="hp-kpi"><span>Dalam proses</span><strong id="kpiProcess">—</strong><small>Pengajuan hingga pelaksanaan</small></article>
+<article class="hp-kpi"><span>Komitmen dukungan</span><strong id="kpiCommitted">—</strong><small>Nilai dukungan yang disepakati</small></article>
+<article class="hp-kpi"><span>Realisasi dukungan</span><strong id="kpiRealized">—</strong><small>Nilai bantuan yang telah diterima</small></article>
+</section>
+<section class="hk-panel">
+<div class="hk-panel-head"><div><div class="eyebrow">PENGELOLAAN PROGRAM</div><h2>Daftar proposal</h2><p>Catat kebutuhan kegiatan, target dukungan, tenggat pengajuan, dan status tindak lanjut.</p></div><button class="hk-btn hk-btn-primary" id="newProposalBtn" type="button" hidden>＋ Buat proposal</button></div>
+<div class="hk-toolbar">
+<label class="hk-search"><span aria-hidden="true">⌕</span><input id="proposalSearch" type="search" placeholder="Cari judul proposal atau unit..." autocomplete="off"></label>
+<select id="proposalCategory" aria-label="Filter kategori"><option value="">Semua kategori</option><option value="education">Pendidikan</option><option value="student_activity">Kegiatan siswa</option><option value="sports">Olahraga</option><option value="facility">Sarana prasarana</option><option value="community">Sosial & masyarakat</option><option value="event">Acara sekolah</option><option value="other">Lainnya</option></select>
+<select id="proposalStatus" aria-label="Filter status"><option value="">Semua status</option><option value="draft">Draft</option><option value="submitted">Diajukan</option><option value="under_review">Ditelaah</option><option value="revision_required">Perlu revisi</option><option value="approved">Disetujui</option><option value="rejected">Ditolak</option><option value="fundraising">Penggalangan dukungan</option><option value="funded">Dukungan terpenuhi</option><option value="in_progress">Berjalan</option><option value="completed">Selesai</option><option value="cancelled">Dibatalkan</option><option value="archived">Diarsipkan</option></select>
+</div>
+<div class="hk-table-wrap"><table class="hk-table"><thead><tr><th>PROPOSAL / KEGIATAN</th><th>KATEGORI</th><th>TARGET DUKUNGAN</th><th>TENGGAT</th><th>STATUS</th><th></th></tr></thead><tbody id="proposalRows"><tr><td colspan="6" class="hk-empty">Memuat proposal…</td></tr></tbody></table></div>
+<p class="hk-empty" id="proposalEmpty" hidden>Belum ada proposal yang sesuai dengan pencarian.</p>
+<div class="hk-pagination"><span id="proposalPageInfo">—</span><div><button class="hk-btn hk-btn-secondary" id="proposalPrev" type="button">Sebelumnya</button><button class="hk-btn hk-btn-secondary" id="proposalNext" type="button">Berikutnya</button></div></div>
+</section>
+<section class="hk-panel">
+<div class="hk-panel-head"><div><div class="eyebrow">ALUR PENGELOLAAN</div><h2>Dari pengajuan hingga realisasi</h2><p>Status proposal membantu tim mengetahui pekerjaan berikutnya tanpa proses administrasi yang rumit.</p></div></div>
+<div class="hp-flow"><div><b>01</b><strong>Rancang</strong><span>Catat kegiatan, tujuan, target, dan kebutuhan dukungan.</span></div><i>→</i><div><b>02</b><strong>Ajukan</strong><span>Lengkapi proposal dan kirim untuk ditelaah.</span></div><i>→</i><div><b>03</b><strong>Jalin dukungan</strong><span>Catat calon sponsor, komitmen, dan bentuk bantuan.</span></div><i>→</i><div><b>04</b><strong>Realisasi</strong><span>Catat bantuan yang diterima dan penyelesaian kegiatan.</span></div></div>
+<div class="hp-note"><strong>Catatan operasional:</strong> nilai dukungan dapat berupa uang maupun estimasi barang, jasa, atau fasilitas. Bukti transaksi dan unggah dokumen akan ditambahkan pada tahap pengelolaan arsip.</div>
+</section>
+</section>
+</main>
+<div data-portal-footer></div>
+
+<dialog class="hk-dialog hk-dialog-wide" id="proposalDialog"><form id="proposalForm">
+<div class="hk-dialog-head"><div><div class="eyebrow">PROPOSAL KEGIATAN</div><h2 id="proposalDialogTitle">Buat proposal baru</h2></div><button class="hk-dialog-close" type="button" data-close="proposalDialog" aria-label="Tutup">×</button></div>
+<label>Judul proposal / kegiatan<input name="title" required maxlength="250" placeholder="Contoh: Pengadaan Peralatan Laboratorium IPA"></label>
+<div class="hk-form-grid"><label>Kategori<select name="category" required><option value="">Pilih kategori</option><option value="education">Pendidikan</option><option value="student_activity">Kegiatan siswa</option><option value="sports">Olahraga</option><option value="facility">Sarana prasarana</option><option value="community">Sosial & masyarakat</option><option value="event">Acara sekolah</option><option value="other">Lainnya</option></select></label><label>Target dukungan (Rp)<input name="requested_amount" type="number" min="0" step="0.01" value="0"></label></div>
+<label>Ringkasan dan kebutuhan proposal<textarea name="description" rows="4" required maxlength="8000" placeholder="Jelaskan latar belakang, kebutuhan, dan bentuk dukungan yang diperlukan."></textarea></label>
+<label>Tujuan kegiatan<textarea name="objectives" rows="2" maxlength="4000"></textarea></label>
+<label>Sasaran penerima manfaat<input name="target_audience" maxlength="1000" placeholder="Contoh: Peserta didik kelas X–XII"></label>
+<div class="hk-form-grid"><label>Tanggal proposal<input name="proposal_date" type="date"></label><label>Batas pengajuan / tenggat<input name="submission_deadline" type="date"></label></div>
+<div class="hk-form-grid"><label>Mulai kegiatan<input name="activity_start_date" type="date"></label><label>Akhir kegiatan<input name="activity_end_date" type="date"></label></div>
+<div class="hk-form-grid"><label>Unit pengusul<input name="owner_unit" maxlength="180" placeholder="Contoh: OSIS / Sarpras / Kurikulum"></label><label>Koordinator<input name="coordinator_name" maxlength="180"></label></div>
+<label>Kontak koordinator<input name="coordinator_contact" maxlength="120" placeholder="Nomor telepon / email"></label>
+<div class="hk-dialog-actions"><button class="hk-btn hk-btn-ghost" type="button" data-close="proposalDialog">Batal</button><button class="hk-btn hk-btn-primary" type="submit">Simpan draft</button></div>
+</form></dialog>
+
+<dialog class="hk-dialog hk-dialog-wide" id="proposalDetailDialog">
+<div class="hk-dialog-head"><div><div class="eyebrow">RINCIAN PROPOSAL</div><h2 id="proposalDetailTitle">Detail proposal</h2><span id="proposalDetailStatus" class="hk-status"></span></div><button class="hk-dialog-close" type="button" data-close="proposalDetailDialog" aria-label="Tutup">×</button></div>
+<div id="proposalDetailBody" class="hk-info-body"></div>
+<div class="hp-support-head"><div><div class="eyebrow">PENDUKUNG KEGIATAN</div><h3>Calon sponsor & realisasi</h3></div><button id="addSupportBtn" class="hk-btn hk-btn-primary" type="button" hidden>＋ Catat sponsor</button></div>
+<div id="supportList" class="hp-support-list"></div>
+<div id="proposalStatusActions" class="hp-status-actions"></div>
+<div class="hk-dialog-actions"><button class="hk-btn hk-btn-ghost" type="button" data-close="proposalDetailDialog">Tutup</button></div>
+</dialog>
+
+<dialog class="hk-dialog" id="supportDialog"><form id="supportForm">
+<div class="hk-dialog-head"><div><div class="eyebrow">DUKUNGAN KEGIATAN</div><h2>Catat calon sponsor</h2></div><button class="hk-dialog-close" type="button" data-close="supportDialog" aria-label="Tutup">×</button></div>
+<label>Nama sponsor / mitra<input name="sponsor_name" required maxlength="180" placeholder="Nama perusahaan atau instansi"></label>
+<label>Hubungkan dengan direktori mitra<select name="partner_id" id="supportPartner"><option value="">Tidak ditautkan</option></select></label>
+<label>Bentuk dukungan<select name="support_type" required><option value="cash">Dana / uang</option><option value="goods">Barang</option><option value="services">Jasa</option><option value="facility">Fasilitas</option><option value="other">Lainnya</option></select></label>
+<label>Rincian dukungan<textarea name="support_description" rows="2" maxlength="2000" placeholder="Contoh: 10 unit komputer, konsumsi, transportasi, dan sebagainya."></textarea></label>
+<label>Estimasi nilai dukungan (Rp)<input name="estimated_value" type="number" min="0" step="0.01" value="0"></label>
+<label>Narahubung<input name="contact_person" maxlength="180"></label>
+<label>Tanggal komunikasi awal<input name="contact_date" type="date"></label>
+<label>Catatan<textarea name="notes" rows="2" maxlength="2000"></textarea></label>
+<div class="hk-dialog-actions"><button class="hk-btn hk-btn-ghost" type="button" data-close="supportDialog">Batal</button><button class="hk-btn hk-btn-primary" type="submit">Simpan sponsor</button></div>
+</form></dialog>
+</body></html>
