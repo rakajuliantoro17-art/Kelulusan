@@ -168,7 +168,7 @@ async function runWorkflow(action){
  if(["reject","request_revision"].includes(action)){reason=window.prompt(action==="reject"?"Tuliskan alasan penolakan:":"Tuliskan catatan revisi:","");if(!reason||!reason.trim())return;}
  else if(!window.confirm("Jalankan tindakan ini pada dokumen kerja sama?"))return;
  try{
-  await api("agreements","PATCH",{id:a.id,action,reason});$("detailDialog").close();notice("Tahapan kerja sama berhasil diperbarui.","success");await Promise.all([loadAgreements(),loadDashboard()]);
+  await api("agreements","PATCH",{id:a.id,action,reason,actor_role:action==="request_revision"&&a.status==="pending_principal_approval"?"principal":undefined});$("detailDialog").close();notice("Tahapan kerja sama berhasil diperbarui.","success");await Promise.all([loadAgreements(),loadDashboard()]);
  }catch(e){notice(e.message,"error");}
 }
 function debounce(fn,wait=350){let t;return(...args)=>{clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
