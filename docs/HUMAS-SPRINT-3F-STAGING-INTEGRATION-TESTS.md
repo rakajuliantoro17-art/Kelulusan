@@ -166,9 +166,11 @@ Release gate:
 ### Pekerjaan zero-cost yang sudah disiapkan
 
 - [x] Migrations 001–005 diambil dari branch `main` dan direview secara statis.
-- [x] Test harness API dibuat di `tests/humas-api.test.js` (8 skenario mock: autentikasi, role operator, akses staf, pembatasan kepala sekolah, actor ID, tanggal, pagination).
+- [x] Test harness API dibuat di `tests/humas-api.test.js` (10 skenario mock: autentikasi, role operator, akses staf, pembatasan Wakasek/Kepala Sekolah, actor ID, tanggal, pagination).
 - [x] Static migration checks dibuat di `tests/humas-migrations-static.test.js` (7 pemeriksaan struktur dan privilege).
-- [x] Sintaks kedua test file diperiksa dengan `node --check` pada sesi authoring.
+- [x] Sintaks API dan kedua test file lolos pemeriksaan parser JavaScript.
+- [x] Sepuluh skenario API dijalankan terhadap handler dengan mock Supabase HTTP; seluruhnya PASS.
+- [x] Delapan pemeriksaan statis terhadap lima migration SQL lolos (RLS, RBAC, RPC, actor guard, append-only audit grants, dan larangan grant browser-role).
 - [x] Dokumen ini diperbarui dengan status dan release gate yang eksplisit.
 
 ### Yang belum dapat dinyatakan PASS
@@ -188,7 +190,7 @@ node --check src/server/api/humas.js
 node --test tests/humas-api.test.js tests/humas-migrations-static.test.js
 ```
 
-Test API menggunakan mock fetch dan tidak membuktikan perilaku PostgREST/PostgreSQL sesungguhnya. Static migration checks juga bukan pengganti eksekusi SQL di PostgreSQL.
+Test API yang lulus menggunakan mock fetch/HTTP dan tidak membuktikan perilaku PostgREST/PostgreSQL sesungguhnya. Pemeriksaan migration yang lulus bersifat statis dan bukan pengganti eksekusi SQL di PostgreSQL. File test yang disimpan di repository dapat dijalankan dari checkout dengan perintah di atas.
 
 ### Hasil audit read-only Supabase Production
 
