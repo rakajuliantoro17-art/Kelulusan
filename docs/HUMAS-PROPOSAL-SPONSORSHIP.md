@@ -45,3 +45,17 @@ Penulisan dilakukan melalui RPC transaksional. Timeline audit append-only. RLS a
 - Belum ada integrasi tanda tangan atau transaksi keuangan.
 - Hak akses masih mengikuti pola internal HUMAS yang sudah ada; matriks role yang lebih rinci ditunda sesuai prioritas proyek.
 - Belum diuji pada Supabase Production atau Vercel runtime.
+
+
+## Hasil validasi sumber
+
+- PostgreSQL 17 ephemeral: migration 001–008 berhasil diterapkan.
+- Integrasi proposal: create, update draft, lifecycle status, sponsor, komitmen, realisasi, summary, dan rollback berhasil.
+- Security test: RLS, larangan akses langsung browser, privilege service_role, dan audit append-only berhasil.
+- Node.js tests: **30 PASS, 0 FAIL**.
+- Build statis PINTUKU: **PASS**; halaman, CSS, JavaScript, dan rewrite Vercel terdaftar.
+- Belum ada migrasi ke Supabase Production, akun pengguna, atau deployment manual yang dilakukan.
+
+CI: [HUMAS PostgreSQL Integration](https://github.com/rakajuliantoro17-art/Kelulusan/actions/runs/41388297159) · [Project Check](https://github.com/rakajuliantoro17-art/Kelulusan/actions/runs/41388335846).
+
+Status: **source dan integrasi PostgreSQL CI lulus; aktivasi Production belum dilakukan.**
