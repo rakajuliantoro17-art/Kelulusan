@@ -1,18 +1,8 @@
-/* PINTUKU — gear pengaturan mengambang (tema + pintasan modul). Dipakai semua halaman portal. */
+/* PINTUKU — gear pengaturan mengambang. Fokus pada preferensi antarmuka; navigasi ditangani dashboard dan side panel masing-masing modul. */
 (() => {
   "use strict";
   if (window.__pintukuSettingsReady) return;
   window.__pintukuSettingsReady = true;
-
-  // Daftar modul untuk pintasan di panel. Modul baru (Humas, TU, Operasional): tambah satu baris di sini
-  // dan satu kartu <article class="module-card"> di dashboard/index.html.
-  const MODULES = [
-    { id: "akademik", label: "Akademik", href: "/akademik/dashboard" },
-    { id: "sarpras", label: "Sarana & Prasarana", href: "/sarpras/" },
-    { id: "kesiswaan", label: "Kesiswaan", href: "/kesiswaan/" },
-    { id: "humas", label: "Hubungan Masyarakat", href: "/humas" },
-    { id: "tata-usaha", label: "Tata Usaha", href: "/tata-usaha" }
-  ];
 
   const KEY = "pintuku-theme";
   const LANG_KEY = "pintuku-language";
@@ -43,15 +33,8 @@
     if (persist) { try { localStorage.setItem(KEY, theme); } catch (_) {} }
   }
 
-  const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
-
   function init() {
     if (document.getElementById("pintukuSettingsTrigger")) return;
-    const current = document.body.dataset.portalModule || "home";
-    const links = [{ id: "home", label: "Beranda", href: "/" }].concat(MODULES).map((m) =>
-      '<li><a class="ps-link" href="' + m.href + '"' + (m.id === current ? ' aria-current="page"' : "") + '><span>' +
-      esc(m.label) + '</span><span aria-hidden="true">→</span></a></li>').join("");
-
     const wrap = document.createElement("div");
     wrap.innerHTML =
       '<button class="ps-trigger" id="pintukuSettingsTrigger" type="button" aria-label="Buka panel pengaturan" aria-haspopup="dialog" aria-expanded="false">' +
@@ -68,7 +51,6 @@
           '<p class="ps-note">Pilihan tema disimpan di perangkat ini dan berlaku di seluruh halaman portal.</p>' +
           '<div class="ps-language"><div class="ps-row-text"><span class="ps-row-title">Bahasa / Language</span><span class="ps-row-desc">Pilih bahasa antarmuka</span></div><div class="ps-language-switch" role="group" aria-label="Pilih bahasa"><button type="button" data-pintuku-language="id" aria-pressed="true">ID</button><button type="button" data-pintuku-language="en" aria-pressed="false">EN</button></div></div>' +
           '<p class="ps-note">Bahasa antarmuka dapat diubah kapan saja. Dokumen resmi tetap mengikuti bahasa dokumen sumber.</p>' +
-          '<h2 class="ps-sub">Pintasan</h2><ul class="ps-links">' + links + '</ul>' +
         '</div></aside>';
     while (wrap.firstElementChild) document.body.appendChild(wrap.firstElementChild);
 
