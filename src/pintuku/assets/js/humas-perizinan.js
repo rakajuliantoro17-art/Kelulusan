@@ -52,6 +52,7 @@ async function loadProtocol(){
  const r=await request("protocol-workspace");if(!r.r.ok)throw new Error(r.data.message||"Agenda protokoler tidak dapat dimuat.");
  const d=r.data.data||{},m=d.summary||{};
  $("protocolMetrics").innerHTML=[["Agenda",m.total||0],["Akan datang",m.upcoming||0],["Persiapan",m.preparing||0],["Tugas terbuka",m.open_tasks||0]].map(([k,v])=>'<div class="hp-protocol-metric"><span>'+esc(k)+'</span><b>'+Number(v).toLocaleString("id-ID")+'</b></div>').join("");
+ const permitSelect=$("agendaPermitSelect");if(permitSelect){const selected=permitSelect.value;permitSelect.innerHTML='<option value="">Tidak ditautkan</option>'+(d.permits||[]).map(p=>'<option value="'+esc(p.id)+'">'+esc((p.request_code||"Draft")+" · "+p.title+" · "+statusLabel(p.status))+'</option>').join("");permitSelect.value=selected;}
  const items=d.agendas||[];
  $("protocolList").innerHTML=items.length?items.map(a=>'<button type="button" class="hp-permit-row" data-agenda="'+esc(a.id)+'"><span class="hp-permit-code">'+esc(a.agenda_code||"Agenda")+'<small>'+esc(a.agenda_type.replaceAll("_"," "))+'</small></span><strong>'+esc(a.title)+'</strong><span>'+esc(fmt(a.starts_at))+' · '+esc(a.venue||"Lokasi belum diatur")+'</span><span class="hp-status-tag">'+esc(statusLabel(a.status))+'</span></button>').join(""):'<div class="hp-empty">Belum ada agenda protokoler.</div>';
 }
