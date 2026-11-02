@@ -68,7 +68,8 @@ async function agendaTransition(action){const reason=action==="cancel"?(prompt("
 
 $("loginForm").addEventListener("submit",async e=>{e.preventDefault();const form=e.currentTarget,btn=form.querySelector('[type="submit"]');btn.disabled=true;try{const fd=new FormData(form);const result=await request("login","POST",{email:fd.get("email"),password:fd.get("password")},false);if(!result.r.ok)throw new Error(result.data.message||"Tidak dapat masuk.");save(result.data.data||{});await validateSession();}catch(err){notice(err.message,"error");}finally{btn.disabled=false;}});
 $("logoutBtn").addEventListener("click",()=>{clear();showLogin();});
-$("newPermitBtn").addEventListener("click",()=>{$("permitFormPanel").hidden=false;$("facilityFields").hidden=$("permitForm").elements.namedItem("permit_type").value!=="facility";$("permitFormPanel").scrollIntoView({behavior:"smooth"});});\n$("permitForm").elements.namedItem("permit_type").addEventListener("change",e=>{$("facilityFields").hidden=e.target.value!=="facility";});
+$("newPermitBtn").addEventListener("click",()=>{$("permitFormPanel").hidden=false;$("facilityFields").hidden=$("permitForm").elements.namedItem("permit_type").value!=="facility";$("permitFormPanel").scrollIntoView({behavior:"smooth"});});
+$("permitForm").elements.namedItem("permit_type").addEventListener("change",e=>{$("facilityFields").hidden=e.target.value!=="facility";});
 $("closeForm").addEventListener("click",()=>{$("permitFormPanel").hidden=true;state.editingPermitId=null;$("permitForm").reset();$("permitFormPanel").querySelector("h2").textContent="Permohonan Baru";$("permitForm").querySelector('[type="submit"]').textContent="Simpan sebagai draft";});
 $("closeDetail").addEventListener("click",()=>{$("permitDetailPanel").hidden=true;state.selected=null;});
 $("refreshPermits").addEventListener("click",()=>loadPermits().catch(e=>notice(e.message,"error")));
