@@ -39,6 +39,8 @@ const WEB_EXT = new Set([
 
 const REQUIRED = [
   "src/pintuku/dashboard/index.html",
+  "src/pintuku/dashboard/humas.html",
+  "src/pintuku/assets/css/service-modules.css",
   "src/pintuku/dashboard/sarpras.html",
   "src/pintuku/pwa/sw.js",
   "src/pintuku/pwa/manifest.json",
