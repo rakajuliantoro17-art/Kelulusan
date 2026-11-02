@@ -16,7 +16,8 @@ const files = [
   "202611020007_humas_operational_workflow.sql",
   "202611020008_humas_proposals_sponsorship.sql",
   "202611020009_humas_alumni_tracer_study.sql",
-  "202611020010_humas_alumni_public_intake.sql"
+  "202611020010_humas_alumni_public_intake.sql",
+  "202611020011_humas_external_accounts.sql"
 ];
 
 test("HUMAS migrations exist in dependency order", () => {
@@ -113,3 +114,6 @@ test("proposal and sponsorship foundation uses transactional RPCs and immutable 
 test("alumni CRM keeps private profiles and consent-gated append-only contact history",()=>{const sql=migration(files[8]);for(const table of ["alumni_profiles","alumni_contact_logs"]){assert.match(sql,new RegExp("create table if not exists humas\\."+table));assert.match(sql,new RegExp("alter table humas\\."+table+" enable row level security"));}for(const fn of ["alumni_profile_create","alumni_profile_update","alumni_contact_log_create","alumni_summary"])assert.match(sql,new RegExp("create or replace function humas\\."+fn));assert.match(sql,/consent_fundraising/);assert.match(sql,/alumni_contact_consent_required/);assert.match(sql,/alumni_contact_logs_append_only/);});
 
 test("public alumni intake stores pending submissions and gates review through staff RPC",()=>{const sql=migration(files[9]);for(const table of ["alumni_intake_submissions","alumni_intake_rate_limits"])assert.match(sql,new RegExp("create table if not exists humas\\."+table));for(const fn of ["alumni_intake_submit","alumni_intake_review"])assert.match(sql,new RegExp("create or replace function humas\\."+fn));assert.match(sql,/consent_data_processing/);assert.match(sql,/rate_limited/);assert.match(sql,/duplicate_possible/);assert.match(sql,/grant execute on function humas\.alumni_intake_submit.*alumni_intake_review.*to service_role/s);});
+
+
+test("external self-service profiles are isolated from internal role assignment",()=>{const sql=migration(files[10]);assert.match(sql,/create table if not exists humas\.external_profiles/);assert.match(sql,/alter table humas\.external_profiles enable row level security/);assert.match(sql,/account_type in\('alumni','partner','committee','public'\)/);assert.match(sql,/profile_status text not null default 'pending_review'/);assert.match(sql,/external_profile_upsert/);assert.match(sql,/revoke all on function humas\.external_profile_upsert.*from public,anon,authenticated/);assert.match(sql,/grant execute on function humas\.external_profile_upsert.*to service_role/);assert.doesNotMatch(sql,/insert into humas\.user_roles|update humas\.user_roles/i);});
