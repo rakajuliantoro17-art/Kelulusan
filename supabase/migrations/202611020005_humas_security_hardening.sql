@@ -7,7 +7,7 @@ language plpgsql
 set search_path = ''
 as $$
 begin
-  if new.actor_id is null or new.actor_role <> 'staff_humas'
+  if new.actor_id is null or new.actor_role is distinct from 'staff_humas'
      or not exists (
        select 1
        from humas.user_roles ur
