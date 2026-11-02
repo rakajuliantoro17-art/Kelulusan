@@ -67,7 +67,7 @@ set search_path = ''
 as $$
 declare v_before humas.partners%rowtype; v_after humas.partners%rowtype;
 begin
-  if p_actor_id is null or p_actor_role <> 'staff_humas' then
+  if p_actor_id is null or p_actor_role is distinct from 'staff_humas' then
     raise exception using errcode = '42501', message = 'forbidden';
   end if;
   if p_payload is null or pg_catalog.jsonb_typeof(p_payload) <> 'object'
@@ -110,7 +110,7 @@ set search_path = ''
 as $$
 declare v_before humas.partners%rowtype; v_after humas.partners%rowtype;
 begin
-  if p_actor_id is null or p_actor_role <> 'staff_humas' then
+  if p_actor_id is null or p_actor_role is distinct from 'staff_humas' then
     raise exception using errcode = '42501', message = 'forbidden';
   end if;
   if p_status is null or p_status not in ('active','inactive','under_review') then
