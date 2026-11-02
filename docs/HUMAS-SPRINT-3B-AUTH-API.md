@@ -13,12 +13,13 @@ The `system_operator` role is technical-only and cannot read partner data throug
 Configure these in Vercel Project Settings → Environment Variables for the intended deployment environments:
 - `SUPABASE_URL`: project URL.
 - `SUPABASE_PUBLISHABLE_KEY`: publishable key (or compatible legacy anon key).
-- `SUPABASE_SERVICE_ROLE_KEY`: legacy service-role key, server-only.
+- `SUPABASE_SECRET_KEY`: modern secret key (`sb_secret_...`), server-only and recommended.
+- `SUPABASE_SERVICE_ROLE_KEY`: legacy compatibility fallback only; migrate to `SUPABASE_SECRET_KEY` before the legacy-key retirement at the end of 2026.
 
-Do not prefix secrets with `NEXT_PUBLIC_`, `VITE_`, or any browser-exposed prefix. Do not commit credentials. The service-role key must never be returned to a browser or placed in static assets.
+Do not prefix secrets with `NEXT_PUBLIC_`, `VITE_`, or any browser-exposed prefix. Do not commit credentials. The secret/service-role key must never be returned to a browser or placed in static assets. Modern `sb_secret_...` keys are sent in the `apikey` header only; the API code deliberately does not put them in `Authorization: Bearer`. Legacy JWT-based `service_role` keys use both headers during migration.
 
 ## Supabase Data API prerequisite
-The API uses PostgREST to read the private `humas` schema with the service credential and `Accept-Profile: humas`. Before enabling this endpoint:
+The API uses PostgREST to read the private `humas` schema with the server-only secret credential and `Accept-Profile: humas`. Before enabling this endpoint:
 1. Apply the reviewed HUMAS migrations in a controlled environment.
 2. Add `humas` to the Data API exposed schemas in Supabase API settings.
 3. Grant schema usage to `service_role` only; do not grant `anon` or `authenticated`.
