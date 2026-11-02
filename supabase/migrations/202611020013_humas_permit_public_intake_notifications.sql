@@ -264,7 +264,7 @@ begin
     if new.applicant_email is not null then
       insert into humas.permit_notification_outbox(permit_id,recipient_email,event_type,subject,body_text)
       values(new.id,new.applicant_email,'permit_status',v_title,
-        'Status permohonan '||new.request_code||' berubah menjadi '+new.status||
+        'Status permohonan '||new.request_code||' berubah menjadi '||new.status||
         case when new.decision_note is not null then '. Catatan: '||new.decision_note else '' end||
         '. Gunakan kode dan token pelacakan yang Anda simpan untuk melihat detail terbaru.');
     end if;
