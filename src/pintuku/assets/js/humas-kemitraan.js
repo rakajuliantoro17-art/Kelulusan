@@ -58,7 +58,6 @@ function renderPartners(items){
  state.partners=items||[];
  $("partnerRows").innerHTML=state.partners.map(p=>'<tr><td><strong>'+esc(p.partner_name)+'</strong><small>'+esc(p.institution_address||p.id)+'</small></td><td>'+esc(labels[p.partner_type]||p.partner_type)+'</td><td>'+esc(p.contact_person||"—")+'<small>'+esc(p.contact_email||p.contact_phone||"—")+'</small></td><td><span class="hk-status '+(p.record_status==="active"?"hk-status-active":p.record_status==="inactive"?"hk-status-draft":"hk-status-review")+'">'+(p.record_status==="active"?"Aktif":p.record_status==="inactive"?"Tidak aktif":"Dalam pemeriksaan")+'</span></td><td><button class="hk-row-action" type="button" data-edit-partner="'+esc(p.id)+'">Kelola</button></td></tr>').join("")||'<tr><td colspan="5" class="hk-empty">Belum ada data mitra.</td></tr>';
  $("partnerEmpty").hidden=state.partners.length!==0;
- $("partnerCount");
  $("partnerPageInfo").textContent="Halaman "+state.partnerPage+" · "+state.partners.length+" data";
  $("partnerPrev").disabled=state.partnerPage<=1;$("partnerNext").disabled=state.partners.length<25;
 }
