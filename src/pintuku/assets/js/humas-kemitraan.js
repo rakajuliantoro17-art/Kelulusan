@@ -78,6 +78,7 @@ function renderAgreements(items){
 }
 async function loadAgreements(){
  const q=new URLSearchParams({page:String(state.agreementPage),limit:"25"});
+ if($("agreementSearch").value.trim())q.set("search",$("agreementSearch").value.trim());
  if($("agreementStatus").value)q.set("status",$("agreementStatus").value);
  const d=await api("agreements&"+q.toString());renderAgreements(d.agreements||[]);
 }
