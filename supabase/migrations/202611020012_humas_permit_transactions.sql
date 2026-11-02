@@ -287,7 +287,7 @@ $$;
 
 create or replace function humas.protocol_agenda_create(
  p_actor_id uuid,p_actor_role text,p_payload jsonb
-) returns jsonb language plpgsql set search_path='' as $
+) returns jsonb language plpgsql set search_path='' as $$
 declare v_row humas.protocol_agendas%rowtype;v_code text;
 begin
  if p_actor_id is null or p_actor_role is distinct from 'staff_humas'
@@ -315,11 +315,11 @@ begin
  values(v_row.id,'created','planned',p_actor_id,p_actor_role,pg_catalog.jsonb_build_object('agenda_code',v_code));
  return pg_catalog.to_jsonb(v_row);
 end;
-$;
+$$;
 
 create or replace function humas.protocol_agenda_transition(
  p_actor_id uuid,p_actor_role text,p_agenda_id uuid,p_action text,p_reason text default null
-) returns jsonb language plpgsql set search_path='' as $
+) returns jsonb language plpgsql set search_path='' as $$
 declare v_before humas.protocol_agendas%rowtype;v_after humas.protocol_agendas%rowtype;v_to text;
 begin
  if p_actor_id is null or p_actor_role not in ('staff_humas','vice_principal_humas','principal')
@@ -344,11 +344,11 @@ begin
  values(p_agenda_id,p_action,v_before.status,v_to,p_actor_id,p_actor_role,nullif(pg_catalog.btrim(p_reason),''));
  return pg_catalog.to_jsonb(v_after);
 end;
-$;
+$$;
 
 create or replace function humas.protocol_guest_create(
  p_actor_id uuid,p_actor_role text,p_agenda_id uuid,p_payload jsonb
-) returns jsonb language plpgsql set search_path='' as $
+) returns jsonb language plpgsql set search_path='' as $$
 declare v_row humas.protocol_guests%rowtype;
 begin
  if p_actor_id is null or p_actor_role is distinct from 'staff_humas'
@@ -372,11 +372,11 @@ begin
  values(p_agenda_id,'guest_added',p_actor_id,p_actor_role,pg_catalog.jsonb_build_object('guest_id',v_row.id));
  return pg_catalog.to_jsonb(v_row);
 end;
-$;
+$$;
 
 create or replace function humas.protocol_guest_update(
  p_actor_id uuid,p_actor_role text,p_guest_id uuid,p_payload jsonb
-) returns jsonb language plpgsql set search_path='' as $
+) returns jsonb language plpgsql set search_path='' as $$
 declare v_row humas.protocol_guests%rowtype;
 begin
  if p_actor_id is null or p_actor_role is distinct from 'staff_humas'
@@ -399,11 +399,11 @@ begin
  values(v_row.agenda_id,'guest_updated',p_actor_id,p_actor_role,pg_catalog.jsonb_build_object('guest_id',v_row.id,'attendance_status',v_row.attendance_status));
  return pg_catalog.to_jsonb(v_row);
 end;
-$;
+$$;
 
 create or replace function humas.protocol_task_create(
  p_actor_id uuid,p_actor_role text,p_agenda_id uuid,p_payload jsonb
-) returns jsonb language plpgsql set search_path='' as $
+) returns jsonb language plpgsql set search_path='' as $$
 declare v_row humas.protocol_tasks%rowtype;
 begin
  if p_actor_id is null or p_actor_role is distinct from 'staff_humas'
@@ -424,11 +424,11 @@ begin
  values(p_agenda_id,'task_created',p_actor_id,p_actor_role,pg_catalog.jsonb_build_object('task_id',v_row.id));
  return pg_catalog.to_jsonb(v_row);
 end;
-$;
+$$;
 
 create or replace function humas.protocol_task_update(
  p_actor_id uuid,p_actor_role text,p_task_id uuid,p_payload jsonb
-) returns jsonb language plpgsql set search_path='' as $
+) returns jsonb language plpgsql set search_path='' as $$
 declare v_row humas.protocol_tasks%rowtype;
 begin
  if p_actor_id is null or p_actor_role is distinct from 'staff_humas'
@@ -451,10 +451,10 @@ begin
  values(v_row.agenda_id,'task_updated',p_actor_id,p_actor_role,pg_catalog.jsonb_build_object('task_id',v_row.id,'task_status',v_row.task_status));
  return pg_catalog.to_jsonb(v_row);
 end;
-$;
+$$;
 
 create or replace function humas.protocol_summary()
-returns jsonb language sql stable set search_path='' as $
+returns jsonb language sql stable set search_path='' as $$
 select pg_catalog.jsonb_build_object(
  'total',(select count(*) from humas.protocol_agendas),
  'upcoming',(select count(*) from humas.protocol_agendas where starts_at>=now() and status not in ('completed','cancelled')),
@@ -462,7 +462,7 @@ select pg_catalog.jsonb_build_object(
  'in_progress',(select count(*) from humas.protocol_agendas where status='in_progress'),
  'open_tasks',(select count(*) from humas.protocol_tasks where task_status in ('pending','in_progress','blocked'))
 );
-$;
+$$;
 
 revoke all on function humas.protocol_agenda_create(uuid,text,jsonb),
  humas.protocol_agenda_transition(uuid,text,uuid,text,text),
