@@ -16,7 +16,8 @@ const files = [
   "202611020007_humas_operational_workflow.sql",
   "202611020008_humas_proposals_sponsorship.sql",
   "202611020009_humas_alumni_tracer_study.sql",
-  "202611020010_humas_alumni_public_intake.sql"
+  "202611020010_humas_alumni_public_intake.sql",
+  "202611020011_humas_permits_protocol_foundation.sql"
 ];
 
 test("HUMAS migrations exist in dependency order", () => {
