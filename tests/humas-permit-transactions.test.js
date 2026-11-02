@@ -18,7 +18,7 @@ test("permit transaction RPCs enforce active HUMAS roles and legal transitions",
  assert.match(sql,/guest_added/);
  assert.match(sql,/task_created/);
  assert.match(sql,/facility_details->>'facility_name'/);
- assert.match(sql,/insert into humas\\.permit_workflow_events/);
+ assert.ok(sql.includes("insert into humas.permit_workflow_events"));
 });
 
 test("permit documents use a private restricted storage bucket",()=>{
