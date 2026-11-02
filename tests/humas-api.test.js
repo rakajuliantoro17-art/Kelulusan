@@ -1,0 +1,96 @@
+"use strict";
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const handler = require("../src/server/api/humas.js");
+
+const USER_ID = "11111111-1111-4111-8111-111111111111";
+const PARTNER_ID = "22222222-2222-4222-8222-222222222222";
+
+async function invoke({ role = "staff_humas", token = "valid-token", method = "GET", op = "partners", body = {}, query = {} } = {}) {
+  const originalFetch = global.fetch;
+  const calls = [];
+  process.env.SUPABASE_URL = "https://example.supabase.co";
+  process.env.SUPABASE_PUBLISHABLE_KEY = "sb_publishable_test";
+  process.env.SUPABASE_SECRET_KEY = "sb_secret_test";
+  global.fetch = async (input, options = {}) => {
+    const url = new URL(String(input));
+    calls.push({ url, options });
+    if (url.pathname === "/auth/v1/user") {
+      if (token === "invalid-token") return new Response(JSON.stringify({ message: "invalid" }), { status: 401 });
+      return new Response(JSON.stringify({ id: USER_ID, email: "test@example.invalid" }), { status: 200 });
+    }
+    if (url.pathname === "/rest/v1/user_roles") {
+      return new Response(JSON.stringify(role ? [{ role_code: role }] : []), { status: 200 });
+    }
+    if (url.pathname === "/rest/v1/partners") {
+      return new Response(JSON.stringify([{ id: PARTNER_ID, partner_name: "Mitra Uji" }]), { status: 200 });
+    }
+    if (url.pathname === "/rest/v1/agreements") {
+      return new Response(JSON.stringify([]), { status: 200 });
+    }
+    if (url.pathname.startsWith("/rest/v1/rpc/")) {
+      return new Response(JSON.stringify({ id: PARTNER_ID, status: "draft" }), { status: 200 });
+    }
+    return new Response(JSON.stringify({ message: "not found" }), { status: 404 });
+  };
+  const req = { method, headers: token ? { authorization: `Bearer ${token}` } : {}, query: { op, ...query }, body };
+  const res = {
+    statusCode: 200, headers: {}, payload: null,
+    status(code) { this.statusCode = code; return this; },
+    setHeader(key, value) { this.headers[key] = value; },
+    json(value) { this.payload = value; return this; }
+  };
+  try { await handler(req, res); return { status: res.statusCode, payload: res.payload, calls, headers: res.headers }; }
+  finally { global.fetch = originalFetch; }
+}
+
+test("unauthenticated requests are rejected", async () => {
+  const r = await invoke({ token: null });
+  assert.equal(r.status, 401);
+});
+
+test("invalid Supabase access token is rejected", async () => {
+  const r = await invoke({ token: "invalid-token" });
+  assert.equal(r.status, 401);
+});
+
+test("system operator cannot read partner business data", async () => {
+  const r = await invoke({ role: "system_operator" });
+  assert.equal(r.status, 403);
+});
+
+test("staff HUMAS can read partner directory", async () => {
+  const r = await invoke({ role: "staff_humas" });
+  assert.equal(r.status, 200);
+  assert.equal(r.payload.data.partners.length, 1);
+});
+
+test("principal cannot create partner master data", async () => {
+  const r = await invoke({ role: "principal", method: "POST", body: { partner_name: "Mitra", partner_type: "education" } });
+  assert.equal(r.status, 403);
+  assert.equal(r.calls.some(x => x.url.pathname.includes("/rpc/")), false);
+});
+
+test("staff partner creation uses authenticated actor identity", async () => {
+  const r = await invoke({ role: "staff_humas", method: "POST", body: { partner_name: "Mitra Uji", partner_type: "education" } });
+  assert.equal(r.status, 201);
+  const rpc = r.calls.find(x => x.url.pathname.endsWith("/rpc/partner_create"));
+  assert.ok(rpc);
+  const payload = JSON.parse(rpc.options.body);
+  assert.equal(payload.p_actor_id, USER_ID);
+  assert.equal(payload.p_actor_role, "staff_humas");
+});
+
+test("invalid calendar date is rejected before database RPC", async () => {
+  const r = await invoke({ role: "staff_humas", method: "POST", op: "agreements", body: {
+    partner_id: PARTNER_ID, title: "MoU Uji", agreement_type: "mou", purpose: "Pengujian",
+    start_date: "2026-02-30", end_date: "2027-02-28"
+  } });
+  assert.equal(r.status, 400);
+  assert.equal(r.calls.some(x => x.url.pathname.includes("/rpc/")), false);
+});
+
+test("invalid pagination is rejected", async () => {
+  const r = await invoke({ query: { page: "0", limit: "999" } });
+  assert.equal(r.status, 400);
+});
