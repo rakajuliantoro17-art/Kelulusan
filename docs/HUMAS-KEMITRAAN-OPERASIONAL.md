@@ -47,6 +47,10 @@ Kategori: pemerintah, pendidikan, dunia usaha, komunitas, nirlaba, alumni, dan l
 - Sesi kedaluwarsa meminta pengguna masuk kembali.
 - Akun harus lebih dahulu dibuat pada Supabase Auth dan diberi role HUMAS aktif.
 
+## Modul lanjutan: Proposal & Sponsorship
+
+Proposal & Sponsorship kini tersedia sebagai workspace terpisah untuk pencatatan proposal kegiatan, target dukungan, calon sponsor, komitmen, dan realisasi. Modul memakai direktori mitra yang sama sehingga sponsor dapat ditautkan ke data mitra tanpa input ulang. Dokumentasi: [HUMAS Proposal & Sponsorship](HUMAS-PROPOSAL-SPONSORSHIP.md). Migration 008 menambah tabel proposal, dukungan sponsor, dan audit append-only. Fitur ini juga masih menunggu aktivasi database Production.
+
 ## Matriks hak akses
 
 | Fungsi | Staf HUMAS | Wakasek HUMAS | Kepala Sekolah |
@@ -87,7 +91,7 @@ Environment variables Vercel yang diperlukan:
 - `SUPABASE_SECRET_KEY` (server-side only)
 
 Setelah migrasi lolos uji PostgreSQL lokal:
-1. Terapkan migration HUMAS 001–007 ke Supabase melalui proses terpisah yang disetujui.
+1. Terapkan migration HUMAS 001–008 ke Supabase melalui proses terpisah yang disetujui.
 2. Tambahkan schema `humas` pada Data API Exposed Schemas.
 3. Pastikan hanya `service_role` yang memperoleh USAGE dan hak tabel/RPC sesuai migration. Jangan memberi akses langsung ke `anon` atau `authenticated`.
 4. Buat akun Auth dan tetapkan role secara administratif melalui jalur yang aman.
@@ -124,6 +128,6 @@ Untuk sementara, modul hanya menampilkan metadata dokumen jika record dokumen su
 - HTML: pemeriksaan ID duplikat.
 - SQL migration: pemeriksaan konsistensi sumber dan static assertions.
 - Test harness API: diperbarui untuk login, dashboard, dan transisi.
-- Local PostgreSQL runner: diperbarui untuk migration 001–007 dan jalur workflow penuh.\n- GitHub Actions workflow memakai PostgreSQL 17 ephemeral container untuk menjalankan migration dan test secara otomatis; tidak membuat database permanen atau mengakses Supabase Production.
+- Local PostgreSQL runner: diperbarui untuk migration 001–008 dan jalur workflow penuh.\n- GitHub Actions workflow memakai PostgreSQL 17 ephemeral container untuk menjalankan migration dan test secara otomatis; tidak membuat database permanen atau mengakses Supabase Production.
 
-GitHub Actions berhasil menjalankan migration 001–007 pada PostgreSQL 17 ephemeral, menjalankan integrasi transaksi penuh, memverifikasi RLS/grant/trigger, dan menjalankan 24 test Node.js (24 PASS, 0 FAIL). Ini membuktikan SQL dan test harness berjalan pada PostgreSQL 17 lokal CI, bukan pada Supabase Production. Belum ada migration yang diterapkan ke Supabase Production, belum ada akun Auth yang dibuat, dan belum ada deploy yang dilakukan. Status release tetap **NO-GO untuk penggunaan operasional** sampai aktivasi Supabase dan uji Auth/Storage/Vercel nyata diselesaikan.
+GitHub Actions berhasil menjalankan migration 001–007 pada PostgreSQL 17 ephemeral, menjalankan integrasi transaksi penuh, memverifikasi RLS/grant/trigger, dan menjalankan 30 test Node.js (30 PASS, 0 FAIL). Ini membuktikan SQL dan test harness berjalan pada PostgreSQL 17 lokal CI, bukan pada Supabase Production. Belum ada migration yang diterapkan ke Supabase Production, belum ada akun Auth yang dibuat, dan belum ada deploy yang dilakukan. Status release tetap **NO-GO untuk penggunaan operasional** sampai aktivasi Supabase dan uji Auth/Storage/Vercel nyata diselesaikan.
