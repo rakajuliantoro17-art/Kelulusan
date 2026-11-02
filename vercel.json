@@ -176,6 +176,14 @@
       "destination": "/src/pintuku/dashboard/humas-alumni.html"
     },
     {
+      "source": "/humas/perizinan",
+      "destination": "/src/pintuku/dashboard/humas-perizinan.html"
+    },
+    {
+      "source": "/humas/perizinan/",
+      "destination": "/src/pintuku/dashboard/humas-perizinan.html"
+    },
+    {
       "source": "/humas",
       "destination": "/src/pintuku/dashboard/humas.html"
     },
