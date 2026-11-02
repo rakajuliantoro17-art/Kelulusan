@@ -5,7 +5,7 @@ Status: **ZERO-COST SOURCE VALIDATION PREPARED — DATABASE INTEGRATION BLOCKED*
 
 ## Tujuan dan batas keselamatan
 
-Sprint ini memvalidasi migrations 001–005, API HUMAS, kontrol akses, dan alur pembuatan data pada database non-produksi. Project Supabase produksi `cnctlcpqpgqtbhgyocjq` tidak boleh menerima DDL, seed data, atau perubahan konfigurasi selama pengujian ini.
+Sprint ini memvalidasi migrations 001–006, API HUMAS, kontrol akses, dan alur pembuatan data pada database non-produksi. Project Supabase produksi `cnctlcpqpgqtbhgyocjq` tidak boleh menerima DDL, seed data, atau perubahan konfigurasi selama pengujian ini.
 
 Lingkungan staging harus memiliki project ref, URL, publishable key, dan secret key sendiri. Jangan menyalin data produksi atau kredensial produksi. Gunakan akun dan data uji sintetis.
 
@@ -29,6 +29,7 @@ Urutan wajib:
 3. `202611020003_humas_partner_management.sql`
 4. `202611020004_humas_agreement_drafts.sql`
 5. `202611020005_humas_security_hardening.sql`
+6. `202611020006_humas_operator_role_separation.sql`
 
 Setelah setiap migration, catat hasil eksekusi dan migration version. Jangan menggabungkan atau mengubah urutan. Jika gagal, hentikan rangkaian, simpan error lengkap tanpa kredensial, perbaiki sumber, reset staging bila perlu, lalu ulangi dari awal.
 
@@ -115,6 +116,7 @@ Pengujian ini hanya mencakup register dan pembuatan draft. Approval, rekomendasi
 - [ ] Tidak ada akses browser langsung ke tabel HUMAS.
 - [ ] Tidak ada self-assignment role melalui user metadata atau request body.
 - [ ] Tidak ada operator yang dapat menyetujui perjanjian.
+- [ ] Akun `system_operator` tidak dapat memiliki role bisnis aktif secara bersamaan.
 - [ ] Tidak ada Wakasek yang dapat melewati keputusan Kepala Sekolah.
 - [ ] Approval tidak dianggap sebagai tanda tangan.
 - [ ] Audit events tidak dapat diubah/dihapus oleh service_role.
@@ -208,3 +210,8 @@ Hasil advisor kosong **bukan bukti bahwa migration HUMAS aman**, karena objek ap
 
 **NO-GO untuk production activation.** Pekerjaan source-level dan test harness sudah tersedia tanpa biaya, tetapi Sprint 3F belum dapat diberi status integrasi PASS. Untuk menyelesaikan pengujian database secara nyata, diperlukan PostgreSQL lokal yang bisa dijalankan atau lingkungan staging yang disetujui. Batas Rp0 tetap berlaku; jangan membuat resource berbayar otomatis.
 
+
+
+## Pembaruan Sprint 3G.9 — pemisahan operator
+
+Migration 006 menambahkan database guard agar role teknis `system_operator` tidak dapat aktif bersamaan dengan role bisnis HUMAS. Runner lokal, integration test, dan static test diperbarui untuk mencakup migration ini. Pemeriksaan runtime masih menunggu PostgreSQL lokal.
