@@ -1,5 +1,5 @@
 -- HUMAS local PostgreSQL integration smoke tests.
--- All fixture data is rolled back. Run after bootstrap and migrations 001-007.
+-- All fixture data is rolled back. Run after bootstrap and migrations 001-008.
 
 DO $guard$
 BEGIN
@@ -74,7 +74,12 @@ DECLARE
   v_updated jsonb;
   v_status jsonb;
   v_agreement jsonb;
+  v_proposal jsonb;
+  v_support jsonb;
   v_partner_id uuid;
+  v_proposal_id uuid;
+  v_support_id uuid;
+  v_proposal_events integer;
   v_partner_events integer;
   v_workflow_events integer;
   v_inactive_partner_count integer;
@@ -159,6 +164,105 @@ BEGIN
     RAISE EXCEPTION 'FAIL: expected exactly one draft_created event, got %', v_workflow_events;
   END IF;
 
+
+  -- Proposal creation, editing, sponsor commitment, realization, and lifecycle.
+  v_proposal := humas.proposal_create(v_staff,'staff_humas',
+    pg_catalog.jsonb_build_object(
+      'title','Proposal Uji Lokal','category','facility',
+      'description','Pengujian proposal dan dukungan sponsor.',
+      'objectives','Memastikan alur pencatatan dukungan.',
+      'requested_amount','1500000','owner_unit','Sarpras',
+      'proposal_date',current_date::text
+    ));
+  v_proposal_id := (v_proposal->>'id')::uuid;
+  IF v_proposal_id IS NULL OR v_proposal->>'status' <> 'draft' THEN
+    RAISE EXCEPTION 'FAIL: proposal_create did not return a draft';
+  END IF;
+
+  v_proposal := humas.proposal_update(v_staff,'staff_humas',v_proposal_id,
+    '{"title":"Proposal Uji Lokal Diperbarui"}'::jsonb);
+  IF v_proposal->>'title' <> 'Proposal Uji Lokal Diperbarui' THEN
+    RAISE EXCEPTION 'FAIL: proposal_update did not persist title';
+  END IF;
+
+  v_support := humas.proposal_support_create(v_staff,'staff_humas',v_proposal_id,
+    pg_catalog.jsonb_build_object(
+      'sponsor_name','Mitra Uji Lokal','partner_id',v_partner_id,
+      'support_type','cash','support_description','Bantuan dana kegiatan',
+      'estimated_value','1000000','contact_person','Petugas Uji'
+    ));
+  v_support_id := (v_support->>'id')::uuid;
+  IF v_support_id IS NULL OR v_support->>'support_status' <> 'prospect' THEN
+    RAISE EXCEPTION 'FAIL: proposal_support_create did not create prospect';
+  END IF;
+
+  v_support := humas.proposal_support_update(v_staff,'staff_humas',v_support_id,
+    '{"support_status":"committed","realized_value":"250000"}'::jsonb);
+  IF v_support->>'support_status' <> 'committed' OR (v_support->>'realized_value')::numeric <> 250000 THEN
+    RAISE EXCEPTION 'FAIL: proposal_support_update did not persist commitment';
+  END IF;
+
+  v_support := humas.proposal_support_update(v_staff,'staff_humas',v_support_id,
+    pg_catalog.jsonb_build_object(
+      'support_status','realized','realized_value','1000000',
+      'realization_date',current_date::text
+    ));
+  IF v_support->>'support_status' <> 'realized' THEN
+    RAISE EXCEPTION 'FAIL: sponsor realization was not recorded';
+  END IF;
+
+  v_proposal := humas.proposal_set_status(v_staff,'staff_humas',v_proposal_id,'submitted','Proposal siap diajukan');
+  v_proposal := humas.proposal_set_status(v_staff,'staff_humas',v_proposal_id,'under_review','Pemeriksaan awal');
+  v_proposal := humas.proposal_set_status(v_staff,'staff_humas',v_proposal_id,'approved','Disetujui untuk penggalangan');
+  v_proposal := humas.proposal_set_status(v_staff,'staff_humas',v_proposal_id,'fundraising','Mulai mencari dukungan');
+  v_proposal := humas.proposal_set_status(v_staff,'staff_humas',v_proposal_id,'funded','Target dukungan terpenuhi');
+  v_proposal := humas.proposal_set_status(v_staff,'staff_humas',v_proposal_id,'in_progress','Kegiatan berjalan');
+  v_proposal := humas.proposal_set_status(v_staff,'staff_humas',v_proposal_id,'completed','Kegiatan selesai');
+  v_proposal := humas.proposal_set_status(v_staff,'staff_humas',v_proposal_id,'archived','Arsip proposal');
+  IF v_proposal->>'status' <> 'archived' THEN
+    RAISE EXCEPTION 'FAIL: proposal lifecycle did not end in archived';
+  END IF;
+
+  SELECT count(*) INTO v_proposal_events FROM humas.proposal_events WHERE proposal_id=v_proposal_id;
+  IF v_proposal_events < 10 THEN
+    RAISE EXCEPTION 'FAIL: expected proposal and sponsor audit history, got %',v_proposal_events;
+  END IF;
+
+  BEGIN
+    UPDATE humas.proposal_events SET reason='mutation denied' WHERE proposal_id=v_proposal_id;
+    RAISE EXCEPTION 'FAIL: proposal audit unexpectedly allowed UPDATE';
+  EXCEPTION WHEN insufficient_privilege THEN
+    NULL;
+  END;
+
+  BEGIN
+    PERFORM humas.proposal_create(v_staff,NULL,
+      '{"title":"Null Role","category":"education","description":"Should fail"}'::jsonb);
+    RAISE EXCEPTION 'FAIL: proposal_create accepted NULL role';
+  EXCEPTION WHEN insufficient_privilege THEN
+    NULL;
+  END;
+
+  BEGIN
+    PERFORM humas.proposal_create(v_inactive_staff,'staff_humas',
+      '{"title":"Inactive Staff","category":"education","description":"Should fail"}'::jsonb);
+    RAISE EXCEPTION 'FAIL: proposal_create accepted inactive staff';
+  EXCEPTION WHEN insufficient_privilege THEN
+    NULL;
+  END;
+
+  BEGIN
+    PERFORM humas.proposal_set_status(v_staff,'staff_humas',v_proposal_id,NULL,'Null status');
+    RAISE EXCEPTION 'FAIL: proposal_set_status accepted NULL status';
+  EXCEPTION WHEN invalid_parameter_value THEN
+    NULL;
+  END;
+
+  IF (humas.proposal_summary()->>'total_proposals')::integer <> 1
+     OR (humas.proposal_summary()->>'realized_support')::numeric <> 1000000 THEN
+    RAISE EXCEPTION 'FAIL: proposal_summary totals are incorrect';
+  END IF;
+
   v_status := humas.partner_set_status(
     v_staff, 'staff_humas', v_partner_id, 'under_review', 'Pengujian lokal'
   );
@@ -234,7 +338,7 @@ BEGIN
     NULL;
   END;
 
-  RAISE NOTICE 'PASS: partner transactions, complete agreement workflow, null-role rejection, inactive actor rejection, and rollback';
+  RAISE NOTICE 'PASS: partner, agreement, proposal and sponsorship transactions; workflow transitions; audit immutability; role checks; and rollback';
 END
 $tests$;
 
