@@ -144,6 +144,14 @@
       "destination": "/src/kesiswaan/$1"
     },
     {
+      "source": "/humas/kemitraan",
+      "destination": "/src/pintuku/dashboard/humas-kemitraan.html"
+    },
+    {
+      "source": "/humas/kemitraan/",
+      "destination": "/src/pintuku/dashboard/humas-kemitraan.html"
+    },
+    {
       "source": "/humas",
       "destination": "/src/pintuku/dashboard/humas.html"
     },
