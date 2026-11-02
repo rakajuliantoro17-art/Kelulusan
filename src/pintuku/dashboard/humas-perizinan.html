@@ -29,17 +29,44 @@
 </section>
 <section id="workspace" hidden>
 <section class="hk-panel hp-intro">
-<div><div class="eyebrow">FONDASI DATA · SPRINT 1</div><h2>Ruang kendali layanan</h2><p>Struktur data perizinan dan protokoler telah disiapkan. Form transaksi, dokumen, keputusan, dan kalender akan diaktifkan bertahap setelah API Sprint 2 selesai.</p></div>
-<span class="hp-status">Fondasi disiapkan</span>
+<div><div class="eyebrow">RUANG KERJA INTERNAL · SPRINT 2</div><h2>Pengelolaan Perizinan</h2><p>Kelola permohonan, kelengkapan dokumen, proses verifikasi, dan keputusan sesuai kewenangan.</p></div>
+<span class="hp-status" id="connectionStatus">Menghubungkan...</span>
 </section>
-<section class="hp-grid">
-<article class="hk-panel hp-domain"><span class="hp-index">01 · PERIZINAN</span><h2>Permohonan izin</h2><p>Registrasi dan pemantauan izin berdasarkan kebutuhan pemohon.</p><ul><li>Izin kegiatan internal sekolah</li><li>Koordinasi izin dengan instansi luar</li><li>Penggunaan fasilitas sekolah oleh pihak eksternal</li></ul><span class="hp-foot">3 klasifikasi permohonan</span></article>
-<article class="hk-panel hp-domain"><span class="hp-index">02 · PROTOKOLER</span><h2>Agenda & kunjungan</h2><p>Penjadwalan agenda resmi yang dapat dihubungkan dengan permohonan izin.</p><ul><li>Agenda dan lokasi kegiatan</li><li>Daftar tamu dan delegasi</li><li>Penanggung jawab serta checklist persiapan</li></ul><span class="hp-foot">Agenda terpisah, terhubung ke izin</span></article>
+<section class="hp-metrics" id="permitMetrics" aria-label="Ringkasan perizinan"></section>
+<section class="hk-panel hp-toolbar">
+<div class="hp-toolbar-title"><div><div class="eyebrow">REGISTER PERMOHONAN</div><h2>Daftar Perizinan</h2><p>Filter berdasarkan jenis atau status, lalu pilih data untuk melihat detail.</p></div><button class="hk-btn hk-btn-primary" id="newPermitBtn" type="button">+ Permohonan Baru</button></div>
+<div class="hp-filters">
+<label>Pencarian<input id="permitSearch" type="search" placeholder="Kode, judul, atau nama pemohon"></label>
+<label>Jenis<select id="permitTypeFilter"><option value="">Semua jenis</option><option value="internal">Internal</option><option value="external">Eksternal</option><option value="facility">Fasilitas</option></select></label>
+<label>Status<select id="permitStatusFilter"><option value="">Semua status</option><option value="draft">Draft</option><option value="submitted">Diajukan</option><option value="verified">Terverifikasi</option><option value="under_review">Dalam penilaian</option><option value="revision_required">Perlu revisi</option><option value="approved">Disetujui</option><option value="rejected">Ditolak</option><option value="cancelled">Dibatalkan</option><option value="completed">Selesai</option><option value="archived">Arsip</option></select></label>
+<button class="hk-btn hk-btn-ghost" id="refreshPermits" type="button">Muat ulang</button>
+</div>
+<div id="permitList" class="hp-permit-list"><div class="hp-empty">Memuat register permohonan...</div></div>
 </section>
-<section class="hk-panel">
-<div class="hk-panel-head"><div><div class="eyebrow">ARSITEKTUR PROSES</div><h2>Rangkaian layanan</h2><p>Data perizinan dan agenda protokoler mempunyai siklus masing-masing.</p></div></div>
-<div class="hp-flow"><div><b>01</b><strong>Permohonan</strong><span>Identitas, tujuan, waktu, lokasi, dan dokumen.</span></div><i>→</i><div><b>02</b><strong>Verifikasi</strong><span>Kelengkapan dan koordinasi unit terkait.</span></div><i>→</i><div><b>03</b><strong>Keputusan</strong><span>Keputusan pejabat sesuai kewenangan.</span></div><i>→</i><div><b>04</b><strong>Pelaksanaan</strong><span>Agenda, tamu, petugas, dan evaluasi.</span></div></div>
-<div class="hk-rule"><strong>Kontrol data:</strong> data tamu, dokumen, dan riwayat keputusan bersifat internal. Tabel dilindungi RLS dan tidak dapat diakses langsung oleh peran browser; akses transaksi dilakukan melalui API server yang memeriksa sesi dan peran.</div>
+<section class="hk-panel hp-detail" id="permitDetailPanel" hidden>
+<div class="hp-toolbar-title"><div><div class="eyebrow">DETAIL PERMOHONAN</div><h2 id="detailTitle">Detail</h2><p id="detailMeta"></p></div><button class="hk-btn hk-btn-ghost" id="closeDetail" type="button">Tutup detail</button></div>
+<div id="permitDetail"></div>
+</section>
+<section class="hk-panel hp-form-panel" id="permitFormPanel" hidden>
+<div class="hp-toolbar-title"><div><div class="eyebrow">REGISTRASI INTERNAL</div><h2>Permohonan Baru</h2><p>Form ini digunakan staf HUMAS untuk mencatat permohonan yang diterima.</p></div><button class="hk-btn hk-btn-ghost" id="closeForm" type="button">Tutup</button></div>
+<form id="permitForm" class="hp-form">
+<label>Jenis permohonan<select name="permit_type" required><option value="internal">Izin internal sekolah</option><option value="external">Izin/koordinasi pihak eksternal</option><option value="facility">Penggunaan fasilitas sekolah</option></select></label>
+<label>Judul kegiatan<input name="title" required maxlength="200" placeholder="Contoh: Kunjungan edukasi kampus"></label>
+<label>Nama pemohon<input name="applicant_name" required maxlength="180"></label>
+<label>Unit / instansi pemohon<input name="applicant_unit" maxlength="180" placeholder="Kelas, organisasi, atau unit kerja"></label>
+<label>Email pemohon<input name="applicant_email" type="email" maxlength="254"></label>
+<label>Nomor telepon<input name="applicant_phone" maxlength="40"></label>
+<label>Instansi terkait<input name="related_institution" maxlength="250"></label>
+<label>Lokasi kegiatan<input name="activity_location" maxlength="500"></label>
+<label>Mulai kegiatan<input name="requested_start_at" type="datetime-local"></label>
+<label>Selesai kegiatan<input name="requested_end_at" type="datetime-local"></label>
+<label>Perkiraan peserta<input name="expected_attendees" type="number" min="1" max="100000"></label>
+<label class="hp-span">Tujuan dan uraian kegiatan<textarea name="purpose" required minlength="3" maxlength="4000" rows="4"></textarea></label>
+<div class="hp-form-actions"><button class="hk-btn hk-btn-primary" type="submit">Simpan sebagai draft</button><span>Permohonan akan tercatat sebagai draft. Pengajuan dilakukan melalui detail permohonan.</span></div>
+</form>
+</section>
+<section class="hk-panel hp-protocol-teaser">
+<div class="eyebrow">PROTOKOLER · TAHAP BERIKUTNYA</div><h2>Agenda, tamu, dan checklist protokoler</h2><p>Struktur data agenda tetap terpisah dari perizinan. Integrasi operasional agenda, tamu, dan tugas persiapan akan dilanjutkan pada Sprint 2B agar setiap kegiatan dapat memiliki siklus persiapan dan evaluasi sendiri.</p>
 </section>
 </section>
 </main>
