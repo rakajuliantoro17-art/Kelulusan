@@ -204,7 +204,7 @@ const PERMIT_TYPES=new Set(["internal","external","facility"]);
 const PERMIT_DOC_TYPES=new Set(["application_letter","proposal","parent_consent","institution_letter","supporting_document","decision_letter","other"]);
 const PERMIT_MIMES=new Set(["application/pdf","image/jpeg","image/png","image/webp","application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]);
 function isoDateTime(v){if(v==="")return true;return typeof v==="string"&&!Number.isNaN(Date.parse(v));}
-function safeFileName(v){return str(v,255).replace(/[^\\p{L}\\p{N}._ -]/gu,"_").replace(/\\.{2,}/g,"_");}
+function safeFileName(v){return str(v,255).replace(/[^\p{L}\p{N}._ -]/gu,"_").replace(/\.{2,}/g,"_");}
 async function listPermits(c,req){
  const q=req.query||{},pg=pagination(q),p=new URLSearchParams({
   select:"id,request_code,permit_type,title,purpose,applicant_name,applicant_unit,applicant_email,applicant_phone,related_institution,activity_location,requested_start_at,requested_end_at,expected_attendees,status,decision_note,created_by,assigned_staff,submitted_at,decided_at,completed_at,created_at,updated_at",
@@ -212,7 +212,7 @@ async function listPermits(c,req){
  });
  if(q.status){const s=["draft","submitted","verified","under_review","revision_required","approved","rejected","cancelled","completed","archived"];if(!s.includes(q.status))throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});p.set("status","eq."+q.status);}
  if(q.type){if(!PERMIT_TYPES.has(q.type))throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});p.set("permit_type","eq."+q.type);}
- if(q.search){const tokens=String(q.search).normalize("NFKC").match(/[\\p{L}\\p{N}]+/gu)||[];const term=tokens[0]||"";if(term)p.set("or","(request_code.ilike.*"+term+"*,title.ilike.*"+term+"*,applicant_name.ilike.*"+term+"*)");}
+ if(q.search){const tokens=String(q.search).normalize("NFKC").match(/[\p{L}\p{N}]+/gu)||[];const term=tokens[0]||"";if(term)p.set("or","(request_code.ilike.*"+term+"*,title.ilike.*"+term+"*,applicant_name.ilike.*"+term+"*)");}
  return{permits:await restList(c,"permit_requests",p),page:pg.page,limit:pg.limit};
 }
 async function permitDetail(c,id){
@@ -232,7 +232,7 @@ const PROTOCOL_TASKS=new Set(["reception","venue","accommodation","consumption",
 async function listProtocolAgendas(c,req){
  const q=req.query||{},pg=pagination(q),p=new URLSearchParams({select:"id,agenda_code,permit_id,title,agenda_type,host_unit,guest_institution,venue,starts_at,ends_at,expected_guests,status,protocol_notes,assigned_staff,created_at,updated_at",order:"starts_at.asc",limit:String(pg.limit),offset:String(pg.offset)});
  if(q.status){if(!["planned","preparing","ready","in_progress","completed","cancelled"].includes(q.status))throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});p.set("status","eq."+q.status);}
- if(q.search){const t=String(q.search).normalize("NFKC").match(/[\\p{L}\\p{N}]+/gu)||[],term=t[0]||"";if(term)p.set("or","(agenda_code.ilike.*"+term+"*,title.ilike.*"+term+"*,guest_institution.ilike.*"+term+"*)");}
+ if(q.search){const t=String(q.search).normalize("NFKC").match(/[\p{L}\p{N}]+/gu)||[],term=t[0]||"";if(term)p.set("or","(agenda_code.ilike.*"+term+"*,title.ilike.*"+term+"*,guest_institution.ilike.*"+term+"*)");}
  return{agendas:await restList(c,"protocol_agendas",p),page:pg.page,limit:pg.limit};
 }
 async function protocolAgendaDetail(c,id){
@@ -564,8 +564,8 @@ module.exports=async function humasApi(req,res){
         if(!PERMIT_TYPES.has(payload.permit_type)||!payload.title||!payload.purpose||!payload.applicant_name||
           !isoDateTime(payload.requested_start_at)||!isoDateTime(payload.requested_end_at)||
           (payload.requested_start_at&&payload.requested_end_at&&Date.parse(payload.requested_end_at)<Date.parse(payload.requested_start_at))||
-          (payload.expected_attendees!==""&&!/^\\d{1,6}$/.test(payload.expected_attendees))||
-          (payload.applicant_email&&!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(payload.applicant_email)))
+          (payload.expected_attendees!==""&&!/^\d{1,6}$/.test(payload.expected_attendees))||
+          (payload.applicant_email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.applicant_email)))
           return send(res,400,{success:false,error:"invalid_request",message:"Data permohonan tidak valid. Periksa klasifikasi, pemohon, jadwal, dan kontak."});
         const permit=await rpc(c,"permit_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_payload:payload});
         return send(res,201,{success:true,data:{permit}});
@@ -579,7 +579,7 @@ module.exports=async function humasApi(req,res){
           const payload={};for(const k of keys)if(Object.prototype.hasOwnProperty.call(b,k))payload[k]=k==="facility_details"?b[k]:String(b[k]??"").trim();
           if(!Object.keys(payload).length||("permit_type" in payload&&!PERMIT_TYPES.has(payload.permit_type))||
             (["requested_start_at","requested_end_at"].some(k=>k in payload&&!isoDateTime(payload[k])))||
-            ("applicant_email" in payload&&payload.applicant_email&&!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(payload.applicant_email)))
+            ("applicant_email" in payload&&payload.applicant_email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.applicant_email)))
             return send(res,400,{success:false,error:"invalid_request",message:"Perubahan permohonan tidak valid."});
           const permit=await rpc(c,"permit_update_draft",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_permit_id:id,p_payload:payload});
           return send(res,200,{success:true,data:{permit}});
@@ -658,7 +658,7 @@ module.exports=async function humasApi(req,res){
       if(req.method==="POST"){
         if(!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat membuat agenda."});
         const b=bodyOf(req),payload={title:str(b.title,200),agenda_type:str(b.agenda_type,40),host_unit:str(b.host_unit,180),guest_institution:str(b.guest_institution,250),venue:str(b.venue,500),starts_at:str(b.starts_at,40),ends_at:str(b.ends_at,40),expected_guests:b.expected_guests===undefined?"":String(b.expected_guests),permit_id:str(b.permit_id,64),protocol_notes:str(b.protocol_notes,4000)};
-        if(!payload.title||!PROTOCOL_TYPES.has(payload.agenda_type)||!isoDateTime(payload.starts_at)||!isoDateTime(payload.ends_at)||Date.parse(payload.ends_at)<Date.parse(payload.starts_at)||(payload.expected_guests!==""&&!/^\\d{1,6}$/.test(payload.expected_guests))||(payload.permit_id&&!uuid(payload.permit_id)))return send(res,400,{success:false,error:"invalid_request",message:"Data agenda, waktu, atau referensi izin tidak valid."});
+        if(!payload.title||!PROTOCOL_TYPES.has(payload.agenda_type)||!isoDateTime(payload.starts_at)||!isoDateTime(payload.ends_at)||Date.parse(payload.ends_at)<Date.parse(payload.starts_at)||(payload.expected_guests!==""&&!/^\d{1,6}$/.test(payload.expected_guests))||(payload.permit_id&&!uuid(payload.permit_id)))return send(res,400,{success:false,error:"invalid_request",message:"Data agenda, waktu, atau referensi izin tidak valid."});
         const agenda=await rpc(c,"protocol_agenda_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_payload:payload});
         return send(res,201,{success:true,data:{agenda}});
       }
