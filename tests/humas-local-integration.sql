@@ -40,6 +40,24 @@ BEGIN
   EXCEPTION WHEN check_violation THEN
     NULL;
   END;
+
+  BEGIN
+    INSERT INTO humas.user_roles(user_id, role_code, is_active, revoked_at)
+    VALUES ('10000000-0000-4000-8000-000000000001', 'system_operator', true, null);
+    RAISE EXCEPTION 'FAIL: business-role account accepted system_operator';
+  EXCEPTION WHEN check_violation THEN
+    NULL;
+  END;
+
+  BEGIN
+    UPDATE humas.user_roles
+    SET role_code = 'principal'
+    WHERE user_id = '10000000-0000-4000-8000-000000000004'
+      AND role_code = 'system_operator';
+    RAISE EXCEPTION 'FAIL: role assignment identity was mutable';
+  EXCEPTION WHEN invalid_parameter_value THEN
+    NULL;
+  END;
 END
 $operator_guard$;
 
