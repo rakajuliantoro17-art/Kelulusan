@@ -103,7 +103,7 @@ async function showProposal(id){
  $("addSupportBtn").hidden=!canWrite();
  renderSupports(p.supports||[]);
  renderStatusActions(p);
- $("proposalDetailDialog").showModal();
+ if(!$("proposalDetailDialog").open)$("proposalDetailDialog").showModal();
 }
 function renderSupports(items){
  const el=$("supportList");
@@ -137,7 +137,9 @@ async function saveSupport(e){
 async function saveSupportUpdate(id){
  const status=$("supportList").querySelector('[data-support-status="'+CSS.escape(id)+'"]').value;
  const realized=$("supportList").querySelector('[data-support-realized="'+CSS.escape(id)+'"]').value;
- try{await api("proposal-supports","PATCH",{id,support_status:status,realized_value:realized,realization_date:status==="realized"?new Date().toISOString().slice(0,10):""});notice("Perkembangan dukungan diperbarui.","success");await showProposal(state.current.id);await loadWorkspace();}
+ const payload={id,support_status:status,realized_value:realized};
+ if(status==="realized"){const now=new Date();payload.realization_date=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);}
+ try{await api("proposal-supports","PATCH",payload);notice("Perkembangan dukungan diperbarui.","success");await showProposal(state.current.id);await loadWorkspace();}
  catch(e){notice(e.message,"error");}
 }
 async function changeStatus(){
@@ -160,6 +162,7 @@ function bind(){
  $("proposalNext").addEventListener("click",()=>{state.page++;loadWorkspace().catch(e=>notice(e.message,"error"));});
  $("addSupportBtn").addEventListener("click",openSupportForm);
  $("supportForm").addEventListener("submit",saveSupport);
+ $("supportPartner").addEventListener("change",e=>{const opt=e.target.selectedOptions[0];if(opt&&opt.value&&!$("supportForm").elements.namedItem("sponsor_name").value)$("supportForm").elements.namedItem("sponsor_name").value=opt.textContent;});
  $("supportList").addEventListener("click",e=>{const b=e.target.closest("[data-save-support]");if(b)saveSupportUpdate(b.dataset.saveSupport);});
  $("proposalStatusActions").addEventListener("click",e=>{
   if(e.target.id==="saveProposalStatus")changeStatus();
