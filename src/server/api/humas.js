@@ -121,7 +121,9 @@ async function listPartners(c,req){
     if(term)params.set("or","(partner_name.ilike.*"+term+"*,contact_person.ilike.*"+term+"*)");
   }
   return{partners:await restList(c,"partners",params),page:pg.page,limit:pg.limit};
-}async function listAgreements(c,req){
+}
+
+async function listAgreements(c,req){
   const q=req.query||{};
   const pg=pagination(q);
   const params=new URLSearchParams({select:"id,agreement_code,partner_id,title,agreement_type,purpose,start_date,end_date,estimated_value,currency_code,status,submitted_at,approved_at,signed_at,registered_at,created_at,updated_at,partner:partners(partner_name)",order:"created_at.desc",limit:String(pg.limit),offset:String(pg.offset)});
@@ -136,3 +138,69 @@ async function listPartners(c,req){
   }
   return{agreements:await restList(c,"agreements",params),page:pg.page,limit:pg.limit};
 }
+
+
+module.exports=async function humasApi(req,res){
+  headers(res);
+  const c=config();
+  if(!c)return send(res,503,{success:false,error:"server_configuration_missing",message:"Layanan HUMAS belum dikonfigurasi pada server."});
+  const token=bearer(req);
+  if(!token)return send(res,401,{success:false,error:"authentication_required",message:"Silakan masuk untuk mengakses layanan HUMAS."});
+  try{
+    const auth=await authenticate(c,token);
+    if(!auth.ok)return send(res,auth.status,{success:false,error:auth.status===401?"invalid_session":"auth_service_unavailable",message:auth.status===401?"Sesi tidak valid atau telah berakhir.":"Layanan autentikasi sementara tidak tersedia."});
+    const userRoles=await roles(c,auth.user.id);
+    const op=String((req.query&&req.query.op)||"me");
+
+    if(op==="me"){
+      if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      return send(res,200,{success:true,data:{user:auth.user,roles:userRoles}});
+    }
+
+    if(op==="partners"){
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun ini tidak memiliki akses direktori mitra."});
+      if(req.method==="GET")return send(res,200,{success:true,data:await listPartners(c,req)});
+      if(!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat mengubah data mitra."});
+      const b=bodyOf(req);
+      if(req.method==="POST"){
+        const payload={partner_name:str(b.partner_name,180),partner_type:str(b.partner_type,40),institution_address:str(b.institution_address),contact_person:str(b.contact_person,180),contact_email:str(b.contact_email,254),contact_phone:str(b.contact_phone,40),website_url:str(b.website_url,500),notes:str(b.notes,4000)};
+        if(!payload.partner_name||!PARTNER_TYPES.has(payload.partner_type))return send(res,400,{success:false,error:"invalid_request",message:"Nama dan jenis mitra wajib diisi dengan benar."});
+        const partner=await rpc(c,"partner_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_payload:payload});
+        return send(res,201,{success:true,data:{partner}});
+      }
+      if(req.method==="PATCH"){
+        const id=str(b.id,64);
+        if(!uuid(id))return send(res,400,{success:false,error:"invalid_request",message:"ID mitra tidak valid."});
+        if(b.action==="status"){
+          const status=str(b.record_status,30);
+          if(!["active","inactive","under_review"].includes(status))return send(res,400,{success:false,error:"invalid_request",message:"Status mitra tidak valid."});
+          const partner=await rpc(c,"partner_set_status",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_partner_id:id,p_status:status,p_reason:str(b.reason,1000)});
+          return send(res,200,{success:true,data:{partner}});
+        }
+        const allowed=["partner_name","partner_type","institution_address","contact_person","contact_email","contact_phone","website_url","notes"];
+        const payload={};for(const key of allowed)if(Object.prototype.hasOwnProperty.call(b,key))payload[key]=key==="partner_type"?str(b[key],40):str(b[key],key==="notes"?4000:2000);
+        if(!Object.keys(payload).length||("partner_name" in payload&&!payload.partner_name)||("partner_type" in payload&&!PARTNER_TYPES.has(payload.partner_type)))return send(res,400,{success:false,error:"invalid_request",message:"Tidak ada perubahan valid atau nama/jenis mitra tidak valid."});
+        const partner=await rpc(c,"partner_update",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_partner_id:id,p_payload:payload});
+        return send(res,200,{success:true,data:{partner}});
+      }
+      res.setHeader("Allow","GET, POST, PATCH");
+      return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
+    }
+
+    if(op==="agreements"){
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun ini tidak memiliki akses register perjanjian."});
+      if(req.method==="GET")return send(res,200,{success:true,data:await listAgreements(c,req)});
+      if(req.method==="POST"){
+        if(!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat membuat draft perjanjian."});
+        const b=bodyOf(req);
+        const payload={partner_id:str(b.partner_id,64),title:str(b.title,250),agreement_type:str(b.agreement_type||"mou",30),purpose:str(b.purpose,4000),scope_of_work:str(b.scope_of_work,8000),start_date:str(b.start_date,10),end_date:str(b.end_date,10),estimated_value:b.estimated_value===undefined?"":String(b.estimated_value),currency_code:str(b.currency_code||"IDR",3),school_coordinator:str(b.school_coordinator,180),partner_coordinator:str(b.partner_coordinator,180)};
+        if(!uuid(payload.partner_id)||!payload.title||!payload.purpose||!AGREEMENT_TYPES.has(payload.agreement_type)||!validDate(payload.start_date)||!validDate(payload.end_date)||(payload.start_date&&payload.end_date&&payload.end_date<payload.start_date)||(payload.estimated_value!==""&&!/^\\d{1,14}(\\.\\d{1,2})?$/.test(payload.estimated_value)))return send(res,400,{success:false,error:"invalid_request",message:"Data draft perjanjian tidak valid."});
+        const agreement=await rpc(c,"agreement_create_draft",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_payload:payload});
+        return send(res,201,{success:true,data:{agreement}});
+      }
+      res.setHeader("Allow","GET, POST");
+      return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
+    }
+    return send(res,404,{success:false,error:"operation_not_found",message:"Operasi HUMAS tidak ditemukan."});
+  }catch(error){return safeError(res,error);}
+};
