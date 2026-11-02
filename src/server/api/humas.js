@@ -149,7 +149,7 @@ async function listAgreements(c,req){
     params.set("partner_id","eq."+q.partner_id);
   }
   if(typeof q.search==="string"&&q.search.trim()){
-    const tokens=q.search.normalize("NFKC").match(/[\\p{L}\\p{N}]+/gu)||[];
+    const tokens=q.search.normalize("NFKC").match(/[\p{L}\p{N}]+/gu)||[];
     const term=tokens[0]||"";
     if(term)params.set("or","(title.ilike.*"+term+"*,agreement_code.ilike.*"+term+"*)");
   }
@@ -173,7 +173,7 @@ async function listProposals(c,req){
     params.set("category","eq."+q.category);
   }
   if(typeof q.search==="string"&&q.search.trim()){
-    const tokens=q.search.normalize("NFKC").match(/[\\p{L}\\p{N}]+/gu)||[];
+    const tokens=q.search.normalize("NFKC").match(/[\p{L}\p{N}]+/gu)||[];
     const term=tokens[0]||"";
     if(term)params.set("or","(title.ilike.*"+term+"*,proposal_code.ilike.*"+term+"*,owner_unit.ilike.*"+term+"*)");
   }
@@ -278,7 +278,7 @@ module.exports=async function humasApi(req,res){
         if(!payload.title||!PROPOSAL_CATEGORIES.has(payload.category)||!payload.description||
           !dates.every(validDate)||(payload.proposal_date&&payload.submission_deadline&&payload.submission_deadline<payload.proposal_date)||
           (payload.activity_start_date&&payload.activity_end_date&&payload.activity_end_date<payload.activity_start_date)||
-          (payload.requested_amount!==""&&!/^\\d{1,14}(\\.\\d{1,2})?$/.test(payload.requested_amount)))
+          (payload.requested_amount!==""&&!/^\d{1,14}(\.\d{1,2})?$/.test(payload.requested_amount)))
           return send(res,400,{success:false,error:"invalid_request",message:"Data proposal tidak valid. Periksa judul, kategori, uraian, tanggal, dan nilai pengajuan."});
         const proposal=await rpc(c,"proposal_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_payload:payload});
         return send(res,201,{success:true,data:{proposal}});
@@ -291,7 +291,7 @@ module.exports=async function humasApi(req,res){
           const payload={};for(const key of allowed)if(Object.prototype.hasOwnProperty.call(b,key))payload[key]=String(b[key]??"").trim();
           if(!Object.keys(payload).length||("category" in payload&&!PROPOSAL_CATEGORIES.has(payload.category))||
             (["proposal_date","submission_deadline","activity_start_date","activity_end_date"].some(k=>k in payload&&!validDate(payload[k])))||
-            (payload.requested_amount!==undefined&&payload.requested_amount!==""&&!/^\\d{1,14}(\\.\\d{1,2})?$/.test(payload.requested_amount)))
+            (payload.requested_amount!==undefined&&payload.requested_amount!==""&&!/^\d{1,14}(\.\d{1,2})?$/.test(payload.requested_amount)))
             return send(res,400,{success:false,error:"invalid_request",message:"Perubahan proposal tidak valid."});
           const proposal=await rpc(c,"proposal_update",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_proposal_id:id,p_payload:payload});
           return send(res,200,{success:true,data:{proposal}});
@@ -321,7 +321,7 @@ module.exports=async function humasApi(req,res){
         };
         if(!uuid(proposalId)||!payload.sponsor_name||!SUPPORT_TYPES.has(payload.support_type)||
           (payload.partner_id&&!uuid(payload.partner_id))||!validDate(payload.contact_date)||
-          (payload.estimated_value!==""&&!/^\\d{1,14}(\\.\\d{1,2})?$/.test(payload.estimated_value)))
+          (payload.estimated_value!==""&&!/^\d{1,14}(\.\d{1,2})?$/.test(payload.estimated_value)))
           return send(res,400,{success:false,error:"invalid_request",message:"Data calon sponsor atau bentuk dukungan tidak valid."});
         const support=await rpc(c,"proposal_support_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_proposal_id:proposalId,p_payload:payload});
         return send(res,201,{success:true,data:{support}});
@@ -334,7 +334,7 @@ module.exports=async function humasApi(req,res){
         if(!uuid(id)||!Object.keys(payload).length||
           ("support_status" in payload&&!SUPPORT_STATUSES.has(payload.support_status))||
           (["contact_date","commitment_date","realization_date"].some(k=>k in payload&&!validDate(payload[k])))||
-          (["estimated_value","realized_value"].some(k=>k in payload&&payload[k]!==""&&!/^\\d{1,14}(\\.\\d{1,2})?$/.test(payload[k]))))
+          (["estimated_value","realized_value"].some(k=>k in payload&&payload[k]!==""&&!/^\d{1,14}(\.\d{1,2})?$/.test(payload[k]))))
           return send(res,400,{success:false,error:"invalid_request",message:"Pembaruan dukungan sponsor tidak valid."});
         const support=await rpc(c,"proposal_support_update",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_support_id:id,p_payload:payload});
         return send(res,200,{success:true,data:{support}});
@@ -408,7 +408,7 @@ module.exports=async function humasApi(req,res){
           if(payload.partner_id&&!uuid(payload.partner_id))return send(res,400,{success:false,error:"invalid_request",message:"Mitra tidak valid."});
           if(payload.agreement_type&&!AGREEMENT_TYPES.has(payload.agreement_type))return send(res,400,{success:false,error:"invalid_request",message:"Jenis perjanjian tidak valid."});
           if((payload.start_date&&!validDate(payload.start_date))||(payload.end_date&&!validDate(payload.end_date))||(payload.start_date&&payload.end_date&&payload.end_date<payload.start_date))return send(res,400,{success:false,error:"invalid_request",message:"Masa berlaku tidak valid."});
-          if(payload.estimated_value!==undefined&&payload.estimated_value!==""&&!/^\\d{1,14}(\.\\d{1,2})?$/.test(payload.estimated_value))return send(res,400,{success:false,error:"invalid_request",message:"Nilai kerja sama tidak valid."});
+          if(payload.estimated_value!==undefined&&payload.estimated_value!==""&&!/^\d{1,14}(\.\d{1,2})?$/.test(payload.estimated_value))return send(res,400,{success:false,error:"invalid_request",message:"Nilai kerja sama tidak valid."});
           payload.reason=str(b.reason,1000);
           const agreement=await rpc(c,"agreement_update_draft",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_agreement_id:id,p_payload:payload});
           return send(res,200,{success:true,data:{agreement}});
