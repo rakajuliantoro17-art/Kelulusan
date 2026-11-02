@@ -44,14 +44,15 @@ RLS is enabled. No grants or policies are provided to `anon` or `authenticated`.
 10. `system_operator` is technical-only and must not receive approval rights.
 
 ## API implementation sequence
-- 3B: server-side Supabase client/configuration and Auth token verification.
-- 3C: read/create partner and agreement draft endpoints.
-- 3D: transactional workflow RPCs for verification, recommendation, principal decision, signature registration, and archival.
-- 3E: document Storage upload/download with private bucket and short-lived signed URLs.
-- 3F: connect UI, remove preview-only behavior after end-to-end tests pass.
 
-Workflow transitions must be atomic on the database side (RPC/transaction). Do not implement multi-step status changes as independent browser requests.
+- 3B: authentication gateway, token validation, server-side role lookup, and read API.
+- 3C: partner directory management with transactional create/update/status RPCs and audit events.
+- 3D: agreement register and transactional draft creation only.
+- 3E: database security review, active-actor audit validation, and append-only audit privileges.
+- 3F: zero-cost source validation, mock API tests, and integration test plan.
+- 3G: local PostgreSQL migration/integration harness and final release gate.
 
+Approval, recommendation, signature/TTE, registration, archive, document Storage, and UI-to-live-data integration are not delivered in Sprint 3. They require a separately scoped and tested workflow/storage phase.
 ## Not yet implemented / not production-ready
 - Migration has not been applied to Supabase.
 - No Auth users or role assignments have been provisioned.
