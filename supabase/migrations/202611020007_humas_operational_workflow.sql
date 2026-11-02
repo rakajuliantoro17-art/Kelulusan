@@ -56,7 +56,7 @@ begin
   ) values (
     p_agreement_id,'draft_updated',v_before.status,v_after.status,p_actor_id,p_actor_role,
     nullif(pg_catalog.btrim(p_payload->>'reason'),''),
-    pg_catalog.jsonb_build_object('changed_fields',(select pg_catalog.jsonb_agg(k) from pg_catalog.jsonb_object_keys(p_payload) as k))
+    pg_catalog.jsonb_build_object('changed_fields',(select pg_catalog.jsonb_agg(key_name) from pg_catalog.jsonb_object_keys(p_payload) as keys(key_name)))
   );
   return pg_catalog.to_jsonb(v_after);
 end;
@@ -179,7 +179,7 @@ as $$
     'total_agreements',(select pg_catalog.count(*) from humas.agreements),
     'in_process',(select pg_catalog.count(*) from humas.agreements where status in ('draft','submitted','verified','recommended','pending_principal_approval','revision_required','pending_signature')),
     'active_agreements',(select pg_catalog.count(*) from humas.agreements where status in ('physically_signed','electronically_signed','registered')),
-    'expiring_soon',(select pg_catalog.count(*) from humas.agreements where end_date between pg_catalog.current_date and pg_catalog.current_date+interval '90 days' and status not in ('archived','rejected','expired'))
+    'expiring_soon',(select pg_catalog.count(*) from humas.agreements where end_date between current_date and pg_catalog.current_date+interval '90 days' and status not in ('archived','rejected','expired'))
   );
 $$;
 
