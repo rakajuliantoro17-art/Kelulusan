@@ -152,6 +152,14 @@
       "destination": "/src/pintuku/dashboard/humas-kemitraan.html"
     },
     {
+      "source": "/humas/proposal",
+      "destination": "/src/pintuku/dashboard/humas-proposal.html"
+    },
+    {
+      "source": "/humas/proposal/",
+      "destination": "/src/pintuku/dashboard/humas-proposal.html"
+    },
+    {
       "source": "/humas",
       "destination": "/src/pintuku/dashboard/humas.html"
     },
