@@ -1,5 +1,7 @@
 "use strict";
 
+const crypto=require("crypto");
+
 /**
  * PINTUKU HUMAS API — Sprints 3B–3D.
  * Service credentials are server-only. All writes use transactional SQL RPCs.
@@ -101,6 +103,46 @@ async function rpc(c,name,payload){
   }
   return body;
 }
+
+function publicRateHash(value){
+  const secret=process.env.HUMAS_PUBLIC_RATE_SECRET;
+  if(typeof secret!=="string"||secret.length<32)throw Object.assign(new Error("public_service_configuration_missing"),{code:"public_service_configuration_missing"});
+  return crypto.createHmac("sha256",secret).update(String(value)).digest("hex");
+}
+function publicClientIp(req){
+  const h=req.headers||{};
+  const raw=h["x-vercel-forwarded-for"]||h["x-forwarded-for"]||h["x-real-ip"]||"";
+  const ip=String(raw).split(",")[0].trim();
+  return ip&&ip.length<=100?ip:"";
+}
+function timingSafeBearer(req,secret){
+  const token=bearer(req);if(!token||typeof secret!=="string"||!secret)return false;
+  const a=Buffer.from(token),b=Buffer.from(secret);
+  return a.length===b.length&&crypto.timingSafeEqual(a,b);
+}
+async function sendPermitOutbox(c){
+  const key=process.env.RESEND_API_KEY,from=process.env.HUMAS_FROM_EMAIL;
+  if(!key||!from)throw Object.assign(new Error("notification_provider_not_configured"),{code:"notification_provider_not_configured"});
+  const claimed=await rpc(c,"permit_notification_claim",{p_limit:10});
+  const rows=Array.isArray(claimed)?claimed:[];
+  let sent=0,failed=0;
+  for(const row of rows){
+    try{
+      const result=await request("https://api.resend.com/emails",{
+        method:"POST",headers:{Authorization:"Bearer "+key,"Content-Type":"application/json",Accept:"application/json"},
+        body:JSON.stringify({from,to:[row.recipient_email],subject:row.subject,text:row.body_text})
+      });
+      if(!result.response.ok)throw new Error("email_provider_http_"+result.response.status);
+      await rpc(c,"permit_notification_finish",{p_id:row.id,p_success:true,p_error:null});sent++;
+    }catch(error){
+      const safe=String(error&&error.message||"delivery_failed").slice(0,300);
+      try{await rpc(c,"permit_notification_finish",{p_id:row.id,p_success:false,p_error:safe});}catch(_){}
+      failed++;
+    }
+  }
+  return{claimed:rows.length,sent,failed};
+}
+
 function safeError(res,error){
   const map={forbidden:[403,"insufficient_role","Akun tidak memiliki kewenangan untuk tindakan ini."],
     record_not_found:[404,"record_not_found","Data tidak ditemukan."],
@@ -109,7 +151,7 @@ function safeError(res,error){
     data_store_unavailable:[503,"data_store_unavailable","Layanan data sementara tidak tersedia."],
     database_operation_failed:[503,"database_operation_failed","Operasi data gagal diproses."],
     storage_operation_failed:[503,"storage_operation_failed","Penyimpanan dokumen sementara tidak tersedia."],
-    invalid_query:[400,"invalid_query","Parameter pencarian atau pagination tidak valid."]};
+    invalid_query:[400,"invalid_query","Parameter pencarian atau pagination tidak valid."],\n    rate_limit_exceeded:[429,"rate_limit_exceeded","Terlalu banyak permintaan. Silakan coba kembali beberapa saat lagi."],\n    public_service_configuration_missing:[503,"public_service_configuration_missing","Layanan pengajuan publik belum dikonfigurasi."],\n    notification_provider_not_configured:[503,"notification_provider_not_configured","Penyedia notifikasi email belum dikonfigurasi."]};
   const item=map[error&&error.code]||[503,"upstream_unavailable","Layanan HUMAS sementara tidak tersedia."];
   console.error("[PINTUKU HUMAS API]",{code:item[1],status:error&&error.upstreamStatus||null});
   return send(res,item[0],{success:false,error:item[1],message:item[2]});
@@ -245,6 +287,57 @@ module.exports=async function humasApi(req,res){
   const c=config();
   if(!c)return send(res,503,{success:false,error:"server_configuration_missing",message:"Layanan HUMAS belum dikonfigurasi pada server."});
   const opInput=String((req.query&&req.query.op)||"me");
+
+  const opInput=String((req.query&&req.query.op)||"me");
+  if(opInput==="permit-public-create"||opInput==="permit-public-track"||opInput==="permit-public-cancel"){
+    if(req.method!=="POST"){res.setHeader("Allow","POST");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+    try{
+      const ip=publicClientIp(req);if(!ip)return send(res,400,{success:false,error:"client_ip_unavailable",message:"Permintaan tidak dapat diverifikasi. Muat ulang halaman dan coba kembali."});
+      const ipHash=publicRateHash("ip:"+ip);
+      const b=bodyOf(req);
+      if(opInput==="permit-public-create"){
+        const payload={
+          permit_type:str(b.permit_type,20),title:str(b.title,200),purpose:str(b.purpose,4000),
+          applicant_name:str(b.applicant_name,180),applicant_unit:str(b.applicant_unit,180),
+          applicant_email:str(b.applicant_email,254).toLowerCase(),applicant_phone:str(b.applicant_phone,40),
+          related_institution:str(b.related_institution,250),activity_location:str(b.activity_location,500),
+          requested_start_at:str(b.requested_start_at,40),requested_end_at:str(b.requested_end_at,40),
+          expected_attendees:b.expected_attendees===undefined?"":String(b.expected_attendees),
+          facility_details:b.facility_details&&typeof b.facility_details==="object"&&!Array.isArray(b.facility_details)?b.facility_details:{}
+        };
+        if(!["external","facility"].includes(payload.permit_type)||!payload.title||payload.title.length<3||
+          !payload.purpose||payload.purpose.length<3||!payload.applicant_name||payload.applicant_name.length<2||
+          !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(payload.applicant_email)||
+          !isoDateTime(payload.requested_start_at)||!isoDateTime(payload.requested_end_at)||
+          Date.parse(payload.requested_start_at)<Date.now()||Date.parse(payload.requested_end_at)<Date.parse(payload.requested_start_at)||
+          (payload.expected_attendees!==""&&!/^\\d{1,6}$/.test(payload.expected_attendees))||
+          (payload.permit_type==="facility"&&!str(payload.facility_details.facility_name,180)))
+          return send(res,400,{success:false,error:"invalid_request",message:"Periksa jenis permohonan, identitas, kontak email, jadwal, dan detail fasilitas."});
+        const rawToken=crypto.randomBytes(32).toString("base64url");
+        const tokenHash=crypto.createHash("sha256").update(rawToken).digest("hex");
+        const emailHash=publicRateHash("email:"+payload.applicant_email);
+        const permit=await rpc(c,"permit_public_create",{p_payload:payload,p_token_hash:tokenHash,p_ip_hash:ipHash,p_email_hash:emailHash});
+        return send(res,201,{success:true,data:{...permit,tracking_token:rawToken,tracking_url:"/humas/perizinan/lacak"}});
+      }
+      const requestCode=str(b.request_code,40).toUpperCase(),rawToken=str(b.tracking_token,100);
+      if(!/^IZN-\\d{6}-[A-F0-9]{8}$/.test(requestCode)||!/^[A-Za-z0-9_-]{43}$/.test(rawToken))
+        return send(res,404,{success:false,error:"record_not_found",message:"Permohonan tidak ditemukan atau token pelacakan tidak sesuai."});
+      const tokenHash=crypto.createHash("sha256").update(rawToken).digest("hex");
+      if(opInput==="permit-public-track"){
+        const permit=await rpc(c,"permit_public_track",{p_request_code:requestCode,p_token_hash:tokenHash,p_ip_hash:ipHash});
+        return send(res,200,{success:true,data:{permit}});
+      }
+      const permit=await rpc(c,"permit_public_cancel",{p_request_code:requestCode,p_token_hash:tokenHash,p_ip_hash:ipHash});
+      return send(res,200,{success:true,data:{permit}});
+    }catch(error){return safeError(res,error);}
+  }
+  if(opInput==="notifications-dispatch"){
+    const secret=process.env.HUMAS_NOTIFICATION_CRON_SECRET||process.env.CRON_SECRET;
+    if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+    if(!timingSafeBearer(req,secret))return send(res,401,{success:false,error:"invalid_cron_authorization",message:"Otorisasi job tidak valid."});
+    try{return send(res,200,{success:true,data:await sendPermitOutbox(c)});}catch(error){return safeError(res,error);}
+  }
+
   if(opInput==="login"||opInput==="refresh"){
     if(req.method!=="POST"){res.setHeader("Allow","POST");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
     const b=bodyOf(req);
@@ -270,6 +363,21 @@ module.exports=async function humasApi(req,res){
     if(op==="me"){
       if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
       return send(res,200,{success:true,data:{user:auth.user,roles:userRoles}});
+    }
+
+
+    if(op==="permit-notifications"){
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun tidak memiliki akses notifikasi HUMAS."});
+      if(req.method==="GET"){
+        const data=await rpc(c,"permit_notifications_list",{p_user_id:auth.user.id});
+        return send(res,200,{success:true,data});
+      }
+      if(req.method==="PATCH"){
+        const id=str(bodyOf(req).id,64);if(!uuid(id))return send(res,400,{success:false,error:"invalid_request",message:"ID notifikasi tidak valid."});
+        const changed=await rpc(c,"permit_notification_mark_read",{p_user_id:auth.user.id,p_notification_id:id});
+        return send(res,200,{success:true,data:{updated:changed}});
+      }
+      res.setHeader("Allow","GET, PATCH");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
     }
 
     if(op==="dashboard"){
