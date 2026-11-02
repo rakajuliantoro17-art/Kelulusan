@@ -293,6 +293,5 @@ grant execute on function humas.permit_create(uuid,text,jsonb),
  humas.permit_register_document(uuid,text,uuid,jsonb),
  humas.permit_summary() to service_role;
 
-comment on bucket is 'Private document storage for HUMAS permit requests; server-only object access.';
 comment on function humas.permit_transition(uuid,text,uuid,text,text) is
  'Validates active HUMAS role, legal state transition, and separation of duties in one transaction.';
