@@ -79,6 +79,7 @@ jobs:
       - name: Check JavaScript Syntax
         run: |
           find src/server/api src/akademik/api src/akademik/js src/kesiswaan/api src/Sarpras -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+          node --check src/pintuku/assets/js/humas-kemitraan.js
           echo "JavaScript syntax OK"
 
       - name: Verify Academic API Source Contract
@@ -119,6 +120,9 @@ jobs:
           node --check src/tools/build.js
           node src/tools/build.js
           test -f dist/src/pintuku/dashboard/index.html
+          test -f dist/src/pintuku/dashboard/humas-kemitraan.html
+          test -f dist/src/pintuku/assets/css/humas-kemitraan.css
+          test -f dist/src/pintuku/assets/js/humas-kemitraan.js
           test ! -e dist/src/server
           echo "Static output OK"
 
