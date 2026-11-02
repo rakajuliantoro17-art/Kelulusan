@@ -40,7 +40,8 @@ $migrations = @(
   "supabase/migrations/202611020003_humas_partner_management.sql",
   "supabase/migrations/202611020004_humas_agreement_drafts.sql",
   "supabase/migrations/202611020005_humas_security_hardening.sql",
-  "supabase/migrations/202611020006_humas_operator_role_separation.sql"
+  "supabase/migrations/202611020006_humas_operator_role_separation.sql",
+  "supabase/migrations/202611020007_humas_operational_workflow.sql"
 )
 
 if (-not (Test-Path $bootstrap) -or -not (Test-Path $integration) -or -not (Test-Path $security)) {
@@ -51,7 +52,7 @@ Write-Host "1/3 Bootstrap compatibility scaffold..."
 & $psql.Source $env:HUMAS_TEST_DATABASE_URL -X -v ON_ERROR_STOP=1 -f $bootstrap
 if ($LASTEXITCODE -ne 0) { throw "Bootstrap gagal. Periksa output PostgreSQL di atas." }
 
-Write-Host "2/3 Apply migrations to LOCAL test database only..."
+Write-Host "2/4 Apply migrations to LOCAL test database only..."
 foreach ($migration in $migrations) {
   if (-not (Test-Path $migration)) { throw "Migration tidak ditemukan: $migration" }
   Write-Host "   -> $migration"
