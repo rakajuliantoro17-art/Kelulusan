@@ -95,7 +95,7 @@ function safeError(res,error){
     invalid_request:[400,"invalid_request","Data tidak valid atau tidak memenuhi aturan."],
     role_store_unavailable:[503,"role_store_unavailable","Layanan otorisasi sementara tidak tersedia."],
     data_store_unavailable:[503,"data_store_unavailable","Layanan data sementara tidak tersedia."],
-    database_operation_failed:[503,"database_operation_failed","Operasi data gagal diproses."]};
+    database_operation_failed:[503,"database_operation_failed","Operasi data gagal diproses."],\n    invalid_query:[400,"invalid_query","Parameter pencarian atau pagination tidak valid."]};
   const item=map[error&&error.code]||[503,"upstream_unavailable","Layanan HUMAS sementara tidak tersedia."];
   console.error("[PINTUKU HUMAS API]",{code:item[1],status:error&&error.upstreamStatus||null});
   return send(res,item[0],{success:false,error:item[1],message:item[2]});
