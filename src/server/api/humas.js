@@ -613,8 +613,9 @@ module.exports=async function humasApi(req,res){
       const signed=await storageRequest(c,"/storage/v1/object/upload/sign/humas-permit-documents/"+path,"POST",{});
       const relative=signed.url||signed.signedUrl||signed.signedURL;
       if(!relative||typeof relative!=="string")throw Object.assign(new Error("storage_operation_failed"),{code:"storage_operation_failed"});
-      const uploadUrl=relative.startsWith("http")?relative:c.baseUrl+"/storage/v1"+(relative.startsWith("/")?relative:"/"+relative);
-      return send(res,200,{success:true,data:{upload_url:uploadUrl,storage_path:path,storage_bucket:"humas-permit-documents",upload_token:signed.token||null,publishable_key:c.publishableKey,document_type:docType,file_name:fileName,mime_type:mime,file_size_bytes:size}});
+      let uploadUrl=relative.startsWith("http")?relative:c.baseUrl+"/storage/v1"+(relative.startsWith("/")?relative:"/"+relative);
+      if(signed.token){const u=new URL(uploadUrl);if(!u.searchParams.has("token"))u.searchParams.set("token",signed.token);uploadUrl=u.toString();}
+      return send(res,200,{success:true,data:{upload_url:uploadUrl,storage_path:path,storage_bucket:"humas-permit-documents",publishable_key:c.publishableKey,document_type:docType,file_name:fileName,mime_type:mime,file_size_bytes:size}});
     }
 
     if(op==="permit-documents"){
