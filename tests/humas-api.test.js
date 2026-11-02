@@ -144,3 +144,54 @@ test("workspace consolidates the initial dashboard and first-page data", async (
   assert.ok(r.calls.some(x => x.url.pathname === "/rest/v1/partners"));
   assert.ok(r.calls.some(x => x.url.pathname === "/rest/v1/agreements"));
 });
+
+
+test("staff HUMAS can create a proposal through the transactional RPC", async () => {
+  const r = await invoke({ role: "staff_humas", method: "POST", op: "proposals", body: {
+    title: "Proposal Kegiatan Uji", category: "education", description: "Kebutuhan kegiatan sekolah",
+    requested_amount: "1500000", proposal_date: "2026-11-02", owner_unit: "Kurikulum"
+  } });
+  assert.equal(r.status, 201);
+  const rpc = r.calls.find(x => x.url.pathname.endsWith("/rpc/proposal_create"));
+  assert.ok(rpc);
+  const payload = JSON.parse(rpc.options.body);
+  assert.equal(payload.p_actor_id, USER_ID);
+  assert.equal(payload.p_actor_role, "staff_humas");
+  assert.equal(payload.p_payload.title, "Proposal Kegiatan Uji");
+});
+
+test("non-staff role cannot create proposal records", async () => {
+  const r = await invoke({ role: "principal", method: "POST", op: "proposals", body: {
+    title: "Proposal", category: "education", description: "Test"
+  } });
+  assert.equal(r.status, 403);
+  assert.equal(r.calls.some(x => x.url.pathname.endsWith("/rpc/proposal_create")), false);
+});
+
+test("invalid proposal date is rejected before database RPC", async () => {
+  const r = await invoke({ role: "staff_humas", method: "POST", op: "proposals", body: {
+    title: "Proposal", category: "education", description: "Test", proposal_date: "2026-02-30"
+  } });
+  assert.equal(r.status, 400);
+  assert.equal(r.calls.some(x => x.url.pathname.endsWith("/rpc/proposal_create")), false);
+});
+
+test("proposal workspace returns aggregate summary and paginated proposal data", async () => {
+  const r = await invoke({ role: "staff_humas", op: "proposal-workspace" });
+  assert.equal(r.status, 200);
+  assert.ok(r.calls.some(x => x.url.pathname.endsWith("/rpc/proposal_summary")));
+  assert.ok(r.calls.some(x => x.url.pathname === "/rest/v1/proposals"));
+});
+
+test("proposal sponsor creation sends actor and proposal identity to SQL", async () => {
+  const r = await invoke({ role: "staff_humas", method: "POST", op: "proposal-supports", body: {
+    proposal_id: "44444444-4444-4444-8444-444444444444",
+    sponsor_name: "Mitra Uji", support_type: "cash", estimated_value: "1000000"
+  } });
+  assert.equal(r.status, 201);
+  const rpc = r.calls.find(x => x.url.pathname.endsWith("/rpc/proposal_support_create"));
+  assert.ok(rpc);
+  const payload = JSON.parse(rpc.options.body);
+  assert.equal(payload.p_actor_id, USER_ID);
+  assert.equal(payload.p_proposal_id, "44444444-4444-4444-8444-444444444444");
+});
