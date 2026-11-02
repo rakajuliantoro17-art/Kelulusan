@@ -17,6 +17,7 @@ test("permit transaction RPCs enforce active HUMAS roles and legal transitions",
  assert.match(sql,/protocol_workflow_events/);
  assert.match(sql,/guest_added/);
  assert.match(sql,/task_created/);
+ assert.match(sql,/facility_details->>'facility_name'/);
  assert.match(sql,/create trigger permit_workflow_events_append_only/);
 });
 
@@ -35,6 +36,7 @@ test("permit API requires authenticated HUMAS roles and uses server-side RPCs",(
  assert.match(api,/PERMIT_MIMES/);
  assert.match(api,/26214400/);
  assert.match(api,/storageRequest/);
+ assert.match(api,/signed.token/);
 });
 
 test("permit workspace provides list, detail, workflow and document interactions",()=>{
@@ -42,4 +44,7 @@ test("permit workspace provides list, detail, workflow and document interactions
  for(const action of ["submit","verify","recommend","request_revision","approve","reject","cancel","complete","archive"])assert.ok(ui.includes(action),action);
  assert.match(ui,/permit-upload-url/);
  assert.match(ui,/permit-document-url/);
+ assert.match(ui,/editingPermitId/);
+ assert.match(ui,/facilityFields/);
+ assert.match(ui,/agendaPermitSelect/);
 });
