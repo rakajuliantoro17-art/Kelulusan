@@ -135,3 +135,7 @@ GitHub Actions berhasil menjalankan migration 001–007 pada PostgreSQL 17 ephem
 
 ## Tracer Study Alumni
 Workspace direktori alumni dan tracer study tersedia pada `/humas/alumni`. Data profil, status setelah lulus, persetujuan komunikasi per tujuan, dan riwayat kontak dikelola melalui migration 009. Pengiriman pesan otomatis belum termasuk. Aktivasi Production menunggu persetujuan dan konfigurasi terpisah.
+
+
+## Formulir publik Tracer Study
+Formulir publik tersedia pada `/alumni/tracer`. Pengajuan disimpan sebagai `pending` dan harus diperiksa Staf HUMAS sebelum menjadi profil aktif. Persetujuan informasi sekolah, kegiatan/reuni, donasi, dan jejaring karier dipisahkan. Detail teknis dan aktivasi ada pada [HUMAS-ALUMNI-TRACER-STUDY.md](HUMAS-ALUMNI-TRACER-STUDY.md).

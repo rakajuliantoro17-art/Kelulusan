@@ -42,7 +42,9 @@ $migrations = @(
   "supabase/migrations/202611020005_humas_security_hardening.sql",
   "supabase/migrations/202611020006_humas_operator_role_separation.sql",
   "supabase/migrations/202611020007_humas_operational_workflow.sql",
-  "supabase/migrations/202611020008_humas_proposals_sponsorship.sql"
+  "supabase/migrations/202611020008_humas_proposals_sponsorship.sql",
+  "supabase/migrations/202611020009_humas_alumni_tracer_study.sql",
+  "supabase/migrations/202611020010_humas_alumni_public_intake.sql"
 )
 
 if (-not (Test-Path $bootstrap) -or -not (Test-Path $integration) -or -not (Test-Path $security)) {
@@ -53,7 +55,7 @@ Write-Host "1/3 Bootstrap compatibility scaffold..."
 & $psql.Source $env:HUMAS_TEST_DATABASE_URL -X -v ON_ERROR_STOP=1 -f $bootstrap
 if ($LASTEXITCODE -ne 0) { throw "Bootstrap gagal. Periksa output PostgreSQL di atas." }
 
-Write-Host "2/4 Apply migrations to LOCAL test database only..."
+Write-Host "2/5 Apply migrations 001–010 to LOCAL test database only..."
 foreach ($migration in $migrations) {
   if (-not (Test-Path $migration)) { throw "Migration tidak ditemukan: $migration" }
   Write-Host "   -> $migration"
@@ -61,11 +63,11 @@ foreach ($migration in $migrations) {
   if ($LASTEXITCODE -ne 0) { throw "Migration gagal: $migration" }
 }
 
-Write-Host "3/4 Run integration smoke tests..."
+Write-Host "3/5 Run integration smoke tests..."
 & $psql.Source $env:HUMAS_TEST_DATABASE_URL -X -v ON_ERROR_STOP=1 -f $integration
 if ($LASTEXITCODE -ne 0) { throw "Integration test gagal. Periksa output PostgreSQL di atas." }
 
-Write-Host "4/4 Run RLS, privilege, and audit immutability checks..."
+Write-Host "4/5 Run RLS, privilege, and audit immutability checks..."
 & $psql.Source $env:HUMAS_TEST_DATABASE_URL -X -v ON_ERROR_STOP=1 -f $security
 if ($LASTEXITCODE -ne 0) { throw "Security assertions gagal. Periksa output PostgreSQL di atas." }
 

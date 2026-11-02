@@ -27,7 +27,9 @@ BEGIN
     'proposal_supports',
     'proposal_events',
     'alumni_profiles',
-    'alumni_contact_logs'
+    'alumni_contact_logs',
+    'alumni_intake_submissions',
+    'alumni_intake_rate_limits'
   ] LOOP
     SELECT c.relrowsecurity
       INTO v_rls
@@ -165,6 +167,30 @@ BEGIN
     RAISE EXCEPTION 'FAIL: alumni contact history append-only trigger is missing';
   END IF;
 
-  RAISE NOTICE 'PASS: RLS, browser restrictions, append-only audit, proposal RPC privileges, and operator separation';
+
+  IF has_table_privilege('anon','humas.alumni_intake_submissions','SELECT')
+     OR has_table_privilege('authenticated','humas.alumni_intake_submissions','SELECT')
+     OR has_table_privilege('anon','humas.alumni_intake_rate_limits','SELECT')
+     OR has_table_privilege('authenticated','humas.alumni_intake_rate_limits','SELECT')
+     OR has_table_privilege('anon','humas.alumni_intake_submissions','INSERT')
+     OR has_table_privilege('authenticated','humas.alumni_intake_submissions','INSERT') THEN
+    RAISE EXCEPTION 'FAIL: browser roles can access alumni intake tables directly';
+  END IF;
+  IF NOT has_table_privilege('service_role','humas.alumni_intake_submissions','SELECT')
+     OR NOT has_table_privilege('service_role','humas.alumni_intake_submissions','INSERT')
+     OR NOT has_table_privilege('service_role','humas.alumni_intake_submissions','UPDATE')
+     OR NOT has_table_privilege('service_role','humas.alumni_intake_rate_limits','INSERT')
+     OR NOT has_table_privilege('service_role','humas.alumni_intake_rate_limits','UPDATE') THEN
+    RAISE EXCEPTION 'FAIL: service_role is missing alumni intake privileges';
+  END IF;
+  IF has_function_privilege('anon','humas.alumni_intake_submit(text,jsonb)','EXECUTE')
+     OR has_function_privilege('authenticated','humas.alumni_intake_submit(text,jsonb)','EXECUTE')
+     OR NOT has_function_privilege('service_role','humas.alumni_intake_submit(text,jsonb)','EXECUTE')
+     OR has_function_privilege('anon','humas.alumni_intake_review(uuid,text,uuid,text,text)','EXECUTE')
+     OR has_function_privilege('authenticated','humas.alumni_intake_review(uuid,text,uuid,text,text)','EXECUTE')
+     OR NOT has_function_privilege('service_role','humas.alumni_intake_review(uuid,text,uuid,text,text)','EXECUTE') THEN
+    RAISE EXCEPTION 'FAIL: alumni intake RPC privileges are incorrect';
+  END IF;
+  RAISE NOTICE 'PASS: RLS, browser restrictions, append-only audit, proposal/alumni intake RPC privileges, and operator separation';
 END
 $security$;

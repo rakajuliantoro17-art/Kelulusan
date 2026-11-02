@@ -39,6 +39,8 @@ jobs:
           test -f src/server/api/akademik.js
           test -f src/server/api/kesiswaan.js
           test -f src/server/api/humas.js
+          test -f src/server/api/humas-alumni-public.js
+          test -f api/humas-alumni-public.js
           test -f api/humas.js
           test -f src/pintuku/dashboard/humas-kemitraan.html
           test -f src/pintuku/assets/css/humas-kemitraan.css
@@ -47,8 +49,11 @@ jobs:
           test -f src/pintuku/assets/css/humas-proposal.css
           test -f src/pintuku/assets/js/humas-proposal.js
           test -f src/pintuku/dashboard/humas-alumni.html
+          test -f src/pintuku/dashboard/humas-alumni-public.html
           test -f src/pintuku/assets/css/humas-alumni.css
+          test -f src/pintuku/assets/css/humas-alumni-public.css
           test -f src/pintuku/assets/js/humas-alumni.js
+          test -f src/pintuku/assets/js/humas-alumni-public.js
           test -d public/assets
           test -d src/akademik
           test -d src/kesiswaan
@@ -88,6 +93,8 @@ jobs:
           node --check src/pintuku/assets/js/humas-kemitraan.js
           node --check src/pintuku/assets/js/humas-proposal.js
           node --check src/pintuku/assets/js/humas-alumni.js
+          node --check src/pintuku/assets/js/humas-alumni-public.js
+          node --check src/server/api/humas-alumni-public.js
           echo "JavaScript syntax OK"
 
       - name: Verify Academic API Source Contract
@@ -135,8 +142,11 @@ jobs:
           test -f dist/src/pintuku/assets/css/humas-proposal.css
           test -f dist/src/pintuku/assets/js/humas-proposal.js
           test -f dist/src/pintuku/dashboard/humas-alumni.html
+          test -f dist/src/pintuku/dashboard/humas-alumni-public.html
           test -f dist/src/pintuku/assets/css/humas-alumni.css
+          test -f dist/src/pintuku/assets/css/humas-alumni-public.css
           test -f dist/src/pintuku/assets/js/humas-alumni.js
+          test -f dist/src/pintuku/assets/js/humas-alumni-public.js
           test ! -e dist/src/server
           echo "Static output OK"
 

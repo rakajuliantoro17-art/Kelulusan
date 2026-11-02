@@ -192,6 +192,12 @@ async function listAlumni(c,req){
  return{alumni:await restList(c,"alumni_profiles",p),page:pg.page,limit:pg.limit};
 }
 
+async function listAlumniIntakes(c,req){
+ const pg=pagination(req.query||{});
+ const p=new URLSearchParams({select:"id,full_name,graduation_year,last_class,whatsapp,email,city,province,current_status,institution,study_program,employer,job_title,business_name,industry,survey_year,contact_preference,consent_school_updates,consent_events,consent_fundraising,consent_career_network,submitted_at,status",status:"eq.pending",order:"submitted_at.asc",limit:String(pg.limit),offset:String(pg.offset)});
+ return{submissions:await restList(c,"alumni_intake_submissions",p),page:pg.page,limit:pg.limit};
+}
+
 module.exports=async function humasApi(req,res){
   headers(res);
   const c=config();
@@ -354,6 +360,20 @@ module.exports=async function humasApi(req,res){
       return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
     }
 
+
+
+    if(op==="alumni-intakes"){
+      if(!hasRead(userRoles)||!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat meninjau pengajuan alumni."});
+      if(req.method==="GET")return send(res,200,{success:true,data:await listAlumniIntakes(c,req)});
+      if(req.method==="PATCH"){
+        const b=bodyOf(req),id=str(b.id,64),action=str(b.action,20);
+        if(!uuid(id)||!["approve","reject"].includes(action))return send(res,400,{success:false,error:"invalid_request",message:"Pengajuan atau tindakan peninjauan tidak valid."});
+        const result=await rpc(c,"alumni_intake_review",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_submission_id:id,p_action:action,p_note:str(b.note,1000)});
+        if(result&&result.status==="duplicate_possible")return send(res,409,{success:false,error:"possible_duplicate",message:"Kemungkinan data alumni sudah tercatat. Periksa profil yang cocok sebelum memutuskan tindak lanjut.",data:result});
+        return send(res,200,{success:true,data:result});
+      }
+      res.setHeader("Allow","GET, PATCH");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
+    }
 
     if(op==="alumni-workspace"){
       if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}

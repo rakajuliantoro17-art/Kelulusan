@@ -78,6 +78,10 @@ DECLARE
   v_support jsonb;
   v_alumni jsonb;
   v_alumni_id uuid;
+  v_intake jsonb;
+  v_intake_id uuid;
+  v_rate_result jsonb;
+  v_i integer;
   v_partner_id uuid;
   v_proposal_id uuid;
   v_support_id uuid;
@@ -372,7 +376,40 @@ BEGIN
   EXCEPTION WHEN insufficient_privilege THEN NULL;
   END;
 
-  RAISE NOTICE 'PASS: partner, agreement, proposal, sponsorship, alumni consent and contact history transactions; workflow transitions; audit immutability; role checks; and rollback';
+
+  v_intake := humas.alumni_intake_submit(repeat('a',64),
+    '{"full_name":"Alumni Intake Baru","graduation_year":2019,"whatsapp":"08123450000","current_status":"employed","employer":"Instansi Alumni","consent_data_processing":true,"consent_events":true,"consent_fundraising":false}'::jsonb);
+  v_intake_id := (v_intake->>'submission_id')::uuid;
+  IF v_intake->>'ok' <> 'true' OR v_intake->>'status' <> 'pending' OR v_intake_id IS NULL THEN
+    RAISE EXCEPTION 'FAIL: public alumni intake did not create a pending submission';
+  END IF;
+  v_intake := humas.alumni_intake_review(v_staff,'staff_humas',v_intake_id,'approve','Data diverifikasi');
+  IF v_intake->>'status' <> 'approved' OR v_intake->>'profile_id' IS NULL THEN
+    RAISE EXCEPTION 'FAIL: approved alumni intake was not added to the directory';
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM humas.alumni_profiles WHERE id=(v_intake->>'profile_id')::uuid AND consent_events=true AND consent_fundraising=false) THEN
+    RAISE EXCEPTION 'FAIL: intake consent values were not transferred to the alumni profile';
+  END IF;
+  v_intake := humas.alumni_intake_submit(repeat('c',64),
+    '{"full_name":"Duplikat Potensial","graduation_year":2020,"whatsapp":"08123456789","consent_data_processing":true}'::jsonb);
+  v_intake := humas.alumni_intake_review(v_staff,'staff_humas',(v_intake->>'submission_id')::uuid,'approve',NULL);
+  IF v_intake->>'status' <> 'duplicate_possible' OR v_intake->>'matching_profile_id' <> v_alumni_id::text THEN
+    RAISE EXCEPTION 'FAIL: duplicate alumni submission was not flagged for manual review';
+  END IF;
+  v_intake := humas.alumni_intake_submit(repeat('d',64),
+    '{"full_name":"Pengajuan Ditolak","graduation_year":2018,"whatsapp":"08123459999","consent_data_processing":true}'::jsonb);
+  v_intake := humas.alumni_intake_review(v_staff,'staff_humas',(v_intake->>'submission_id')::uuid,'reject','Tidak lolos verifikasi');
+  IF v_intake->>'status' <> 'rejected' THEN RAISE EXCEPTION 'FAIL: rejected intake status not recorded'; END IF;
+  FOR v_i IN 1..5 LOOP
+    PERFORM humas.alumni_intake_submit(repeat('b',64),
+      pg_catalog.jsonb_build_object('full_name','Rate Limit '||v_i,'graduation_year',2017,'whatsapp','0812345'||lpad(v_i::text,4,'0'),'consent_data_processing',true));
+  END LOOP;
+  v_rate_result := humas.alumni_intake_submit(repeat('b',64),
+    '{"full_name":"Rate Limit Sixth","graduation_year":2017,"whatsapp":"08123458888","consent_data_processing":true}'::jsonb);
+  IF v_rate_result->>'rate_limited' <> 'true' THEN
+    RAISE EXCEPTION 'FAIL: public alumni intake rate limit did not reject the sixth request';
+  END IF;
+  RAISE NOTICE 'PASS: partner, agreement, proposal, sponsorship, alumni consent, public intake review and rate limiting transactions; workflow transitions; audit immutability; role checks; and rollback';
 END
 $tests$;
 
