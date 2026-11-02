@@ -160,6 +160,15 @@
   }
   document.querySelectorAll("[data-visit-stats]").forEach((root) => {
     const id = root.dataset.visitStats;
-    get(id).then((res) => (root.hasAttribute("data-full") ? renderFull(root, res, id) : renderCompact(root, res)));
+    get(id).then((res) => {
+      if (res.state !== "ok" && root.hasAttribute("data-hide-empty")) {
+        // Penghitung belum aktif/gagal: sembunyikan blok beserta judulnya, jangan tampilkan kotak kosong.
+        const h = root.previousElementSibling;
+        if (h && h.classList.contains("mod-section-title")) h.hidden = true;
+        root.hidden = true;
+        return;
+      }
+      root.hasAttribute("data-full") ? renderFull(root, res, id) : renderCompact(root, res);
+    });
   });
 })();

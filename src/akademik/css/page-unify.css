@@ -229,3 +229,68 @@ html:not([data-theme="light"]) body[data-page="prestasi"] .prestasi-bg-layer { f
 /* Prestasi: kartu isi putih agar teks gelap terbaca di atas foto (mode apa pun) */
 body[data-page="prestasi"] .prestasi-card:not(.prestasi-rank-card),
 body[data-page="prestasi"] .prestasi-school-card { background: rgba(255,255,255,.93) !important; border-color: rgba(255,255,255,.7); }
+
+/* ----------------------------------------------------------
+   About & Privacy: hero kaca + kartu selebar konten
+   ---------------------------------------------------------- */
+body[data-page="about"],
+body[data-page="privacy"] { --u-wrap: min(100% - 36px, 1240px); }
+
+body[data-page="about"] .app-content > .header,
+body[data-page="privacy"] .app-content > .header {
+  width: var(--u-wrap) !important;
+  max-width: none !important;
+  margin: clamp(24px, 4vw, 48px) auto 0 !important;
+  padding: clamp(24px, 4vw, 42px);
+  text-align: left;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(255,255,255,.20), rgba(255,255,255,.07));
+  box-shadow: 0 18px 50px rgba(0,0,0,.20), inset 0 1px rgba(255,255,255,.22);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  backdrop-filter: blur(28px) saturate(160%);
+  color: #fff;
+  box-sizing: border-box;
+}
+body[data-page="about"] .header .logo,
+body[data-page="privacy"] .header .logo { width: 72px; margin: 0 0 14px; }
+body[data-page="about"] .header h1,
+body[data-page="privacy"] .header h1 { margin: 0 0 8px; color: #fff; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.12; letter-spacing: -.035em; }
+body[data-page="about"] .header p,
+body[data-page="privacy"] .header p { margin: 0; color: rgba(255,255,255,.86); }
+
+body[data-page="about"] .app-content > .container,
+body[data-page="privacy"] .app-content > .container {
+  width: var(--u-wrap) !important;
+  max-width: none !important;
+  margin: 22px auto 56px !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+body[data-page="about"] .container .search-card,
+body[data-page="about"] .container .result-card,
+body[data-page="privacy"] .container .search-card,
+body[data-page="privacy"] .container .result-card,
+body[data-page="privacy"] .container section {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+html[data-theme="light"] body[data-page="about"] .app-content > .header,
+html[data-theme="light"] body[data-page="privacy"] .app-content > .header {
+  border-color: rgba(11,41,70,.14);
+  background: linear-gradient(135deg, rgba(255,255,255,.78), rgba(255,255,255,.56));
+  box-shadow: 0 18px 44px rgba(11,41,70,.14), inset 0 1px rgba(255,255,255,.7);
+  color: #0b2946;
+}
+html[data-theme="light"] body[data-page="about"] .header h1,
+html[data-theme="light"] body[data-page="privacy"] .header h1 { color: #0b2946; }
+html[data-theme="light"] body[data-page="about"] .header p,
+html[data-theme="light"] body[data-page="privacy"] .header p { color: #35516d; }
+
+/* Kartu isi About/Privacy putih di kedua tema -> teks harus gelap (tema gelap sebelumnya terang di atas putih). */
+body[data-page="about"] .container :is(.search-card, .result-card, section) :is(p, li, span, div, td),
+body[data-page="privacy"] .container :is(.search-card, .result-card, section) :is(p, li, span, div, td) { color: #243a50; }

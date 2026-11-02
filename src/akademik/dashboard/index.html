@@ -59,6 +59,10 @@
     .mod-hero .eyebrow { color: #ffdc78; font-size: .76rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
     .mod-hero h1 { margin: 8px 0 10px; color: #fff; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.12; letter-spacing: -.035em; }
     .mod-hero p { max-width: 760px; margin: 0; color: rgba(255,255,255,.82); line-height: 1.7; }
+    /* Latar dashboard selalu gelap: pertahankan teks hero terang di tema terang juga. */
+    html[data-theme="light"] .mod-hero .eyebrow { color: #ffdc78; }
+    html[data-theme="light"] .mod-hero h1 { color: #fff; }
+    html[data-theme="light"] .mod-hero p { color: rgba(255,255,255,.86); }
     .mod-crumb { margin-top: 22px; }
     .mod-crumb .button { border: 1px solid rgba(255,255,255,.32); background: rgba(255,255,255,.12); color: #fff; border-radius: 999px; }
     .mod-section-title { margin: 28px 0 14px; color: #fff; font-size: 1.12rem; font-weight: 750; }
@@ -100,7 +104,9 @@
     }
     @media (prefers-reduced-motion: reduce) { .bg-layer { animation: none !important; } }
   </style>
+  <link rel="stylesheet" href="/css/portal-settings.css">
   <script src="/js/visit-stats.js" defer></script>
+  <script src="/js/portal-settings.js" defer></script>
 </head>
 <body data-page="home">
   <div class="bg-layer" aria-hidden="true"></div>
@@ -113,8 +119,8 @@
       <div class="mod-crumb"><a class="button button-quiet" href="/">← Kembali ke PINTUKU</a></div>
     </header>
 
-    <h2 class="mod-section-title">Statistik kunjungan</h2>
-    <section class="vs-wrap" aria-label="Statistik kunjungan akademik" data-visit-stats="akademik" data-full><p class="vs-empty" role="status">Memuat statistik…</p></section>
+    <h2 class="mod-section-title" data-vs-heading>Statistik kunjungan</h2>
+    <section class="vs-wrap" aria-label="Statistik kunjungan akademik" data-visit-stats="akademik" data-full data-hide-empty><p class="vs-empty" role="status">Memuat statistik…</p></section>
 
     <h2 class="mod-section-title">Akses layanan akademik</h2>
     <div class="service-grid" aria-label="Daftar layanan akademik">
