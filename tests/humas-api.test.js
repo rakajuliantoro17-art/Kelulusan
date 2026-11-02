@@ -134,3 +134,13 @@ test("workflow transition sends the verified actor and selected action to SQL", 
   assert.equal(payload.p_actor_role, "vice_principal_humas");
   assert.equal(payload.p_action, "recommend");
 });
+
+
+test("workspace consolidates the initial dashboard and first-page data", async () => {
+  const r = await invoke({ role: "staff_humas", op: "workspace" });
+  assert.equal(r.status, 200);
+  assert.ok(r.payload.data.roles.includes("staff_humas"));
+  assert.ok(r.calls.some(x => x.url.pathname.endsWith("/rpc/dashboard_summary")));
+  assert.ok(r.calls.some(x => x.url.pathname === "/rest/v1/partners"));
+  assert.ok(r.calls.some(x => x.url.pathname === "/rest/v1/agreements"));
+});
