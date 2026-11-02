@@ -179,7 +179,7 @@ as $$
     'total_agreements',(select pg_catalog.count(*) from humas.agreements),
     'in_process',(select pg_catalog.count(*) from humas.agreements where status in ('draft','submitted','verified','recommended','pending_principal_approval','revision_required','pending_signature')),
     'active_agreements',(select pg_catalog.count(*) from humas.agreements where status in ('physically_signed','electronically_signed','registered')),
-    'expiring_soon',(select pg_catalog.count(*) from humas.agreements where end_date between current_date and pg_catalog.current_date+interval '90 days' and status not in ('archived','rejected','expired'))
+    'expiring_soon',(select pg_catalog.count(*) from humas.agreements where end_date between current_date and current_date+interval '90 days' and status not in ('archived','rejected','expired'))
   );
 $$;
 
