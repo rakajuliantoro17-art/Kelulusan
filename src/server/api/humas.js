@@ -60,14 +60,14 @@ function uuid(v){return typeof v==="string"&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9
 function pagination(query){
   const rawPage=query.page===undefined?"1":String(query.page);
   const rawLimit=query.limit===undefined?"25":String(query.limit);
-  if(!/^\\d{1,4}$/.test(rawPage)||!/^\\d{1,3}$/.test(rawLimit))throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});
+  if(!/^\d{1,4}$/.test(rawPage)||!/^\d{1,3}$/.test(rawLimit))throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});
   const page=Number(rawPage),limit=Number(rawLimit);
   if(page<1||page>1000||limit<1||limit>100)throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});
   return{page,limit,offset:(page-1)*limit};
 }
 function validDate(value){
   if(value==="")return true;
-  if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(value))return false;
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
   const [y,m,d]=value.split("-").map(Number);
   const date=new Date(Date.UTC(y,m-1,d));
   return date.getUTCFullYear()===y&&date.getUTCMonth()===m-1&&date.getUTCDate()===d;
@@ -116,7 +116,7 @@ async function listPartners(c,req){
   if(typeof q.search==="string"&&q.search.trim()){
     // Restrict the search token to Unicode letters/digits. This prevents
     // PostgREST logic-tree metacharacters from altering the filter expression.
-    const tokens=q.search.normalize("NFKC").match(/[\\p{L}\\p{N}]+/gu)||[];
+    const tokens=q.search.normalize("NFKC").match(/[\p{L}\p{N}]+/gu)||[];
     const term=tokens[0]||"";
     if(term)params.set("or","(partner_name.ilike.*"+term+"*,contact_person.ilike.*"+term+"*)");
   }
