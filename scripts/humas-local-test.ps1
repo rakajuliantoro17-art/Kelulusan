@@ -33,6 +33,7 @@ if (-not $psql) {
 
 $bootstrap = "tests/humas-local-bootstrap.sql"
 $integration = "tests/humas-local-integration.sql"
+$security = "tests/humas-local-security.sql"
 $migrations = @(
   "supabase/migrations/202611020001_humas_partnership_foundation.sql",
   "supabase/migrations/202611020002_humas_rbac_foundation.sql",
@@ -41,7 +42,7 @@ $migrations = @(
   "supabase/migrations/202611020005_humas_security_hardening.sql"
 )
 
-if (-not (Test-Path $bootstrap) -or -not (Test-Path $integration)) {
+if (-not (Test-Path $bootstrap) -or -not (Test-Path $integration) -or -not (Test-Path $security)) {
   throw "Jalankan script dari root repository Kelulusan."
 }
 
@@ -57,8 +58,12 @@ foreach ($migration in $migrations) {
   if ($LASTEXITCODE -ne 0) { throw "Migration gagal: $migration" }
 }
 
-Write-Host "3/3 Run integration smoke tests..."
+Write-Host "3/4 Run integration smoke tests..."
 & $psql.Source $env:HUMAS_TEST_DATABASE_URL -X -v ON_ERROR_STOP=1 -f $integration
 if ($LASTEXITCODE -ne 0) { throw "Integration test gagal. Periksa output PostgreSQL di atas." }
 
-Write-Host "SELESAI: migrasi dan smoke test lokal berhasil. Tidak ada akses ke Supabase Production."
+Write-Host "4/4 Run RLS, privilege, and audit immutability checks..."
+& $psql.Source $env:HUMAS_TEST_DATABASE_URL -X -v ON_ERROR_STOP=1 -f $security
+if ($LASTEXITCODE -ne 0) { throw "Security assertions gagal. Periksa output PostgreSQL di atas." }
+
+Write-Host "SELESAI: migrasi, integration smoke tests, dan security assertions lokal berhasil. Tidak ada akses ke Supabase Production."
