@@ -139,3 +139,14 @@ Workspace direktori alumni dan tracer study tersedia pada `/humas/alumni`. Data 
 
 ## Formulir publik Tracer Study
 Formulir publik tersedia pada `/alumni/tracer`. Pengajuan disimpan sebagai `pending` dan harus diperiksa Staf HUMAS sebelum menjadi profil aktif. Persetujuan informasi sekolah, kegiatan/reuni, donasi, dan jejaring karier dipisahkan. Detail teknis dan aktivasi ada pada [HUMAS-ALUMNI-TRACER-STUDY.md](HUMAS-ALUMNI-TRACER-STUDY.md).
+
+
+## Akun eksternal dan pendaftaran mandiri
+
+Halaman akun publik tersedia pada `/humas/akun`. Pengguna dapat mendaftar atau masuk dengan email/kata sandi dan Google OAuth (PKCE). Setelah autentikasi, pengguna wajib melengkapi profil dengan jenis akun alumni, mitra, komite, atau masyarakat umum. Profil eksternal berstatus `pending_review` sampai diverifikasi HUMAS.
+
+Pendaftaran mandiri **tidak** membuat atau mengubah baris `humas.user_roles`. Akun guru, TU, Staf HUMAS, Wakasek HUMAS, Kepala Sekolah, dan operator tetap harus dibuat/ditetapkan secara administratif. API profil eksternal memverifikasi access token melalui Supabase Auth, lalu memproses data melalui serverless API dan RPC database. Tidak ada akses browser langsung ke schema `humas` atau penggunaan service key di browser.
+
+Migration 011 menambah `humas.external_profiles`. Migration ini masih berupa source dan perlu diterapkan terpisah pada Supabase Production setelah diuji. Untuk Google OAuth, admin perlu mengaktifkan provider Google pada Supabase Auth, mengisi Client ID/Secret dari Google Cloud, dan menambahkan URL callback/redirect produksi `https://<domain-portal>/humas/akun` ke daftar redirect URL yang diizinkan Supabase. URL callback Google di Google Cloud tetap menggunakan callback Supabase yang ditampilkan pada halaman provider Google.
+
+Environment server tetap memakai `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, dan `SUPABASE_SECRET_KEY` (atau service role lama). API hanya mengirim URL dan publishable key ke halaman publik; secret tidak pernah dikirim ke browser. Penggunaan Google belum dapat diuji sampai provider Google dikonfigurasi.
