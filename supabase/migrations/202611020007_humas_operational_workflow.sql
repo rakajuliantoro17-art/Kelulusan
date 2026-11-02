@@ -56,7 +56,7 @@ begin
   ) values (
     p_agreement_id,'draft_updated',v_before.status,v_after.status,p_actor_id,p_actor_role,
     nullif(pg_catalog.btrim(p_payload->>'reason'),''),
-    pg_catalog.jsonb_build_object('changed_fields',pg_catalog.jsonb_agg(key))
+    pg_catalog.jsonb_build_object('changed_fields',(select pg_catalog.jsonb_agg(k) from pg_catalog.jsonb_object_keys(p_payload) as k))
   );
   return pg_catalog.to_jsonb(v_after);
 end;
@@ -152,7 +152,7 @@ begin
       agreement_id,stage,decision,actor_id,actor_role,notes,acted_at
     ) values (
       p_agreement_id,v_stage,v_decision,p_actor_id,p_actor_role,
-      nullif(pg_catalog.btrim(p_reason),''),pg_catalog.now()
+      nullif(pg_catalog.btrim(p_reason),''),case when v_decision='pending' then null else pg_catalog.now() end
     );
   end if;
 
