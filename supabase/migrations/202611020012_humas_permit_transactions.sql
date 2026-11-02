@@ -51,7 +51,8 @@ begin
     or (nullif(p_payload->>'requested_start_at','') is not null and (p_payload->>'requested_start_at')::timestamptz is null)
     or (nullif(p_payload->>'requested_end_at','') is not null and (p_payload->>'requested_end_at')::timestamptz is null)
     or (nullif(p_payload->>'applicant_email','') is not null and p_payload->>'applicant_email' !~* '^[^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+$')
-    or (p_payload ? 'facility_details' and pg_catalog.jsonb_typeof(p_payload->'facility_details')<>'object') then
+    or (p_payload ? 'facility_details' and pg_catalog.jsonb_typeof(p_payload->'facility_details')<>'object')
+    or (p_payload->>'permit_type'='facility' and nullif(pg_catalog.btrim(p_payload->'facility_details'->>'facility_name'),'') is null) then
     raise exception using errcode='22023',message='invalid_permit_payload';
   end if;
   if nullif(p_payload->>'requested_start_at','') is not null
@@ -124,6 +125,7 @@ begin
   if nullif(v_after.title,'') is null or pg_catalog.length(v_after.title) not between 3 and 200
     or nullif(v_after.purpose,'') is null or pg_catalog.length(v_after.purpose) not between 3 and 4000
     or nullif(v_after.applicant_name,'') is null or pg_catalog.length(v_after.applicant_name) not between 2 and 180
+    or (v_after.permit_type='facility' and nullif(pg_catalog.btrim(v_after.facility_details->>'facility_name'),'') is null)
     or (v_after.requested_start_at is not null and v_after.requested_end_at is not null and v_after.requested_end_at<v_after.requested_start_at) then
     raise exception using errcode='22023',message='invalid_permit_payload';
   end if;
