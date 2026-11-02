@@ -45,7 +45,8 @@ async function login(email,password){
  saveSession(result.data.data);return result.data.data.user||{};
 }
 async function loadWorkspace(){
- const d=await api("workspace");
+ const q=new URLSearchParams({partner_page:String(state.partnerPage),partner_search:$("partnerSearch").value.trim(),partner_type:$("partnerCategory").value,partner_status:$("partnerStatus").value,agreement_page:String(state.agreementPage),agreement_search:$("agreementSearch").value.trim(),agreement_status:$("agreementStatus").value});
+ const d=await api("workspace&"+q.toString());
  state.roles=Array.isArray(d.roles)?d.roles:[];
  if(!state.roles.some(r=>["staff_humas","vice_principal_humas","principal"].includes(r)))throw new Error("Akun belum diberi akses layanan Kemitraan & MoU.");
  showWorkspace(d.user||{});setupRoleUI();
@@ -105,7 +106,7 @@ async function savePartner(e){
  try{
   if(state.partnerEditing){await api("partners","PATCH",{id:state.partnerEditing.id,...payload});notice("Perubahan data mitra tersimpan.","success");}
   else{await api("partners","POST",payload);notice("Mitra berhasil didaftarkan.","success");}
-  $("partnerDialog").close();state.partnerPage=1;await Promise.all([loadPartners(),loadDashboard()]);
+  $("partnerDialog").close();state.partnerPage=1;await refreshAll();
  }catch(err){notice(err.message,"error");}finally{btn.disabled=false;}
 }
 async function partnerAction(e){
@@ -135,7 +136,7 @@ async function saveAgreement(e){
  try{
   if(state.agreementEditing){await api("agreements","PATCH",{id:state.agreementEditing.id,action:"update_draft",...payload});notice("Draft kerja sama diperbarui.","success");}
   else{await api("agreements","POST",payload);notice("Draft kerja sama berhasil dibuat.","success");}
-  $("agreementDialog").close();state.agreementPage=1;await Promise.all([loadAgreements(),loadDashboard()]);
+  $("agreementDialog").close();state.agreementPage=1;await refreshAll();
  }catch(err){notice(err.message,"error");}finally{btn.disabled=false;}
 }
 function actionList(a){
@@ -175,7 +176,7 @@ async function runWorkflow(action){
  if(["reject","request_revision"].includes(action)){reason=window.prompt(action==="reject"?"Tuliskan alasan penolakan:":"Tuliskan catatan revisi:","");if(!reason||!reason.trim())return;}
  else if(!window.confirm("Jalankan tindakan ini pada dokumen kerja sama?"))return;
  try{
-  await api("agreements","PATCH",{id:a.id,action,reason,actor_role:action==="request_revision"&&a.status==="pending_principal_approval"?"principal":undefined});$("detailDialog").close();notice("Tahapan kerja sama berhasil diperbarui.","success");await Promise.all([loadAgreements(),loadDashboard()]);
+  await api("agreements","PATCH",{id:a.id,action,reason,actor_role:action==="request_revision"&&a.status==="pending_principal_approval"?"principal":undefined});$("detailDialog").close();notice("Tahapan kerja sama berhasil diperbarui.","success");await refreshAll();
  }catch(e){notice(e.message,"error");}
 }
 function debounce(fn,wait=350){let t;return(...args)=>{clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
