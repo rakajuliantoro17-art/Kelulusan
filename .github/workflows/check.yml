@@ -39,6 +39,12 @@ jobs:
           test -f src/server/api/akademik.js
           test -f src/server/api/kesiswaan.js
           test -f src/server/api/humas.js
+          test -f api/humas-notifications.js
+          test -f src/pintuku/dashboard/humas-perizinan.html
+          test -f src/pintuku/dashboard/humas-perizinan-public.html
+          test -f src/pintuku/assets/css/humas-perizinan.css
+          test -f src/pintuku/assets/js/humas-perizinan.js
+          test -f src/pintuku/assets/js/humas-perizinan-public.js
           test -f src/server/api/humas-alumni-public.js
           test -f api/humas-alumni-public.js
           test -f api/humas.js
@@ -94,6 +100,10 @@ jobs:
           node --check src/pintuku/assets/js/humas-proposal.js
           node --check src/pintuku/assets/js/humas-alumni.js
           node --check src/pintuku/assets/js/humas-alumni-public.js
+          node --check src/pintuku/assets/js/humas-perizinan.js
+          node --check src/pintuku/assets/js/humas-perizinan-public.js
+          node --check src/server/api/humas.js
+          node --check api/humas-notifications.js
           node --check src/server/api/humas-alumni-public.js
           echo "JavaScript syntax OK"
 
@@ -149,6 +159,9 @@ jobs:
           test -f dist/src/pintuku/assets/js/humas-alumni-public.js
           test ! -e dist/src/server
           echo "Static output OK"
+
+      - name: Run HUMAS permit and protocol source tests
+        run: node --test tests/humas-migrations-static.test.js tests/humas-permit-transactions.test.js tests/humas-permit-public-intake.test.js
 
       - name: Success
         run: echo "Integrated project verification completed."
