@@ -62,6 +62,12 @@
 <label>Selesai kegiatan<input name="requested_end_at" type="datetime-local"></label>
 <label>Perkiraan peserta<input name="expected_attendees" type="number" min="1" max="100000"></label>
 <label class="hp-span">Tujuan dan uraian kegiatan<textarea name="purpose" required minlength="3" maxlength="4000" rows="4"></textarea></label>
+<div class="hp-facility-fields hp-span" id="facilityFields" hidden>
+<div class="eyebrow">DETAIL PENGGUNAAN FASILITAS</div>
+<label>Fasilitas yang digunakan<input name="facility_name" maxlength="180" placeholder="Contoh: Aula, lapangan, laboratorium"></label>
+<label>Kebutuhan perlengkapan<textarea name="facility_equipment" maxlength="1500" rows="2" placeholder="Meja, kursi, sound system, proyektor, dan sebagainya"></textarea></label>
+<label>Tata letak / kebutuhan ruang<textarea name="facility_layout" maxlength="1500" rows="2" placeholder="Susunan ruang, area yang digunakan, akses masuk, dan sebagainya"></textarea></label>
+</div>
 <div class="hp-form-actions"><button class="hk-btn hk-btn-primary" type="submit">Simpan sebagai draft</button><span>Permohonan akan tercatat sebagai draft. Pengajuan dilakukan melalui detail permohonan.</span></div>
 </form>
 </section>
