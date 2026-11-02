@@ -103,7 +103,7 @@ Runner ini adalah integration smoke test awal, bukan bukti bahwa seluruh sistem 
 
 ### Pemeriksaan sumber setelah penguatan
 
-Pemeriksaan konsistensi sumber dilakukan terhadap enam migration, tiga SQL test, PowerShell runner, API, dashboard, dan dokumen Sprint 3G. Pemeriksaan tambahan setelah migration 006 menghasilkan **32/32 assertion sumber PASS**. Ini mencakup urutan enam migration, SQL guard, API, dashboard, keterkaitan ID HTML/JavaScript, dan keamanan runner. Cakupan meliputi urutan migrasi, RLS, RPC, active-role guard, penolakan NULL role/status, append-only privilege, rollback fixture, database guard, dan pemanggilan test runner.
+Pemeriksaan konsistensi sumber dilakukan terhadap enam migration, tiga SQL test, PowerShell runner, API, dashboard, dan dokumen Sprint 3G. Pemeriksaan tambahan setelah migration 006 menghasilkan **38/38 assertion sumber PASS**. Ini mencakup urutan enam migration, SQL guard, API, dashboard, keterkaitan ID HTML/JavaScript, dan keamanan runner. Cakupan meliputi urutan migrasi, RLS, RPC, active-role guard, penolakan NULL role/status, append-only privilege, rollback fixture, database guard, dan pemanggilan test runner.
 
 Satu temuan diperbaiki sebelum pemeriksaan ini: penggunaan operator `<>` untuk validasi role dan status dapat menghasilkan UNKNOWN ketika input NULL. Migrasi 003, 004, dan 005 kini menggunakan `IS DISTINCT FROM` untuk label role; fungsi perubahan status juga menolak status NULL.
 
