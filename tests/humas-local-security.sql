@@ -1,5 +1,5 @@
 -- HUMAS local privilege, RLS, and audit immutability assertions.
--- Run after migrations 001-005 on pintuku_humas_test.
+-- Run after migrations 001-008 on pintuku_humas_test.
 
 DO $guard$
 BEGIN
