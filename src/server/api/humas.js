@@ -144,6 +144,11 @@ async function listAgreements(c,req){
     if(!uuid(q.partner_id))throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});
     params.set("partner_id","eq."+q.partner_id);
   }
+  if(typeof q.search==="string"&&q.search.trim()){
+    const tokens=q.search.normalize("NFKC").match(/[\\p{L}\\p{N}]+/gu)||[];
+    const term=tokens[0]||"";
+    if(term)params.set("or","(title.ilike.*"+term+"*,agreement_code.ilike.*"+term+"*)");
+  }
   return{agreements:await restList(c,"agreements",params),page:pg.page,limit:pg.limit};
 }
 
