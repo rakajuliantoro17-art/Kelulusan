@@ -40,6 +40,9 @@ const WEB_EXT = new Set([
 const REQUIRED = [
   "src/pintuku/dashboard/index.html",
   "src/pintuku/dashboard/humas.html",
+  "src/pintuku/dashboard/humas-kemitraan.html",
+  "src/pintuku/assets/css/humas-kemitraan.css",
+  "src/pintuku/assets/js/humas-kemitraan.js",
   "src/pintuku/assets/css/service-modules.css",
   "src/pintuku/dashboard/sarpras.html",
   "src/pintuku/pwa/sw.js",
