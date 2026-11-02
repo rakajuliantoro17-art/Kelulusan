@@ -118,4 +118,4 @@ Review ulang terhadap branch `main` menemukan dua pemeriksaan role pada `partner
 
 Migration `202611020006_humas_operator_role_separation.sql` menambahkan trigger yang menjaga akun `system_operator` tetap eksklusif dari role bisnis aktif. Perubahan identitas role pada satu assignment dibuat immutable; pencabutan dilakukan melalui status aktif/revoked. Integration harness dan security assertion diperbarui untuk memeriksa aturan ini.
 
-Status lokal pengguna tetap **NOT RUN** sampai runner lokal dijalankan. GitHub Actions menggunakan database ephemeral terpisah dan hasilnya dicatat pada workflow run. Perubahan sumber dan test harness bukan bukti runtime.
+GitHub Actions run **PASS** pada PostgreSQL 17 ephemeral: migration 001–007 sukses, integrasi workflow lengkap sukses, pemeriksaan RLS/grant/trigger sukses, dan 24 test Node.js lulus. Ini tidak menggantikan pengujian pada Supabase Production. Status lokal pengguna tetap **NOT RUN** sampai runner lokal dijalankan. Perubahan sumber dan test harness bukan bukti runtime.
