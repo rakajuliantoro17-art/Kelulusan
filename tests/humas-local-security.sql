@@ -22,7 +22,10 @@ BEGIN
     'agreement_approvals',
     'agreement_workflow_events',
     'user_roles',
-    'partner_events'
+    'partner_events',
+    'proposals',
+    'proposal_supports',
+    'proposal_events'
   ] LOOP
     SELECT c.relrowsecurity
       INTO v_rls
@@ -71,6 +74,31 @@ BEGIN
     RAISE EXCEPTION 'FAIL: service_role is missing required audit SELECT/INSERT';
   END IF;
 
+  IF has_table_privilege('service_role','humas.proposal_events','UPDATE')
+     OR has_table_privilege('service_role','humas.proposal_events','DELETE')
+     OR NOT has_table_privilege('service_role','humas.proposal_events','INSERT')
+     OR NOT has_table_privilege('service_role','humas.proposals','UPDATE')
+     OR NOT has_table_privilege('service_role','humas.proposal_supports','UPDATE') THEN
+    RAISE EXCEPTION 'FAIL: proposal/support/audit privileges are incorrect';
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_catalog.pg_trigger t
+    JOIN pg_catalog.pg_class c ON c.oid=t.tgrelid
+    JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+    WHERE n.nspname='humas' AND c.relname='proposal_events'
+      AND t.tgname='proposal_events_append_only' AND NOT t.tgisinternal
+  ) THEN
+    RAISE EXCEPTION 'FAIL: proposal append-only audit trigger is missing';
+  END IF;
+
+  IF has_function_privilege('anon','humas.proposal_create(uuid,text,jsonb)','EXECUTE')
+     OR has_function_privilege('authenticated','humas.proposal_create(uuid,text,jsonb)','EXECUTE')
+     OR NOT has_function_privilege('service_role','humas.proposal_create(uuid,text,jsonb)','EXECUTE')
+     OR NOT has_function_privilege('service_role','humas.proposal_summary()','EXECUTE') THEN
+    RAISE EXCEPTION 'FAIL: proposal RPC privileges are incorrect';
+  END IF;
+
   IF NOT EXISTS (
     SELECT 1 FROM pg_catalog.pg_trigger t
     JOIN pg_catalog.pg_class c ON c.oid=t.tgrelid
@@ -112,6 +140,6 @@ BEGIN
     RAISE EXCEPTION 'FAIL: operator role separation trigger is missing';
   END IF;
 
-  RAISE NOTICE 'PASS: RLS, no browser policies/grants, append-only audit, RPC privileges, and operator separation';
+  RAISE NOTICE 'PASS: RLS, browser restrictions, append-only audit, proposal RPC privileges, and operator separation';
 END
 $security$;
