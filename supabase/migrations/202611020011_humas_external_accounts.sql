@@ -15,7 +15,7 @@ create table if not exists humas.external_profiles (
  purpose text,
  consent_terms boolean not null check(consent_terms=true),
  consent_recorded_at timestamptz not null default now(),
- profile_status text not null default 'pending_review' check(profile_status in('pending_review','verified','rejected')),
+ profile_status text not null default 'complete' check(profile_status in('complete','verified','rejected')),
  reviewed_at timestamptz,
  reviewed_by uuid references auth.users(id) on delete set null,
  review_note text,
@@ -59,7 +59,7 @@ begin
   nullif(pg_catalog.btrim(p_payload->>'school_relationship'),''),v_year,
   nullif(pg_catalog.btrim(p_payload->>'organization_name'),''),nullif(pg_catalog.btrim(p_payload->>'organization_role'),''),
   nullif(pg_catalog.btrim(p_payload->>'city'),''),nullif(pg_catalog.btrim(p_payload->>'province'),''),
-  nullif(pg_catalog.btrim(p_payload->>'purpose'),''),true,now(),'pending_review',now()
+  nullif(pg_catalog.btrim(p_payload->>'purpose'),''),true,now(),'complete',now()
  )
  on conflict(user_id) do update set
   account_type=excluded.account_type,full_name=excluded.full_name,phone=excluded.phone,
