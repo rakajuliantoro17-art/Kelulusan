@@ -129,7 +129,7 @@ begin
     hit_count=case when rl.window_started_at+interval '1 hour'<=pg_catalog.now() then 1 else rl.hit_count+1 end,
     updated_at=pg_catalog.now()
   returning hit_count into v_hits;
-  if v_hits>5 then raise exception using errcode='P0001',message='rate_limit_exceeded'; end if;
+  if v_hits>5 then return pg_catalog.jsonb_build_object('error','rate_limit_exceeded'); end if;
 
   insert into humas.permit_rate_limits as rl(scope,key_hash,window_started_at,hit_count)
   values('create_email',v_email,pg_catalog.now(),1)
@@ -138,7 +138,7 @@ begin
     hit_count=case when rl.window_started_at+interval '24 hours'<=pg_catalog.now() then 1 else rl.hit_count+1 end,
     updated_at=pg_catalog.now()
   returning hit_count into v_hits;
-  if v_hits>2 then raise exception using errcode='P0001',message='rate_limit_exceeded'; end if;
+  if v_hits>2 then return pg_catalog.jsonb_build_object('error','rate_limit_exceeded'); end if;
 
   v_code:='IZN-'||to_char(pg_catalog.now(),'YYYYMM')||'-'||upper(substr(replace(gen_random_uuid()::text,'-',''),1,8));
   insert into humas.permit_requests(
@@ -193,7 +193,7 @@ begin
     hit_count=case when rl.window_started_at+interval '15 minutes'<=pg_catalog.now() then 1 else rl.hit_count+1 end,
     updated_at=pg_catalog.now()
   returning hit_count into v_hits;
-  if v_hits>30 then raise exception using errcode='P0001',message='rate_limit_exceeded'; end if;
+  if v_hits>30 then return pg_catalog.jsonb_build_object('error','rate_limit_exceeded'); end if;
 
   select a.* into v_access from humas.permit_public_access a
   join humas.permit_requests p on p.id=a.permit_id
