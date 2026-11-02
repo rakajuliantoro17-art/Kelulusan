@@ -151,7 +151,10 @@ function safeError(res,error){
     data_store_unavailable:[503,"data_store_unavailable","Layanan data sementara tidak tersedia."],
     database_operation_failed:[503,"database_operation_failed","Operasi data gagal diproses."],
     storage_operation_failed:[503,"storage_operation_failed","Penyimpanan dokumen sementara tidak tersedia."],
-    invalid_query:[400,"invalid_query","Parameter pencarian atau pagination tidak valid."],\n    rate_limit_exceeded:[429,"rate_limit_exceeded","Terlalu banyak permintaan. Silakan coba kembali beberapa saat lagi."],\n    public_service_configuration_missing:[503,"public_service_configuration_missing","Layanan pengajuan publik belum dikonfigurasi."],\n    notification_provider_not_configured:[503,"notification_provider_not_configured","Penyedia notifikasi email belum dikonfigurasi."]};
+    invalid_query:[400,"invalid_query","Parameter pencarian atau pagination tidak valid."],
+    rate_limit_exceeded:[429,"rate_limit_exceeded","Terlalu banyak permintaan. Silakan coba kembali beberapa saat lagi."],
+    public_service_configuration_missing:[503,"public_service_configuration_missing","Layanan pengajuan publik belum dikonfigurasi."],
+    notification_provider_not_configured:[503,"notification_provider_not_configured","Penyedia notifikasi email belum dikonfigurasi."]};
   const item=map[error&&error.code]||[503,"upstream_unavailable","Layanan HUMAS sementara tidak tersedia."];
   console.error("[PINTUKU HUMAS API]",{code:item[1],status:error&&error.upstreamStatus||null});
   return send(res,item[0],{success:false,error:item[1],message:item[2]});
@@ -307,10 +310,10 @@ module.exports=async function humasApi(req,res){
         };
         if(!["external","facility"].includes(payload.permit_type)||!payload.title||payload.title.length<3||
           !payload.purpose||payload.purpose.length<3||!payload.applicant_name||payload.applicant_name.length<2||
-          !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(payload.applicant_email)||
+          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.applicant_email)||
           !isoDateTime(payload.requested_start_at)||!isoDateTime(payload.requested_end_at)||
           Date.parse(payload.requested_start_at)<Date.now()||Date.parse(payload.requested_end_at)<Date.parse(payload.requested_start_at)||
-          (payload.expected_attendees!==""&&!/^\\d{1,6}$/.test(payload.expected_attendees))||
+          (payload.expected_attendees!==""&&!/^\d{1,6}$/.test(payload.expected_attendees))||
           (payload.permit_type==="facility"&&!str(payload.facility_details.facility_name,180)))
           return send(res,400,{success:false,error:"invalid_request",message:"Periksa jenis permohonan, identitas, kontak email, jadwal, dan detail fasilitas."});
         const rawToken=crypto.randomBytes(32).toString("base64url");
@@ -320,7 +323,7 @@ module.exports=async function humasApi(req,res){
         return send(res,201,{success:true,data:{...permit,tracking_token:rawToken,tracking_url:"/humas/perizinan/lacak"}});
       }
       const requestCode=str(b.request_code,40).toUpperCase(),rawToken=str(b.tracking_token,100);
-      if(!/^IZN-\\d{6}-[A-F0-9]{8}$/.test(requestCode)||!/^[A-Za-z0-9_-]{43}$/.test(rawToken))
+      if(!/^IZN-\d{6}-[A-F0-9]{8}$/.test(requestCode)||!/^[A-Za-z0-9_-]{43}$/.test(rawToken))
         return send(res,404,{success:false,error:"record_not_found",message:"Permohonan tidak ditemukan atau token pelacakan tidak sesuai."});
       const tokenHash=crypto.createHash("sha256").update(rawToken).digest("hex");
       if(opInput==="permit-public-track"){
