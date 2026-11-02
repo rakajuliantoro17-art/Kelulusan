@@ -49,6 +49,7 @@ const REQUIRED = [
   "src/pintuku/assets/js/humas-kemitraan.js",
   "src/pintuku/assets/css/service-modules.css",
   "src/pintuku/dashboard/sarpras.html",
+  "src/pintuku/dashboard/tata-usaha.html",
   "src/pintuku/pwa/sw.js",
   "src/pintuku/pwa/manifest.json",
   "src/pintuku/assets/css/portal.css",
