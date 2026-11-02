@@ -17,17 +17,27 @@
 <div><div class="eyebrow">PINTUKU · HUMAS · WORKSPACE 01</div><h1>Kemitraan & MoU</h1><p>Pusat pengelolaan mitra, dokumen kerja sama, proses persetujuan, dan masa berlaku perjanjian.</p></div>
 <div class="hk-hero-actions"><a class="hk-btn hk-btn-ghost" href="/humas">← Katalog HUMAS</a><button class="hk-btn hk-btn-primary" id="newPartnerBtn" type="button">＋ Daftarkan Mitra</button></div>
 </header>
-<div class="hk-demo-banner"><strong>MODE PRATINJAU</strong><span>Data pada halaman ini adalah contoh antarmuka, bukan data sekolah. Penyimpanan, autentikasi, unggah dokumen, dan persetujuan belum terhubung ke Supabase.</span></div>
+<div class="hk-demo-banner"><strong>CONTOH TAMPILAN</strong><span>Nama dan angka yang terlihat merupakan contoh, bukan data resmi sekolah. Informasi akan ditampilkan setelah layanan Kemitraan aktif.</span></div>
 <section class="hk-kpis" aria-label="Ringkasan kemitraan">
-<article class="hk-kpi"><span>Total mitra</span><strong>—</strong><small>Menunggu integrasi data</small></article>
+<article class="hk-kpi"><span>Total mitra</span><strong>—</strong><small>Belum tersedia</small></article>
 <article class="hk-kpi"><span>Kerja sama aktif</span><strong>—</strong><small>Menunggu integrasi data</small></article>
 <article class="hk-kpi"><span>Dalam proses</span><strong>—</strong><small>Menunggu integrasi data</small></article>
 <article class="hk-kpi"><span>Akan berakhir</span><strong>—</strong><small>Menunggu integrasi data</small></article>
 </section>
+<section class="hk-panel" aria-label="Panduan singkat">
+<div class="hk-panel-head"><div><div class="eyebrow">MULAI DI SINI</div><h2>Informasi yang Anda perlukan</h2><p>Gunakan halaman ini untuk memahami data mitra dan perjalanan dokumen kerja sama.</p></div></div>
+<div class="hk-workflow">
+<div><b>01</b><strong>Kenali mitra</strong><span>Lihat instansi, kategori, dan narahubung sekolah.</span></div><i>→</i>
+<div><b>02</b><strong>Catat kerja sama</strong><span>Siapkan informasi pokok MoU atau PKS.</span></div><i>→</i>
+<div><b>03</b><strong>Pantau proses</strong><span>Ketahui tahapan pemeriksaan dan keputusan.</span></div><i>→</i>
+<div><b>04</b><strong>Kelola dokumen</strong><span>Pastikan dokumen final dan arsip mudah ditemukan.</span></div>
+</div>
+</section>
+
 <section class="hk-panel">
-<div class="hk-panel-head"><div><div class="eyebrow">MASTER DATA</div><h2>Direktori mitra</h2><p>Daftar mitra dan calon mitra sekolah.</p></div><span class="hk-count" id="partnerCount">3 contoh data</span></div>
-<div class="hk-toolbar"><label class="hk-search"><span aria-hidden="true">⌕</span><input id="partnerSearch" type="search" placeholder="Cari nama mitra, kategori, atau kontak..." autocomplete="off"></label><select id="partnerCategory" aria-label="Filter kategori"><option value="">Semua kategori</option><option value="Pendidikan">Pendidikan</option><option value="Pemerintah">Pemerintah</option><option value="Industri">Industri</option><option value="Komunitas">Komunitas</option></select><button class="hk-btn hk-btn-secondary" id="resetDemo" type="button">Reset contoh</button></div>
-<div class="hk-table-wrap"><table class="hk-table"><thead><tr><th>MITRA</th><th>KATEGORI</th><th>CONTACT PERSON</th><th>STATUS</th><th></th></tr></thead><tbody id="partnerRows">
+<div class="hk-panel-head"><div><div class="eyebrow">DATA MITRA</div><h2>Direktori mitra</h2><p>Tempat melihat dan mengenali instansi atau organisasi yang bekerja sama dengan sekolah.</p></div><span class="hk-count" id="partnerCount">3 contoh data</span></div>
+<div class="hk-toolbar"><label class="hk-search"><span aria-hidden="true">⌕</span><input id="partnerSearch" type="search" placeholder="Cari nama mitra, kategori, atau kontak..." autocomplete="off"></label><select id="partnerCategory" aria-label="Filter kategori"><option value="">Semua kategori</option><option value="Pendidikan">Pendidikan</option><option value="Pemerintah">Pemerintah</option><option value="Industri">Industri</option><option value="Komunitas">Komunitas</option></select><button class="hk-btn hk-btn-secondary" id="resetDemo" type="button">Kembalikan contoh</button></div>
+<div class="hk-table-wrap"><table class="hk-table"><thead><tr><th>MITRA</th><th>KATEGORI</th><th>NARAHUBUNG</th><th>STATUS</th><th></th></tr></thead><tbody id="partnerRows">
 <tr><td><strong>Contoh Mitra Pendidikan</strong><small>MITRA-DEMO-001</small></td><td>Pendidikan</td><td>Nama contoh<small>kontak@example.invalid</small></td><td><span class="hk-status hk-status-active">Aktif</span></td><td><button class="hk-row-action" type="button" data-demo-detail="0">Detail</button></td></tr>
 <tr><td><strong>Contoh Instansi Pemerintah</strong><small>MITRA-DEMO-002</small></td><td>Pemerintah</td><td>Nama contoh<small>kontak@example.invalid</small></td><td><span class="hk-status hk-status-review">Verifikasi</span></td><td><button class="hk-row-action" type="button" data-demo-detail="1">Detail</button></td></tr>
 <tr><td><strong>Contoh Mitra Industri</strong><small>MITRA-DEMO-003</small></td><td>Industri</td><td>Nama contoh<small>kontak@example.invalid</small></td><td><span class="hk-status hk-status-draft">Calon mitra</span></td><td><button class="hk-row-action" type="button" data-demo-detail="2">Detail</button></td></tr>
@@ -35,31 +45,31 @@
 <p class="hk-empty" id="partnerEmpty" hidden>Tidak ada mitra yang sesuai dengan pencarian.</p>
 </section>
 <section class="hk-panel">
-<div class="hk-panel-head"><div><div class="eyebrow">AGREEMENT REGISTER</div><h2>Register kerja sama</h2><p>Contoh struktur pemantauan dokumen MoU/PKS.</p></div><button class="hk-btn hk-btn-secondary" id="newAgreementBtn" type="button">＋ Catat kerja sama</button></div>
-<div class="hk-table-wrap"><table class="hk-table"><thead><tr><th>REFERENSI</th><th>JENIS DOKUMEN</th><th>STATUS PROSES</th><th>PERIODE</th><th></th></tr></thead><tbody>
+<div class="hk-panel-head"><div><div class="eyebrow">DAFTAR KERJA SAMA</div><h2>Dokumen kerja sama</h2><p>Ringkasan pencatatan MoU, PKS, dan dokumen pelaksanaan kerja sama.</p></div><button class="hk-btn hk-btn-secondary" id="newAgreementBtn" type="button">＋ Catat kerja sama</button></div>
+<div class="hk-table-wrap"><table class="hk-table"><thead><tr><th>NOMOR DOKUMEN</th><th>JENIS DOKUMEN</th><th>TAHAP PROSES</th><th>MASA BERLAKU</th><th></th></tr></thead><tbody>
 <tr><td><strong>DEMO/MOU/001</strong><small>Contoh kerja sama pendidikan</small></td><td>MoU</td><td><span class="hk-status hk-status-review">Verifikasi</span></td><td>—</td><td><button class="hk-row-action" type="button" data-agreement-demo>Alur</button></td></tr>
 <tr><td><strong>DEMO/PKS/002</strong><small>Contoh perjanjian kerja sama</small></td><td>PKS</td><td><span class="hk-status hk-status-active">Terdaftar</span></td><td>—</td><td><button class="hk-row-action" type="button" data-agreement-demo>Alur</button></td></tr>
 </tbody></table></div>
 </section>
 <section class="hk-panel hk-workflow-panel">
-<div class="hk-panel-head"><div><div class="eyebrow">GOVERNANCE</div><h2>Alur persetujuan</h2><p>Urutan kewenangan yang menjadi dasar implementasi workflow.</p></div></div>
+<div class="hk-panel-head"><div><div class="eyebrow">PANDUAN LAYANAN</div><h2>Tahapan kerja sama</h2><p>Gambaran sederhana tentang siapa yang memeriksa, memberi rekomendasi, dan mengambil keputusan.</p></div></div>
 <div class="hk-workflow">
 <div><b>01</b><strong>Staf HUMAS</strong><span>Registrasi dan verifikasi administratif</span></div><i>→</i>
 <div><b>02</b><strong>Wakasek HUMAS</strong><span>Review substansi dan rekomendasi</span></div><i>→</i>
 <div><b>03</b><strong>Kepala Sekolah</strong><span>Keputusan akhir sesuai kewenangan</span></div><i>→</i>
 <div><b>04</b><strong>Penandatanganan</strong><span>Fisik/TTE, registrasi, dan arsip</span></div>
 </div>
-<div class="hk-rule"><strong>Kontrol wajib:</strong> rekomendasi Wakasek bukan persetujuan final. Status disetujui berbeda dari status ditandatangani. Setiap keputusan wajib memiliki aktor, waktu, alasan, dan versi dokumen.</div>
+<div class="hk-rule"><strong>Hal yang perlu diketahui:</strong> rekomendasi Wakasek bukan keputusan akhir. Persetujuan dan penandatanganan adalah tahapan berbeda. Setiap perubahan memiliki catatan riwayat agar mudah ditelusuri.</div>
 </section>
 </main>
 <div data-portal-footer></div>
 <dialog class="hk-dialog" id="partnerDialog"><form id="partnerForm" method="dialog">
-<div class="hk-dialog-head"><div><div class="eyebrow">MASTER DATA MITRA</div><h2>Daftarkan calon mitra</h2></div><button class="hk-dialog-close" value="cancel" aria-label="Tutup">×</button></div>
-<p class="hk-dialog-note">Formulir pratinjau. Data hanya ditambahkan sementara pada tampilan browser dan tidak dikirim atau disimpan ke server.</p>
+<div class="hk-dialog-head"><div><div class="eyebrow">PENDAFTARAN MITRA</div><h2>Daftarkan calon mitra</h2></div><button class="hk-dialog-close" value="cancel" aria-label="Tutup">×</button></div>
+<p class="hk-dialog-note">Ini adalah formulir contoh. Isian hanya muncul pada tampilan sementara dan belum menjadi data resmi sekolah.</p>
 <label>Nama instansi / organisasi<input name="name" required maxlength="160" placeholder="Nama resmi mitra"></label>
 <div class="hk-form-grid"><label>Kategori<select name="category" required><option value="">Pilih kategori</option><option>Pendidikan</option><option>Pemerintah</option><option>Industri</option><option>Komunitas</option></select></label><label>Nama contact person<input name="contact" maxlength="120" placeholder="Nama narahubung"></label></div>
-<label>Email / kontak<input name="email" type="text" maxlength="160" placeholder="Alamat email atau nomor telepon"></label>
-<div class="hk-dialog-actions"><button class="hk-btn hk-btn-ghost" value="cancel">Batal</button><button class="hk-btn hk-btn-primary" id="savePartnerBtn" type="submit">Tambahkan ke pratinjau</button></div>
+<label>Email atau nomor telepon<input name="email" type="text" maxlength="160" placeholder="Alamat email atau nomor telepon"></label>
+<div class="hk-dialog-actions"><button class="hk-btn hk-btn-ghost" value="cancel">Batal</button><button class="hk-btn hk-btn-primary" id="savePartnerBtn" type="submit">Tambahkan contoh</button></div>
 </form></dialog>
 <dialog class="hk-dialog" id="infoDialog"><form method="dialog"><div class="hk-dialog-head"><div><div class="eyebrow">INFORMASI MODUL</div><h2 id="infoTitle">Detail</h2></div><button class="hk-dialog-close" value="close" aria-label="Tutup">×</button></div><div id="infoBody" class="hk-info-body"></div><div class="hk-dialog-actions"><button class="hk-btn hk-btn-primary" value="close">Tutup</button></div></form></dialog>
 </body></html>
