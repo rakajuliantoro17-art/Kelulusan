@@ -2,7 +2,7 @@
 
 ## Tujuan dan batas keselamatan
 
-Sprint ini memvalidasi migrasi HUMAS 001–005 pada PostgreSQL lokal sebelum ada keputusan integrasi ke Supabase.
+Sprint ini memvalidasi migrasi HUMAS 001–006 pada PostgreSQL lokal sebelum ada keputusan integrasi ke Supabase.
 
 - Target database wajib bernama `pintuku_humas_test`.
 - Runner PowerShell menolak host selain `localhost`, `127.0.0.1`, atau `::1`.
@@ -53,9 +53,9 @@ Dari root repository:
 
 Runner melakukan empat tahap:
 1. Bootstrap compatibility scaffold.
-2. Menjalankan migrasi 001 sampai 005 berurutan.
+2. Menjalankan migrasi 001 sampai 006 berurutan.
 3. Menjalankan integration smoke tests.
-5. Menjalankan assertion katalog untuk RLS, schema/table grants, function EXECUTE, dan hak mutasi audit.
+4. Menjalankan assertion katalog untuk RLS, schema/table grants, function EXECUTE, dan hak mutasi audit.
 
 Runner berhenti pada error pertama. Periksa pesan PostgreSQL dan jangan lanjutkan dengan mengubah database Production.
 
@@ -88,11 +88,11 @@ Runner ini adalah integration smoke test awal, bukan bukti bahwa seluruh sistem 
 - **FAIL lokal:** salah satu migrasi atau assertion gagal; temuan harus diperbaiki dan seluruh runner diulang pada database test lokal yang bersih.
 - **Belum dijalankan:** PostgreSQL belum tersedia di komputer pengguna atau runner belum dieksekusi.
 
-## Status pekerjaan Sprint 3G.2–3G.8
+## Status pekerjaan Sprint 3G.2–3G.9
 
 | Tahap | Status saat ini | Bukti |
 |---|---|---|
-| 3G.2 Migrasi 001–005 | **NOT RUN** | Runner sudah menjalankan urutan migrasi, tetapi belum dieksekusi pada PostgreSQL lokal pengguna |
+| 3G.2 Migrasi 001–006 | **NOT RUN** | Runner sudah menjalankan urutan migrasi, tetapi belum dieksekusi pada PostgreSQL lokal pengguna |
 | 3G.3 RBAC/RLS | **TEST READY** | Assertion RLS, privilege, dan function grants tersedia |
 | 3G.4 Partner transaction | **TEST READY** | Create, update, status, audit atomik, dan rollback actor tidak aktif |
 | 3G.5 Agreement draft | **TEST READY** | Draft-only dan event `draft_created` |
