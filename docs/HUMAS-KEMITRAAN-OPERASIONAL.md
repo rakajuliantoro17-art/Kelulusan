@@ -72,7 +72,7 @@ Semua endpoint memakai `/api/humas`, respons privat menggunakan `Cache-Control: 
 | `op=login` | POST | Login Supabase Auth |
 | `op=refresh` | POST | Memperbarui sesi |
 | `op=me` | GET | Identitas dan role aktif |
-| `op=dashboard` | GET | Satu ringkasan aggregate |
+| `op=workspace` | GET | Satu permintaan awal untuk identitas, role, ringkasan, dan halaman pertama data mitra/register |\n| `op=dashboard` | GET | Satu ringkasan aggregate |
 | `op=partners` | GET/POST/PATCH | Direktori mitra |
 | `op=agreements` | GET/POST/PATCH | Register, draft, dan transisi workflow |
 | `op=agreement-detail&id=...` | GET | Detail, approvals, dokumen, dan timeline |
@@ -101,7 +101,7 @@ Jangan menjalankan migration database otomatis pada setiap deploy frontend. Auto
 - Tidak ada polling otomatis.
 - Daftar memakai pagination 25 data per halaman.
 - Pencarian memakai debounce 350 ms.
-- Dashboard memakai satu RPC agregasi.
+- Muat awal dashboard memakai satu permintaan serverless yang menggabungkan identitas, role, ringkasan RPC, dan dua halaman data pertama.\n- Pencarian/pagination berikutnya hanya memanggil daftar yang sedang dibuka.
 - Refresh hanya ketika pengguna menekan tombol atau setelah tindakan berhasil.
 - Data privat tidak menggunakan shared CDN cache.
 - Tidak ada server fisik atau proses background yang harus dijaga.
