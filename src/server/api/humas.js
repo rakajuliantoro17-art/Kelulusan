@@ -320,6 +320,7 @@ module.exports=async function humasApi(req,res){
         const tokenHash=crypto.createHash("sha256").update(rawToken).digest("hex");
         const emailHash=publicRateHash("email:"+payload.applicant_email);
         const permit=await rpc(c,"permit_public_create",{p_payload:payload,p_token_hash:tokenHash,p_ip_hash:ipHash,p_email_hash:emailHash});
+        if(permit&&permit.error==="rate_limit_exceeded")return send(res,429,{success:false,error:"rate_limit_exceeded",message:"Terlalu banyak pengajuan dari jaringan atau alamat email ini. Silakan coba kembali nanti."});
         return send(res,201,{success:true,data:{...permit,tracking_token:rawToken,tracking_url:"/humas/perizinan/lacak"}});
       }
       const requestCode=str(b.request_code,40).toUpperCase(),rawToken=str(b.tracking_token,100);
@@ -328,9 +329,11 @@ module.exports=async function humasApi(req,res){
       const tokenHash=crypto.createHash("sha256").update(rawToken).digest("hex");
       if(opInput==="permit-public-track"){
         const permit=await rpc(c,"permit_public_track",{p_request_code:requestCode,p_token_hash:tokenHash,p_ip_hash:ipHash});
+        if(permit&&permit.error==="rate_limit_exceeded")return send(res,429,{success:false,error:"rate_limit_exceeded",message:"Terlalu banyak percobaan pelacakan. Silakan coba kembali beberapa saat lagi."});
         return send(res,200,{success:true,data:{permit}});
       }
       const permit=await rpc(c,"permit_public_cancel",{p_request_code:requestCode,p_token_hash:tokenHash,p_ip_hash:ipHash});
+      if(permit&&permit.error==="rate_limit_exceeded")return send(res,429,{success:false,error:"rate_limit_exceeded",message:"Terlalu banyak percobaan pelacakan. Silakan coba kembali beberapa saat lagi."});
       return send(res,200,{success:true,data:{permit}});
     }catch(error){return safeError(res,error);}
   }
