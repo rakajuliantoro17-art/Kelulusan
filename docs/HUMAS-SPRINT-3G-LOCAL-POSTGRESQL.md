@@ -100,4 +100,12 @@ Runner ini adalah integration smoke test awal, bukan bukti bahwa seluruh sistem 
 | 3G.7 Remediasi | **SOURCE FIX APPLIED** | Perbandingan role menggunakan `IS DISTINCT FROM`; status NULL ditolak |
 | 3G.8 Dokumentasi/release gate | **DOCUMENTED** | Hasil dan batas pengujian dicatat di dokumen ini |
 
+### Pemeriksaan sumber setelah penguatan
+
+Pemeriksaan konsistensi sumber dilakukan terhadap lima migration, tiga SQL test, PowerShell runner, dan dokumen Sprint 3G. Hasilnya **22/22 assertion sumber PASS**. Cakupan meliputi urutan migrasi, RLS, RPC, active-role guard, penolakan NULL role/status, append-only privilege, rollback fixture, database guard, dan pemanggilan test runner.
+
+Satu temuan diperbaiki sebelum pemeriksaan ini: penggunaan operator `<>` untuk validasi role dan status dapat menghasilkan UNKNOWN ketika input NULL. Migrasi 003, 004, dan 005 kini menggunakan `IS DISTINCT FROM` untuk label role; fungsi perubahan status juga menolak status NULL.
+
+Pemeriksaan 22 assertion tersebut adalah validasi teks/sumber, bukan eksekusi SQL oleh PostgreSQL. Ia tidak membuktikan bahwa sintaks seluruh SQL berhasil diparse atau bahwa privilege/RLS bekerja di server nyata.
+
 **Penting:** TEST READY bukan PASS runtime. Status keseluruhan Sprint 3G tetap **BLOCKED / NO-GO** sampai runner berhasil dijalankan pada PostgreSQL lokal dan seluruh hasilnya diperiksa. Tidak ada klaim bahwa integrasi database sudah lulus.
