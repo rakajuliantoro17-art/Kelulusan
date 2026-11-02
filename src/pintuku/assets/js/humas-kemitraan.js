@@ -180,7 +180,7 @@ async function runWorkflow(action){
 }
 function debounce(fn,wait=350){let t;return(...args)=>{clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
 function bind(){
- $("loginForm").addEventListener("submit",async e=>{e.preventDefault();const b=e.currentTarget.querySelector("button");b.disabled=true;try{const fd=new FormData(e.currentTarget);await login(fd.get("email"),fd.get("password"));await loadMe();await refreshAll();}catch(err){clearSession();showLogin(err.message);}finally{b.disabled=false;}});
+ $("loginForm").addEventListener("submit",async e=>{e.preventDefault();const b=e.currentTarget.querySelector("button");b.disabled=true;try{const fd=new FormData(e.currentTarget);await login(fd.get("email"),fd.get("password"));await refreshAll();}catch(err){clearSession();showLogin(err.message);}finally{b.disabled=false;}});
  $("logoutBtn").addEventListener("click",()=>{clearSession();state.roles=[];showLogin("Anda telah keluar.");});
  $("refreshBtn").addEventListener("click",refreshAll);
  $("newPartnerBtn").addEventListener("click",()=>openPartnerForm());
