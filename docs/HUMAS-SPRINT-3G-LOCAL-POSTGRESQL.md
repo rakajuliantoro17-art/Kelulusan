@@ -51,11 +51,11 @@ Dari root repository:
 .\scripts\humas-local-test.ps1
 ```
 
-Runner melakukan tiga tahap:
+Runner melakukan empat tahap:
 1. Bootstrap compatibility scaffold.
 2. Menjalankan migrasi 001 sampai 005 berurutan.
 3. Menjalankan integration smoke tests.
-4. Menjalankan assertion katalog untuk RLS, schema/table grants, function EXECUTE, dan hak mutasi audit.
+5. Menjalankan assertion katalog untuk RLS, schema/table grants, function EXECUTE, dan hak mutasi audit.
 
 Runner berhenti pada error pertama. Periksa pesan PostgreSQL dan jangan lanjutkan dengan mengubah database Production.
 
@@ -97,15 +97,25 @@ Runner ini adalah integration smoke test awal, bukan bukti bahwa seluruh sistem 
 | 3G.4 Partner transaction | **TEST READY** | Create, update, status, audit atomik, dan rollback actor tidak aktif |
 | 3G.5 Agreement draft | **TEST READY** | Draft-only dan event `draft_created` |
 | 3G.6 Security | **TEST READY** | Null-role guard, active-role trigger, browser access denial, append-only audit |
-| 3G.7 Remediasi | **SOURCE FIX APPLIED** | Perbandingan role menggunakan `IS DISTINCT FROM`; status NULL ditolak |
+| 3G.7 Remediasi | **SOURCE FIX APPLIED** | Perbandingan role menggunakan `IS DISTINCT FROM`; status NULL ditolak; migration 006 membuat role `system_operator` eksklusif dari role bisnis aktif |
 | 3G.8 Dokumentasi/release gate | **DOCUMENTED** | Hasil dan batas pengujian dicatat di dokumen ini |
+| 3G.9 Pemisahan operator | **SOURCE FIX APPLIED** | Migration 006 menolak akun `system_operator` yang juga memegang role bisnis aktif; diuji pada integration harness |
 
 ### Pemeriksaan sumber setelah penguatan
 
-Pemeriksaan konsistensi sumber dilakukan terhadap lima migration, tiga SQL test, PowerShell runner, dan dokumen Sprint 3G. Hasilnya **22/22 assertion sumber PASS**. Cakupan meliputi urutan migrasi, RLS, RPC, active-role guard, penolakan NULL role/status, append-only privilege, rollback fixture, database guard, dan pemanggilan test runner.
+Pemeriksaan konsistensi sumber sebelumnya dilakukan terhadap lima migration, tiga SQL test, PowerShell runner, dan dokumen Sprint 3G. Migration 006 dan pengujian pemisahan operator ditambahkan setelah audit lanjutan. Hasilnya **22/22 assertion sumber PASS pada baseline sebelumnya; pemeriksaan tambahan untuk migration 006 harus dijalankan kembali dari checkout lokal**. Cakupan meliputi urutan migrasi, RLS, RPC, active-role guard, penolakan NULL role/status, append-only privilege, rollback fixture, database guard, dan pemanggilan test runner.
 
 Satu temuan diperbaiki sebelum pemeriksaan ini: penggunaan operator `<>` untuk validasi role dan status dapat menghasilkan UNKNOWN ketika input NULL. Migrasi 003, 004, dan 005 kini menggunakan `IS DISTINCT FROM` untuk label role; fungsi perubahan status juga menolak status NULL.
 
 Pemeriksaan 22 assertion tersebut adalah validasi teks/sumber, bukan eksekusi SQL oleh PostgreSQL. Ia tidak membuktikan bahwa sintaks seluruh SQL berhasil diparse atau bahwa privilege/RLS bekerja di server nyata.
 
 **Penting:** TEST READY bukan PASS runtime. Status keseluruhan Sprint 3G tetap **BLOCKED / NO-GO** sampai runner berhasil dijalankan pada PostgreSQL lokal dan seluruh hasilnya diperiksa. Tidak ada klaim bahwa integrasi database sudah lulus.
+
+
+## Pembaruan audit lanjutan — Sprint 3G.9
+
+Review ulang terhadap branch `main` menemukan dua pemeriksaan role pada `partner_update` dan `partner_set_status` yang masih memakai operator SQL `<>`. Keduanya telah diganti menjadi `IS DISTINCT FROM` agar role bernilai NULL selalu ditolak. Perbaikan ini harus diuji ulang pada PostgreSQL lokal.
+
+Migration `202611020006_humas_operator_role_separation.sql` menambahkan trigger yang menjaga akun `system_operator` tetap eksklusif dari role bisnis aktif. Perubahan identitas role pada satu assignment dibuat immutable; pencabutan dilakukan melalui status aktif/revoked. Integration harness dan security assertion diperbarui untuk memeriksa aturan ini.
+
+Status tetap **NOT RUN** sampai pengguna menjalankan runner pada PostgreSQL lokal. Perubahan sumber dan test harness bukan bukti runtime.
