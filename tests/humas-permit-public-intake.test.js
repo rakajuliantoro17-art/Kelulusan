@@ -6,6 +6,7 @@ const path=require("node:path");
 const root=path.resolve(__dirname,"..");
 const read=p=>fs.readFileSync(path.join(root,p),"utf8");
 const sql=read("supabase/migrations/202611020013_humas_permit_public_intake_notifications.sql");
+const rateSql=read("supabase/migrations/202611020014_humas_permit_rate_limit_persistence.sql");
 const api=read("src/server/api/humas.js");
 const page=read("src/pintuku/dashboard/humas-perizinan-public.html");
 const js=read("src/pintuku/assets/js/humas-perizinan-public.js");
@@ -54,6 +55,11 @@ test("public API is routed before authenticated HUMAS session enforcement",()=>{
  assert.match(api,/timingSafeEqual/);
  assert.match(api,/RESEND_API_KEY/);
  assert.match(api,/HUMAS_PUBLIC_RATE_SECRET/);
+ assert.match(api,/TURNSTILE_SECRET_KEY/);
+ assert.match(api,/permit-public-config/);
+ assert.match(js,/turnstileToken/);
+ assert.match(js,/turnstile\.render/);
+ assert.match(rateSql,/return pg_catalog\.jsonb_build_object\(\x27error\x27,\x27rate_limit_exceeded\x27\)/);
 });
 
 test("public application and tracking page protects token display and exposes both workflows",()=>{
