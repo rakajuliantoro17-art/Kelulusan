@@ -153,6 +153,11 @@ jobs:
           test -f dist/src/pintuku/assets/js/humas-proposal.js
           test -f dist/src/pintuku/dashboard/humas-alumni.html
           test -f dist/src/pintuku/dashboard/humas-alumni-public.html
+          test -f dist/src/pintuku/dashboard/humas-perizinan.html
+          test -f dist/src/pintuku/dashboard/humas-perizinan-public.html
+          test -f dist/src/pintuku/assets/css/humas-perizinan.css
+          test -f dist/src/pintuku/assets/js/humas-perizinan.js
+          test -f dist/src/pintuku/assets/js/humas-perizinan-public.js
           test -f dist/src/pintuku/assets/css/humas-alumni.css
           test -f dist/src/pintuku/assets/css/humas-alumni-public.css
           test -f dist/src/pintuku/assets/js/humas-alumni.js
