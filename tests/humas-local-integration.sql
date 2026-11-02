@@ -40,6 +40,7 @@ DECLARE
   v_partner_id uuid;
   v_partner_events integer;
   v_workflow_events integer;
+  v_inactive_partner_count integer;
 BEGIN
   -- Active staff can create a partner; creation and audit are atomic.
   v_partner := humas.partner_create(
@@ -106,6 +107,31 @@ BEGIN
     NULL;
   END;
 
+  -- A null role label must be rejected explicitly by the RPC guard.
+  BEGIN
+    PERFORM humas.partner_create(
+      v_staff, NULL,
+      '{"partner_name":"Role Null","partner_type":"education"}'::jsonb
+    );
+    RAISE EXCEPTION 'FAIL: partner_create accepted a NULL role label';
+  EXCEPTION WHEN insufficient_privilege THEN
+    NULL;
+  END;
+
+  BEGIN
+    PERFORM humas.agreement_create_draft(
+      v_staff, NULL,
+      pg_catalog.jsonb_build_object(
+        'partner_id', v_partner_id,
+        'title', 'Role Null',
+        'purpose', 'Should be rejected'
+      )
+    );
+    RAISE EXCEPTION 'FAIL: agreement_create_draft accepted a NULL role label';
+  EXCEPTION WHEN insufficient_privilege THEN
+    NULL;
+  END;
+
   -- An inactive staff assignment must be rejected by the database audit trigger.
   BEGIN
     PERFORM humas.partner_create(
@@ -117,7 +143,22 @@ BEGIN
     NULL;
   END;
 
-  RAISE NOTICE 'PASS: partner create/update/status, atomic audit, agreement draft, and role guards';
+  SELECT count(*) INTO v_inactive_partner_count
+  FROM humas.partners WHERE partner_name = 'Staff Nonaktif';
+  IF v_inactive_partner_count <> 0 THEN
+    RAISE EXCEPTION 'FAIL: rejected inactive actor left a partner record behind';
+  END IF;
+
+  BEGIN
+    PERFORM humas.partner_set_status(
+      v_staff, 'staff_humas', v_partner_id, NULL, 'Null status test'
+    );
+    RAISE EXCEPTION 'FAIL: partner_set_status accepted NULL status';
+  EXCEPTION WHEN invalid_parameter_value THEN
+    NULL;
+  END;
+
+  RAISE NOTICE 'PASS: partner transactions, draft workflow, null-role rejection, inactive actor rejection, and rollback';
 END
 $tests$;
 
