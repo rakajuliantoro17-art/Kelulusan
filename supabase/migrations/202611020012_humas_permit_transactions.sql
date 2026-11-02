@@ -129,7 +129,7 @@ begin
   end if;
   insert into humas.permit_workflow_events(permit_id,event_type,from_status,to_status,actor_id,actor_role,metadata)
   values(p_permit_id,'draft_updated',v_before.status,v_after.status,p_actor_id,p_actor_role,
-    pg_catalog.jsonb_build_object('changed_fields',(select pg_catalog.jsonb_agg(key) from pg_catalog.jsonb_object_keys(p_payload) key)));
+    pg_catalog.jsonb_build_object('changed_fields',(select pg_catalog.jsonb_agg(k) from pg_catalog.jsonb_object_keys(p_payload) as x(k))));
   return pg_catalog.to_jsonb(v_after);
 end;
 $$;
