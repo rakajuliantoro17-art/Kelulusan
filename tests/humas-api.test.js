@@ -29,6 +29,9 @@ async function invoke({ role = "staff_humas", token = "valid-token", method = "G
     if (url.pathname === "/rest/v1/agreements") {
       return new Response(JSON.stringify([]), { status: 200 });
     }
+    if (url.pathname === "/rest/v1/proposals") {
+      return new Response(JSON.stringify([{ id: "44444444-4444-4444-8444-444444444444", title: "Proposal Uji" }]), { status: 200 });
+    }
     if (url.pathname.startsWith("/rest/v1/rpc/")) {
       return new Response(JSON.stringify({ id: PARTNER_ID, status: "draft" }), { status: 200 });
     }
