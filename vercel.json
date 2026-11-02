@@ -176,6 +176,22 @@
       "destination": "/src/pintuku/dashboard/humas-alumni.html"
     },
     {
+      "source": "/humas/perizinan/ajukan",
+      "destination": "/src/pintuku/dashboard/humas-perizinan-public.html"
+    },
+    {
+      "source": "/humas/perizinan/ajukan/",
+      "destination": "/src/pintuku/dashboard/humas-perizinan-public.html"
+    },
+    {
+      "source": "/humas/perizinan/lacak",
+      "destination": "/src/pintuku/dashboard/humas-perizinan-public.html"
+    },
+    {
+      "source": "/humas/perizinan/lacak/",
+      "destination": "/src/pintuku/dashboard/humas-perizinan-public.html"
+    },
+    {
       "source": "/humas/perizinan",
       "destination": "/src/pintuku/dashboard/humas-perizinan.html"
     },
@@ -334,6 +350,12 @@
     {
       "source": "/api/absensi-students",
       "destination": "/api/akademik?op=absensi-students"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/humas?op=notifications-dispatch",
+      "schedule": "*/5 * * * *"
     }
   ]
 }
