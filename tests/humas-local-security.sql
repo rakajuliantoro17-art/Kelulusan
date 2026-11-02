@@ -83,6 +83,16 @@ BEGIN
     RAISE EXCEPTION 'FAIL: service_role is missing required business RPC EXECUTE';
   END IF;
 
-  RAISE NOTICE 'PASS: RLS, no browser policies/grants, append-only audit, and RPC privileges';
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_catalog.pg_trigger t
+    JOIN pg_catalog.pg_class c ON c.oid = t.tgrelid
+    JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+    WHERE n.nspname = 'humas' AND c.relname = 'user_roles'
+      AND t.tgname = 'user_roles_operator_separation' AND NOT t.tgisinternal
+  ) THEN
+    RAISE EXCEPTION 'FAIL: operator role separation trigger is missing';
+  END IF;
+
+  RAISE NOTICE 'PASS: RLS, no browser policies/grants, append-only audit, RPC privileges, and operator separation';
 END
 $security$;
