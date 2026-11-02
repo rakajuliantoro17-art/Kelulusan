@@ -29,3 +29,8 @@
 .service-back { display:inline-flex; align-items:center; gap:8px; color:#c5d8ef; font-size:11px; font-weight:700; }
 @media(max-width:900px) { .service-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .service-flow { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:620px) { .service-page { width:min(100% - 30px,1240px); } .service-hero { border-radius:20px; } .service-section-head { display:block; } .service-section-head p { margin-top:8px; } .service-grid,.service-metrics,.service-flow { grid-template-columns:1fr; } }
+
+.service-role-label { margin-bottom:10px; color:#8ccaff; font-size:9px; font-weight:800; letter-spacing:.14em; }
+.service-role-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+@media(max-width:900px) { .service-role-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:620px) { .service-role-grid { grid-template-columns:1fr; } }
