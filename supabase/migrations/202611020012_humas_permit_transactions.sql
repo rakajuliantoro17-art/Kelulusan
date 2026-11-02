@@ -248,6 +248,7 @@ begin
   end if;
   if not exists(select 1 from humas.permit_requests where id=p_permit_id) then raise exception using errcode='P0002',message='permit_not_found';end if;
   if not exists(select 1 from storage.objects where bucket_id='humas-permit-documents' and name=p_payload->>'storage_path') then raise exception using errcode='22023',message='uploaded_object_not_found';end if;
+  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(p_permit_id::text||':doc:'||p_payload->>'document_type',0));
   update humas.permit_documents set is_current=false
     where permit_id=p_permit_id and document_type=p_payload->>'document_type' and is_current=true;
   insert into humas.permit_documents(
