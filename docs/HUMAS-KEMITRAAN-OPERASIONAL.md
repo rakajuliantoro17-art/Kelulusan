@@ -124,6 +124,6 @@ Untuk sementara, modul hanya menampilkan metadata dokumen jika record dokumen su
 - HTML: pemeriksaan ID duplikat.
 - SQL migration: pemeriksaan konsistensi sumber dan static assertions.
 - Test harness API: diperbarui untuk login, dashboard, dan transisi.
-- Local PostgreSQL runner: diperbarui untuk migration 001–007 dan jalur workflow penuh.
+- Local PostgreSQL runner: diperbarui untuk migration 001–007 dan jalur workflow penuh.\n- GitHub Actions workflow memakai PostgreSQL 17 ephemeral container untuk menjalankan migration dan test secara otomatis; tidak membuat database permanen atau mengakses Supabase Production.
 
 Belum ada eksekusi SQL pada PostgreSQL lokal, belum ada migration yang diterapkan ke Supabase Production, belum ada akun Auth yang dibuat, dan belum ada deploy yang dilakukan. Status release tetap **NO-GO untuk penggunaan operasional** sampai validasi runtime dan aktivasi diselesaikan.
