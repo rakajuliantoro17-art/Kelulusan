@@ -13,7 +13,8 @@ const files = [
   "202611020004_humas_agreement_drafts.sql",
   "202611020005_humas_security_hardening.sql",
   "202611020006_humas_operator_role_separation.sql",
-  "202611020007_humas_operational_workflow.sql"
+  "202611020007_humas_operational_workflow.sql",
+  "202611020008_humas_proposals_sponsorship.sql"
 ];
 
 test("HUMAS migrations exist in dependency order", () => {
@@ -91,4 +92,18 @@ test("operational workflow enforces role-specific transitions and separation of 
   assert.match(sql, /grant execute on function humas\.agreement_transition.*to service_role/);
   assert.match(sql, /create trigger agreement_approvals_append_only/);
   assert.match(sql, /approval_records_are_append_only/);
+});
+
+test("proposal and sponsorship foundation uses transactional RPCs and immutable audit", () => {
+  const sql = migration(files[7]);
+  for (const table of ["proposals","proposal_supports","proposal_events"]) {
+    assert.match(sql, new RegExp("create table if not exists humas\\\\." + table));
+    assert.match(sql, new RegExp("alter table humas\\\\." + table + " enable row level security"));
+  }
+  for (const fn of ["proposal_create","proposal_update","proposal_set_status","proposal_support_create","proposal_support_update","proposal_summary"]) {
+    assert.match(sql, new RegExp("create or replace function humas\\\\." + fn));
+  }
+  assert.match(sql, /proposal_events_append_only/);
+  assert.match(sql, /active_staff_humas_role_required/);
+  assert.match(sql, /revoke all on table humas\.proposals, humas\.proposal_supports, humas\.proposal_events from public, anon, authenticated/);
 });
