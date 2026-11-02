@@ -9,7 +9,7 @@
 - No production DDL or data mutation was performed.
 
 ## Static migration review
-Migrations 001–004 are ordered by dependency and their table/column references were reviewed against the source:
+Migrations 001–006 are ordered by dependency and their table/column references were reviewed against the source:
 - 001 creates partners, agreements, documents, approvals, workflow events and updated_at triggers.
 - 002 creates the server-managed user_roles mapping.
 - 003 adds partner_events and transactional partner create/update/status RPCs.
@@ -24,7 +24,7 @@ Migrations 001–004 are ordered by dependency and their table/column references
 6. API errors map invalid query and common database validation SQLSTATEs to client errors without exposing raw upstream error bodies.
 
 ## Required deployment prerequisites
-1. Apply migrations 001, 002, 003, 004, then 005 to a non-production database first.
+1. Apply migrations 001 through 006 in order to a disposable local/non-production database first.
 2. Review and test all constraints, triggers, grants and RPCs in that environment.
 3. Expose the `humas` schema in Supabase Data API settings. Do not grant `anon` or `authenticated` privileges on HUMAS tables or RPCs.
 4. Confirm `service_role` is the only role with schema/table/function access needed by the server API.
@@ -35,9 +35,13 @@ Migrations 001–004 are ordered by dependency and their table/column references
 ## Verification status
 - API source syntax parser: passed after hardening.
 - Live production migration state: unchanged and still empty.
-- SQL migrations 001–005: source reviewed; not executed.
+- SQL migrations 001–006: source reviewed; not executed.
 - API integration/runtime tests: pending because no HUMAS database objects or test Auth users exist in the production project.
 - Vercel deployment/build: not performed.
 
 ## Explicit non-goals
 No approval/recommendation transitions, signatures/TTE, document upload, storage buckets, hard delete, or public/browser table access are introduced by this audit.
+
+
+## Audit follow-up — Sprint 3G
+A final source review found two remaining NULL-unsafe role comparisons in `partner_update` and `partner_set_status` within migration 003. Both now use `IS DISTINCT FROM`. Migration 006 adds an exclusive-role guard for `system_operator`, including a preflight check for existing conflicting assignments. The local test harness checks both directions of role conflict and immutability of role identity. These additions have passed source-level assertions only; PostgreSQL execution is still pending.
