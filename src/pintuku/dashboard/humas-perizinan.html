@@ -15,7 +15,7 @@
 <nav class="hk-breadcrumb"><a href="/humas">HUMAS</a><span>/</span><span>Perizinan & Protokoler</span></nav>
 <header class="hk-hero">
 <div><div class="eyebrow">PINTUKU · HUMAS · LAYANAN TERPADU</div><h1>Perizinan & Protokoler</h1><p>Pusat koordinasi permohonan izin kegiatan, penggunaan fasilitas sekolah, kunjungan instansi, serta kesiapan protokoler kegiatan resmi.</p></div>
-<div class="hk-hero-actions"><a class="hk-btn hk-btn-ghost" href="/humas">← Katalog HUMAS</a><span id="userBadge" class="hk-user-badge" hidden></span><button class="hk-btn hk-btn-ghost" id="logoutBtn" type="button" hidden>Keluar</button></div>
+<div class="hk-hero-actions"><a class="hk-btn hk-btn-primary" href="/humas/perizinan/ajukan">Pengajuan publik</a><a class="hk-btn hk-btn-ghost" href="/humas/perizinan/lacak">Lacak permohonan</a><a class="hk-btn hk-btn-ghost" href="/humas">← Katalog HUMAS</a><span id="userBadge" class="hk-user-badge" hidden></span><button class="hk-btn hk-btn-ghost" id="logoutBtn" type="button" hidden>Keluar</button></div>
 </header>
 <div id="notice" class="hk-notice" role="status" aria-live="polite" hidden></div>
 <section id="loginPanel" class="hk-panel hk-login">
@@ -33,6 +33,10 @@
 <span class="hp-status" id="connectionStatus">Menghubungkan...</span>
 </section>
 <section class="hp-metrics" id="permitMetrics" aria-label="Ringkasan perizinan"></section>
+<section class="hk-panel hp-notification-panel">
+<div class="hp-toolbar-title"><div><div class="eyebrow">PUSAT PEMBERITAHUAN</div><h2>Notifikasi HUMAS <span class="hp-notification-count" id="notificationCount">0</span></h2><p>Permohonan baru dan perubahan status yang perlu diketahui petugas.</p></div><button class="hk-btn hk-btn-ghost" id="refreshNotifications" type="button">Perbarui</button></div>
+<div id="notificationList" class="hp-notification-list"><div class="hp-empty">Memuat notifikasi...</div></div>
+</section>
 <section class="hk-panel hp-toolbar">
 <div class="hp-toolbar-title"><div><div class="eyebrow">REGISTER PERMOHONAN</div><h2>Daftar Perizinan</h2><p>Filter berdasarkan jenis atau status, lalu pilih data untuk melihat detail.</p></div><button class="hk-btn hk-btn-primary" id="newPermitBtn" type="button">+ Permohonan Baru</button></div>
 <div class="hp-filters">
@@ -70,9 +74,6 @@
 </div>
 <div class="hp-form-actions"><button class="hk-btn hk-btn-primary" type="submit">Simpan sebagai draft</button><span>Permohonan akan tercatat sebagai draft. Pengajuan dilakukan melalui detail permohonan.</span></div>
 </form>
-</section>
-<section class="hk-panel hp-protocol-teaser">
-<div class="eyebrow">PROTOKOLER · TAHAP BERIKUTNYA</div><h2>Agenda, tamu, dan checklist protokoler</h2><p>Struktur data agenda tetap terpisah dari perizinan. Integrasi operasional agenda, tamu, dan tugas persiapan akan dilanjutkan pada Sprint 2B agar setiap kegiatan dapat memiliki siklus persiapan dan evaluasi sendiri.</p>
 </section>
 <section class="hk-panel hp-protocol-panel">
 <div class="hp-toolbar-title"><div><div class="eyebrow">MANAJEMEN PROTOKOLER · SPRINT 2B</div><h2>Agenda & Kunjungan</h2><p>Agenda resmi memiliki siklus sendiri dan dapat ditautkan ke permohonan izin.</p></div><button class="hk-btn hk-btn-primary" id="newAgendaBtn" type="button">+ Agenda Baru</button></div>
