@@ -40,6 +40,14 @@ async function authenticate(c,token){
   if(!response.ok||!body||typeof body.id!=="string")return{ok:false,status:502};
   return{ok:true,user:{id:body.id,email:typeof body.email==="string"?body.email:null}};
 }
+
+async function authGrant(c,grant,payload){
+  return request(c.baseUrl+"/auth/v1/token?grant_type="+grant,{
+    method:"POST",
+    headers:{apikey:c.publishableKey,"Content-Type":"application/json",Accept:"application/json"},
+    body:JSON.stringify(payload)
+  });
+}
 function adminHeaders(c,profile=true){
   const h={apikey:c.adminKey,Accept:"application/json"};
   if(profile)h["Accept-Profile"]="humas";
@@ -144,6 +152,21 @@ module.exports=async function humasApi(req,res){
   headers(res);
   const c=config();
   if(!c)return send(res,503,{success:false,error:"server_configuration_missing",message:"Layanan HUMAS belum dikonfigurasi pada server."});
+  const opInput=String((req.query&&req.query.op)||"me");
+  if(opInput==="login"||opInput==="refresh"){
+    if(req.method!=="POST"){res.setHeader("Allow","POST");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+    const b=bodyOf(req);
+    const isLogin=opInput==="login";
+    const email=str(b.email,254).toLowerCase(),password=typeof b.password==="string"?b.password:"";
+    const refreshToken=str(b.refresh_token,2048);
+    if(isLogin&&(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)||!password||password.length>256))return send(res,400,{success:false,error:"invalid_credentials",message:"Email atau kata sandi tidak valid."});
+    if(!isLogin&&!refreshToken)return send(res,400,{success:false,error:"invalid_refresh_token",message:"Sesi perlu diperbarui dengan token yang valid."});
+    try{
+      const result=await authGrant(c,isLogin?"password":"refresh_token",isLogin?{email,password}:{refresh_token:refreshToken});
+      if(!result.response.ok||!result.body||!result.body.access_token)return send(res,401,{success:false,error:isLogin?"login_failed":"session_expired",message:isLogin?"Email atau kata sandi tidak sesuai.":"Sesi berakhir. Silakan masuk kembali."});
+      return send(res,200,{success:true,data:{access_token:result.body.access_token,refresh_token:result.body.refresh_token,expires_in:result.body.expires_in,user:result.body.user?{id:result.body.user.id,email:result.body.user.email}:undefined}});
+    }catch(_){return send(res,503,{success:false,error:"auth_service_unavailable",message:"Layanan autentikasi sementara tidak tersedia."});}
+  }
   const token=bearer(req);
   if(!token)return send(res,401,{success:false,error:"authentication_required",message:"Silakan masuk untuk mengakses layanan HUMAS."});
   try{
@@ -155,6 +178,26 @@ module.exports=async function humasApi(req,res){
     if(op==="me"){
       if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
       return send(res,200,{success:true,data:{user:auth.user,roles:userRoles}});
+    }
+
+    if(op==="dashboard"){
+      if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun ini tidak memiliki akses ringkasan HUMAS."});
+      return send(res,200,{success:true,data:await rpc(c,"dashboard_summary",{})});
+    }
+
+    if(op==="agreement-detail"){
+      if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun ini tidak memiliki akses detail perjanjian."});
+      const id=str(req.query&&req.query.id,64);
+      if(!uuid(id))return send(res,400,{success:false,error:"invalid_query",message:"ID perjanjian tidak valid."});
+      const params=new URLSearchParams({
+        select:"id,agreement_code,partner_id,title,agreement_type,purpose,scope_of_work,start_date,end_date,estimated_value,currency_code,school_coordinator,partner_coordinator,status,submitted_at,approved_at,signed_at,registered_at,archived_at,created_by,assigned_staff,created_at,updated_at,partner:partners(partner_name,partner_type),approvals:agreement_approvals(id,stage,decision,actor_id,actor_role,notes,acted_at,created_at),documents:agreement_documents(id,document_type,file_name,mime_type,file_size_bytes,version_number,uploaded_at,is_current),events:agreement_workflow_events(id,event_type,from_status,to_status,actor_role,reason,occurred_at)",
+        id:"eq."+id,limit:"1"
+      });
+      const rows=await restList(c,"agreements",params);
+      if(!rows.length)return send(res,404,{success:false,error:"record_not_found",message:"Data perjanjian tidak ditemukan."});
+      return send(res,200,{success:true,data:{agreement:rows[0]}});
     }
 
     if(op==="partners"){
@@ -198,7 +241,29 @@ module.exports=async function humasApi(req,res){
         const agreement=await rpc(c,"agreement_create_draft",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_payload:payload});
         return send(res,201,{success:true,data:{agreement}});
       }
-      res.setHeader("Allow","GET, POST");
+      if(req.method==="PATCH"){
+        const b=bodyOf(req),id=str(b.id,64),action=str(b.action,40);
+        if(!uuid(id))return send(res,400,{success:false,error:"invalid_request",message:"ID perjanjian tidak valid."});
+        if(action==="update_draft"){
+          if(!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat memperbarui draft."});
+          const allowed=["partner_id","title","agreement_type","purpose","scope_of_work","start_date","end_date","estimated_value","school_coordinator","partner_coordinator"];
+          const payload={};for(const key of allowed)if(Object.prototype.hasOwnProperty.call(b,key))payload[key]=String(b[key]??"").trim();
+          if(payload.partner_id&&!uuid(payload.partner_id))return send(res,400,{success:false,error:"invalid_request",message:"Mitra tidak valid."});
+          if(payload.agreement_type&&!AGREEMENT_TYPES.has(payload.agreement_type))return send(res,400,{success:false,error:"invalid_request",message:"Jenis perjanjian tidak valid."});
+          if((payload.start_date&&!validDate(payload.start_date))||(payload.end_date&&!validDate(payload.end_date))||(payload.start_date&&payload.end_date&&payload.end_date<payload.start_date))return send(res,400,{success:false,error:"invalid_request",message:"Masa berlaku tidak valid."});
+          if(payload.estimated_value!==undefined&&payload.estimated_value!==""&&!/^\\d{1,14}(\\.\\d{1,2})?$/.test(payload.estimated_value))return send(res,400,{success:false,error:"invalid_request",message:"Nilai kerja sama tidak valid."});
+          payload.reason=str(b.reason,1000);
+          const agreement=await rpc(c,"agreement_update_draft",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_agreement_id:id,p_payload:payload});
+          return send(res,200,{success:true,data:{agreement}});
+        }
+        const actionRoles={submit:"staff_humas",verify:"staff_humas",recommend:"vice_principal_humas",request_revision:"vice_principal_humas",forward_to_principal:"vice_principal_humas",approve:"principal",reject:"principal",prepare_signature:"principal",sign_physical:"staff_humas",sign_electronic:"staff_humas",register:"staff_humas",archive:"staff_humas"};
+        let actorRole=actionRoles[action];
+        if(action==="request_revision"&&userRoles.includes("principal"))actorRole="principal";
+        if(!actorRole||!userRoles.includes(actorRole))return send(res,403,{success:false,error:"insufficient_role",message:"Peran akun tidak sesuai dengan tahapan proses ini."});
+        const agreement=await rpc(c,"agreement_transition",{p_actor_id:auth.user.id,p_actor_role:actorRole,p_agreement_id:id,p_action:action,p_reason:str(b.reason,1000)});
+        return send(res,200,{success:true,data:{agreement}});
+      }
+      res.setHeader("Allow","GET, POST, PATCH");
       return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
     }
     return send(res,404,{success:false,error:"operation_not_found",message:"Operasi HUMAS tidak ditemukan."});
