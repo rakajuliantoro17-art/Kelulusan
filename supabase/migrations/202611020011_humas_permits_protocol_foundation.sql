@@ -207,6 +207,8 @@ revoke all on table humas.permit_requests,humas.permit_documents,
 grant select,insert,update,delete on table humas.permit_requests,
   humas.permit_documents,humas.protocol_agendas,humas.protocol_guests,
   humas.protocol_tasks to service_role;
+revoke all on table humas.permit_workflow_events,
+  humas.protocol_workflow_events from service_role;
 grant select,insert on table humas.permit_workflow_events,
   humas.protocol_workflow_events to service_role;
 grant usage,select on sequence humas.permit_workflow_events_id_seq,
