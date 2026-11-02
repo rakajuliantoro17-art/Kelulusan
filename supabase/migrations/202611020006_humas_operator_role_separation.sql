@@ -50,6 +50,26 @@ begin
 end;
 $$;
 
+do $preflight$
+begin
+  if exists (
+    select 1
+    from humas.user_roles operator_role
+    join humas.user_roles business_role
+      on business_role.user_id = operator_role.user_id
+    where operator_role.role_code = 'system_operator'
+      and operator_role.is_active = true
+      and operator_role.revoked_at is null
+      and business_role.role_code <> 'system_operator'
+      and business_role.is_active = true
+      and business_role.revoked_at is null
+  ) then
+    raise exception using errcode = '23514',
+      message = 'existing_system_operator_business_role_conflict';
+  end if;
+end;
+$preflight$;
+
 drop trigger if exists user_roles_operator_separation on humas.user_roles;
 create trigger user_roles_operator_separation
 before insert or update of user_id, role_code, is_active, revoked_at
