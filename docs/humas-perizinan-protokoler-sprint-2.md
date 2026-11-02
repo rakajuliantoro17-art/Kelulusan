@@ -66,4 +66,4 @@ Pastikan paket Vercel mendukung frekuensi cron yang digunakan. Cron mengirim ema
 
 ## Batas verifikasi saat ini
 
-Migrasi database telah diterapkan dan objek utama telah diverifikasi lewat query Supabase. JavaScript API/UI, file test, dan build script lolos pemeriksaan sintaks statis. Test suite dan build produksi harus tetap dijalankan oleh GitHub Actions/Vercel; status deployment terakhir masih melaporkan kegagalan dari Vercel sehingga URL produksi belum boleh dianggap sudah memuat perubahan ini.
+Migrasi database telah diterapkan dan objek utama telah diverifikasi lewat query Supabase. GitHub Actions pada commit `22670ddcdf484602e9b389578e784bd6a08263b3` telah berhasil menjalankan Project Check dan HUMAS PostgreSQL Integration. Pipeline memvalidasi sintaks JavaScript, membangun static output, menjalankan source tests, menerapkan migrasi 001–015 pada PostgreSQL lokal terisolasi, menjalankan transactional workflow tests, serta memeriksa RLS dan privilege. Status deployment Vercel untuk commit tersebut masih `failure`; URL produksi belum boleh dianggap sudah memuat perubahan ini. Kegagalan deployment perlu ditangani terpisah dari CI yang sudah hijau.
