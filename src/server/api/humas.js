@@ -592,7 +592,7 @@ module.exports=async function humasApi(req,res){
           return send(res,200,{success:true,data:{permit}});
         }
         const actionRole={submit:"staff_humas",verify:"staff_humas",recommend:"vice_principal_humas",request_revision:"vice_principal_humas",approve:"principal",reject:"principal",cancel:"staff_humas",complete:"staff_humas",archive:"staff_humas"};
-        const actorRole=actionRole[action];if(!actorRole||!userRoles.includes(actorRole))return send(res,403,{success:false,error:"insufficient_role",message:"Peran akun tidak sesuai dengan tahapan proses ini."});
+        const actorRole=action==="request_revision"&&!userRoles.includes("vice_principal_humas")&&userRoles.includes("principal")?"principal":actionRole[action];if(!actorRole||!userRoles.includes(actorRole))return send(res,403,{success:false,error:"insufficient_role",message:"Peran akun tidak sesuai dengan tahapan proses ini."});
         const permit=await rpc(c,"permit_transition",{p_actor_id:auth.user.id,p_actor_role:actorRole,p_permit_id:id,p_action:action,p_reason:str(b.reason,1200)});
         return send(res,200,{success:true,data:{permit}});
       }
