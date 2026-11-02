@@ -1,5 +1,5 @@
 -- HUMAS local PostgreSQL integration smoke tests.
--- All fixture data is rolled back. Run after bootstrap and migrations 001-006.
+-- All fixture data is rolled back. Run after bootstrap and migrations 001-007.
 
 DO $guard$
 BEGIN
@@ -15,7 +15,8 @@ INSERT INTO auth.users(id) VALUES
   ('10000000-0000-4000-8000-000000000001'),
   ('10000000-0000-4000-8000-000000000002'),
   ('10000000-0000-4000-8000-000000000003'),
-  ('10000000-0000-4000-8000-000000000004')
+  ('10000000-0000-4000-8000-000000000004'),
+  ('10000000-0000-4000-8000-000000000005')
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO humas.user_roles(user_id, role_code, is_active, revoked_at)
@@ -23,7 +24,8 @@ VALUES
   ('10000000-0000-4000-8000-000000000001', 'staff_humas', true, null),
   ('10000000-0000-4000-8000-000000000002', 'staff_humas', false, now()),
   ('10000000-0000-4000-8000-000000000003', 'principal', true, null),
-  ('10000000-0000-4000-8000-000000000004', 'system_operator', true, null)
+  ('10000000-0000-4000-8000-000000000004', 'system_operator', true, null),
+  ('10000000-0000-4000-8000-000000000005', 'vice_principal_humas', true, null)
 ON CONFLICT (user_id, role_code) DO UPDATE
 SET is_active = EXCLUDED.is_active,
     revoked_at = EXCLUDED.revoked_at;
@@ -66,6 +68,7 @@ DECLARE
   v_staff constant uuid := '10000000-0000-4000-8000-000000000001';
   v_inactive_staff constant uuid := '10000000-0000-4000-8000-000000000002';
   v_principal constant uuid := '10000000-0000-4000-8000-000000000003';
+  v_vice constant uuid := '10000000-0000-4000-8000-000000000005';
   v_partner jsonb;
   v_updated jsonb;
   v_status jsonb;
@@ -106,6 +109,29 @@ BEGIN
   );
   IF v_agreement->>'status' <> 'draft' THEN
     RAISE EXCEPTION 'FAIL: agreement_create_draft must create draft only';
+  END IF;
+
+  -- Staff can edit a draft before submission.
+  v_agreement := humas.agreement_update_draft(
+    v_staff, 'staff_humas', (v_agreement->>'id')::uuid,
+    '{"title":"MoU Uji Lokal Diperbarui","reason":"Perbaikan judul"}'::jsonb
+  );
+  IF v_agreement->>'title' <> 'MoU Uji Lokal Diperbarui' THEN
+    RAISE EXCEPTION 'FAIL: agreement_update_draft did not persist the title';
+  END IF;
+
+  -- Exercise the full valid path with distinct staff, vice principal and principal actors.
+  v_agreement := humas.agreement_transition(v_staff,'staff_humas',(v_agreement->>'id')::uuid,'submit',null);
+  v_agreement := humas.agreement_transition(v_staff,'staff_humas',(v_agreement->>'id')::uuid,'verify','Administrasi lengkap');
+  v_agreement := humas.agreement_transition(v_vice,'vice_principal_humas',(v_agreement->>'id')::uuid,'recommend','Substansi sesuai');
+  v_agreement := humas.agreement_transition(v_vice,'vice_principal_humas',(v_agreement->>'id')::uuid,'forward_to_principal',null);
+  v_agreement := humas.agreement_transition(v_principal,'principal',(v_agreement->>'id')::uuid,'approve','Disetujui Kepala Sekolah');
+  v_agreement := humas.agreement_transition(v_principal,'principal',(v_agreement->>'id')::uuid,'prepare_signature',null);
+  v_agreement := humas.agreement_transition(v_staff,'staff_humas',(v_agreement->>'id')::uuid,'sign_physical','Dokumen fisik telah ditandatangani');
+  v_agreement := humas.agreement_transition(v_staff,'staff_humas',(v_agreement->>'id')::uuid,'register','Nomor register dicatat');
+  v_agreement := humas.agreement_transition(v_staff,'staff_humas',(v_agreement->>'id')::uuid,'archive','Arsip final disimpan');
+  IF v_agreement->>'status' <> 'archived' THEN
+    RAISE EXCEPTION 'FAIL: full agreement workflow did not end in archived';
   END IF;
 
   SELECT count(*) INTO v_workflow_events
@@ -191,7 +217,7 @@ BEGIN
     NULL;
   END;
 
-  RAISE NOTICE 'PASS: partner transactions, draft workflow, null-role rejection, inactive actor rejection, and rollback';
+  RAISE NOTICE 'PASS: partner transactions, complete agreement workflow, null-role rejection, inactive actor rejection, and rollback';
 END
 $tests$;
 
