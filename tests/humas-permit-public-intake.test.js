@@ -24,7 +24,7 @@ test("public permit intake stores hashed tracking credentials and rate-limits su
  assert.match(sql,/create_email/);
  assert.match(sql,/rate_limit_exceeded/);
  assert.match(sql,/created_by,assigned_staff,submitted_at/);
- assert.match(sql,/"submitted",null,null/);
+ assert.match(sql,/'submitted',null,null/);
 });
 
 test("public tracking and cancellation require request code plus token digest",()=>{
@@ -39,7 +39,7 @@ test("private notification inbox and email outbox have controlled delivery lifec
  for(const fn of ["permit_notifications_list","permit_notification_mark_read","permit_notification_claim","permit_notification_finish"])assert.match(sql,new RegExp("function humas\\."+fn));
  assert.match(sql,/for update skip locked/);
  assert.match(sql,/attempt_count<5/);
- assert.match(sql,/status='sent'/);
+ assert.match(sql,/then 'sent'/);
  assert.match(sql,/permit_status_notification/);
  assert.match(sql,/revoke all on humas\.permit_public_access[\s\S]*from public,anon,authenticated/);
 });
@@ -61,7 +61,7 @@ test("public application and tracking page protects token display and exposes bo
  for(const op of ["permit-public-create","permit-public-track","permit-public-cancel"])assert.ok(js.includes(op),op);
  assert.match(js,/sessionStorage\.setItem\("pintuku_humas_last_token"/);
  assert.match(js,/textContent=result\.tracking_token/);
- assert.match(js,/escape/); // dynamic content is escaped through the local esc helper.
+ assert.match(js,/const esc=/); // dynamic content is escaped through the local esc helper.
  assert.match(internal,/permit-notifications/);
 });
 
