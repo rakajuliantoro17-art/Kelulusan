@@ -19,7 +19,7 @@ Sprint ini memvalidasi migrasi HUMAS 001–006 pada PostgreSQL lokal sebelum ada
 5. Repository `rakajuliantoro17-art/Kelulusan` sudah di-clone dan terminal berada di root repository.
 6. Akun administrator PostgreSQL lokal untuk membuat database dan role test.
 
-Tidak perlu Docker, Supabase Branch, atau layanan berbayar.
+Tidak perlu Docker lokal, Supabase Branch, atau layanan berbayar. Untuk validasi otomatis, repositori juga menyediakan GitHub Actions dengan container PostgreSQL sementara; container dihentikan setelah job selesai.
 
 ## Langkah 1 — Buat database kosong
 
@@ -118,4 +118,4 @@ Review ulang terhadap branch `main` menemukan dua pemeriksaan role pada `partner
 
 Migration `202611020006_humas_operator_role_separation.sql` menambahkan trigger yang menjaga akun `system_operator` tetap eksklusif dari role bisnis aktif. Perubahan identitas role pada satu assignment dibuat immutable; pencabutan dilakukan melalui status aktif/revoked. Integration harness dan security assertion diperbarui untuk memeriksa aturan ini.
 
-Status tetap **NOT RUN** sampai pengguna menjalankan runner pada PostgreSQL lokal. Perubahan sumber dan test harness bukan bukti runtime.
+Status lokal pengguna tetap **NOT RUN** sampai runner lokal dijalankan. GitHub Actions menggunakan database ephemeral terpisah dan hasilnya dicatat pada workflow run. Perubahan sumber dan test harness bukan bukti runtime.
