@@ -89,4 +89,6 @@ test("operational workflow enforces role-specific transitions and separation of 
   assert.match(sql, /case when v_decision='pending' then null/);
   assert.match(sql, /revoke all on function humas\.agreement_transition/);
   assert.match(sql, /grant execute on function humas\.agreement_transition.*to service_role/);
+  assert.match(sql, /create trigger agreement_approvals_append_only/);
+  assert.match(sql, /approval_records_are_append_only/);
 });
