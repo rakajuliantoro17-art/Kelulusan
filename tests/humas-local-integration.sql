@@ -141,6 +141,16 @@ BEGIN
     RAISE EXCEPTION 'FAIL: full agreement workflow did not end in archived';
   END IF;
 
+  -- Approval history is append-only even for the privileged server role.
+  BEGIN
+    UPDATE humas.agreement_approvals
+    SET notes='Mutation must be rejected'
+    WHERE agreement_id=(v_agreement->>'id')::uuid;
+    RAISE EXCEPTION 'FAIL: approval history unexpectedly allowed UPDATE';
+  EXCEPTION WHEN insufficient_privilege THEN
+    NULL;
+  END;
+
   SELECT count(*) INTO v_workflow_events
   FROM humas.agreement_workflow_events
   WHERE agreement_id = (v_agreement->>'id')::uuid
