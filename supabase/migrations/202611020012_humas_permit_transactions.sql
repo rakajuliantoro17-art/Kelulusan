@@ -247,6 +247,7 @@ begin
     raise exception using errcode='22023',message='invalid_document_payload';
   end if;
   if not exists(select 1 from humas.permit_requests where id=p_permit_id) then raise exception using errcode='P0002',message='permit_not_found';end if;
+  if not exists(select 1 from storage.objects where bucket_id='humas-permit-documents' and name=p_payload->>'storage_path') then raise exception using errcode='22023',message='uploaded_object_not_found';end if;
   update humas.permit_documents set is_current=false
     where permit_id=p_permit_id and document_type=p_payload->>'document_type' and is_current=true;
   insert into humas.permit_documents(
@@ -279,6 +280,201 @@ select pg_catalog.jsonb_build_object(
  'facility',(select count(*) from humas.permit_requests where permit_type='facility')
 );
 $$;
+
+
+create or replace function humas.protocol_agenda_create(
+ p_actor_id uuid,p_actor_role text,p_payload jsonb
+) returns jsonb language plpgsql set search_path='' as $
+declare v_row humas.protocol_agendas%rowtype;v_code text;
+begin
+ if p_actor_id is null or p_actor_role is distinct from 'staff_humas'
+  or not exists(select 1 from humas.user_roles ur where ur.user_id=p_actor_id and ur.role_code='staff_humas' and ur.is_active=true and ur.revoked_at is null) then
+  raise exception using errcode='42501',message='forbidden';
+ end if;
+ if p_payload is null or pg_catalog.jsonb_typeof(p_payload)<>'object'
+  or nullif(pg_catalog.btrim(p_payload->>'title'),'') is null
+  or coalesce(p_payload->>'agenda_type','') not in ('official_visit','institutional_meeting','school_event','delegation','ceremony','other')
+  or nullif(p_payload->>'starts_at','') is null or nullif(p_payload->>'ends_at','') is null
+  or (p_payload->>'ends_at')::timestamptz < (p_payload->>'starts_at')::timestamptz then
+  raise exception using errcode='22023',message='invalid_protocol_agenda';
+ end if;
+ if nullif(p_payload->>'permit_id','') is not null and not exists(
+  select 1 from humas.permit_requests where id=(p_payload->>'permit_id')::uuid and status not in ('rejected','cancelled','archived')
+ ) then raise exception using errcode='22023',message='linked_permit_unavailable';end if;
+ v_code:='PRO-'||to_char(pg_catalog.now(),'YYYYMM')||'-'||upper(substr(replace(gen_random_uuid()::text,'-',''),1,8));
+ insert into humas.protocol_agendas(agenda_code,permit_id,title,agenda_type,host_unit,guest_institution,venue,starts_at,ends_at,expected_guests,protocol_notes,created_by,assigned_staff)
+ values(v_code,nullif(p_payload->>'permit_id','')::uuid,pg_catalog.btrim(p_payload->>'title'),p_payload->>'agenda_type',
+  nullif(pg_catalog.btrim(p_payload->>'host_unit'),''),nullif(pg_catalog.btrim(p_payload->>'guest_institution'),''),
+  nullif(pg_catalog.btrim(p_payload->>'venue'),''),(p_payload->>'starts_at')::timestamptz,(p_payload->>'ends_at')::timestamptz,
+  nullif(p_payload->>'expected_guests','')::integer,nullif(pg_catalog.btrim(p_payload->>'protocol_notes'),''),p_actor_id,p_actor_id)
+ returning * into v_row;
+ insert into humas.protocol_workflow_events(agenda_id,event_type,to_status,actor_id,actor_role,metadata)
+ values(v_row.id,'created','planned',p_actor_id,p_actor_role,pg_catalog.jsonb_build_object('agenda_code',v_code));
+ return pg_catalog.to_jsonb(v_row);
+end;
+$;
+
+create or replace function humas.protocol_agenda_transition(
+ p_actor_id uuid,p_actor_role text,p_agenda_id uuid,p_action text,p_reason text default null
+) returns jsonb language plpgsql set search_path='' as $
+declare v_before humas.protocol_agendas%rowtype;v_after humas.protocol_agendas%rowtype;v_to text;
+begin
+ if p_actor_id is null or p_actor_role not in ('staff_humas','vice_principal_humas','principal')
+  or not exists(select 1 from humas.user_roles ur where ur.user_id=p_actor_id and ur.role_code=p_actor_role and ur.is_active=true and ur.revoked_at is null) then
+  raise exception using errcode='42501',message='forbidden';
+ end if;
+ select * into v_before from humas.protocol_agendas where id=p_agenda_id for update;
+ if not found then raise exception using errcode='P0002',message='agenda_not_found';end if;
+ if p_actor_role not in ('staff_humas','vice_principal_humas','principal') then raise exception using errcode='42501',message='forbidden';end if;
+ case p_action
+  when 'prepare' then v_to:='preparing';if v_before.status<>'planned' then raise exception using errcode='22023',message='invalid_transition';end if;
+  when 'ready' then v_to:='ready';if v_before.status<>'preparing' then raise exception using errcode='22023',message='invalid_transition';end if;
+  when 'start' then v_to:='in_progress';if v_before.status<>'ready' then raise exception using errcode='22023',message='invalid_transition';end if;
+  when 'complete' then v_to:='completed';if v_before.status<>'in_progress' then raise exception using errcode='22023',message='invalid_transition';end if;
+  when 'cancel' then v_to:='cancelled';if v_before.status not in ('planned','preparing','ready') then raise exception using errcode='22023',message='invalid_transition';end if;
+  else raise exception using errcode='22023',message='unknown_action';
+ end case;
+ if p_actor_role<>'staff_humas' and p_action not in ('cancel','complete') then raise exception using errcode='42501',message='forbidden';end if;
+ if p_action='cancel' and nullif(pg_catalog.btrim(p_reason),'') is null then raise exception using errcode='22023',message='reason_required';end if;
+ update humas.protocol_agendas set status=v_to where id=p_agenda_id returning * into v_after;
+ insert into humas.protocol_workflow_events(agenda_id,event_type,from_status,to_status,actor_id,actor_role,reason)
+ values(p_agenda_id,p_action,v_before.status,v_to,p_actor_id,p_actor_role,nullif(pg_catalog.btrim(p_reason),''));
+ return pg_catalog.to_jsonb(v_after);
+end;
+$;
+
+create or replace function humas.protocol_guest_create(
+ p_actor_id uuid,p_actor_role text,p_agenda_id uuid,p_payload jsonb
+) returns jsonb language plpgsql set search_path='' as $
+declare v_row humas.protocol_guests%rowtype;
+begin
+ if p_actor_id is null or p_actor_role is distinct from 'staff_humas'
+  or not exists(select 1 from humas.user_roles ur where ur.user_id=p_actor_id and ur.role_code='staff_humas' and ur.is_active=true and ur.revoked_at is null) then
+  raise exception using errcode='42501',message='forbidden';
+ end if;
+ if nullif(pg_catalog.btrim(p_payload->>'full_name'),'') is null or pg_catalog.length(pg_catalog.btrim(p_payload->>'full_name')) not between 2 and 180 then
+  raise exception using errcode='22023',message='invalid_guest';
+ end if;
+ if not exists(select 1 from humas.protocol_agendas where id=p_agenda_id and status not in ('completed','cancelled')) then
+  raise exception using errcode='P0002',message='agenda_not_available';
+ end if;
+ insert into humas.protocol_guests(agenda_id,full_name,institution,position_title,attendance_status,notes)
+ values(p_agenda_id,pg_catalog.btrim(p_payload->>'full_name'),nullif(pg_catalog.btrim(p_payload->>'institution'),''),
+  nullif(pg_catalog.btrim(p_payload->>'position_title'),''),coalesce(p_payload->>'attendance_status','invited'),
+  nullif(pg_catalog.btrim(p_payload->>'notes'),'')) returning * into v_row;
+ if v_row.attendance_status not in ('invited','confirmed','attended','not_attended','cancelled') then
+  raise exception using errcode='22023',message='invalid_guest_status';
+ end if;
+ insert into humas.protocol_workflow_events(agenda_id,event_type,actor_id,actor_role,metadata)
+ values(p_agenda_id,'guest_added',p_actor_id,p_actor_role,pg_catalog.jsonb_build_object('guest_id',v_row.id));
+ return pg_catalog.to_jsonb(v_row);
+end;
+$;
+
+create or replace function humas.protocol_guest_update(
+ p_actor_id uuid,p_actor_role text,p_guest_id uuid,p_payload jsonb
+) returns jsonb language plpgsql set search_path='' as $
+declare v_row humas.protocol_guests%rowtype;
+begin
+ if p_actor_id is null or p_actor_role is distinct from 'staff_humas'
+  or not exists(select 1 from humas.user_roles ur where ur.user_id=p_actor_id and ur.role_code='staff_humas' and ur.is_active=true and ur.revoked_at is null) then
+  raise exception using errcode='42501',message='forbidden';
+ end if;
+ if p_payload ? 'attendance_status' and coalesce(p_payload->>'attendance_status','') not in ('invited','confirmed','attended','not_attended','cancelled') then
+  raise exception using errcode='22023',message='invalid_guest_status';
+ end if;
+ update humas.protocol_guests set
+  full_name=case when p_payload?'full_name' then pg_catalog.btrim(p_payload->>'full_name') else full_name end,
+  institution=case when p_payload?'institution' then nullif(pg_catalog.btrim(p_payload->>'institution'),'') else institution end,
+  position_title=case when p_payload?'position_title' then nullif(pg_catalog.btrim(p_payload->>'position_title'),'') else position_title end,
+  attendance_status=case when p_payload?'attendance_status' then p_payload->>'attendance_status' else attendance_status end,
+  notes=case when p_payload?'notes' then nullif(pg_catalog.btrim(p_payload->>'notes'),'') else notes end,
+  arrival_at=case when p_payload?'arrival_at' then nullif(p_payload->>'arrival_at','')::timestamptz else arrival_at end
+ where id=p_guest_id returning * into v_row;
+ if not found then raise exception using errcode='P0002',message='guest_not_found';end if;
+ insert into humas.protocol_workflow_events(agenda_id,event_type,actor_id,actor_role,metadata)
+ values(v_row.agenda_id,'guest_updated',p_actor_id,p_actor_role,pg_catalog.jsonb_build_object('guest_id',v_row.id,'attendance_status',v_row.attendance_status));
+ return pg_catalog.to_jsonb(v_row);
+end;
+$;
+
+create or replace function humas.protocol_task_create(
+ p_actor_id uuid,p_actor_role text,p_agenda_id uuid,p_payload jsonb
+) returns jsonb language plpgsql set search_path='' as $
+declare v_row humas.protocol_tasks%rowtype;
+begin
+ if p_actor_id is null or p_actor_role is distinct from 'staff_humas'
+  or not exists(select 1 from humas.user_roles ur where ur.user_id=p_actor_id and ur.role_code='staff_humas' and ur.is_active=true and ur.revoked_at is null) then
+  raise exception using errcode='42501',message='forbidden';
+ end if;
+ if coalesce(p_payload->>'task_category','') not in ('reception','venue','accommodation','consumption','equipment','ceremony','documentation','security','transport','other')
+  or nullif(pg_catalog.btrim(p_payload->>'task_title'),'') is null then
+  raise exception using errcode='22023',message='invalid_protocol_task';
+ end if;
+ if not exists(select 1 from humas.protocol_agendas where id=p_agenda_id and status not in ('completed','cancelled')) then
+  raise exception using errcode='P0002',message='agenda_not_available';
+ end if;
+ insert into humas.protocol_tasks(agenda_id,task_category,task_title,due_at,task_status,notes)
+ values(p_agenda_id,p_payload->>'task_category',pg_catalog.btrim(p_payload->>'task_title'),
+  nullif(p_payload->>'due_at','')::timestamptz,'pending',nullif(pg_catalog.btrim(p_payload->>'notes'),'')) returning * into v_row;
+ insert into humas.protocol_workflow_events(agenda_id,event_type,actor_id,actor_role,metadata)
+ values(p_agenda_id,'task_created',p_actor_id,p_actor_role,pg_catalog.jsonb_build_object('task_id',v_row.id));
+ return pg_catalog.to_jsonb(v_row);
+end;
+$;
+
+create or replace function humas.protocol_task_update(
+ p_actor_id uuid,p_actor_role text,p_task_id uuid,p_payload jsonb
+) returns jsonb language plpgsql set search_path='' as $
+declare v_row humas.protocol_tasks%rowtype;
+begin
+ if p_actor_id is null or p_actor_role is distinct from 'staff_humas'
+  or not exists(select 1 from humas.user_roles ur where ur.user_id=p_actor_id and ur.role_code='staff_humas' and ur.is_active=true and ur.revoked_at is null) then
+  raise exception using errcode='42501',message='forbidden';
+ end if;
+ if p_payload ? 'task_status' and coalesce(p_payload->>'task_status','') not in ('pending','in_progress','done','blocked','cancelled') then
+  raise exception using errcode='22023',message='invalid_task_status';
+ end if;
+ update humas.protocol_tasks set
+  task_title=case when p_payload?'task_title' then pg_catalog.btrim(p_payload->>'task_title') else task_title end,
+  task_category=case when p_payload?'task_category' then p_payload->>'task_category' else task_category end,
+  task_status=case when p_payload?'task_status' then p_payload->>'task_status' else task_status end,
+  due_at=case when p_payload?'due_at' then nullif(p_payload->>'due_at','')::timestamptz else due_at end,
+  notes=case when p_payload?'notes' then nullif(pg_catalog.btrim(p_payload->>'notes'),'') else notes end,
+  completed_at=case when p_payload->>'task_status'='done' then pg_catalog.now() when p_payload?'task_status' then null else completed_at end
+ where id=p_task_id returning * into v_row;
+ if not found then raise exception using errcode='P0002',message='task_not_found';end if;
+ insert into humas.protocol_workflow_events(agenda_id,event_type,actor_id,actor_role,metadata)
+ values(v_row.agenda_id,'task_updated',p_actor_id,p_actor_role,pg_catalog.jsonb_build_object('task_id',v_row.id,'task_status',v_row.task_status));
+ return pg_catalog.to_jsonb(v_row);
+end;
+$;
+
+create or replace function humas.protocol_summary()
+returns jsonb language sql stable set search_path='' as $
+select pg_catalog.jsonb_build_object(
+ 'total',(select count(*) from humas.protocol_agendas),
+ 'upcoming',(select count(*) from humas.protocol_agendas where starts_at>=now() and status not in ('completed','cancelled')),
+ 'preparing',(select count(*) from humas.protocol_agendas where status in ('preparing','ready')),
+ 'in_progress',(select count(*) from humas.protocol_agendas where status='in_progress'),
+ 'open_tasks',(select count(*) from humas.protocol_tasks where task_status in ('pending','in_progress','blocked'))
+);
+$;
+
+revoke all on function humas.protocol_agenda_create(uuid,text,jsonb),
+ humas.protocol_agenda_transition(uuid,text,uuid,text,text),
+ humas.protocol_guest_create(uuid,text,uuid,jsonb),
+ humas.protocol_guest_update(uuid,text,uuid,jsonb),
+ humas.protocol_task_create(uuid,text,uuid,jsonb),
+ humas.protocol_task_update(uuid,text,uuid,jsonb),
+ humas.protocol_summary() from public,anon,authenticated;
+grant execute on function humas.protocol_agenda_create(uuid,text,jsonb),
+ humas.protocol_agenda_transition(uuid,text,uuid,text,text),
+ humas.protocol_guest_create(uuid,text,uuid,jsonb),
+ humas.protocol_guest_update(uuid,text,uuid,jsonb),
+ humas.protocol_task_create(uuid,text,uuid,jsonb),
+ humas.protocol_task_update(uuid,text,uuid,jsonb),
+ humas.protocol_summary() to service_role;
 
 revoke all on function humas.permit_create(uuid,text,jsonb),
  humas.permit_update_draft(uuid,text,uuid,jsonb),
