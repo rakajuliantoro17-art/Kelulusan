@@ -60,19 +60,6 @@ BEGIN
     RAISE EXCEPTION 'FAIL: partner_update did not persist the requested field';
   END IF;
 
-  v_status := humas.partner_set_status(
-    v_staff, 'staff_humas', v_partner_id, 'under_review', 'Pengujian lokal'
-  );
-  IF v_status->>'record_status' <> 'under_review' THEN
-    RAISE EXCEPTION 'FAIL: partner_set_status did not change status';
-  END IF;
-
-  SELECT count(*) INTO v_partner_events
-  FROM humas.partner_events WHERE partner_id = v_partner_id;
-  IF v_partner_events <> 3 THEN
-    RAISE EXCEPTION 'FAIL: expected 3 partner audit events, got %', v_partner_events;
-  END IF;
-
   -- Active partner can be used to create a draft; no approval is implied.
   v_agreement := humas.agreement_create_draft(
     v_staff, 'staff_humas',
@@ -93,6 +80,19 @@ BEGIN
     AND event_type = 'draft_created';
   IF v_workflow_events <> 1 THEN
     RAISE EXCEPTION 'FAIL: expected exactly one draft_created event, got %', v_workflow_events;
+  END IF;
+
+  v_status := humas.partner_set_status(
+    v_staff, 'staff_humas', v_partner_id, 'under_review', 'Pengujian lokal'
+  );
+  IF v_status->>'record_status' <> 'under_review' THEN
+    RAISE EXCEPTION 'FAIL: partner_set_status did not change status';
+  END IF;
+
+  SELECT count(*) INTO v_partner_events
+  FROM humas.partner_events WHERE partner_id = v_partner_id;
+  IF v_partner_events <> 3 THEN
+    RAISE EXCEPTION 'FAIL: expected 3 partner audit events, got %', v_partner_events;
   END IF;
 
   -- Principal cannot use staff-only partner write RPC.
