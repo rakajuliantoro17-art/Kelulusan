@@ -204,7 +204,7 @@ const PERMIT_TYPES=new Set(["internal","external","facility"]);
 const PERMIT_DOC_TYPES=new Set(["application_letter","proposal","parent_consent","institution_letter","supporting_document","decision_letter","other"]);
 const PERMIT_MIMES=new Set(["application/pdf","image/jpeg","image/png","image/webp","application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]);
 function isoDateTime(v){if(v==="")return true;return typeof v==="string"&&!Number.isNaN(Date.parse(v));}
-function safeFileName(v){return str(v,255).replace(/[\\/\\\\\\u0000-\\u001f]/g,"_").replace(/\\.\\./g,"_");}
+function safeFileName(v){return str(v,255).replace(/[^\\p{L}\\p{N}._ -]/gu,"_").replace(/\\.{2,}/g,"_");}
 async function listPermits(c,req){
  const q=req.query||{},pg=pagination(q),p=new URLSearchParams({
   select:"id,request_code,permit_type,title,purpose,applicant_name,applicant_unit,applicant_email,applicant_phone,related_institution,activity_location,requested_start_at,requested_end_at,expected_attendees,status,decision_note,created_by,assigned_staff,submitted_at,decided_at,completed_at,created_at,updated_at",
