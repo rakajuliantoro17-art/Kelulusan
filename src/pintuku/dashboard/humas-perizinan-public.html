@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f"><meta name="description" content="Pengajuan dan pelacakan izin kegiatan serta penggunaan fasilitas SMAN 1 Sooko.">
+<script>try{var t=localStorage.getItem("pintuku-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>
+<title>Pengajuan & Pelacakan Izin · PINTUKU</title>
+<link rel="manifest" href="/manifest.json"><link rel="icon" href="/assets/shared/icons/favicon.ico">
+<link rel="stylesheet" href="/src/pintuku/assets/css/portal-shell.css"><link rel="stylesheet" href="/src/pintuku/assets/css/portal.css"><link rel="stylesheet" href="/src/pintuku/assets/css/portal-settings.css"><link rel="stylesheet" href="/src/pintuku/assets/css/service-modules.css"><link rel="stylesheet" href="/src/pintuku/assets/css/humas-perizinan.css"><link rel="stylesheet" href="/src/pintuku/assets/css/pintuku-glass.css">
+<script src="/src/shared/assets/registry.js" defer></script><script src="/src/pintuku/assets/js/portal-shell.js" defer></script><script src="/src/pintuku/assets/js/portal-settings.js" defer></script><script src="/src/pintuku/assets/js/humas-perizinan-public.js" defer></script>
+</head>
+<body data-portal-module="humas">
+<div data-portal-header></div>
+<main class="portal-wrap service-page hk-page hp-page hp-public-page">
+<nav class="hk-breadcrumb"><a href="/humas">HUMAS</a><span>/</span><a href="/humas/perizinan">Perizinan & Protokoler</a><span>/</span><span>Layanan Publik</span></nav>
+<header class="hk-hero"><div><div class="eyebrow">PINTUKU · SMAN 1 SOOKO · LAYANAN PUBLIK</div><h1>Pengajuan & Pelacakan Izin</h1><p>Ajukan permohonan kegiatan eksternal atau penggunaan fasilitas sekolah, kemudian pantau prosesnya dengan kode dan token pelacakan.</p></div><div class="hk-hero-actions"><a class="hk-btn hk-btn-ghost" href="/humas/perizinan">Ruang kerja HUMAS</a></div></header>
+<div id="publicNotice" class="hk-notice" role="status" aria-live="polite" hidden></div>
+<section class="hk-panel hp-public-switch"><a id="showApply" href="/humas/perizinan/ajukan">Ajukan permohonan</a><a id="showTrack" href="/humas/perizinan/lacak">Lacak permohonan</a></section>
+<section class="hk-panel hp-public-panel" id="applyPanel">
+<div class="eyebrow">FORMULIR PENGAJUAN</div><h2>Permohonan izin kegiatan</h2><p>Formulir ini untuk pihak eksternal dan pemohon penggunaan fasilitas sekolah. Izin internal sekolah dicatat melalui petugas HUMAS.</p>
+<form id="publicPermitForm" class="hp-form">
+<label>Jenis permohonan<select name="permit_type" id="publicPermitType" required><option value="external">Kegiatan / kunjungan pihak eksternal</option><option value="facility">Penggunaan fasilitas sekolah</option></select></label>
+<label>Nama kegiatan<input name="title" required minlength="3" maxlength="200" placeholder="Contoh: Kunjungan edukasi"></label>
+<label>Nama pemohon<input name="applicant_name" required minlength="2" maxlength="180" autocomplete="name"></label>
+<label>Instansi / organisasi<input name="applicant_unit" maxlength="180" placeholder="Nama lembaga atau organisasi"></label>
+<label>Email aktif<input name="applicant_email" type="email" required maxlength="254" autocomplete="email"></label>
+<label>Nomor telepon<input name="applicant_phone" type="tel" maxlength="40" autocomplete="tel"></label>
+<label>Instansi terkait<input name="related_institution" maxlength="250"></label>
+<label>Lokasi kegiatan<input name="activity_location" maxlength="500" placeholder="Lokasi/ruang yang dimohon"></label>
+<label>Waktu mulai<input name="requested_start_at" type="datetime-local" required></label>
+<label>Waktu selesai<input name="requested_end_at" type="datetime-local" required></label>
+<label>Perkiraan peserta<input name="expected_attendees" type="number" min="1" max="100000" placeholder="Jumlah orang"></label>
+<div id="publicFacilityFields" class="hp-facility-fields" hidden>
+<div class="eyebrow">DETAIL PENGGUNAAN FASILITAS</div>
+<label>Fasilitas yang digunakan<input name="facility_name" maxlength="180" placeholder="Aula, lapangan, laboratorium, dll."></label>
+<label>Kebutuhan perlengkapan<textarea name="facility_equipment" maxlength="1500" rows="2"></textarea></label>
+<label>Tata letak / kebutuhan ruang<textarea name="facility_layout" maxlength="1500" rows="2"></textarea></label>
+</div>
+<label class="hp-span">Tujuan dan uraian kegiatan<textarea name="purpose" required minlength="3" maxlength="4000" rows="4" placeholder="Jelaskan tujuan, rangkaian kegiatan, dan kebutuhan koordinasi."></textarea></label>
+<div class="hp-public-consent hp-span"><label><input type="checkbox" required> Saya menyatakan informasi yang diisi benar dan bersedia dihubungi untuk proses verifikasi permohonan.</label></div>
+<div class="hp-form-actions"><button class="hk-btn hk-btn-primary" id="submitPublicPermit" type="submit">Kirim permohonan</button><span>Permohonan akan masuk ke register HUMAS untuk diverifikasi. Pengajuan bukan persetujuan otomatis.</span></div>
+</form>
+</section>
+<section class="hk-panel hp-public-panel" id="trackingPanel" hidden>
+<div class="eyebrow">PELACAKAN PERMOHONAN</div><h2>Periksa status permohonan</h2><p>Masukkan kode permohonan dan token rahasia yang diberikan setelah pengajuan. Keduanya diperlukan untuk melihat data.</p>
+<form id="trackPermitForm" class="hp-form hp-track-form">
+<label>Kode permohonan<input name="request_code" required maxlength="40" placeholder="IZN-202611-XXXXXXXX" autocapitalize="characters"></label>
+<label>Token pelacakan<input name="tracking_token" required minlength="43" maxlength="43" autocomplete="off" placeholder="Token 43 karakter"></label>
+<div class="hp-form-actions"><button class="hk-btn hk-btn-primary" type="submit">Lacak status</button></div>
+</form>
+<div id="trackingResult" class="hp-tracking-result" hidden></div>
+</section>
+<section class="hk-panel hp-public-success" id="submissionSuccess" hidden>
+<div class="eyebrow">PERMOHONAN TERCATAT</div><h2>Pengajuan berhasil diterima</h2><p>Catat kode dan token berikut. Token hanya ditampilkan satu kali dan tidak disimpan dalam bentuk asli di server.</p>
+<div class="hp-token-field"><small>KODE PERMOHONAN</small><strong id="successCode"></strong><button type="button" class="hk-btn hk-btn-ghost" id="copyCode">Salin kode</button></div>
+<div class="hp-token-field"><small>TOKEN PELACAKAN RAHASIA</small><strong id="successToken"></strong><button type="button" class="hk-btn hk-btn-ghost" id="copyToken">Salin token</button></div>
+<p class="hp-token-warning">Simpan token secara aman. Jika token hilang, sistem tidak dapat menampilkan kembali token lama. Email konfirmasi tidak memuat token rahasia.</p>
+<div class="hp-form-actions"><a class="hk-btn hk-btn-primary" id="goTrack" href="/humas/perizinan/lacak">Lacak permohonan</a><a class="hk-btn hk-btn-ghost" href="/humas">Kembali ke HUMAS</a></div>
+</section>
+</main>
+<div data-portal-footer></div>
+</body></html>
