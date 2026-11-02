@@ -92,18 +92,18 @@ Runner ini adalah integration smoke test awal, bukan bukti bahwa seluruh sistem 
 
 | Tahap | Status saat ini | Bukti |
 |---|---|---|
-| 3G.2 Migrasi 001–006 | **NOT RUN** | Runner sudah menjalankan urutan migrasi, tetapi belum dieksekusi pada PostgreSQL lokal pengguna |
+| 3G.2 Migrasi 001–006 | **NOT RUN** | Runner sudah dikonfigurasi untuk menjalankan urutan migrasi, tetapi belum dieksekusi pada PostgreSQL lokal pengguna |
 | 3G.3 RBAC/RLS | **TEST READY** | Assertion RLS, privilege, dan function grants tersedia |
 | 3G.4 Partner transaction | **TEST READY** | Create, update, status, audit atomik, dan rollback actor tidak aktif |
 | 3G.5 Agreement draft | **TEST READY** | Draft-only dan event `draft_created` |
 | 3G.6 Security | **TEST READY** | Null-role guard, active-role trigger, browser access denial, append-only audit |
 | 3G.7 Remediasi | **SOURCE FIX APPLIED** | Perbandingan role menggunakan `IS DISTINCT FROM`; status NULL ditolak; migration 006 membuat role `system_operator` eksklusif dari role bisnis aktif |
 | 3G.8 Dokumentasi/release gate | **DOCUMENTED** | Hasil dan batas pengujian dicatat di dokumen ini |
-| 3G.9 Pemisahan operator | **SOURCE FIX APPLIED** | Migration 006 menolak akun `system_operator` yang juga memegang role bisnis aktif; diuji pada integration harness |
+| 3G.9 Pemisahan operator | **SOURCE FIX APPLIED** | Migration 006 menolak akun `system_operator` yang juga memegang role bisnis aktif; skenario uji sudah ditambahkan, runtime belum dijalankan |
 
 ### Pemeriksaan sumber setelah penguatan
 
-Pemeriksaan konsistensi sumber sebelumnya dilakukan terhadap lima migration, tiga SQL test, PowerShell runner, dan dokumen Sprint 3G. Migration 006 dan pengujian pemisahan operator ditambahkan setelah audit lanjutan. Hasilnya **22/22 assertion sumber PASS pada baseline sebelumnya; pemeriksaan tambahan untuk migration 006 harus dijalankan kembali dari checkout lokal**. Cakupan meliputi urutan migrasi, RLS, RPC, active-role guard, penolakan NULL role/status, append-only privilege, rollback fixture, database guard, dan pemanggilan test runner.
+Pemeriksaan konsistensi sumber dilakukan terhadap enam migration, tiga SQL test, PowerShell runner, API, dashboard, dan dokumen Sprint 3G. Pemeriksaan tambahan setelah migration 006 menghasilkan **32/32 assertion sumber PASS**. Ini mencakup urutan enam migration, SQL guard, API, dashboard, keterkaitan ID HTML/JavaScript, dan keamanan runner. Cakupan meliputi urutan migrasi, RLS, RPC, active-role guard, penolakan NULL role/status, append-only privilege, rollback fixture, database guard, dan pemanggilan test runner.
 
 Satu temuan diperbaiki sebelum pemeriksaan ini: penggunaan operator `<>` untuk validasi role dan status dapat menghasilkan UNKNOWN ketika input NULL. Migrasi 003, 004, dan 005 kini menggunakan `IS DISTINCT FROM` untuk label role; fungsi perubahan status juga menolak status NULL.
 
