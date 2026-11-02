@@ -250,7 +250,9 @@ module.exports=async function humasApi(req,res){
       if(!uuid(id))return send(res,400,{success:false,error:"invalid_query",message:"ID proposal tidak valid."});
       const params=new URLSearchParams({
         select:"id,proposal_code,title,category,description,objectives,target_audience,requested_amount,proposal_date,submission_deadline,activity_start_date,activity_end_date,owner_unit,coordinator_name,coordinator_contact,status,created_at,updated_at,supports:proposal_supports(id,partner_id,sponsor_name,support_type,support_description,estimated_value,realized_value,support_status,contact_person,contact_date,commitment_date,realization_date,notes,created_at,updated_at),events:proposal_events(id,event_type,support_id,before_data,after_data,reason,occurred_at)",
-        id:"eq."+id,limit:"1"
+        id:"eq."+id,limit:"1",
+        "supports.order":"created_at.desc","supports.limit":"100",
+        "events.order":"occurred_at.desc","events.limit":"50"
       });
       const rows=await restList(c,"proposals",params);
       if(!rows.length)return send(res,404,{success:false,error:"record_not_found",message:"Proposal tidak ditemukan."});
