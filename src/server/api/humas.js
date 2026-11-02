@@ -1,6 +1,7 @@
 "use strict";
 
 const crypto=require("crypto");
+const net=require("net");
 
 /**
  * PINTUKU HUMAS API — Sprints 3B–3D.
@@ -111,9 +112,9 @@ function publicRateHash(value){
 }
 function publicClientIp(req){
   const h=req.headers||{};
-  const raw=h["x-vercel-forwarded-for"]||h["x-forwarded-for"]||h["x-real-ip"]||"";
+  const raw=h["x-vercel-forwarded-for"]||h["x-real-ip"]||"";
   const ip=String(raw).split(",")[0].trim();
-  return ip&&ip.length<=100?ip:"";
+  return net.isIP(ip)?ip:"";
 }
 function timingSafeBearer(req,secret){
   const token=bearer(req);if(!token||typeof secret!=="string"||!secret)return false;
