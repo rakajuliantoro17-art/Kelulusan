@@ -165,7 +165,7 @@ begin
   insert into humas.permit_notification_outbox(permit_id,recipient_email,event_type,subject,body_text)
   values(v_row.id,v_row.applicant_email,'permit_received',
     'Permohonan diterima · PINTUKU SMAN 1 Sooko',
-    'Permohonan '+v_code+' telah diterima dan masuk antrean verifikasi HUMAS. Simpan kode permohonan dan token pelacakan yang ditampilkan pada halaman konfirmasi. Token tidak dikirim melalui email demi keamanan.');
+    'Permohonan '||v_code||' telah diterima dan masuk antrean verifikasi HUMAS. Simpan kode permohonan dan token pelacakan yang ditampilkan pada halaman konfirmasi. Token tidak dikirim melalui email demi keamanan.');
 
   perform humas.permit_enqueue_staff_notifications(v_row.id,'permit_new',
     'Permohonan izin baru · '||v_code,
