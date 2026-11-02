@@ -44,6 +44,7 @@ const REQUIRED = [
   "src/pintuku/assets/js/humas-i18n.js",
   "src/pintuku/assets/js/portal-settings.js",
   "src/pintuku/assets/css/portal-settings.css",
+  "src/pintuku/assets/css/pintuku-glass.css",
   "src/pintuku/assets/css/humas-kemitraan.css",
   "src/pintuku/assets/js/humas-kemitraan.js",
   "src/pintuku/assets/css/service-modules.css",
