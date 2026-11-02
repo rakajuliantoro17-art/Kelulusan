@@ -51,7 +51,7 @@ begin
  if p_payload->>'account_type' in('partner','committee') and nullif(pg_catalog.btrim(p_payload->>'organization_name'),'') is null then
   raise exception using errcode='22023',message='organization_required';
  end if;
- insert into humas.external_profiles(
+ insert into humas.external_profiles as existing(
   user_id,account_type,full_name,phone,school_relationship,graduation_year,organization_name,
   organization_role,city,province,purpose,consent_terms,consent_recorded_at,profile_status,updated_at
  ) values(
@@ -67,9 +67,9 @@ begin
   organization_name=excluded.organization_name,organization_role=excluded.organization_role,
   city=excluded.city,province=excluded.province,purpose=excluded.purpose,
   consent_terms=true,consent_recorded_at=now(),
-  profile_status=case when humas.external_profiles.profile_status='verified' then 'pending_review' else humas.external_profiles.profile_status end,
-  reviewed_at=case when humas.external_profiles.profile_status='verified' then null else humas.external_profiles.reviewed_at end,
-  reviewed_by=case when humas.external_profiles.profile_status='verified' then null else humas.external_profiles.reviewed_by end,
+  profile_status=case when existing.profile_status='verified' then 'pending_review' else humas.external_profiles.profile_status end,
+  reviewed_at=case when humas.external_profiles.profile_status='verified' then null else existing.reviewed_at end,
+  reviewed_by=case when humas.external_profiles.profile_status='verified' then null else existing.reviewed_by end,
   updated_at=now()
  returning * into v_row;
  return pg_catalog.jsonb_build_object(
