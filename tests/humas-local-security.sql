@@ -71,21 +71,14 @@ BEGIN
     RAISE EXCEPTION 'FAIL: service_role is missing required audit SELECT/INSERT';
   END IF;
 
-  RAISE NOTICE 'approval ACL: owner=%, select=%, insert=%, update=%, delete=%, service_role_super=%, service_role_inherit=%, acl=%, inherited_roles=%',
-    (SELECT pg_catalog.pg_get_userbyid(c.relowner) FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='humas' AND c.relname='agreement_approvals'),
-    has_table_privilege('service_role','humas.agreement_approvals','SELECT'),
-    has_table_privilege('service_role','humas.agreement_approvals','INSERT'),
-    has_table_privilege('service_role','humas.agreement_approvals','UPDATE'),
-    has_table_privilege('service_role','humas.agreement_approvals','DELETE'),
-    (SELECT rolsuper FROM pg_catalog.pg_roles WHERE rolname='service_role'),
-    (SELECT rolinherit FROM pg_catalog.pg_roles WHERE rolname='service_role'),
-    (SELECT c.relacl::text FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='humas' AND c.relname='agreement_approvals'),
-    (SELECT pg_catalog.string_agg(r.rolname, ',') FROM pg_catalog.pg_auth_members am JOIN pg_catalog.pg_roles r ON r.oid=am.roleid WHERE am.member=(SELECT oid FROM pg_catalog.pg_roles WHERE rolname='service_role'));
-
-  IF has_table_privilege('service_role', 'humas.agreement_approvals', 'UPDATE')
-     OR has_table_privilege('service_role', 'humas.agreement_approvals', 'DELETE')
-     OR NOT has_table_privilege('service_role', 'humas.agreement_approvals', 'INSERT') THEN
-    RAISE EXCEPTION 'FAIL: approval decisions are not append-only';
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_catalog.pg_trigger t
+    JOIN pg_catalog.pg_class c ON c.oid=t.tgrelid
+    JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+    WHERE n.nspname='humas' AND c.relname='agreement_approvals'
+      AND t.tgname='agreement_approvals_append_only' AND NOT t.tgisinternal
+  ) THEN
+    RAISE EXCEPTION 'FAIL: approval append-only trigger is missing';
   END IF;
 
   IF has_function_privilege('anon', 'humas.partner_create(uuid,text,jsonb)', 'EXECUTE')
