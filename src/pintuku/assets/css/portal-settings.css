@@ -38,3 +38,12 @@ html[data-theme="light"] .ps-close{background:rgba(63,111,161,.07)}
 html[data-theme="light"] .ps-toggle{border-color:rgba(74,101,137,.25);background:rgba(25,48,76,.14)}
 @media(max-width:600px){.ps-trigger{right:16px;bottom:16px;width:48px;height:48px}}
 @media(prefers-reduced-motion:reduce){.ps-trigger,.ps-drawer,.ps-overlay,.ps-toggle-thumb{transition:none}}
+
+/* Language selector — ID/EN */
+.ps-language{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:12px;padding:15px 16px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:rgba(255,255,255,.045)}
+.ps-language-switch{display:flex;gap:4px;padding:3px;border:1px solid rgba(255,255,255,.14);border-radius:11px;background:rgba(0,0,0,.12)}
+.ps-language-switch button{min-width:38px;height:29px;border:0;border-radius:8px;color:inherit;background:transparent;font:700 .7rem system-ui,sans-serif;cursor:pointer;opacity:.68}
+.ps-language-switch button[aria-pressed="true"]{color:#10243a;background:#a9d8ff;opacity:1;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+html[data-theme="light"] .ps-language{border-color:rgba(74,101,137,.2);background:rgba(63,111,161,.05)}
+html[data-theme="light"] .ps-language-switch{border-color:rgba(74,101,137,.2);background:rgba(25,48,76,.06)}
+html[data-theme="light"] .ps-language-switch button[aria-pressed="true"]{color:#fff;background:#28649c}
