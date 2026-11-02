@@ -191,6 +191,18 @@ module.exports=async function humasApi(req,res){
       return send(res,200,{success:true,data:await rpc(c,"dashboard_summary",{})});
     }
 
+    if(op==="workspace"){
+      if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun ini tidak memiliki akses ruang kerja HUMAS."});
+      const q=req.query||{};
+      const partnerReq={query:{page:q.partner_page||"1",limit:q.partner_limit||"25",search:q.partner_search||"",type:q.partner_type||"",status:q.partner_status||""}};
+      const agreementReq={query:{page:q.agreement_page||"1",limit:q.agreement_limit||"25",search:q.agreement_search||"",status:q.agreement_status||""}};
+      const [summary,partnerData,agreementData]=await Promise.all([
+        rpc(c,"dashboard_summary",{}),listPartners(c,partnerReq),listAgreements(c,agreementReq)
+      ]);
+      return send(res,200,{success:true,data:{user:auth.user,roles:userRoles,summary,partners:partnerData,agreements:agreementData}});
+    }
+
     if(op==="agreement-detail"){
       if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
       if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun ini tidak memiliki akses detail perjanjian."});
