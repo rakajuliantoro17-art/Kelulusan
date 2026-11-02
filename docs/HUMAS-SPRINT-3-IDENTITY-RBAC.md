@@ -17,7 +17,7 @@ Sprint 3A prepares the database authorization model and implementation contract.
 | `principal` | Make final approve/reject/return decision |
 | `system_operator` | Technical account/configuration support; no substantive agreement decision |
 
-An account may hold more than one role only if school governance explicitly authorizes it. Avoid conflicting role assignments for the same transaction; the application must prevent self-approval and enforce separation of duties.
+An account may hold multiple business roles only when school governance explicitly authorizes it and separation of duties remains enforceable. The `system_operator` role is exclusive: an active technical operator cannot simultaneously hold an active business role. Migration 006 enforces this at database level. Avoid conflicting role assignments for the same transaction; the application must prevent self-approval.
 
 ## Database change
 Migration: `supabase/migrations/202611020002_humas_rbac_foundation.sql`
@@ -62,3 +62,7 @@ Workflow transitions must be atomic on the database side (RPC/transaction). Do n
 
 ## Deployment gate
 Before applying migrations: inspect current schemas, grants, policies, triggers, and migration history; validate both migrations in a disposable/staging Supabase project; then apply in a reviewed maintenance window. Create users and assign roles through an audited administrative procedure. Do not share secrets in chat or commit them to Git.
+
+
+## Operator role exclusivity
+Migration `202611020006_humas_operator_role_separation.sql` adds a database trigger that rejects active `system_operator` + business-role combinations. Role identity (`user_id`, `role_code`) cannot be rewritten after assignment; revoke/reactivate is represented by `is_active` and `revoked_at`. This protects the technical-only boundary even if a future server route mistakenly resolves more than one role.
