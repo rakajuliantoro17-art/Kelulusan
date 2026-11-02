@@ -68,6 +68,31 @@
 <section class="hk-panel hp-protocol-teaser">
 <div class="eyebrow">PROTOKOLER · TAHAP BERIKUTNYA</div><h2>Agenda, tamu, dan checklist protokoler</h2><p>Struktur data agenda tetap terpisah dari perizinan. Integrasi operasional agenda, tamu, dan tugas persiapan akan dilanjutkan pada Sprint 2B agar setiap kegiatan dapat memiliki siklus persiapan dan evaluasi sendiri.</p>
 </section>
+<section class="hk-panel hp-protocol-panel">
+<div class="hp-toolbar-title"><div><div class="eyebrow">MANAJEMEN PROTOKOLER · SPRINT 2B</div><h2>Agenda & Kunjungan</h2><p>Agenda resmi memiliki siklus sendiri dan dapat ditautkan ke permohonan izin.</p></div><button class="hk-btn hk-btn-primary" id="newAgendaBtn" type="button">+ Agenda Baru</button></div>
+<div class="hp-protocol-metrics" id="protocolMetrics"></div>
+<div id="protocolList" class="hp-permit-list"><div class="hp-empty">Memuat agenda...</div></div>
+</section>
+<section class="hk-panel hp-form-panel" id="agendaFormPanel" hidden>
+<div class="hp-toolbar-title"><div><div class="eyebrow">REGISTRASI AGENDA</div><h2>Agenda Protokoler Baru</h2><p>Masukkan waktu, lokasi, tuan rumah, dan referensi izin bila ada.</p></div><button class="hk-btn hk-btn-ghost" id="closeAgendaForm" type="button">Tutup</button></div>
+<form id="agendaForm" class="hp-form">
+<label>Judul agenda<input name="title" required maxlength="200"></label>
+<label>Jenis agenda<select name="agenda_type"><option value="official_visit">Kunjungan resmi</option><option value="institutional_meeting">Pertemuan kelembagaan</option><option value="school_event">Kegiatan sekolah</option><option value="delegation">Penerimaan delegasi</option><option value="ceremony">Upacara/seremoni</option><option value="other">Lainnya</option></select></label>
+<label>Unit tuan rumah<input name="host_unit" maxlength="180"></label>
+<label>Instansi tamu<input name="guest_institution" maxlength="250"></label>
+<label>Tempat<input name="venue" maxlength="500"></label>
+<label>Referensi ID izin (opsional)<input name="permit_id" maxlength="36" placeholder="UUID permohonan"></label>
+<label>Mulai<input name="starts_at" type="datetime-local" required></label>
+<label>Selesai<input name="ends_at" type="datetime-local" required></label>
+<label>Perkiraan tamu<input name="expected_guests" type="number" min="0" max="100000"></label>
+<label class="hp-span">Catatan protokoler<textarea name="protocol_notes" rows="3" maxlength="4000"></textarea></label>
+<div class="hp-form-actions"><button class="hk-btn hk-btn-primary" type="submit">Simpan agenda</button><span>Agenda baru dimulai dengan status terencana.</span></div>
+</form>
+</section>
+<section class="hk-panel hp-detail" id="agendaDetailPanel" hidden>
+<div class="hp-toolbar-title"><div><div class="eyebrow">DETAIL AGENDA</div><h2 id="agendaDetailTitle">Agenda</h2><p id="agendaDetailMeta"></p></div><button class="hk-btn hk-btn-ghost" id="closeAgendaDetail" type="button">Tutup detail</button></div>
+<div id="agendaDetail"></div>
+</section>
 </section>
 </main>
 <div data-portal-footer></div>
