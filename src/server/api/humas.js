@@ -108,6 +108,7 @@ function safeError(res,error){
     role_store_unavailable:[503,"role_store_unavailable","Layanan otorisasi sementara tidak tersedia."],
     data_store_unavailable:[503,"data_store_unavailable","Layanan data sementara tidak tersedia."],
     database_operation_failed:[503,"database_operation_failed","Operasi data gagal diproses."],
+    storage_operation_failed:[503,"storage_operation_failed","Penyimpanan dokumen sementara tidak tersedia."],
     invalid_query:[400,"invalid_query","Parameter pencarian atau pagination tidak valid."]};
   const item=map[error&&error.code]||[503,"upstream_unavailable","Layanan HUMAS sementara tidak tersedia."];
   console.error("[PINTUKU HUMAS API]",{code:item[1],status:error&&error.upstreamStatus||null});
@@ -196,6 +197,33 @@ async function listAlumniIntakes(c,req){
  const pg=pagination(req.query||{});
  const p=new URLSearchParams({select:"id,full_name,graduation_year,last_class,whatsapp,email,city,province,current_status,institution,study_program,employer,job_title,business_name,industry,survey_year,contact_preference,consent_school_updates,consent_events,consent_fundraising,consent_career_network,submitted_at,status",status:"eq.pending",order:"submitted_at.asc",limit:String(pg.limit),offset:String(pg.offset)});
  return{submissions:await restList(c,"alumni_intake_submissions",p),page:pg.page,limit:pg.limit};
+}
+
+
+const PERMIT_TYPES=new Set(["internal","external","facility"]);
+const PERMIT_DOC_TYPES=new Set(["application_letter","proposal","parent_consent","institution_letter","supporting_document","decision_letter","other"]);
+const PERMIT_MIMES=new Set(["application/pdf","image/jpeg","image/png","image/webp","application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]);
+function isoDateTime(v){if(v==="")return true;return typeof v==="string"&&!Number.isNaN(Date.parse(v));}
+function safeFileName(v){return str(v,255).replace(/[\\/\\\\\\u0000-\\u001f]/g,"_").replace(/\\.\\./g,"_");}
+async function listPermits(c,req){
+ const q=req.query||{},pg=pagination(q),p=new URLSearchParams({
+  select:"id,request_code,permit_type,title,purpose,applicant_name,applicant_unit,applicant_email,applicant_phone,related_institution,activity_location,requested_start_at,requested_end_at,expected_attendees,status,decision_note,created_by,assigned_staff,submitted_at,decided_at,completed_at,created_at,updated_at",
+  order:"created_at.desc",limit:String(pg.limit),offset:String(pg.offset)
+ });
+ if(q.status){const s=["draft","submitted","verified","under_review","revision_required","approved","rejected","cancelled","completed","archived"];if(!s.includes(q.status))throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});p.set("status","eq."+q.status);}
+ if(q.type){if(!PERMIT_TYPES.has(q.type))throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});p.set("permit_type","eq."+q.type);}
+ if(q.search){const tokens=String(q.search).normalize("NFKC").match(/[\\p{L}\\p{N}]+/gu)||[];const term=tokens[0]||"";if(term)p.set("or","(request_code.ilike.*"+term+"*,title.ilike.*"+term+"*,applicant_name.ilike.*"+term+"*)");}
+ return{permits:await restList(c,"permit_requests",p),page:pg.page,limit:pg.limit};
+}
+async function permitDetail(c,id){
+ const p=new URLSearchParams({select:"id,request_code,permit_type,title,purpose,applicant_name,applicant_unit,applicant_email,applicant_phone,related_institution,activity_location,requested_start_at,requested_end_at,expected_attendees,facility_details,status,decision_note,created_by,assigned_staff,submitted_at,decided_at,completed_at,created_at,updated_at,documents:permit_documents(id,document_type,file_name,mime_type,file_size_bytes,version_number,uploaded_at,is_current),events:permit_workflow_events(id,event_type,from_status,to_status,actor_id,actor_role,reason,metadata,occurred_at)",id:"eq."+id,limit:"1","documents.order":"uploaded_at.desc","events.order":"occurred_at.desc","events.limit":"100"});
+ const rows=await restList(c,"permit_requests",p);return rows[0]||null;
+}
+async function storageRequest(c,path,method,body){
+ const h=adminHeaders(c,false);h["Content-Type"]="application/json";
+ const {response,body:result}=await request(c.baseUrl+path,{method,headers:h,body:body===undefined?undefined:JSON.stringify(body)});
+ if(!response.ok)throw Object.assign(new Error("storage_operation_failed"),{code:"storage_operation_failed",upstreamStatus:response.status});
+ return result;
 }
 
 module.exports=async function humasApi(req,res){
@@ -495,6 +523,110 @@ module.exports=async function humasApi(req,res){
       res.setHeader("Allow","GET, POST, PATCH");
       return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
     }
+
+    if(op==="permits"||op==="permit-workspace"){
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun tidak memiliki akses data perizinan."});
+      if(op==="permit-workspace"&&req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      if(req.method==="GET"){
+        if(op==="permit-workspace"){
+          const [summary,items]=await Promise.all([rpc(c,"permit_summary",{}),listPermits(c,req)]);
+          return send(res,200,{success:true,data:{user:auth.user,roles:userRoles,summary,...items}});
+        }
+        const id=str(req.query&&req.query.id,64);
+        if(id){if(!uuid(id))return send(res,400,{success:false,error:"invalid_query",message:"ID permohonan tidak valid."});const permit=await permitDetail(c,id);if(!permit)return send(res,404,{success:false,error:"record_not_found",message:"Permohonan tidak ditemukan."});return send(res,200,{success:true,data:{permit}});}
+        return send(res,200,{success:true,data:await listPermits(c,req)});
+      }
+      if(req.method==="POST"){
+        if(!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat membuat permohonan internal."});
+        const b=bodyOf(req),payload={
+          permit_type:str(b.permit_type,20),title:str(b.title,200),purpose:str(b.purpose,4000),
+          applicant_name:str(b.applicant_name,180),applicant_unit:str(b.applicant_unit,180),
+          applicant_email:str(b.applicant_email,254),applicant_phone:str(b.applicant_phone,40),
+          related_institution:str(b.related_institution,250),activity_location:str(b.activity_location,500),
+          requested_start_at:str(b.requested_start_at,40),requested_end_at:str(b.requested_end_at,40),
+          expected_attendees:b.expected_attendees===undefined?"":String(b.expected_attendees),
+          facility_details:b.facility_details&&typeof b.facility_details==="object"&&!Array.isArray(b.facility_details)?b.facility_details:{}
+        };
+        if(!PERMIT_TYPES.has(payload.permit_type)||!payload.title||!payload.purpose||!payload.applicant_name||
+          !isoDateTime(payload.requested_start_at)||!isoDateTime(payload.requested_end_at)||
+          (payload.requested_start_at&&payload.requested_end_at&&Date.parse(payload.requested_end_at)<Date.parse(payload.requested_start_at))||
+          (payload.expected_attendees!==""&&!/^\\d{1,6}$/.test(payload.expected_attendees))||
+          (payload.applicant_email&&!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(payload.applicant_email)))
+          return send(res,400,{success:false,error:"invalid_request",message:"Data permohonan tidak valid. Periksa klasifikasi, pemohon, jadwal, dan kontak."});
+        const permit=await rpc(c,"permit_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_payload:payload});
+        return send(res,201,{success:true,data:{permit}});
+      }
+      if(req.method==="PATCH"){
+        const b=bodyOf(req),id=str(b.id,64),action=str(b.action,30);
+        if(!uuid(id))return send(res,400,{success:false,error:"invalid_request",message:"ID permohonan tidak valid."});
+        if(action==="update_draft"){
+          if(!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat memperbarui draft."});
+          const keys=["permit_type","title","purpose","applicant_name","applicant_unit","applicant_email","applicant_phone","related_institution","activity_location","requested_start_at","requested_end_at","expected_attendees","facility_details"];
+          const payload={};for(const k of keys)if(Object.prototype.hasOwnProperty.call(b,k))payload[k]=k==="facility_details"?b[k]:String(b[k]??"").trim();
+          if(!Object.keys(payload).length||("permit_type" in payload&&!PERMIT_TYPES.has(payload.permit_type))||
+            (["requested_start_at","requested_end_at"].some(k=>k in payload&&!isoDateTime(payload[k])))||
+            ("applicant_email" in payload&&payload.applicant_email&&!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(payload.applicant_email)))
+            return send(res,400,{success:false,error:"invalid_request",message:"Perubahan permohonan tidak valid."});
+          const permit=await rpc(c,"permit_update_draft",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_permit_id:id,p_payload:payload});
+          return send(res,200,{success:true,data:{permit}});
+        }
+        if(action==="assign"){
+          if(!userRoles.some(x=>["vice_principal_humas","principal"].includes(x)))return send(res,403,{success:false,error:"insufficient_role",message:"Penugasan hanya dapat dilakukan oleh pejabat HUMAS."});
+          const assigned=str(b.assigned_staff,64);if(assigned&&!uuid(assigned))return send(res,400,{success:false,error:"invalid_request",message:"ID petugas tidak valid."});
+          const actorRole=userRoles.includes("vice_principal_humas")?"vice_principal_humas":"principal";
+          const permit=await rpc(c,"permit_assign",{p_actor_id:auth.user.id,p_actor_role:actorRole,p_permit_id:id,p_assigned_staff:assigned||null});
+          return send(res,200,{success:true,data:{permit}});
+        }
+        const actionRole={submit:"staff_humas",verify:"staff_humas",recommend:"vice_principal_humas",request_revision:"vice_principal_humas",approve:"principal",reject:"principal",cancel:"staff_humas",complete:"staff_humas",archive:"staff_humas"};
+        const actorRole=actionRole[action];if(!actorRole||!userRoles.includes(actorRole))return send(res,403,{success:false,error:"insufficient_role",message:"Peran akun tidak sesuai dengan tahapan proses ini."});
+        const permit=await rpc(c,"permit_transition",{p_actor_id:auth.user.id,p_actor_role:actorRole,p_permit_id:id,p_action:action,p_reason:str(b.reason,1200)});
+        return send(res,200,{success:true,data:{permit}});
+      }
+      res.setHeader("Allow","GET, POST, PATCH");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
+    }
+
+    if(op==="permit-upload-url"){
+      if(req.method!=="POST"){res.setHeader("Allow","POST");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      if(!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat mengunggah dokumen."});
+      const b=bodyOf(req),permitId=str(b.permit_id,64),fileName=safeFileName(b.file_name),mime=str(b.mime_type,120),size=Number(b.file_size_bytes),docType=str(b.document_type,40);
+      if(!uuid(permitId)||!fileName||!PERMIT_DOC_TYPES.has(docType)||!PERMIT_MIMES.has(mime)||!Number.isInteger(size)||size<1||size>26214400)
+        return send(res,400,{success:false,error:"invalid_request",message:"Nama, jenis, format, atau ukuran dokumen tidak memenuhi ketentuan (maksimal 25 MB)."});
+      const rows=await restList(c,"permit_requests",new URLSearchParams({select:"id,status,created_by,assigned_staff",id:"eq."+permitId,limit:"1"}));
+      if(!rows.length)return send(res,404,{success:false,error:"record_not_found",message:"Permohonan tidak ditemukan."});
+      if(rows[0].status==="archived"||rows[0].status==="rejected")return send(res,409,{success:false,error:"document_upload_closed",message:"Dokumen tidak dapat ditambahkan pada permohonan yang sudah ditutup."});
+      const ext=(fileName.split(".").pop()||"").toLowerCase();if(!/^[a-z0-9]{1,8}$/.test(ext))return send(res,400,{success:false,error:"invalid_request",message:"Ekstensi dokumen tidak valid."});
+      const path=permitId+"/"+crypto.randomUUID()+"."+ext;
+      const signed=await storageRequest(c,"/storage/v1/object/upload/sign/humas-permit-documents/"+path,"POST",{});
+      const relative=signed.url||signed.signedUrl||signed.signedURL;
+      if(!relative||typeof relative!=="string")throw Object.assign(new Error("storage_operation_failed"),{code:"storage_operation_failed"});
+      const uploadUrl=relative.startsWith("http")?relative:c.baseUrl+"/storage/v1"+(relative.startsWith("/")?relative:"/"+relative);
+      return send(res,200,{success:true,data:{upload_url:uploadUrl,storage_path:path,storage_bucket:"humas-permit-documents",upload_token:signed.token||null,publishable_key:c.publishableKey,document_type:docType,file_name:fileName,mime_type:mime,file_size_bytes:size}});
+    }
+
+    if(op==="permit-documents"){
+      if(req.method==="POST"){
+        if(!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat mendaftarkan dokumen."});
+        const b=bodyOf(req),permitId=str(b.permit_id,64);
+        if(!uuid(permitId))return send(res,400,{success:false,error:"invalid_request",message:"ID permohonan tidak valid."});
+        const payload={document_type:str(b.document_type,40),file_name:safeFileName(b.file_name),storage_bucket:"humas-permit-documents",storage_path:str(b.storage_path,500),mime_type:str(b.mime_type,120),file_size_bytes:String(b.file_size_bytes||""),checksum_sha256:str(b.checksum_sha256,64)};
+        const doc=await rpc(c,"permit_register_document",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_permit_id:permitId,p_payload:payload});
+        return send(res,201,{success:true,data:{document:doc}});
+      }
+      res.setHeader("Allow","POST");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
+    }
+
+    if(op==="permit-document-url"){
+      if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun tidak memiliki akses dokumen."});
+      const id=str(req.query&&req.query.id,64);if(!uuid(id))return send(res,400,{success:false,error:"invalid_query",message:"ID dokumen tidak valid."});
+      const docs=await restList(c,"permit_documents",new URLSearchParams({select:"id,storage_bucket,storage_path,file_name",id:"eq."+id,limit:"1"}));
+      if(!docs.length)return send(res,404,{success:false,error:"record_not_found",message:"Dokumen tidak ditemukan."});
+      const signed=await storageRequest(c,"/storage/v1/object/sign/"+docs[0].storage_bucket+"/"+docs[0].storage_path,"POST",{expiresIn:300});
+      const relative=signed.signedURL||signed.signedUrl||signed.url;
+      if(!relative||typeof relative!=="string")throw Object.assign(new Error("storage_operation_failed"),{code:"storage_operation_failed"});
+      return send(res,200,{success:true,data:{url:relative.startsWith("http")?relative:c.baseUrl+"/storage/v1"+(relative.startsWith("/")?relative:"/"+relative),file_name:docs[0].file_name,expires_in:300}});
+    }
+
     return send(res,404,{success:false,error:"operation_not_found",message:"Operasi HUMAS tidak ditemukan."});
   }catch(error){return safeError(res,error);}
 };
