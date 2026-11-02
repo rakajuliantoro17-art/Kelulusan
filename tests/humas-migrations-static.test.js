@@ -12,7 +12,8 @@ const files = [
   "202611020003_humas_partner_management.sql",
   "202611020004_humas_agreement_drafts.sql",
   "202611020005_humas_security_hardening.sql",
-  "202611020006_humas_operator_role_separation.sql"
+  "202611020006_humas_operator_role_separation.sql",
+  "202611020007_humas_operational_workflow.sql"
 ];
 
 test("HUMAS migrations exist in dependency order", () => {
@@ -75,4 +76,17 @@ test("technical operator role is exclusive from business roles", () => {
 test("no migration grants HUMAS table privileges to browser roles", () => {
   const all = files.map(migration).join("\n");
   assert.doesNotMatch(all, /grant[\s\S]{0,160}\bto\s+(anon|authenticated)\b/i);
+});
+
+
+test("operational workflow enforces role-specific transitions and separation of duties", () => {
+  const sql = migration(files[6]);
+  assert.match(sql, /create or replace function humas\.agreement_transition/);
+  assert.match(sql, /create or replace function humas\.agreement_update_draft/);
+  assert.match(sql, /create or replace function humas\.dashboard_summary/);
+  assert.match(sql, /separation_of_duties_required/);
+  assert.match(sql, /p_actor_role is distinct from v_required_role/);
+  assert.match(sql, /case when v_decision='pending' then null/);
+  assert.match(sql, /revoke all on function humas\.agreement_transition/);
+  assert.match(sql, /grant execute on function humas\.agreement_transition.*to service_role/);
 });
