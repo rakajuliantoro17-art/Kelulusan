@@ -105,6 +105,12 @@ begin
  if p_action is null or p_action not in('approve','reject') then raise exception using errcode='22023',message='invalid_review_action'; end if;
  select * into v_intake from humas.alumni_intake_submissions where id=p_submission_id and status='pending' for update;
  if not found then raise exception using errcode='P0002',message='pending_intake_not_found'; end if;
+ if nullif(regexp_replace(coalesce(v_intake.whatsapp,''),'[^0-9]','','g'),'') is not null then
+  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(v_intake.graduation_year::text||':phone:'||regexp_replace(coalesce(v_intake.whatsapp,''),'[^0-9]','','g'),0));
+ end if;
+ if nullif(pg_catalog.lower(pg_catalog.btrim(coalesce(v_intake.email,''))),'') is not null then
+  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(v_intake.graduation_year::text||':email:'||pg_catalog.lower(pg_catalog.btrim(coalesce(v_intake.email,''))),0));
+ end if;
  if p_action='reject' then
   update humas.alumni_intake_submissions set status='rejected',reviewed_at=now(),reviewed_by=p_actor_id,review_note=nullif(pg_catalog.btrim(p_note),'')
    where id=p_submission_id returning * into v_intake;
