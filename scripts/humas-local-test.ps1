@@ -41,7 +41,8 @@ $migrations = @(
   "supabase/migrations/202611020004_humas_agreement_drafts.sql",
   "supabase/migrations/202611020005_humas_security_hardening.sql",
   "supabase/migrations/202611020006_humas_operator_role_separation.sql",
-  "supabase/migrations/202611020007_humas_operational_workflow.sql"
+  "supabase/migrations/202611020007_humas_operational_workflow.sql",
+  "supabase/migrations/202611020008_humas_proposals_sponsorship.sql"
 )
 
 if (-not (Test-Path $bootstrap) -or -not (Test-Path $integration) -or -not (Test-Path $security)) {
