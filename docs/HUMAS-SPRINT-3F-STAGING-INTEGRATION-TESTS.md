@@ -1,7 +1,7 @@
 # PINTUKU HUMAS — Sprint 3F: Staging & Integration Test Plan
 
 Tanggal penyusunan: 2026-11-02  
-Status: **TEST PLAN READY — EXECUTION BLOCKED pending isolated staging environment**
+Status: **ZERO-COST SOURCE VALIDATION PREPARED — DATABASE INTEGRATION BLOCKED**
 
 ## Tujuan dan batas keselamatan
 
@@ -153,14 +153,56 @@ Release gate:
 4. RLS tanpa policy browser memang sesuai rancangan server-only; API harus tetap memeriksa role sebelum setiap operasi.
 5. API dan SQL belum memiliki alur approval/signature. Jangan menampilkan kontrol UI seolah-olah fitur tersebut sudah aktif.
 
-## Status eksekusi pada saat dokumen dibuat
+## Status eksekusi — mode biaya Rp0
 
-- [x] Migrations 001–005 berhasil diambil dan direview secara statis dari branch main.
-- [ ] Staging branch/database dibuat.
-- [ ] Migrations 001–005 diterapkan pada staging.
-- [ ] Struktur, grants, RLS, trigger, RPC diuji di database staging.
-- [ ] Akun uji dan integrasi API dijalankan.
-- [ ] Security/performance advisors staging diperiksa.
-- [ ] Build/browser smoke test dan laporan final selesai.
+### Keputusan lingkungan
 
-**Kesimpulan:** test plan dan static review tersedia. Sprint 3F belum boleh dinyatakan lulus atau selesai sebelum seluruh test dijalankan pada database staging terisolasi.
+- Tidak membuat Supabase Development Branch karena pengguna menetapkan batas biaya Rp0.
+- Tidak menerapkan migration, seed, atau perubahan konfigurasi pada project Supabase Production.
+- Tidak membuat project/cloud resource baru.
+- Tidak memakai kredensial produksi untuk pengujian lokal.
+- Project production ref `cnctlcpqpgqtbhgyocjq` tetap hanya diperiksa secara read-only.
+
+### Pekerjaan zero-cost yang sudah disiapkan
+
+- [x] Migrations 001–005 diambil dari branch `main` dan direview secara statis.
+- [x] Test harness API dibuat di `tests/humas-api.test.js` (8 skenario mock: autentikasi, role operator, akses staf, pembatasan kepala sekolah, actor ID, tanggal, pagination).
+- [x] Static migration checks dibuat di `tests/humas-migrations-static.test.js` (7 pemeriksaan struktur dan privilege).
+- [x] Sintaks kedua test file diperiksa dengan `node --check` pada sesi authoring.
+- [x] Dokumen ini diperbarui dengan status dan release gate yang eksplisit.
+
+### Yang belum dapat dinyatakan PASS
+
+- [ ] Eksekusi test API terhadap Supabase staging nyata.
+- [ ] Eksekusi SQL migrations 001–005 pada PostgreSQL.
+- [ ] Verifikasi foreign keys, trigger, RLS, effective grants, dan RPC dengan query runtime.
+- [ ] Pengujian akun Auth sintetis dan role revocation pada database.
+- [ ] Supabase security/performance advisors setelah migration.
+- [ ] Build dan browser smoke test dari checkout repository.
+- [ ] Pengujian Vercel staging.
+
+### Perintah pengujian saat repository tersedia secara lokal
+
+```bash
+node --check src/server/api/humas.js
+node --test tests/humas-api.test.js tests/humas-migrations-static.test.js
+```
+
+Test API menggunakan mock fetch dan tidak membuktikan perilaku PostgREST/PostgreSQL sesungguhnya. Static migration checks juga bukan pengganti eksekusi SQL di PostgreSQL.
+
+### Hasil audit read-only Supabase Production
+
+Pemeriksaan terakhir pada 2026-11-02:
+- Project: `cnctlcpqpgqtbhgyocjq`, status `ACTIVE_HEALTHY`, PostgreSQL 17.6.
+- Tabel pada schema `public` dan `humas`: tidak ada.
+- Migration history: kosong.
+- Development branches: tidak ada.
+- Security advisor: tidak ada lint yang dilaporkan.
+- Performance advisor: tidak ada lint yang dilaporkan.
+
+Hasil advisor kosong **bukan bukti bahwa migration HUMAS aman**, karena objek aplikasi HUMAS belum ada di database yang diperiksa.
+
+### Keputusan release
+
+**NO-GO untuk production activation.** Pekerjaan source-level dan test harness sudah tersedia tanpa biaya, tetapi Sprint 3F belum dapat diberi status integrasi PASS. Untuk menyelesaikan pengujian database secara nyata, diperlukan PostgreSQL lokal yang bisa dijalankan atau lingkungan staging yang disetujui. Batas Rp0 tetap berlaku; jangan membuat resource berbayar otomatis.
+
