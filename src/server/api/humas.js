@@ -648,8 +648,11 @@ module.exports=async function humasApi(req,res){
       if(op==="protocol-workspace"&&req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
       if(req.method==="GET"){
         if(op==="protocol-workspace"){
-          const [summary,items]=await Promise.all([rpc(c,"protocol_summary",{}),listProtocolAgendas(c,req)]);
-          return send(res,200,{success:true,data:{user:auth.user,roles:userRoles,summary,...items}});
+          const [summary,items,permits]=await Promise.all([
+            rpc(c,"protocol_summary",{}),listProtocolAgendas(c,req),
+            restList(c,"permit_requests",new URLSearchParams({select:"id,request_code,title,status",order:"created_at.desc",limit:"100"}))
+          ]);
+          return send(res,200,{success:true,data:{user:auth.user,roles:userRoles,summary,permits,...items}});
         }
         const id=str(req.query&&req.query.id,64);
         if(id){if(!uuid(id))return send(res,400,{success:false,error:"invalid_query",message:"ID agenda tidak valid."});const agenda=await protocolAgendaDetail(c,id);if(!agenda)return send(res,404,{success:false,error:"record_not_found",message:"Agenda tidak ditemukan."});return send(res,200,{success:true,data:{agenda}});}
