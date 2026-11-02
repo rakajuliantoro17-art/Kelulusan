@@ -315,7 +315,7 @@ module.exports=async function humasApi(req,res){
   if(opInput==="permit-public-config"){
     if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
     const siteKey=process.env.TURNSTILE_SITE_KEY;
-    const ready=Boolean(siteKey&&process.env.TURNSTILE_SECRET_KEY);
+    const ready=Boolean(siteKey&&process.env.TURNSTILE_SECRET_KEY&&process.env.HUMAS_PUBLIC_RATE_SECRET&&process.env.HUMAS_PUBLIC_RATE_SECRET.length>=32);
     return send(res,200,{success:true,data:{captcha_required:true,ready,site_key:ready?siteKey:null}});
   }
   if(opInput==="permit-public-create"||opInput==="permit-public-track"||opInput==="permit-public-cancel"){
