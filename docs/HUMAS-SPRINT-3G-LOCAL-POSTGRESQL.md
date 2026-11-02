@@ -92,33 +92,35 @@ Runner ini adalah integration smoke test awal, bukan bukti bahwa seluruh sistem 
 
 | Tahap | Status saat ini | Bukti |
 |---|---|---|
-| 3G.2 Migrasi 001–007 | **PASS di CI** | Runner lokal dan GitHub Actions menjalankan urutan delapan migrasi pada PostgreSQL 17 ephemeral; PostgreSQL lokal pengguna bersifat opsional |
-| 3G.3 RBAC/RLS | **TEST READY** | Assertion RLS, privilege, dan function grants tersedia |
-| 3G.4 Partner transaction | **TEST READY** | Create, update, status, audit atomik, dan rollback actor tidak aktif |
-| 3G.5 Agreement draft | **TEST READY** | Draft-only dan event `draft_created` |
-| 3G.6 Security | **TEST READY** | Null-role guard, active-role trigger, browser access denial, append-only audit |
+| 3G.2 Migrasi 001–008 | **PASS di CI** | Delapan migrasi berhasil diterapkan pada PostgreSQL 17 ephemeral; runner lokal pengguna tetap opsional |
+| 3G.3 RBAC/RLS | **PASS di CI** | Security test memverifikasi RLS, privilege, dan function grants |
+| 3G.4 Partner transaction | **PASS di CI** | Create, update, status, audit atomik, dan rollback actor tidak aktif |
+| 3G.5 Agreement workflow | **PASS di CI** | Draft, transisi status, persetujuan, tanda tangan, registrasi, dan arsip |
+| 3G.6 Security | **PASS di CI** | Null-role guard, active-role trigger, browser access denial, append-only audit |
 | 3G.7 Remediasi | **SOURCE FIX APPLIED** | Perbandingan role menggunakan `IS DISTINCT FROM`; status NULL ditolak; migration 006 membuat role `system_operator` eksklusif dari role bisnis aktif |
 | 3G.8 Dokumentasi/release gate | **DOCUMENTED** | Hasil dan batas pengujian dicatat di dokumen ini |
-| 3G.9 Pemisahan operator | **SOURCE FIX APPLIED** | Migration 006 menolak akun `system_operator` yang juga memegang role bisnis aktif; skenario uji sudah ditambahkan, runtime belum dijalankan |
+| 3G.9 Pemisahan operator | **PASS di CI** | Migration 006 dan integration/security tests memverifikasi eksklusivitas role operator |
 
 ### Pemeriksaan sumber setelah penguatan
 
-Pemeriksaan sumber dan integrasi kini mencakup delapan migration, tiga SQL test, PowerShell runner, API, dashboard, dan dokumen. GitHub Actions menjalankan seluruh migrasi pada PostgreSQL 17 ephemeral, menguji transaksi, RLS, privilege, trigger, serta menjalankan **30 test Node.js (30 PASS, 0 FAIL)**. Ini mencakup urutan enam migration, SQL guard, API, dashboard, keterkaitan ID HTML/JavaScript, dan keamanan runner. Cakupan meliputi urutan migrasi, RLS, RPC, active-role guard, penolakan NULL role/status, append-only privilege, rollback fixture, database guard, dan pemanggilan test runner.
+Pemeriksaan sumber dan integrasi kini mencakup delapan migration, tiga SQL test, PowerShell runner, API, dashboard, dan dokumen. GitHub Actions menjalankan seluruh migrasi pada PostgreSQL 17 ephemeral, menguji transaksi, RLS, privilege, trigger, serta menjalankan **30 test Node.js (30 PASS, 0 FAIL)**. Ini mencakup urutan delapan migration, SQL guard, API, dashboard, keterkaitan ID HTML/JavaScript, dan keamanan runner. Cakupan meliputi RLS, RPC, active-role guard, penolakan NULL role/status, append-only privilege, rollback fixture, dan database guard.
 
 Satu temuan diperbaiki sebelum pemeriksaan ini: penggunaan operator `<>` untuk validasi role dan status dapat menghasilkan UNKNOWN ketika input NULL. Migrasi 003, 004, dan 005 kini menggunakan `IS DISTINCT FROM` untuk label role; fungsi perubahan status juga menolak status NULL.
 
-Pemeriksaan 22 assertion tersebut adalah validasi teks/sumber, bukan eksekusi SQL oleh PostgreSQL. Ia tidak membuktikan bahwa sintaks seluruh SQL berhasil diparse atau bahwa privilege/RLS bekerja di server nyata.
-
-**Penting:** TEST READY bukan PASS runtime. Status pengujian lokal pengguna tetap **NOT RUN** bila runner lokal belum dijalankan. Validasi PostgreSQL CI sudah **PASS**; ini tidak menggantikan aktivasi dan pengujian Supabase Production. Tidak ada klaim bahwa integrasi database sudah lulus.
+Pengujian CI menggunakan container PostgreSQL 17 ephemeral, sehingga migration dan SQL test benar-benar dieksekusi pada PostgreSQL, bukan sekadar diperiksa sebagai teks. Ini tetap bukan pengujian Supabase Production. Runner lokal pengguna bersifat opsional dan statusnya **NOT RUN** sampai dijalankan di komputer pengguna.
 
 
-## Pembaruan Sprint 3H — workflow MoU\n\nMigration 007 menambahkan RPC untuk memperbarui draft, menjalankan transisi status MoU sesuai role, dan menghitung ringkasan dashboard. Local integration harness kini menguji jalur draft → diajukan → terverifikasi → direkomendasikan → persetujuan Kepala Sekolah → tanda tangan fisik → registrasi → arsip, termasuk penolakan self-approval. Migration 007 dan pengujian ini belum dijalankan di PostgreSQL lokal.\n\n## Pembaruan audit lanjutan — Sprint 3G.9
+## Pembaruan Sprint 3H — workflow MoU
+
+Migration 007 menambahkan RPC untuk memperbarui draft, menjalankan transisi status MoU sesuai role, dan menghitung ringkasan dashboard. Local integration harness menguji jalur draft → diajukan → terverifikasi → direkomendasikan → persetujuan Kepala Sekolah → tanda tangan fisik → registrasi → arsip, termasuk penolakan self-approval. Migration 007 berhasil diuji pada PostgreSQL 17 ephemeral di GitHub Actions.
+
+## Pembaruan audit lanjutan — Sprint 3G.9
 
 Review ulang terhadap branch `main` menemukan dua pemeriksaan role pada `partner_update` dan `partner_set_status` yang masih memakai operator SQL `<>`. Keduanya telah diganti menjadi `IS DISTINCT FROM` agar role bernilai NULL selalu ditolak. Perbaikan ini harus diuji ulang pada PostgreSQL lokal.
 
 Migration `202611020006_humas_operator_role_separation.sql` menambahkan trigger yang menjaga akun `system_operator` tetap eksklusif dari role bisnis aktif. Perubahan identitas role pada satu assignment dibuat immutable; pencabutan dilakukan melalui status aktif/revoked. Integration harness dan security assertion diperbarui untuk memeriksa aturan ini.
 
-GitHub Actions run **PASS** pada PostgreSQL 17 ephemeral: migration 001–008 sukses, integrasi workflow lengkap sukses, pemeriksaan RLS/grant/trigger sukses, dan 24 test Node.js lulus. Ini tidak menggantikan pengujian pada Supabase Production. Status lokal pengguna tetap **NOT RUN** sampai runner lokal dijalankan. Perubahan sumber dan test harness bukan bukti runtime.
+GitHub Actions run **PASS** pada PostgreSQL 17 ephemeral: migration 001–008 sukses, integrasi MoU serta proposal/sponsorship sukses, pemeriksaan RLS/grant/trigger sukses, dan 30 test Node.js lulus. Ini tidak menggantikan pengujian pada Supabase Production. Status runner lokal pengguna tetap **NOT RUN** sampai dijalankan sendiri.
 
 
 ## Pembaruan Proposal & Sponsorship — Migration 008
