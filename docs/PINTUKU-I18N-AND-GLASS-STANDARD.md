@@ -26,6 +26,14 @@ Separate interface language from visual presentation and business data. The curr
 - Use semantic HTML, visible keyboard focus, sufficient contrast, and reduced-motion support.
 - Blur is decorative enhancement. Components must remain readable when backdrop-filter is unavailable.
 
+## Existing background preservation
+- Existing page backgrounds, photographs, gradients, overlays, and module-specific background layers are owned by each module and must be preserved by default.
+- The shared glass stylesheet must not set a global body background or replace a page's background image.
+- Shared styling should refine component-level surfaces: border, radius, elevation, blur, focus state, and spacing.
+- If a component already has a designed background, keep its background declaration and apply only compatible refinements unless a redesign is explicitly approved.
+- Akademik's existing background and liquid-glass assets remain authoritative. Kesiswaan already has its own deep-glass system and background layer; do not overwrite either with PINTUKU defaults.
+- Verify each module at desktop and mobile widths after adding the shared stylesheet. Watch CSS cascade order and avoid broad selectors that change legacy layouts.
+
 ## Date, number, and currency formatting
 Use browser Intl APIs with an explicit locale: Intl.DateTimeFormat, Intl.NumberFormat, and Intl.Collator.
 Store dates in ISO format and numeric values as numbers; format only at the presentation boundary. Currency must specify an ISO 4217 currency code.
