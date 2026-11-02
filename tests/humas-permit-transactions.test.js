@@ -21,7 +21,7 @@ test("permit documents use a private restricted storage bucket",()=>{
  assert.match(sql,/values \(\s*'humas-permit-documents','humas-permit-documents',false,26214400/s);
  assert.match(sql,/allowed_mime_types/);
  assert.match(sql,/create policy "humas_permit_documents_no_browser_access"/);
- assert.match(sql,/using \(bucket_id='humas-permit-documents' and false\)/);
+ assert.match(sql,/as restrictive for all to anon,authenticated/);
  assert.match(sql,/permit_register_document/);
  assert.match(sql,/file_size_bytes.*26214400/s);
 });
