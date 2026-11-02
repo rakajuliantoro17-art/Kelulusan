@@ -121,6 +121,23 @@ function timingSafeBearer(req,secret){
   const a=Buffer.from(token),b=Buffer.from(secret);
   return a.length===b.length&&crypto.timingSafeEqual(a,b);
 }
+
+async function verifyPermitCaptcha(req,token){
+  const secret=process.env.TURNSTILE_SECRET_KEY;
+  const siteKey=process.env.TURNSTILE_SITE_KEY;
+  if(!secret||!siteKey)throw Object.assign(new Error("captcha_configuration_missing"),{code:"captcha_configuration_missing"});
+  if(typeof token!=="string"||token.length<10||token.length>2048)throw Object.assign(new Error("captcha_required"),{code:"captcha_required"});
+  const params=new URLSearchParams({secret,response:token});
+  const ip=publicClientIp(req);if(ip)params.set("remoteip",ip);
+  const result=await request("https://challenges.cloudflare.com/turnstile/v0/siteverify",{
+    method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded",Accept:"application/json"},body:params.toString()
+  });
+  if(!result.response.ok||!result.body||result.body.success!==true)throw Object.assign(new Error("captcha_failed"),{code:"captcha_failed"});
+  const expected=process.env.HUMAS_PUBLIC_HOSTNAME;
+  if(expected&&result.body.hostname!==expected)throw Object.assign(new Error("captcha_failed"),{code:"captcha_failed"});
+  return true;
+}
+
 async function sendPermitOutbox(c){
   const key=process.env.RESEND_API_KEY,from=process.env.HUMAS_FROM_EMAIL;
   if(!key||!from)throw Object.assign(new Error("notification_provider_not_configured"),{code:"notification_provider_not_configured"});
@@ -155,7 +172,7 @@ function safeError(res,error){
     invalid_query:[400,"invalid_query","Parameter pencarian atau pagination tidak valid."],
     rate_limit_exceeded:[429,"rate_limit_exceeded","Terlalu banyak permintaan. Silakan coba kembali beberapa saat lagi."],
     public_service_configuration_missing:[503,"public_service_configuration_missing","Layanan pengajuan publik belum dikonfigurasi."],
-    notification_provider_not_configured:[503,"notification_provider_not_configured","Penyedia notifikasi email belum dikonfigurasi."]};
+    notification_provider_not_configured:[503,"notification_provider_not_configured","Penyedia notifikasi email belum dikonfigurasi."],\n    captcha_configuration_missing:[503,"captcha_configuration_missing","Verifikasi keamanan belum dikonfigurasi. Pengajuan publik sementara belum dapat digunakan."],\n    captcha_required:[400,"captcha_required","Selesaikan verifikasi keamanan terlebih dahulu."],\n    captcha_failed:[400,"captcha_failed","Verifikasi keamanan gagal. Silakan ulangi."]};
   const item=map[error&&error.code]||[503,"upstream_unavailable","Layanan HUMAS sementara tidak tersedia."];
   console.error("[PINTUKU HUMAS API]",{code:item[1],status:error&&error.upstreamStatus||null});
   return send(res,item[0],{success:false,error:item[1],message:item[2]});
@@ -292,6 +309,12 @@ module.exports=async function humasApi(req,res){
   if(!c)return send(res,503,{success:false,error:"server_configuration_missing",message:"Layanan HUMAS belum dikonfigurasi pada server."});
   const opInput=String((req.query&&req.query.op)||"me");
 
+  if(opInput==="permit-public-config"){
+    if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+    const siteKey=process.env.TURNSTILE_SITE_KEY;
+    const ready=Boolean(siteKey&&process.env.TURNSTILE_SECRET_KEY);
+    return send(res,200,{success:true,data:{captcha_required:true,ready,site_key:ready?siteKey:null}});
+  }
   if(opInput==="permit-public-create"||opInput==="permit-public-track"||opInput==="permit-public-cancel"){
     if(req.method!=="POST"){res.setHeader("Allow","POST");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
     try{
@@ -299,6 +322,7 @@ module.exports=async function humasApi(req,res){
       const ipHash=publicRateHash("ip:"+ip);
       const b=bodyOf(req);
       if(opInput==="permit-public-create"){
+        await verifyPermitCaptcha(req,str(b.turnstile_token,2048));
         const payload={
           permit_type:str(b.permit_type,20),title:str(b.title,200),purpose:str(b.purpose,4000),
           applicant_name:str(b.applicant_name,180),applicant_unit:str(b.applicant_unit,180),
