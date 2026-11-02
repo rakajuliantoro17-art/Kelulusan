@@ -16,8 +16,8 @@ Sprint ini memvalidasi migrasi HUMAS 001–005 pada PostgreSQL lokal sebelum ada
 1. Windows 10/11.
 2. PostgreSQL lokal terinstal (disarankan PostgreSQL 17 untuk mendekati versi Supabase Production saat audit).
 3. PostgreSQL Command Line Tools tersedia di PATH (`psql` dan `createdb`).
-4. Repository `rakajuliantoro17-art/Kelulusan` sudah di-clone dan terminal berada di root repository.
-5. Akun administrator PostgreSQL lokal untuk membuat database dan role test.
+5. Repository `rakajuliantoro17-art/Kelulusan` sudah di-clone dan terminal berada di root repository.
+6. Akun administrator PostgreSQL lokal untuk membuat database dan role test.
 
 Tidak perlu Docker, Supabase Branch, atau layanan berbayar.
 
@@ -55,6 +55,7 @@ Runner melakukan tiga tahap:
 1. Bootstrap compatibility scaffold.
 2. Menjalankan migrasi 001 sampai 005 berurutan.
 3. Menjalankan integration smoke tests.
+4. Menjalankan assertion katalog untuk RLS, schema/table grants, function EXECUTE, dan hak mutasi audit.
 
 Runner berhenti pada error pertama. Periksa pesan PostgreSQL dan jangan lanjutkan dengan mengubah database Production.
 
@@ -65,7 +66,10 @@ Runner berhenti pada error pertama. Periksa pesan PostgreSQL dan jangan lanjutka
 - Draft MoU hanya dapat dibuat terhadap mitra aktif.
 - Pembuatan draft menghasilkan satu event `draft_created`; tidak menyetujui atau menandatangani perjanjian.
 - Principal ditolak dari RPC tulis khusus staff.
-- Staff HUMAS yang sudah nonaktif ditolak oleh trigger audit.
+- Staff HUMAS yang sudah nonaktif ditolak oleh trigger audit dan tidak meninggalkan record mitra.
+- Label role `NULL` ditolak oleh RPC partner dan draft.
+- Status mitra `NULL` ditolak.
+- Pemeriksaan security memastikan RLS aktif pada tujuh tabel, tidak ada policy browser, role browser tidak mendapat akses langsung, serta audit timeline tidak dapat di-update/delete oleh `service_role`.
 - Fixture test di-rollback setelah skenario selesai.
 
 ## Batas cakupan
@@ -84,4 +88,16 @@ Runner ini adalah integration smoke test awal, bukan bukti bahwa seluruh sistem 
 - **FAIL lokal:** salah satu migrasi atau assertion gagal; temuan harus diperbaiki dan seluruh runner diulang pada database test lokal yang bersih.
 - **Belum dijalankan:** PostgreSQL belum tersedia di komputer pengguna atau runner belum dieksekusi.
 
-Status dokumen ini: runner dan test SQL telah disiapkan di repository; eksekusi pada komputer Windows pengguna masih menunggu lingkungan PostgreSQL lokal. Tidak ada klaim bahwa integrasi database sudah lulus.
+## Status pekerjaan Sprint 3G.2–3G.8
+
+| Tahap | Status saat ini | Bukti |
+|---|---|---|
+| 3G.2 Migrasi 001–005 | **NOT RUN** | Runner sudah menjalankan urutan migrasi, tetapi belum dieksekusi pada PostgreSQL lokal pengguna |
+| 3G.3 RBAC/RLS | **TEST READY** | Assertion RLS, privilege, dan function grants tersedia |
+| 3G.4 Partner transaction | **TEST READY** | Create, update, status, audit atomik, dan rollback actor tidak aktif |
+| 3G.5 Agreement draft | **TEST READY** | Draft-only dan event `draft_created` |
+| 3G.6 Security | **TEST READY** | Null-role guard, active-role trigger, browser access denial, append-only audit |
+| 3G.7 Remediasi | **SOURCE FIX APPLIED** | Perbandingan role menggunakan `IS DISTINCT FROM`; status NULL ditolak |
+| 3G.8 Dokumentasi/release gate | **DOCUMENTED** | Hasil dan batas pengujian dicatat di dokumen ini |
+
+**Penting:** TEST READY bukan PASS runtime. Status keseluruhan Sprint 3G tetap **BLOCKED / NO-GO** sampai runner berhasil dijalankan pada PostgreSQL lokal dan seluruh hasilnya diperiksa. Tidak ada klaim bahwa integrasi database sudah lulus.
