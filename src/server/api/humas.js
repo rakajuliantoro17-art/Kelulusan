@@ -291,7 +291,6 @@ module.exports=async function humasApi(req,res){
   if(!c)return send(res,503,{success:false,error:"server_configuration_missing",message:"Layanan HUMAS belum dikonfigurasi pada server."});
   const opInput=String((req.query&&req.query.op)||"me");
 
-  const opInput=String((req.query&&req.query.op)||"me");
   if(opInput==="permit-public-create"||opInput==="permit-public-track"||opInput==="permit-public-cancel"){
     if(req.method!=="POST"){res.setHeader("Allow","POST");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
     try{
