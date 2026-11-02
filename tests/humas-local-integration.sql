@@ -22,6 +22,7 @@ ON CONFLICT (id) DO NOTHING;
 INSERT INTO humas.user_roles(user_id, role_code, is_active, revoked_at)
 VALUES
   ('10000000-0000-4000-8000-000000000001', 'staff_humas', true, null),
+  ('10000000-0000-4000-8000-000000000001', 'principal', true, null),
   ('10000000-0000-4000-8000-000000000002', 'staff_humas', false, now()),
   ('10000000-0000-4000-8000-000000000003', 'principal', true, null),
   ('10000000-0000-4000-8000-000000000004', 'system_operator', true, null),
@@ -125,6 +126,12 @@ BEGIN
   v_agreement := humas.agreement_transition(v_staff,'staff_humas',(v_agreement->>'id')::uuid,'verify','Administrasi lengkap');
   v_agreement := humas.agreement_transition(v_vice,'vice_principal_humas',(v_agreement->>'id')::uuid,'recommend','Substansi sesuai');
   v_agreement := humas.agreement_transition(v_vice,'vice_principal_humas',(v_agreement->>'id')::uuid,'forward_to_principal',null);
+  BEGIN
+    PERFORM humas.agreement_transition(v_staff,'principal',(v_agreement->>'id')::uuid,'approve','Uji pemisahan tugas');
+    RAISE EXCEPTION 'FAIL: creator was allowed to approve their own agreement';
+  EXCEPTION WHEN insufficient_privilege THEN
+    NULL;
+  END;
   v_agreement := humas.agreement_transition(v_principal,'principal',(v_agreement->>'id')::uuid,'approve','Disetujui Kepala Sekolah');
   v_agreement := humas.agreement_transition(v_principal,'principal',(v_agreement->>'id')::uuid,'prepare_signature',null);
   v_agreement := humas.agreement_transition(v_staff,'staff_humas',(v_agreement->>'id')::uuid,'sign_physical','Dokumen fisik telah ditandatangani');
