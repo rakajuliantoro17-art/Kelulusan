@@ -226,6 +226,20 @@ async function storageRequest(c,path,method,body){
  return result;
 }
 
+
+const PROTOCOL_TYPES=new Set(["official_visit","institutional_meeting","school_event","delegation","ceremony","other"]);
+const PROTOCOL_TASKS=new Set(["reception","venue","accommodation","consumption","equipment","ceremony","documentation","security","transport","other"]);
+async function listProtocolAgendas(c,req){
+ const q=req.query||{},pg=pagination(q),p=new URLSearchParams({select:"id,agenda_code,permit_id,title,agenda_type,host_unit,guest_institution,venue,starts_at,ends_at,expected_guests,status,protocol_notes,assigned_staff,created_at,updated_at",order:"starts_at.asc",limit:String(pg.limit),offset:String(pg.offset)});
+ if(q.status){if(!["planned","preparing","ready","in_progress","completed","cancelled"].includes(q.status))throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});p.set("status","eq."+q.status);}
+ if(q.search){const t=String(q.search).normalize("NFKC").match(/[\\p{L}\\p{N}]+/gu)||[],term=t[0]||"";if(term)p.set("or","(agenda_code.ilike.*"+term+"*,title.ilike.*"+term+"*,guest_institution.ilike.*"+term+"*)");}
+ return{agendas:await restList(c,"protocol_agendas",p),page:pg.page,limit:pg.limit};
+}
+async function protocolAgendaDetail(c,id){
+ const p=new URLSearchParams({select:"id,agenda_code,permit_id,title,agenda_type,host_unit,guest_institution,venue,starts_at,ends_at,expected_guests,status,protocol_notes,created_by,assigned_staff,created_at,updated_at,guests:protocol_guests(id,full_name,institution,position_title,attendance_status,arrival_at,notes,created_at),tasks:protocol_tasks(id,task_category,task_title,assigned_to,due_at,task_status,notes,completed_at,created_at,updated_at),events:protocol_workflow_events(id,event_type,from_status,to_status,actor_role,reason,metadata,occurred_at)",id:"eq."+id,limit:"1","guests.order":"full_name.asc","tasks.order":"due_at.asc","events.order":"occurred_at.desc","events.limit":"100"});
+ const rows=await restList(c,"protocol_agendas",p);return rows[0]||null;
+}
+
 module.exports=async function humasApi(req,res){
   headers(res);
   const c=config();
@@ -625,6 +639,71 @@ module.exports=async function humasApi(req,res){
       const relative=signed.signedURL||signed.signedUrl||signed.url;
       if(!relative||typeof relative!=="string")throw Object.assign(new Error("storage_operation_failed"),{code:"storage_operation_failed"});
       return send(res,200,{success:true,data:{url:relative.startsWith("http")?relative:c.baseUrl+"/storage/v1"+(relative.startsWith("/")?relative:"/"+relative),file_name:docs[0].file_name,expires_in:300}});
+    }
+
+
+    if(op==="protocol-workspace"||op==="protocol-agendas"){
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun tidak memiliki akses agenda protokoler."});
+      if(op==="protocol-workspace"&&req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      if(req.method==="GET"){
+        if(op==="protocol-workspace"){
+          const [summary,items]=await Promise.all([rpc(c,"protocol_summary",{}),listProtocolAgendas(c,req)]);
+          return send(res,200,{success:true,data:{user:auth.user,roles:userRoles,summary,...items}});
+        }
+        const id=str(req.query&&req.query.id,64);
+        if(id){if(!uuid(id))return send(res,400,{success:false,error:"invalid_query",message:"ID agenda tidak valid."});const agenda=await protocolAgendaDetail(c,id);if(!agenda)return send(res,404,{success:false,error:"record_not_found",message:"Agenda tidak ditemukan."});return send(res,200,{success:true,data:{agenda}});}
+        return send(res,200,{success:true,data:await listProtocolAgendas(c,req)});
+      }
+      if(req.method==="POST"){
+        if(!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat membuat agenda."});
+        const b=bodyOf(req),payload={title:str(b.title,200),agenda_type:str(b.agenda_type,40),host_unit:str(b.host_unit,180),guest_institution:str(b.guest_institution,250),venue:str(b.venue,500),starts_at:str(b.starts_at,40),ends_at:str(b.ends_at,40),expected_guests:b.expected_guests===undefined?"":String(b.expected_guests),permit_id:str(b.permit_id,64),protocol_notes:str(b.protocol_notes,4000)};
+        if(!payload.title||!PROTOCOL_TYPES.has(payload.agenda_type)||!isoDateTime(payload.starts_at)||!isoDateTime(payload.ends_at)||Date.parse(payload.ends_at)<Date.parse(payload.starts_at)||(payload.expected_guests!==""&&!/^\\d{1,6}$/.test(payload.expected_guests))||(payload.permit_id&&!uuid(payload.permit_id)))return send(res,400,{success:false,error:"invalid_request",message:"Data agenda, waktu, atau referensi izin tidak valid."});
+        const agenda=await rpc(c,"protocol_agenda_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_payload:payload});
+        return send(res,201,{success:true,data:{agenda}});
+      }
+      if(req.method==="PATCH"){
+        if(!uuid(str(bodyOf(req).id,64)))return send(res,400,{success:false,error:"invalid_request",message:"ID agenda tidak valid."});
+        const b=bodyOf(req),actorRole=userRoles.includes("staff_humas")?"staff_humas":userRoles.includes("vice_principal_humas")?"vice_principal_humas":"principal";
+        const agenda=await rpc(c,"protocol_agenda_transition",{p_actor_id:auth.user.id,p_actor_role:actorRole,p_agenda_id:b.id,p_action:str(b.action,30),p_reason:str(b.reason,1000)});
+        return send(res,200,{success:true,data:{agenda}});
+      }
+      res.setHeader("Allow","GET, POST, PATCH");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
+    }
+
+    if(op==="protocol-guests"){
+      if(!hasRead(userRoles)||!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat mengelola daftar tamu."});
+      const b=bodyOf(req);
+      if(req.method==="POST"){
+        const agendaId=str(b.agenda_id,64),payload={full_name:str(b.full_name,180),institution:str(b.institution,250),position_title:str(b.position_title,180),attendance_status:str(b.attendance_status||"invited",30),notes:str(b.notes,1000)};
+        if(!uuid(agendaId)||!payload.full_name||!["invited","confirmed","attended","not_attended","cancelled"].includes(payload.attendance_status))return send(res,400,{success:false,error:"invalid_request",message:"Data tamu tidak valid."});
+        const guest=await rpc(c,"protocol_guest_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_agenda_id:agendaId,p_payload:payload});
+        return send(res,201,{success:true,data:{guest}});
+      }
+      if(req.method==="PATCH"){
+        const id=str(b.id,64),payload={};for(const k of ["full_name","institution","position_title","attendance_status","notes","arrival_at"])if(Object.prototype.hasOwnProperty.call(b,k))payload[k]=String(b[k]??"").trim();
+        if(!uuid(id)||!Object.keys(payload).length)return send(res,400,{success:false,error:"invalid_request",message:"Perubahan data tamu tidak valid."});
+        const guest=await rpc(c,"protocol_guest_update",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_guest_id:id,p_payload:payload});
+        return send(res,200,{success:true,data:{guest}});
+      }
+      res.setHeader("Allow","POST, PATCH");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
+    }
+
+    if(op==="protocol-tasks"){
+      if(!hasRead(userRoles)||!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat mengelola checklist protokoler."});
+      const b=bodyOf(req);
+      if(req.method==="POST"){
+        const agendaId=str(b.agenda_id,64),payload={task_category:str(b.task_category,40),task_title:str(b.task_title,200),due_at:str(b.due_at,40),notes:str(b.notes,1000)};
+        if(!uuid(agendaId)||!PROTOCOL_TASKS.has(payload.task_category)||!payload.task_title||!isoDateTime(payload.due_at))return send(res,400,{success:false,error:"invalid_request",message:"Data tugas protokoler tidak valid."});
+        const task=await rpc(c,"protocol_task_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_agenda_id:agendaId,p_payload:payload});
+        return send(res,201,{success:true,data:{task}});
+      }
+      if(req.method==="PATCH"){
+        const id=str(b.id,64),payload={};for(const k of ["task_title","task_category","task_status","due_at","notes"])if(Object.prototype.hasOwnProperty.call(b,k))payload[k]=String(b[k]??"").trim();
+        if(!uuid(id)||!Object.keys(payload).length||(payload.task_category&&!PROTOCOL_TASKS.has(payload.task_category))||(payload.due_at&&!isoDateTime(payload.due_at))||(payload.task_status&&!["pending","in_progress","done","blocked","cancelled"].includes(payload.task_status)))return send(res,400,{success:false,error:"invalid_request",message:"Perubahan checklist tidak valid."});
+        const task=await rpc(c,"protocol_task_update",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_task_id:id,p_payload:payload});
+        return send(res,200,{success:true,data:{task}});
+      }
+      res.setHeader("Allow","POST, PATCH");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
     }
 
     return send(res,404,{success:false,error:"operation_not_found",message:"Operasi HUMAS tidak ditemukan."});
