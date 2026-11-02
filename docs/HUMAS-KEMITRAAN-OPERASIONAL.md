@@ -143,7 +143,7 @@ Formulir publik tersedia pada `/alumni/tracer`. Pengajuan disimpan sebagai `pend
 
 ## Akun eksternal dan pendaftaran mandiri
 
-Halaman akun publik tersedia pada `/humas/akun`. Pengguna dapat mendaftar atau masuk dengan email/kata sandi dan Google OAuth (PKCE). Setelah autentikasi, pengguna wajib melengkapi profil dengan jenis akun alumni, mitra, komite, atau masyarakat umum. Profil eksternal berstatus `pending_review` sampai diverifikasi HUMAS.
+Halaman akun publik tersedia pada `/humas/akun`. Pengguna dapat mendaftar atau masuk dengan email/kata sandi dan Google OAuth (PKCE). Setelah autentikasi, pengguna wajib melengkapi profil dengan jenis akun alumni, mitra, komite, atau masyarakat umum. Profil eksternal berstatus `complete` setelah data wajib tersimpan. Jenis akun adalah deklarasi hubungan pengguna, bukan bukti identitas atau hak akses. Verifikasi tambahan dapat diterapkan pada layanan tertentu bila dibutuhkan.
 
 Pendaftaran mandiri **tidak** membuat atau mengubah baris `humas.user_roles`. Akun guru, TU, Staf HUMAS, Wakasek HUMAS, Kepala Sekolah, dan operator tetap harus dibuat/ditetapkan secara administratif. API profil eksternal memverifikasi access token melalui Supabase Auth, lalu memproses data melalui serverless API dan RPC database. Tidak ada akses browser langsung ke schema `humas` atau penggunaan service key di browser.
 
