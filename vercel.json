@@ -144,6 +144,14 @@
       "destination": "/src/kesiswaan/$1"
     },
     {
+      "source": "/humas/akun",
+      "destination": "/src/pintuku/dashboard/humas-account.html"
+    },
+    {
+      "source": "/humas/akun/",
+      "destination": "/src/pintuku/dashboard/humas-account.html"
+    },
+    {
       "source": "/humas/kemitraan",
       "destination": "/src/pintuku/dashboard/humas-kemitraan.html"
     },
@@ -202,6 +210,10 @@
     {
       "source": "/",
       "destination": "/src/pintuku/dashboard/index.html"
+    },
+    {
+      "source": "/api/humas-account",
+      "destination": "/api/humas-account.js"
     },
     {
       "source": "/api/kesiswaan/admin-auth",
