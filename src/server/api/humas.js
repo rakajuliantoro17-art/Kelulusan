@@ -181,6 +181,17 @@ async function listProposals(c,req){
 }
 
 
+async function listAlumni(c,req){
+ const q=req.query||{},pg=pagination(q);
+ const p=new URLSearchParams({select:"id,full_name,graduation_year,last_class,whatsapp,email,city,province,current_status,institution,study_program,employer,job_title,business_name,industry,survey_year,contact_preference,consent_school_updates,consent_events,consent_fundraising,consent_career_network,consent_updated_at,consent_source,record_status,notes,created_at,updated_at",order:"graduation_year.desc,full_name.asc",limit:String(pg.limit),offset:String(pg.offset)});
+ if(q.year){if(!/^\d{4}$/.test(String(q.year)))throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});p.set("graduation_year","eq."+q.year);}
+ if(q.status){if(!["studying","employed","entrepreneur","seeking_work","other","not_reported"].includes(q.status))throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});p.set("current_status","eq."+q.status);}
+ if(q.consent){const m={fundraising:"consent_fundraising",events:"consent_events",school_updates:"consent_school_updates"};if(!m[q.consent])throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});p.set(m[q.consent],"eq.true");}
+ p.set("record_status","eq.active");
+ if(typeof q.search==="string"&&q.search.trim()){const t=q.search.normalize("NFKC").match(/[\p{L}\p{N}]+/gu)||[],term=t[0]||"";if(term)p.set("or","(full_name.ilike.*"+term+"*,institution.ilike.*"+term+"*,employer.ilike.*"+term+"*,business_name.ilike.*"+term+"*,city.ilike.*"+term+"*)");}
+ return{alumni:await restList(c,"alumni_profiles",p),page:pg.page,limit:pg.limit};
+}
+
 module.exports=async function humasApi(req,res){
   headers(res);
   const c=config();
@@ -341,6 +352,47 @@ module.exports=async function humasApi(req,res){
       }
       res.setHeader("Allow","POST, PATCH");
       return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
+    }
+
+
+    if(op==="alumni-workspace"){
+      if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun ini tidak memiliki akses data alumni."});
+      const q=req.query||{},[summary,alumniData]=await Promise.all([rpc(c,"alumni_summary",{}),listAlumni(c,{query:{page:q.page||"1",limit:q.limit||"25",search:q.search||"",year:q.year||"",status:q.status||"",consent:q.consent||""}})]);
+      return send(res,200,{success:true,data:{user:auth.user,roles:userRoles,summary,alumni:alumniData.alumni,page:alumniData.page,limit:alumniData.limit}});
+    }
+    if(op==="alumni-detail"){
+      if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun ini tidak memiliki akses detail alumni."});
+      const id=str(req.query&&req.query.id,64);if(!uuid(id))return send(res,400,{success:false,error:"invalid_query",message:"ID alumni tidak valid."});
+      const p=new URLSearchParams({select:"id,full_name,graduation_year,last_class,whatsapp,email,city,province,current_status,institution,study_program,employer,job_title,business_name,industry,survey_year,contact_preference,consent_school_updates,consent_events,consent_fundraising,consent_career_network,consent_updated_at,consent_source,record_status,notes,created_at,updated_at,logs:alumni_contact_logs(id,purpose,channel,outcome,contacted_at,summary)",id:"eq."+id,limit:"1","logs.order":"contacted_at.desc","logs.limit":"50"});
+      const rows=await restList(c,"alumni_profiles",p);if(!rows.length)return send(res,404,{success:false,error:"record_not_found",message:"Data alumni tidak ditemukan."});
+      const alumni=rows[0],logs=alumni.logs||[];delete alumni.logs;return send(res,200,{success:true,data:{alumni,logs}});
+    }
+    if(op==="alumni"){
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun ini tidak memiliki akses direktori alumni."});
+      if(req.method==="GET")return send(res,200,{success:true,data:await listAlumni(c,req)});
+      if(!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat mengelola data alumni."});
+      const b=bodyOf(req),fields=["full_name","graduation_year","last_class","whatsapp","email","city","province","current_status","institution","study_program","employer","job_title","business_name","industry","survey_year","contact_preference","consent_source","record_status","notes"],consents=["consent_school_updates","consent_events","consent_fundraising","consent_career_network"];
+      if(req.method==="POST"||req.method==="PATCH"){
+        const payload={};for(const k of fields)if(Object.prototype.hasOwnProperty.call(b,k))payload[k]=["graduation_year","survey_year"].includes(k)?String(b[k]??"").trim():str(b[k],k==="notes"?2000:k==="consent_source"?250:500);
+        for(const k of consents)if(Object.prototype.hasOwnProperty.call(b,k)){if(typeof b[k]!=="boolean")return send(res,400,{success:false,error:"invalid_request",message:"Nilai persetujuan harus berupa pilihan ya atau tidak."});payload[k]=b[k];}
+        if(req.method==="POST"){
+          if(!payload.full_name||!/^[0-9]{4}$/.test(payload.graduation_year||"")||Number(payload.graduation_year)<1950||Number(payload.graduation_year)>2100||(payload.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email))||(payload.survey_year&&(!/^[0-9]{4}$/.test(payload.survey_year)||Number(payload.survey_year)<2000||Number(payload.survey_year)>2100)))return send(res,400,{success:false,error:"invalid_request",message:"Nama, tahun lulus, atau kontak alumni tidak valid."});
+          const a=await rpc(c,"alumni_profile_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_payload:payload});return send(res,201,{success:true,data:{alumni:a}});
+        }
+        const id=str(b.id,64);if(!uuid(id)||!Object.keys(payload).length)return send(res,400,{success:false,error:"invalid_request",message:"ID atau perubahan profil alumni tidak valid."});
+        if(payload.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email))return send(res,400,{success:false,error:"invalid_request",message:"Alamat email tidak valid."});
+        const a=await rpc(c,"alumni_profile_update",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_alumni_id:id,p_payload:payload});return send(res,200,{success:true,data:{alumni:a}});
+      }
+      res.setHeader("Allow","GET, POST, PATCH");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
+    }
+    if(op==="alumni-contact"){
+      if(req.method!=="POST"){res.setHeader("Allow","POST");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      if(!hasRead(userRoles)||!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat mencatat komunikasi alumni."});
+      const b=bodyOf(req),id=str(b.alumni_id,64),purpose=str(b.purpose,30),channel=str(b.channel,30),outcome=str(b.outcome||"sent",30);
+      if(!uuid(id)||!["school_update","event","reunion","fundraising","career_network"].includes(purpose)||!["whatsapp","email","phone","in_person"].includes(channel)||!["planned","sent","responded","no_answer","declined","completed"].includes(outcome))return send(res,400,{success:false,error:"invalid_request",message:"Tujuan, kanal, atau status komunikasi tidak valid."});
+      const log=await rpc(c,"alumni_contact_log_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_alumni_id:id,p_payload:{purpose,channel,outcome,summary:str(b.summary,1000)}});return send(res,201,{success:true,data:{log}});
     }
 
     if(op==="agreement-detail"){

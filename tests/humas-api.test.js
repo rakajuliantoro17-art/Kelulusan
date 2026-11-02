@@ -29,6 +29,7 @@ async function invoke({ role = "staff_humas", token = "valid-token", method = "G
     if (url.pathname === "/rest/v1/agreements") {
       return new Response(JSON.stringify([]), { status: 200 });
     }
+    if (url.pathname === "/rest/v1/alumni_profiles") return new Response(JSON.stringify([{id:"55555555-5555-4555-8555-555555555555",full_name:"Alumni Uji",graduation_year:2020,consent_fundraising:true}]),{status:200});
     if (url.pathname === "/rest/v1/proposals") {
       return new Response(JSON.stringify([{ id: "44444444-4444-4444-8444-444444444444", title: "Proposal Uji" }]), { status: 200 });
     }
@@ -198,3 +199,8 @@ test("proposal sponsor creation sends actor and proposal identity to SQL", async
   assert.equal(payload.p_actor_id, USER_ID);
   assert.equal(payload.p_proposal_id, "44444444-4444-4444-8444-444444444444");
 });
+
+test("alumni workspace returns aggregate and filtered directory",async()=>{const r=await invoke({role:"staff_humas",op:"alumni-workspace",query:{year:"2020",consent:"fundraising"}});assert.equal(r.status,200);assert.ok(r.calls.some(x=>x.url.pathname.endsWith("/rpc/alumni_summary")));const q=r.calls.find(x=>x.url.pathname==="/rest/v1/alumni_profiles").url.searchParams;assert.equal(q.get("graduation_year"),"eq.2020");assert.equal(q.get("consent_fundraising"),"eq.true");});
+test("staff can create alumni profile with explicit consent values",async()=>{const r=await invoke({role:"staff_humas",method:"POST",op:"alumni",body:{full_name:"Alumni Uji",graduation_year:2020,current_status:"employed",whatsapp:"08123456789",consent_events:true,consent_fundraising:false,consent_source:"Formulir alumni"}});assert.equal(r.status,201);const rpc=r.calls.find(x=>x.url.pathname.endsWith("/rpc/alumni_profile_create"));assert.ok(rpc);const p=JSON.parse(rpc.options.body);assert.equal(p.p_actor_id,USER_ID);assert.equal(p.p_payload.consent_events,true);assert.equal(p.p_payload.consent_fundraising,false);});
+test("non-staff cannot create alumni profiles",async()=>{const r=await invoke({role:"principal",method:"POST",op:"alumni",body:{full_name:"Alumni Uji",graduation_year:2020}});assert.equal(r.status,403);assert.equal(r.calls.some(x=>x.url.pathname.endsWith("/rpc/alumni_profile_create")),false);});
+test("alumni contact log is created through consent-checked RPC",async()=>{const r=await invoke({role:"staff_humas",method:"POST",op:"alumni-contact",body:{alumni_id:"55555555-5555-4555-8555-555555555555",purpose:"reunion",channel:"whatsapp",outcome:"sent",summary:"Undangan reuni"}});assert.equal(r.status,201);const rpc=r.calls.find(x=>x.url.pathname.endsWith("/rpc/alumni_contact_log_create"));assert.ok(rpc);const p=JSON.parse(rpc.options.body);assert.equal(p.p_actor_id,USER_ID);assert.equal(p.p_payload.purpose,"reunion");});

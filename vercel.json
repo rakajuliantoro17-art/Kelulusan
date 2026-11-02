@@ -160,6 +160,14 @@
       "destination": "/src/pintuku/dashboard/humas-proposal.html"
     },
     {
+      "source": "/humas/alumni",
+      "destination": "/src/pintuku/dashboard/humas-alumni.html"
+    },
+    {
+      "source": "/humas/alumni/",
+      "destination": "/src/pintuku/dashboard/humas-alumni.html"
+    },
+    {
       "source": "/humas",
       "destination": "/src/pintuku/dashboard/humas.html"
     },

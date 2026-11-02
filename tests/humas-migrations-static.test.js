@@ -14,7 +14,8 @@ const files = [
   "202611020005_humas_security_hardening.sql",
   "202611020006_humas_operator_role_separation.sql",
   "202611020007_humas_operational_workflow.sql",
-  "202611020008_humas_proposals_sponsorship.sql"
+  "202611020008_humas_proposals_sponsorship.sql",
+  "202611020009_humas_alumni_tracer_study.sql"
 ];
 
 test("HUMAS migrations exist in dependency order", () => {
@@ -107,3 +108,5 @@ test("proposal and sponsorship foundation uses transactional RPCs and immutable 
   assert.match(sql, /active_staff_humas_role_required/);
   assert.match(sql, /revoke all on table humas\.proposals, humas\.proposal_supports, humas\.proposal_events from public, anon, authenticated/);
 });
+
+test("alumni CRM keeps private profiles and consent-gated append-only contact history",()=>{const sql=migration(files[8]);for(const table of ["alumni_profiles","alumni_contact_logs"]){assert.match(sql,new RegExp("create table if not exists humas\\."+table));assert.match(sql,new RegExp("alter table humas\\."+table+" enable row level security"));}for(const fn of ["alumni_profile_create","alumni_profile_update","alumni_contact_log_create","alumni_summary"])assert.match(sql,new RegExp("create or replace function humas\\."+fn));assert.match(sql,/consent_fundraising/);assert.match(sql,/alumni_contact_consent_required/);assert.match(sql,/alumni_contact_logs_append_only/);});
