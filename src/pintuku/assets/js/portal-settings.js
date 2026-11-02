@@ -9,7 +9,9 @@
   const MODULES = [
     { id: "akademik", label: "Akademik", href: "/akademik/dashboard" },
     { id: "sarpras", label: "Sarana & Prasarana", href: "/sarpras/" },
-    { id: "kesiswaan", label: "Kesiswaan", href: "/kesiswaan/" }
+    { id: "kesiswaan", label: "Kesiswaan", href: "/kesiswaan/" },
+    { id: "humas", label: "Hubungan Masyarakat", href: "/humas" },
+    { id: "tata-usaha", label: "Tata Usaha", href: "/tata-usaha" }
   ];
 
   const KEY = "pintuku-theme";
