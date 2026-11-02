@@ -172,7 +172,10 @@ function safeError(res,error){
     invalid_query:[400,"invalid_query","Parameter pencarian atau pagination tidak valid."],
     rate_limit_exceeded:[429,"rate_limit_exceeded","Terlalu banyak permintaan. Silakan coba kembali beberapa saat lagi."],
     public_service_configuration_missing:[503,"public_service_configuration_missing","Layanan pengajuan publik belum dikonfigurasi."],
-    notification_provider_not_configured:[503,"notification_provider_not_configured","Penyedia notifikasi email belum dikonfigurasi."],\n    captcha_configuration_missing:[503,"captcha_configuration_missing","Verifikasi keamanan belum dikonfigurasi. Pengajuan publik sementara belum dapat digunakan."],\n    captcha_required:[400,"captcha_required","Selesaikan verifikasi keamanan terlebih dahulu."],\n    captcha_failed:[400,"captcha_failed","Verifikasi keamanan gagal. Silakan ulangi."]};
+    notification_provider_not_configured:[503,"notification_provider_not_configured","Penyedia notifikasi email belum dikonfigurasi."],
+    captcha_configuration_missing:[503,"captcha_configuration_missing","Verifikasi keamanan belum dikonfigurasi. Pengajuan publik sementara belum dapat digunakan."],
+    captcha_required:[400,"captcha_required","Selesaikan verifikasi keamanan terlebih dahulu."],
+    captcha_failed:[400,"captcha_failed","Verifikasi keamanan gagal. Silakan ulangi."]};
   const item=map[error&&error.code]||[503,"upstream_unavailable","Layanan HUMAS sementara tidak tersedia."];
   console.error("[PINTUKU HUMAS API]",{code:item[1],status:error&&error.upstreamStatus||null});
   return send(res,item[0],{success:false,error:item[1],message:item[2]});
