@@ -14,6 +14,18 @@ if (-not $env:HUMAS_TEST_DATABASE_URL) {
   throw "HUMAS_TEST_DATABASE_URL belum diatur. Gunakan koneksi ke database lokal pintuku_humas_test."
 }
 
+try {
+  $dbUri = [System.Uri]$env:HUMAS_TEST_DATABASE_URL
+} catch {
+  throw "HUMAS_TEST_DATABASE_URL bukan URI PostgreSQL yang valid."
+}
+if ($dbUri.Host -notin @("localhost", "127.0.0.1", "::1")) {
+  throw "Ditolak: runner hanya boleh terhubung ke localhost. Host yang diberikan: $($dbUri.Host)"
+}
+if ($dbUri.AbsolutePath.Trim("/") -ne "pintuku_humas_test") {
+  throw "Ditolak: nama database wajib pintuku_humas_test."
+}
+
 $psql = Get-Command psql -ErrorAction SilentlyContinue
 if (-not $psql) {
   throw "psql tidak ditemukan. Instal PostgreSQL lokal beserta Command Line Tools, lalu buka ulang PowerShell."
