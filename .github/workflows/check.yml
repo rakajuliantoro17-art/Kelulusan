@@ -38,6 +38,11 @@ jobs:
           test -d src/server/api
           test -f src/server/api/akademik.js
           test -f src/server/api/kesiswaan.js
+          test -f src/server/api/humas.js
+          test -f api/humas.js
+          test -f src/pintuku/dashboard/humas-kemitraan.html
+          test -f src/pintuku/assets/css/humas-kemitraan.css
+          test -f src/pintuku/assets/js/humas-kemitraan.js
           test -d public/assets
           test -d src/akademik
           test -d src/kesiswaan
@@ -101,7 +106,7 @@ jobs:
           const fs = require('fs');
           // 'api' wajib ada di root: Vercel hanya mendaftarkan fungsi serverless dari /api root.
           // Isinya hanya shim tipis yang me-require src/server/api/*.
-          const allowedDirs = new Set(['.git', '.github', 'src', 'docs', 'public', 'api']);
+          const allowedDirs = new Set(['.git', '.github', 'src', 'docs', 'public', 'api', 'scripts', 'supabase', 'tests']);
           const entries = fs.readdirSync('.').filter(name => fs.statSync(name).isDirectory());
           const unexpected = entries.filter(name => !allowedDirs.has(name));
           if (unexpected.length) throw new Error('Unexpected root directories: ' + unexpected.join(', '));
