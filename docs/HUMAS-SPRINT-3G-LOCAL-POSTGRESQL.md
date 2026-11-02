@@ -53,7 +53,7 @@ Dari root repository:
 
 Runner melakukan empat tahap:
 1. Bootstrap compatibility scaffold.
-2. Menjalankan migrasi 001 sampai 006 berurutan.
+2. Menjalankan migrasi 001 sampai 007 berurutan.
 3. Menjalankan integration smoke tests.
 4. Menjalankan assertion katalog untuk RLS, schema/table grants, function EXECUTE, dan hak mutasi audit.
 
@@ -64,7 +64,7 @@ Runner berhenti pada error pertama. Periksa pesan PostgreSQL dan jangan lanjutka
 - Staff HUMAS aktif dapat membuat mitra.
 - Perubahan data dan status mitra tercatat sebagai audit event.
 - Draft MoU hanya dapat dibuat terhadap mitra aktif.
-- Pembuatan draft menghasilkan satu event `draft_created`; tidak menyetujui atau menandatangani perjanjian.
+- Draft dapat diperbarui sebelum diajukan.\n- Jalur normal diuji dari draft, submit, verifikasi, rekomendasi, persetujuan Kepala Sekolah, persiapan tanda tangan, tanda tangan fisik, registrasi, hingga arsip.\n- Approval, actor role, dan event timeline diuji pada satu transaksi.
 - Principal ditolak dari RPC tulis khusus staff.
 - Staff HUMAS yang sudah nonaktif ditolak oleh trigger audit dan tidak meninggalkan record mitra.
 - Label role `NULL` ditolak oleh RPC partner dan draft.
@@ -80,7 +80,7 @@ Runner ini adalah integration smoke test awal, bukan bukti bahwa seluruh sistem 
 - Seluruh kombinasi RLS dan privilege pada semua tabel.
 - Concurrency, deadlock, race condition, dan beban tinggi.
 - Browser, Vercel runtime, atau integrasi UI.
-- Approval, rekomendasi, tanda tangan, registrasi, dan arsip MoU.
+- Supabase Auth sesungguhnya, JWT refresh/session revocation, Storage upload, browser/Vercel runtime, concurrency, dan beban tinggi.
 
 ## Kriteria hasil
 
@@ -92,7 +92,7 @@ Runner ini adalah integration smoke test awal, bukan bukti bahwa seluruh sistem 
 
 | Tahap | Status saat ini | Bukti |
 |---|---|---|
-| 3G.2 Migrasi 001–006 | **NOT RUN** | Runner sudah dikonfigurasi untuk menjalankan urutan migrasi, tetapi belum dieksekusi pada PostgreSQL lokal pengguna |
+| 3G.2 Migrasi 001–007 | **NOT RUN** | Runner sudah dikonfigurasi untuk menjalankan urutan tujuh migrasi, tetapi belum dieksekusi pada PostgreSQL lokal pengguna |
 | 3G.3 RBAC/RLS | **TEST READY** | Assertion RLS, privilege, dan function grants tersedia |
 | 3G.4 Partner transaction | **TEST READY** | Create, update, status, audit atomik, dan rollback actor tidak aktif |
 | 3G.5 Agreement draft | **TEST READY** | Draft-only dan event `draft_created` |
