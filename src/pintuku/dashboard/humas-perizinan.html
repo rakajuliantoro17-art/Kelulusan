@@ -87,7 +87,7 @@
 <label>Unit tuan rumah<input name="host_unit" maxlength="180"></label>
 <label>Instansi tamu<input name="guest_institution" maxlength="250"></label>
 <label>Tempat<input name="venue" maxlength="500"></label>
-<label>Referensi ID izin (opsional)<input name="permit_id" maxlength="36" placeholder="UUID permohonan"></label>
+<label>Permohonan izin terkait (opsional)<select name="permit_id" id="agendaPermitSelect"><option value="">Tidak ditautkan</option></select></label>
 <label>Mulai<input name="starts_at" type="datetime-local" required></label>
 <label>Selesai<input name="ends_at" type="datetime-local" required></label>
 <label>Perkiraan tamu<input name="expected_guests" type="number" min="0" max="100000"></label>
