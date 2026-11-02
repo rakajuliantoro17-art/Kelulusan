@@ -71,6 +71,18 @@ test("principal cannot create partner master data", async () => {
   assert.equal(r.calls.some(x => x.url.pathname.includes("/rpc/")), false);
 });
 
+test("vice principal can read but cannot create partner records", async () => {
+  const r = await invoke({ role: "vice_principal_humas", method: "POST", body: { partner_name: "Mitra", partner_type: "education" } });
+  assert.equal(r.status, 403);
+  assert.equal(r.calls.some(x => x.url.pathname.includes("/rpc/")), false);
+});
+
+test("system operator cannot create partner records", async () => {
+  const r = await invoke({ role: "system_operator", method: "POST", body: { partner_name: "Mitra", partner_type: "education" } });
+  assert.equal(r.status, 403);
+  assert.equal(r.calls.some(x => x.url.pathname.includes("/rpc/")), false);
+});
+
 test("staff partner creation uses authenticated actor identity", async () => {
   const r = await invoke({ role: "staff_humas", method: "POST", body: { partner_name: "Mitra Uji", partner_type: "education" } });
   assert.equal(r.status, 201);
