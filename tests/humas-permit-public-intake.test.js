@@ -73,7 +73,7 @@ test("public application and tracking page protects token display and exposes bo
 
 test("Vercel routes, scheduled notification worker and static build include public assets",()=>{
  for(const route of ["/humas/perizinan/ajukan","/humas/perizinan/lacak"])assert.ok(vercel.rewrites.some(x=>x.source===route),route);
- assert.ok(vercel.crons.some(x=>x.path==="/api/humas-notifications"&&x.schedule==="*/5 * * * *"));
+ assert.ok(vercel.crons.some(x=>x.path==="/api/humas-notifications"&&x.schedule==="0 1 * * 1"));
  assert.match(build,/humas-perizinan-public\.html/);
  assert.match(build,/humas-perizinan-public\.js/);
 });

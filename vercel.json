@@ -355,7 +355,7 @@
   "crons": [
     {
       "path": "/api/humas-notifications",
-      "schedule": "*/5 * * * *"
+      "schedule": "0 1 * * 1"
     }
   ]
 }
