@@ -11,7 +11,8 @@ const files = [
   "202611020002_humas_rbac_foundation.sql",
   "202611020003_humas_partner_management.sql",
   "202611020004_humas_agreement_drafts.sql",
-  "202611020005_humas_security_hardening.sql"
+  "202611020005_humas_security_hardening.sql",
+  "202611020006_humas_operator_role_separation.sql"
 ];
 
 test("HUMAS migrations exist in dependency order", () => {
@@ -55,6 +56,20 @@ test("audit actor guard validates active staff role", () => {
   assert.match(sql, /ur\.is_active = true/);
   assert.match(sql, /ur\.revoked_at is null/);
   assert.match(sql, /when \(new\.event_type = 'draft_created'\)/);
+});
+
+test("partner RPC role checks explicitly reject NULL labels", () => {
+  const sql = migration(files[2]);
+  assert.equal((sql.match(/p_actor_role is distinct from 'staff_humas'/g) || []).length, 3);
+  assert.doesNotMatch(sql, /p_actor_role <> 'staff_humas'/);
+});
+
+test("technical operator role is exclusive from business roles", () => {
+  const sql = migration(files[5]);
+  assert.match(sql, /enforce_operator_role_separation/);
+  assert.match(sql, /system_operator_must_be_exclusive/);
+  assert.match(sql, /business_role_conflicts_with_system_operator/);
+  assert.match(sql, /pg_advisory_xact_lock/);
 });
 
 test("no migration grants HUMAS table privileges to browser roles", () => {
