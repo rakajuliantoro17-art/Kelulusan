@@ -55,8 +55,7 @@ $("publicPermitForm").addEventListener("submit",async e=>{
   $("goTrack").onclick=()=>{sessionStorage.setItem("pintuku_humas_last_request",result.request_code);sessionStorage.setItem("pintuku_humas_last_token",result.tracking_token);};
   sessionStorage.setItem("pintuku_humas_last_request",result.request_code);sessionStorage.setItem("pintuku_humas_last_token",result.tracking_token);
   notice("Permohonan berhasil dikirim dan masuk antrean verifikasi.");
-  if(window.turnstile&&turnstileWidgetId!==null)window.turnstile.reset(turnstileWidgetId);turnstileToken="";captchaReady=false;
- }catch(err){notice(err.message,true);}finally{button.disabled=!captchaReady;button.textContent="Kirim permohonan";}
+ }catch(err){notice(err.message,true);}finally{if(window.turnstile&&turnstileWidgetId!==null)window.turnstile.reset(turnstileWidgetId);turnstileToken="";captchaReady=false;button.disabled=true;button.textContent="Kirim permohonan";}
 });
 $("trackPermitForm").addEventListener("submit",async e=>{e.preventDefault();const button=e.currentTarget.querySelector('[type="submit"]');button.disabled=true;try{await track();notice("Status permohonan berhasil dimuat.");}catch(err){$("trackingResult").hidden=true;notice(err.message,true);}finally{button.disabled=false;}});
 const lastCode=sessionStorage.getItem("pintuku_humas_last_request"),lastToken=sessionStorage.getItem("pintuku_humas_last_token");
