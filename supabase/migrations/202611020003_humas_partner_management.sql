@@ -27,7 +27,7 @@ set search_path = ''
 as $$
 declare v_partner humas.partners%rowtype;
 begin
-  if p_actor_id is null or p_actor_role <> 'staff_humas' then
+  if p_actor_id is null or p_actor_role is distinct from 'staff_humas' then
     raise exception using errcode = '42501', message = 'forbidden';
   end if;
   if nullif(pg_catalog.btrim(p_payload->>'partner_name'), '') is null
@@ -113,7 +113,7 @@ begin
   if p_actor_id is null or p_actor_role <> 'staff_humas' then
     raise exception using errcode = '42501', message = 'forbidden';
   end if;
-  if p_status not in ('active','inactive','under_review') then
+  if p_status is null or p_status not in ('active','inactive','under_review') then
     raise exception using errcode = '22023', message = 'invalid_partner_status';
   end if;
   select * into v_before from humas.partners where id=p_partner_id for update;
