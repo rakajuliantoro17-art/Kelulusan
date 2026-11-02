@@ -164,7 +164,7 @@ module.exports=async function humasApi(req,res){
     const isLogin=opInput==="login";
     const email=str(b.email,254).toLowerCase(),password=typeof b.password==="string"?b.password:"";
     const refreshToken=str(b.refresh_token,2048);
-    if(isLogin&&(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)||!password||password.length>256))return send(res,400,{success:false,error:"invalid_credentials",message:"Email atau kata sandi tidak valid."});
+    if(isLogin&&(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!password||password.length>256))return send(res,400,{success:false,error:"invalid_credentials",message:"Email atau kata sandi tidak valid."});
     if(!isLogin&&!refreshToken)return send(res,400,{success:false,error:"invalid_refresh_token",message:"Sesi perlu diperbarui dengan token yang valid."});
     try{
       const result=await authGrant(c,isLogin?"password":"refresh_token",isLogin?{email,password}:{refresh_token:refreshToken});
@@ -256,7 +256,7 @@ module.exports=async function humasApi(req,res){
           if(payload.partner_id&&!uuid(payload.partner_id))return send(res,400,{success:false,error:"invalid_request",message:"Mitra tidak valid."});
           if(payload.agreement_type&&!AGREEMENT_TYPES.has(payload.agreement_type))return send(res,400,{success:false,error:"invalid_request",message:"Jenis perjanjian tidak valid."});
           if((payload.start_date&&!validDate(payload.start_date))||(payload.end_date&&!validDate(payload.end_date))||(payload.start_date&&payload.end_date&&payload.end_date<payload.start_date))return send(res,400,{success:false,error:"invalid_request",message:"Masa berlaku tidak valid."});
-          if(payload.estimated_value!==undefined&&payload.estimated_value!==""&&!/^\\d{1,14}(\\.\\d{1,2})?$/.test(payload.estimated_value))return send(res,400,{success:false,error:"invalid_request",message:"Nilai kerja sama tidak valid."});
+          if(payload.estimated_value!==undefined&&payload.estimated_value!==""&&!/^\\d{1,14}(\.\\d{1,2})?$/.test(payload.estimated_value))return send(res,400,{success:false,error:"invalid_request",message:"Nilai kerja sama tidak valid."});
           payload.reason=str(b.reason,1000);
           const agreement=await rpc(c,"agreement_update_draft",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_agreement_id:id,p_payload:payload});
           return send(res,200,{success:true,data:{agreement}});
