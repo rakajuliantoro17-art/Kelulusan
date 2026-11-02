@@ -24,7 +24,7 @@ Never expose secret/service-role credentials using `NEXT_PUBLIC_`, `VITE_`, or a
 
 ## Supabase Data API prerequisite
 The API uses PostgREST against the `humas` schema with a server-only secret credential and `Accept-Profile: humas`. Before enabling the endpoints:
-1. Review and apply migrations 001–004 in a controlled sequence.
+1. Review and apply migrations 001–006 in a controlled sequence, including audit and operator-role hardening.
 2. Add `humas` to the Data API exposed schemas.
 3. Grant schema usage and table/function privileges to `service_role` only.
 4. Do not grant `anon` or `authenticated` access to HUMAS tables/functions.
