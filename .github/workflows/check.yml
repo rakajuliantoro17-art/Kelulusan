@@ -110,6 +110,7 @@ jobs:
           node --check src/pintuku/assets/js/tu-login.js
           node --check src/pintuku/assets/js/tu-invite.js
           node --check src/pintuku/assets/js/tata-usaha-front-office.js
+          node --check tests/tu-front-office-workflow.test.js
           node --check tests/tu-invite-static.test.js
           node --check src/pintuku/assets/js/tata-usaha-access.js
           node --check api/humas-notifications.js
