@@ -3,10 +3,10 @@
 ## Endpoints
 All endpoints require a valid Supabase access token in the Authorization Bearer header and an active assignment in `tu.user_roles`.
 
-- `GET /api/tu/context`: authenticated identity, active role assignments, active units.
-- `GET /api/tu/units`: active organizational units.
-- `GET /api/tu/notifications`: inbox for the authenticated user and assigned units (maximum 50, newest first).
-- `PATCH /api/tu/notifications/read`: marks one notification as read only if addressed to the user or one of their assigned units.
+- `GET /api/tu/context` (rewrite ke `/api/tu?op=context`): authenticated identity, active role assignments, active units.
+- `GET /api/tu/units` (rewrite ke `/api/tu?op=units`): active organizational units.
+- `GET /api/tu/notifications` (rewrite ke `/api/tu?op=notifications`): inbox for the authenticated user and assigned units (maximum 50, newest first).
+- `PATCH /api/tu/notifications/read` (rewrite ke `/api/tu?op=notification-read`): marks one notification as read only if addressed to the user or one of their assigned units.
 
 ## Security
 - Service credentials are read only from server environment variables.
