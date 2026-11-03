@@ -89,6 +89,10 @@ DECLARE
   v_partner_events integer;
   v_workflow_events integer;
   v_inactive_partner_count integer;
+  v_agenda jsonb;
+  v_task jsonb;
+  v_task_updated jsonb;
+  v_assignment_events integer;
 BEGIN
   -- Active staff can create a partner; creation and audit are atomic.
   v_partner := humas.partner_create(
@@ -409,6 +413,39 @@ BEGIN
   IF v_rate_result->>'rate_limited' <> 'true' THEN
     RAISE EXCEPTION 'FAIL: public alumni intake rate limit did not reject the sixth request';
   END IF;
+  -- Sprint 3: protocol task ownership can be claimed and released by active HUMAS staff.
+  v_agenda := humas.protocol_agenda_create(v_staff,'staff_humas',
+    pg_catalog.jsonb_build_object(
+      'title','Agenda Protokoler Uji Sprint 3',
+      'agenda_type','institutional_meeting',
+      'starts_at',(now()+interval '2 days')::text,
+      'ends_at',(now()+interval '2 days 2 hours')::text,
+      'venue','Ruang Rapat Uji'
+    ));
+  v_task := humas.protocol_task_create(v_staff,'staff_humas',(v_agenda->>'id')::uuid,
+    '{"task_category":"reception","task_title":"Siapkan meja penerimaan"}'::jsonb);
+  v_task_updated := humas.protocol_task_update(v_staff,'staff_humas',(v_task->>'id')::uuid,
+    pg_catalog.jsonb_build_object('assigned_to',v_staff));
+  IF v_task_updated->>'assigned_to' <> v_staff::text THEN
+    RAISE EXCEPTION 'FAIL: protocol task was not assigned to active staff';
+  END IF;
+  BEGIN
+    PERFORM humas.protocol_task_update(v_staff,'staff_humas',(v_task->>'id')::uuid,
+      pg_catalog.jsonb_build_object('assigned_to',v_inactive_staff));
+    RAISE EXCEPTION 'FAIL: protocol task accepted inactive staff assignee';
+  EXCEPTION WHEN invalid_parameter_value THEN NULL;
+  END;
+  v_task_updated := humas.protocol_task_update(v_staff,'staff_humas',(v_task->>'id')::uuid,
+    '{"assigned_to":""}'::jsonb);
+  IF v_task_updated->>'assigned_to' IS NOT NULL THEN
+    RAISE EXCEPTION 'FAIL: protocol task assignment could not be released';
+  END IF;
+  SELECT count(*) INTO v_assignment_events FROM humas.protocol_workflow_events
+   WHERE agenda_id=(v_agenda->>'id')::uuid AND event_type='task_assignment_changed';
+  IF v_assignment_events <> 2 THEN
+    RAISE EXCEPTION 'FAIL: expected 2 task assignment audit events, got %',v_assignment_events;
+  END IF;
+
   RAISE NOTICE 'PASS: partner, agreement, proposal, sponsorship, alumni consent, public intake review and rate limiting transactions; workflow transitions; audit immutability; role checks; and rollback';
 END
 $tests$;
