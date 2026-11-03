@@ -25,7 +25,10 @@ const files = [
   "202611030001_humas_protocol_task_assignment.sql",
   "202611030002_humas_permit_service_operations.sql",
   "202611030003_humas_alumni_analytics.sql",
-  "202611030004_humas_alumni_analytics_filter_fix.sql"
+  "202611030004_humas_alumni_analytics_filter_fix.sql",
+  "202611030005_humas_alumni_import_collaboration.sql",
+  "202611030006_humas_alumni_import_batch_duplicate_fix.sql",
+  "202611030007_humas_alumni_import_update_existing.sql"
 ];
 
 test("HUMAS migrations exist in dependency order", () => {
@@ -147,4 +150,15 @@ test("Sprint 5 analytics RPC is aggregate-only and restricted to service role",(
   assert.match(sql,/'data_quality'/);
   assert.match(sql,/revoke all on function humas\.alumni_analytics/);
   assert.match(sql,/grant execute on function humas\.alumni_analytics.*to service_role/s);
+});
+
+
+test("Sprint 6 alumni imports are private, role-gated, staged and auditable",()=>{
+ const base=migration(files[19]);const duplicateFix=migration(files[20]);const updateFix=migration(files[21]);
+ for(const table of ["alumni_import_batches","alumni_import_rows"]){assert.match(base,new RegExp("create table if not exists humas\\."+table));assert.match(base,new RegExp("alter table humas\\."+table+" enable row level security"));}
+ for(const fn of ["alumni_import_batch_create","alumni_import_row_review"])assert.match(base,new RegExp("create or replace function humas\\."+fn));
+ assert.match(base,/grant execute on function humas\\.alumni_import_batch_create.*to service_role/s);
+ assert.match(duplicateFix,/v_duplicate_in_batch/);
+ assert.match(updateFix,/update_existing/);
+ assert.match(updateFix,/consent_fundraising',false/);
 });
