@@ -236,7 +236,7 @@ async function transitionVisit(c, userId, roles, body) {
   if (!visit) return null;
   const canSeeAll = hasFrontOfficeRole(roles);
   const assignedApprover = roles.some(role => role.role_code === "unit_officer" && role.unit_id === visit.destination_unit_id);
-  const supervisor = roles.some(role => role.role_code === "head_tu" || role.role_code === "principal");
+  const supervisor = roles.some(role => UNIT_APPROVER_ROLES.has(role.role_code) && role.role_code !== "unit_officer");
   const isApprover = assignedApprover || supervisor;
   const isFrontOffice = canSeeAll;
   let nextStatus = "";
