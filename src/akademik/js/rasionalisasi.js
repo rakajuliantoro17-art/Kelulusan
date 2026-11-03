@@ -46,7 +46,7 @@ browser; tidak ada data yang dikirim ke server mana pun.
 
     "use strict";
 
-    var CONFIG_URL = "/data/rasionalisasi.json";
+    var CONFIG_URL = "/akademik/data/rasionalisasi.json";
     var HISTORY_KEY = "smansasoo_rasionalisasi_riwayat";
     var MAX_HISTORY = 20;
 
