@@ -109,3 +109,13 @@ test("Sprint 5 alumni directory uses a short public data-update form and simple 
   assert.match(publicApi,/!payload\.whatsapp&&!payload\.email/);
   assert.match(alumniUi,/latest_updated_at/);
 });
+
+
+test("Sprint 6 CSV import API is staff-only and preserves staged review",()=>{
+ const html=fs.readFileSync(path.join(root,"src/pintuku/dashboard/humas-alumni.html"),"utf8");
+ for(const op of ["alumni-imports"])assert.ok(api.includes('op==="'+op+'"'),op);
+ const start=api.indexOf('if(op==="alumni-imports")');const end=api.indexOf('if(op==="alumni-analytics")',start);const endpoint=api.slice(start,end);
+ assert.match(endpoint,/staffOnly\\(userRoles\\)/);assert.match(endpoint,/rows\\.length>500/);assert.match(endpoint,/alumni_import_batch_create/);assert.match(endpoint,/alumni_import_row_review/);assert.match(endpoint,/update_existing/);
+ for(const id of ["importPanel","importSource","importCsv","prepareImportBtn","submitImportBtn","importRows","importHistory"])assert.ok(html.includes(id),id);
+ assert.match(alumniUi,/parseCsvText/);assert.match(alumniUi,/data-import-action/);assert.match(alumniUi,/Perbarui profil cocok/);
+});
