@@ -305,9 +305,9 @@ browser; tidak ada data yang dikirim ke server mana pun.
 
         if (valid && !sel.value) {
             sel.value = top;
-            if (hint) hint.innerHTML = "Terisi dari hasil tes minatmu di <a href=\"/pages/profil-belajar.html\">Profil Belajar</a>. Boleh kamu ganti.";
+            if (hint) hint.innerHTML = "Terisi dari hasil tes minatmu di <a href=\"/akademik/pages/profil-belajar.html\">Profil Belajar</a>. Boleh kamu ganti.";
         } else if (hint && !sel.value) {
-            hint.innerHTML = "Belum tahu minatmu? Coba tes minat di <a href=\"/pages/profil-belajar.html\">Profil Belajar</a>.";
+            hint.innerHTML = "Belum tahu minatmu? Coba tes minat di <a href=\"/akademik/pages/profil-belajar.html\">Profil Belajar</a>.";
         } else if (hint) {
             hint.textContent = "";
         }

@@ -46,19 +46,19 @@ window.SettingsDrawer = (() => {
             key: "absensi-scan",
             title: "Absensi Scan",
             desc: "Scan kartu QR siswa dengan kamera",
-            href: "/pages/absensi-scan"
+            href: "/akademik/pages/absensi-scan.html"
         },
         {
             key: "absensi-admin",
             title: "Generate QR Siswa",
             desc: "Buat & cetak kartu QR absen per siswa",
-            href: "/pages/absensi-admin"
+            href: "/akademik/pages/absensi-admin.html"
         },
         {
             key: "absensi-rekap",
             title: "Rekap Absensi",
             desc: "Lihat kehadiran siswa per sesi",
-            href: "/pages/absensi-rekap"
+            href: "/akademik/pages/absensi-rekap.html"
         }
     ];
 

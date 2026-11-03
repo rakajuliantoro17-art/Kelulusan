@@ -698,7 +698,7 @@ STORE_KEY juga dibaca js/rasionalisasi.js untuk mengisi rumpun.
 
         });
 
-        html += "<p>Rumpun pertama akan terisi otomatis di <a class=\"pb-link\" href=\"/pages/rasionalisasi.html\">Rasionalisasi SNBP</a>.</p></div>";
+        html += "<p>Rumpun pertama akan terisi otomatis di <a class=\"pb-link\" href=\"/akademik/pages/rasionalisasi.html\">Rasionalisasi SNBP</a>.</p></div>";
 
         return html + "<p class=\"pb-note\">Ini gambaran minat saat ini, bukan penentu jurusan. Minat bisa berkembang, jadi gali lebih jauh lewat guru BK, alumni, dan informasi resmi prodi.</p>";
 
