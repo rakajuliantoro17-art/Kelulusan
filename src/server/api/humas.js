@@ -273,7 +273,7 @@ function isoDateTime(v){if(v==="")return true;return typeof v==="string"&&!Numbe
 function safeFileName(v){return str(v,255).replace(/[^\p{L}\p{N}._ -]/gu,"_").replace(/\.{2,}/g,"_");}
 async function listPermits(c,req){
  const q=req.query||{},pg=pagination(q),p=new URLSearchParams({
-  select:"id,request_code,permit_type,title,purpose,applicant_name,applicant_unit,applicant_email,applicant_phone,related_institution,activity_location,requested_start_at,requested_end_at,expected_attendees,status,decision_note,created_by,assigned_staff,submitted_at,decided_at,completed_at,created_at,updated_at",
+  select:"id,request_code,permit_type,title,purpose,applicant_name,applicant_unit,applicant_email,applicant_phone,related_institution,activity_location,requested_start_at,requested_end_at,expected_attendees,status,decision_note,created_by,assigned_staff,submitted_at,decided_at,completed_at,priority,first_response_due_at,first_responded_at,resolution_due_at,sla_paused_at,sla_pause_reason,last_activity_at,created_at,updated_at",
   order:"created_at.desc",limit:String(pg.limit),offset:String(pg.offset)
  });
  if(q.status){const s=["draft","submitted","verified","under_review","revision_required","approved","rejected","cancelled","completed","archived"];if(!s.includes(q.status))throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});p.set("status","eq."+q.status);}
@@ -282,8 +282,8 @@ async function listPermits(c,req){
  return{permits:await restList(c,"permit_requests",p),page:pg.page,limit:pg.limit};
 }
 async function permitDetail(c,id){
- const p=new URLSearchParams({select:"id,request_code,permit_type,title,purpose,applicant_name,applicant_unit,applicant_email,applicant_phone,related_institution,activity_location,requested_start_at,requested_end_at,expected_attendees,facility_details,status,decision_note,created_by,assigned_staff,submitted_at,decided_at,completed_at,created_at,updated_at,documents:permit_documents(id,document_type,file_name,mime_type,file_size_bytes,version_number,uploaded_at,is_current),events:permit_workflow_events(id,event_type,from_status,to_status,actor_id,actor_role,reason,metadata,occurred_at)",id:"eq."+id,limit:"1","documents.order":"uploaded_at.desc","events.order":"occurred_at.desc","events.limit":"100"});
- const rows=await restList(c,"permit_requests",p);return rows[0]||null;
+ const p=new URLSearchParams({select:"id,request_code,permit_type,title,purpose,applicant_name,applicant_unit,applicant_email,applicant_phone,related_institution,activity_location,requested_start_at,requested_end_at,expected_attendees,facility_details,status,decision_note,created_by,assigned_staff,submitted_at,decided_at,completed_at,priority,first_response_due_at,first_responded_at,resolution_due_at,sla_paused_at,sla_pause_reason,last_activity_at,created_at,updated_at,documents:permit_documents(id,document_type,file_name,mime_type,file_size_bytes,version_number,uploaded_at,is_current),events:permit_workflow_events(id,event_type,from_status,to_status,actor_id,actor_role,reason,metadata,occurred_at)",id:"eq."+id,limit:"1","documents.order":"uploaded_at.desc","events.order":"occurred_at.desc","events.limit":"100"});
+ const [rows,notes,communications]=await Promise.all([restList(c,"permit_requests",p),restList(c,"permit_internal_notes",new URLSearchParams({select:"id,note,actor_role,created_at",permit_id:"eq."+id,order:"created_at.desc",limit:"100"})),restList(c,"permit_communications",new URLSearchParams({select:"id,channel,direction,contact_name,subject,summary,contacted_at,follow_up_at,actor_role,created_at",permit_id:"eq."+id,order:"contacted_at.desc",limit:"100"}))]);if(!rows.length)return null;return {...rows[0],internal_notes:notes,communications};
 }
 async function storageRequest(c,path,method,body){
  const h=adminHeaders(c,false);h["Content-Type"]="application/json";
