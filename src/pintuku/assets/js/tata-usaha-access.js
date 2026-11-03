@@ -10,8 +10,8 @@
   backdrop?.addEventListener("click",close);sidebar?.querySelectorAll("a").forEach(a=>a.addEventListener("click",close));document.addEventListener("keydown",e=>{if(e.key==="Escape")close();});
   const tabs=[...document.querySelectorAll("[data-access-tab]")];
   tabs.forEach(tab=>tab.addEventListener("click",()=>{const target=tab.dataset.accessTab;tabs.forEach(item=>{const active=item===tab;item.classList.toggle("is-active",active);item.setAttribute("aria-selected",String(active));});document.querySelectorAll(".access-panel").forEach(panel=>{const active=panel.id==="access"+target[0].toUpperCase()+target.slice(1);panel.hidden=!active;panel.classList.toggle("is-active",active);});}));
-  const client=window.pintukuAuth;
-  if(!client||typeof client.getAccessToken!=="function"){setAlert("is-blocked","Sesi autentikasi belum terhubung","UI ini tidak membaca token dari localStorage atau menebak mekanisme login. Integrasi akan aktif setelah portal menyediakan kontrak getAccessToken() yang tervalidasi.");return;}
+  const client=window.tuAuth;
+  if(!client||typeof client.getAccessToken!=="function"){setAlert("is-blocked","Sesi Tata Usaha belum tersedia","Silakan masuk melalui halaman login khusus Tata Usaha.");return;}
   Promise.resolve(client.getAccessToken()).then(token=>{
    if(typeof token!=="string"||!token){setAlert("is-blocked","Silakan masuk melalui PINTUKU","Tidak ditemukan access token aktif. Muat ulang halaman setelah sesi login tersedia.");return null;}
    return fetch("/api/tu/context",{headers:{Authorization:"Bearer "+token},cache:"no-store"}).then(async response=>({response,data:await response.json().catch(()=>({}))}));
