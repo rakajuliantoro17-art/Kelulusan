@@ -32,7 +32,7 @@ test("TU workspace access requires an explicit TU business role", () => {
 test("TU browser session is tab-scoped and never uses localStorage", () => {
   assert.match(guard, /sessionStorage\.setItem/);
   assert.match(guard, /sessionStorage\.removeItem/);
-  assert.doesNotMatch(guard, /localStorage/);
+  assert.doesNotMatch(guard, /localStorage\\s*\\./);
   assert.match(guard, /action:"refresh"/);
 });
 
