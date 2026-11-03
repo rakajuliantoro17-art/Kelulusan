@@ -585,7 +585,7 @@ module.exports=async function humasApi(req,res){
       }
       if(req.method==="PATCH"){
         const b=bodyOf(req),id=str(b.id,64),action=str(b.action,20);
-        if(!uuid(id)||!["approve","reject","add_anyway"].includes(action))return send(res,400,{success:false,error:"invalid_import_review",message:"Baris atau tindakan verifikasi tidak valid."});
+        if(!uuid(id)||!["approve","reject","add_anyway","update_existing"].includes(action))return send(res,400,{success:false,error:"invalid_import_review",message:"Baris atau tindakan verifikasi tidak valid."});
         const result=await rpc(c,"alumni_import_row_review",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_row_id:id,p_action:action,p_note:str(b.note,1000)});
         return send(res,200,{success:true,data:result});
       }
