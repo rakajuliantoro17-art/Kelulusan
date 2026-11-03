@@ -1,6 +1,6 @@
 # JARVIS Personal — Product & Technical Plan
 
-> **Dokumen:** doc/jarvis.md  
+> **Dokumen:** docs/JARVIS.md  
 > **Produk:** PINTUKU — SMAN 1 Sooko  
 > **Status:** Future Vision / Belum masuk implementasi  
 > **Versi spesifikasi:** 1.0  
@@ -310,7 +310,7 @@ Catatan:
 - Endpoint gateway harus ditempatkan pada lokasi backend yang memang sudah digunakan repository atau layanan server yang telah disetujui. Jangan membuat folder root baru hanya untuk JARVIS.
 - Jangan menduplikasi konfigurasi Supabase, Firebase, atau environment global.
 - Jangan menambahkan paket sebelum mengevaluasi ukuran bundle, lisensi, keamanan, dan kompatibilitas.
-- Folder doc/ adalah lokasi dokumentasi yang diminta; struktur root lainnya tidak diubah.
+- Dokumen ini disimpan di docs/ sesuai kebijakan struktur root repositori (hanya docs/ yang diizinkan untuk dokumentasi).
 
 ---
 
