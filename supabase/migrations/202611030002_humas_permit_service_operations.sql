@@ -5,7 +5,7 @@
 alter table humas.permit_requests
   add column if not exists priority text not null default 'normal'
     check (priority in ('low','normal','high','urgent')),
-  add column if not exists first_response_due_at timestamptz,
+  add column if not exists first_response_due_at timestamptz,\n  add column if not exists first_responded_at timestamptz,
   add column if not exists resolution_due_at timestamptz,
   add column if not exists sla_paused_at timestamptz,
   add column if not exists sla_pause_reason text,
