@@ -22,7 +22,7 @@ const files = [
   "202611020013_humas_permit_public_intake_notifications.sql",
   "202611020014_humas_permit_rate_limit_persistence.sql",
   "202611020015_humas_permit_protocol_fk_indexes.sql",
-  "202611030001_humas_protocol_task_assignment.sql"
+  "202611030001_humas_protocol_task_assignment.sql",\n  "202611030002_humas_permit_service_operations.sql"
 ];
 
 test("HUMAS migrations exist in dependency order", () => {
@@ -119,3 +119,18 @@ test("proposal and sponsorship foundation uses transactional RPCs and immutable 
 test("alumni CRM keeps private profiles and consent-gated append-only contact history",()=>{const sql=migration(files[8]);for(const table of ["alumni_profiles","alumni_contact_logs"]){assert.match(sql,new RegExp("create table if not exists humas\\."+table));assert.match(sql,new RegExp("alter table humas\\."+table+" enable row level security"));}for(const fn of ["alumni_profile_create","alumni_profile_update","alumni_contact_log_create","alumni_summary"])assert.match(sql,new RegExp("create or replace function humas\\."+fn));assert.match(sql,/consent_fundraising/);assert.match(sql,/alumni_contact_consent_required/);assert.match(sql,/alumni_contact_logs_append_only/);});
 
 test("public alumni intake stores pending submissions and gates review through staff RPC",()=>{const sql=migration(files[9]);for(const table of ["alumni_intake_submissions","alumni_intake_rate_limits"])assert.match(sql,new RegExp("create table if not exists humas\\."+table));for(const fn of ["alumni_intake_submit","alumni_intake_review"])assert.match(sql,new RegExp("create or replace function humas\\."+fn));assert.match(sql,/consent_data_processing/);assert.match(sql,/rate_limited/);assert.match(sql,/duplicate_possible/);assert.match(sql,/grant execute on function humas\.alumni_intake_submit.*alumni_intake_review.*to service_role/s);});
+
+
+test("Sprint 4 permit service operations add SLA, private notes and communication history",()=>{
+  const sql=migration(files[16]);
+  for(const column of ["priority","first_response_due_at","first_responded_at","resolution_due_at","sla_paused_at","sla_pause_reason","last_activity_at"])assert.match(sql,new RegExp("add column if not exists "+column));
+  for(const table of ["permit_internal_notes","permit_communications"]){
+    assert.match(sql,new RegExp("create table if not exists humas\\\\."+table));
+    assert.match(sql,new RegExp("alter table humas\\\\."+table+" enable row level security"));
+  }
+  for(const fn of ["permit_set_service_level","permit_internal_note_create","permit_communication_log_create","permit_operational_summary"])assert.match(sql,new RegExp("create or replace function humas\\\\."+fn));
+  assert.match(sql,/first_responded_at is null/);
+  assert.match(sql,/task_status in \\(\x27pending\x27,\x27in_progress\x27,\x27blocked\x27\\)/);
+  assert.match(sql,/revoke all on table humas\\.permit_internal_notes,humas\\.permit_communications/);
+  assert.match(sql,/to service_role/);
+});
