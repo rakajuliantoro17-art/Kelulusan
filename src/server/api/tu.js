@@ -79,7 +79,8 @@ async function activeRoles(c, userId) {
     (row.unit_id === null || /^[0-9a-f-]{36}$/i.test(row.unit_id)));
 }
 function requireRole(roles) {
-  return Array.isArray(roles) && roles.length > 0;
+  // Technical operators do not receive business-data access by virtue of their technical role.
+  return Array.isArray(roles) && roles.some(role => role.role_code !== "system_operator");
 }
 async function listUnits(c) {
   const query = new URLSearchParams({
