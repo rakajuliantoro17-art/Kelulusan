@@ -7,6 +7,7 @@ const root=path.resolve(__dirname,"..");
 const sql=fs.readFileSync(path.join(root,"supabase/migrations/202611020012_humas_permit_transactions.sql"),"utf8");
 const api=fs.readFileSync(path.join(root,"src/server/api/humas.js"),"utf8");
 const ui=fs.readFileSync(path.join(root,"src/pintuku/assets/js/humas-perizinan.js"),"utf8");
+const alumniUi=fs.readFileSync(path.join(root,"src/pintuku/assets/js/humas-alumni.js"),"utf8");
 
 test("permit transaction RPCs enforce active HUMAS roles and legal transitions",()=>{
  for(const fn of ["permit_create","permit_update_draft","permit_transition","permit_assign","permit_register_document","permit_summary","protocol_agenda_create","protocol_agenda_transition","protocol_guest_create","protocol_guest_update","protocol_task_create","protocol_task_update","protocol_summary"])assert.match(sql,new RegExp("create or replace function humas\\."+fn));
@@ -99,7 +100,7 @@ test("Sprint 5 alumni analytics workspace exposes cohort, status, institution an
   for(const field of ["by_status","by_cohort","by_survey_year","top_institutions","top_industries","top_provinces","data_quality"])assert.ok(migration.includes("'"+field+"'"),field);
   assert.match(migration,/revoke all on function humas\.alumni_analytics\(integer,integer\) from public,anon,authenticated/);
   assert.match(migration,/grant execute on function humas\.alumni_analytics\(integer,integer\) to service_role/);
-  assert.match(ui,/loadAnalytics/);
-  assert.match(ui,/analyticsCoverage/);
-  assert.match(ui,/coverage_percent/);
+  assert.match(alumniUi,/loadAnalytics/);
+  assert.match(alumniUi,/analyticsCoverage/);
+  assert.match(alumniUi,/coverage_percent/);
 });
