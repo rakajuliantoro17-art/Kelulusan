@@ -13,7 +13,7 @@ begin
  for v_item in select value from pg_catalog.jsonb_array_elements(p_rows) loop
   v_total:=v_total+1; v_name:=pg_catalog.btrim(coalesce(v_item->>'full_name','')); v_norm:=pg_catalog.regexp_replace(pg_catalog.lower(v_name),'[^[:alnum:]]','','g'); v_year:=null; v_email:=pg_catalog.lower(pg_catalog.btrim(coalesce(v_item->>'email',''))); v_phone:=pg_catalog.regexp_replace(coalesce(v_item->>'whatsapp',''),'[^0-9]','','g'); v_status:='pending'; v_error:=null; v_candidate:=null; v_duplicate_in_batch:=false;
   if pg_catalog.length(v_name)<2 or pg_catalog.length(v_name)>180 then v_status:='invalid'; v_error:='Nama wajib diisi (2–180 karakter).';
-  elsif coalesce(v_item->>'graduation_year','') !~ '^[0-9]{4} v_status:='invalid'; v_error:='Tahun lulus harus antara 1950–2100.';
+  elsif coalesce(v_item->>'graduation_year','') !~ '^[0-9]{4}$' or (v_item->>'graduation_year') < '1950' or (v_item->>'graduation_year') > '2100' then v_status:='invalid'; v_error:='Tahun lulus harus antara 1950–2100.';
   elsif v_email<>'' and v_email !~ '^[^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+$' then v_status:='invalid'; v_error:='Format email tidak valid.';
   else
    v_year:=(v_item->>'graduation_year')::integer;
