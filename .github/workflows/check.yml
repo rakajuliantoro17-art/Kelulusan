@@ -36,6 +36,12 @@ jobs:
           test -f src/pintuku/pwa/manifest.json
           test -f src/pintuku/pwa/sw.js
           test -d src/server/api
+          test -d src/humas/scripts
+          test -d src/humas/supabase/migrations
+          test -d src/humas/tests
+          test -d src/TU/scripts
+          test -d src/TU/supabase/migrations
+          test -d src/TU/tests
           test -f src/server/api/akademik.js
           test -f src/server/api/kesiswaan.js
           test -f src/server/api/humas.js
@@ -84,6 +90,9 @@ jobs:
           test ! -e sarpras
           test ! -e manifest.json
           test ! -e sw.js
+          test ! -e scripts
+          test ! -e supabase
+          test ! -e tests
           echo "Core project structure OK"
 
       - name: Validate JSON Configuration
@@ -104,14 +113,14 @@ jobs:
           node --check src/pintuku/assets/js/humas-perizinan-public.js
           node --check src/server/api/humas.js
           node --check src/server/api/tu.js
-          node --check tests/tu-bootstrap-static.test.js
+          node --check src/TU/tests/tu-bootstrap-static.test.js
           node --check api/tu.js
           node --check src/pintuku/assets/js/tu-auth.js
           node --check src/pintuku/assets/js/tu-login.js
           node --check src/pintuku/assets/js/tu-invite.js
           node --check src/pintuku/assets/js/tata-usaha-front-office.js
-          node --check tests/tu-front-office-workflow.test.js
-          node --check tests/tu-invite-static.test.js
+          node --check src/TU/tests/tu-front-office-workflow.test.js
+          node --check src/TU/tests/tu-invite-static.test.js
           node --check src/pintuku/assets/js/tata-usaha-access.js
           node --check api/humas-notifications.js
           node --check src/server/api/humas-alumni-public.js
@@ -142,7 +151,7 @@ jobs:
           const fs = require('fs');
           // 'api' wajib ada di root: Vercel hanya mendaftarkan fungsi serverless dari /api root.
           // Isinya hanya shim tipis yang me-require src/server/api/*.
-          const allowedDirs = new Set(['.git', '.github', 'src', 'docs', 'public', 'api', 'scripts', 'supabase', 'tests']);
+          const allowedDirs = new Set(['.git', '.github', 'src', 'docs', 'public', 'api']);
           const entries = fs.readdirSync('.').filter(name => fs.statSync(name).isDirectory());
           const unexpected = entries.filter(name => !allowedDirs.has(name));
           if (unexpected.length) throw new Error('Unexpected root directories: ' + unexpected.join(', '));
@@ -183,19 +192,19 @@ jobs:
           echo "Static output OK"
 
       - name: Run HUMAS permit and protocol source tests
-        run: node --test tests/humas-migrations-static.test.js tests/humas-permit-transactions.test.js tests/humas-permit-public-intake.test.js
+        run: node --test src/humas/tests/humas-migrations-static.test.js src/humas/tests/humas-permit-transactions.test.js src/humas/tests/humas-permit-public-intake.test.js
 
       - name: Run TU authentication security tests
-        run: node --test src/TU/tests/tu-auth-static.test.js
+        run: node --test src/TU/src/TU/tests/tu-auth-static.test.js
 
       - name: Run TU invitation acceptance security tests
-        run: node --test tests/tu-invite-static.test.js
+        run: node --test src/TU/tests/tu-invite-static.test.js
 
       - name: Run TU Front Office workflow security tests
-        run: node --test tests/tu-front-office-workflow.test.js
+        run: node --test src/TU/tests/tu-front-office-workflow.test.js
 
       - name: Run TU bootstrap security tests
-        run: node --test tests/tu-bootstrap-static.test.js
+        run: node --test src/TU/tests/tu-bootstrap-static.test.js
 
       - name: Success
         run: echo "Integrated project verification completed."
