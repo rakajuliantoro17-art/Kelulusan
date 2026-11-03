@@ -175,7 +175,7 @@ async function authOperation(c, req, res) {
   if (action === "login") {
     const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
     const password = typeof body.password === "string" ? body.password : "";
-    if (email.length > 254 || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email) ||
+    if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
         password.length < 1 || password.length > 256) {
       return send(res, 400, { success: false, code: "invalid_credentials_format", message: "Email atau kata sandi tidak valid." });
     }
@@ -223,7 +223,7 @@ function safeError(res, error) {
 module.exports = async function tuApi(req, res) {
   setHeaders(res);
   if (req.method === "OPTIONS") {
-    res.setHeader("Allow", "GET, PATCH, OPTIONS");
+    res.setHeader("Allow", "GET, POST, PATCH, OPTIONS");
     return res.status(204).end();
   }
   const c = config();
