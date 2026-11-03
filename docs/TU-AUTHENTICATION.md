@@ -19,6 +19,17 @@ The serverless API requires:
 
 The database schema `tu` must be present in Supabase **Settings → API → Exposed schemas** for server-side PostgREST calls. Do not grant browser roles direct access to schema `tu`; server code uses the secret credential.
 
+## Invitation acceptance flow
+
+- Production acceptance page: `/tata-usaha/accept-invite`.
+- Configure the Supabase **Site URL** as `https://sookosip.vercel.app` and add `https://sookosip.vercel.app/**` to allowed Redirect URLs.
+- In **Authentication → Email Templates → Invite User**, use a token-hash link:
+  `{{ .SiteURL }}/tata-usaha/accept-invite?token_hash={{ .TokenHash }}&type=invite`
+- The page removes the token hash from browser history before calling the same-origin API.
+- The API verifies the one-time invite token with Supabase Auth, holds the short-lived access token only in page memory, and updates the password through the authenticated Auth user endpoint.
+- No service/secret key is sent to the browser. The invite acceptance endpoint does not assign business roles or persist an application session.
+- Expired, invalid, and already-used tokens return an actionable error; issue a fresh invitation after confirming the production URL and template.
+
 ## Account activation
 
 1. Create or invite the user in Supabase Auth using an approved school email address.
