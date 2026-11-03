@@ -558,6 +558,40 @@ module.exports=async function humasApi(req,res){
       res.setHeader("Allow","GET, PATCH");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
     }
 
+    if(op==="alumni-imports"){
+      if(!hasRead(userRoles)||!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat mengelola impor alumni."});
+      if(req.method==="GET"){
+        const batchId=str(req.query&&req.query.batch_id,64);
+        if(batchId){
+          if(!uuid(batchId))return send(res,400,{success:false,error:"invalid_query",message:"ID batch tidak valid."});
+          const rows=await restList(c,"alumni_import_rows",new URLSearchParams({select:"id,batch_id,row_number,payload,status,candidate_profile_id,error_message,created_profile_id,review_note,created_at,reviewed_at",batch_id:"eq."+batchId,order:"row_number.asc",limit:"500"}));
+          const candidateIds=[...new Set(rows.map(x=>x.candidate_profile_id).filter(Boolean))];
+          let candidates=[];
+          if(candidateIds.length)candidates=await restList(c,"alumni_profiles",new URLSearchParams({select:"id,full_name,graduation_year",id:"in.("+candidateIds.join(",")+")",limit:"500"}));
+          const byId=new Map(candidates.map(x=>[x.id,x]));
+          return send(res,200,{success:true,data:{rows:rows.map(x=>({...x,candidate:byId.get(x.candidate_profile_id)||null}))}});
+        }
+        const batches=await restList(c,"alumni_import_batches",new URLSearchParams({select:"id,source_label,file_name,total_rows,created_at",order:"created_at.desc",limit:"20"}));
+        return send(res,200,{success:true,data:{batches}});
+      }
+      if(req.method==="POST"){
+        const b=bodyOf(req),sourceLabel=str(b.source_label,120),fileName=str(b.file_name,255);
+        if(!sourceLabel||sourceLabel.length<2||!fileName||!Array.isArray(b.rows)||b.rows.length<1||b.rows.length>500)
+          return send(res,400,{success:false,error:"invalid_import",message:"Sumber, nama berkas, dan 1–500 baris data wajib tersedia."});
+        const allowed=["full_name","graduation_year","last_class","whatsapp","email","city","province","current_status","institution","employer"];
+        const rows=b.rows.map(row=>{const out={};for(const key of allowed){const value=row&&row[key];out[key]=typeof value==="string"||typeof value==="number"?String(value).trim().slice(0,key==="full_name"?180:key==="email"?254:500):"";}return out;});
+        const result=await rpc(c,"alumni_import_batch_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_source_label:sourceLabel,p_file_name:fileName,p_rows:rows});
+        return send(res,201,{success:true,data:result});
+      }
+      if(req.method==="PATCH"){
+        const b=bodyOf(req),id=str(b.id,64),action=str(b.action,20);
+        if(!uuid(id)||!["approve","reject","add_anyway"].includes(action))return send(res,400,{success:false,error:"invalid_import_review",message:"Baris atau tindakan verifikasi tidak valid."});
+        const result=await rpc(c,"alumni_import_row_review",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_row_id:id,p_action:action,p_note:str(b.note,1000)});
+        return send(res,200,{success:true,data:result});
+      }
+      res.setHeader("Allow","GET, POST, PATCH");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
+    }
+
     if(op==="alumni-analytics"){
       if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
       if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun ini tidak memiliki akses analitik alumni."});
