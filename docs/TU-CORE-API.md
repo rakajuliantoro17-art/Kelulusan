@@ -7,6 +7,7 @@ All endpoints require a valid Supabase access token in the Authorization Bearer 
 - `GET /api/tu/units` (rewrite ke `/api/tu?op=units`): active organizational units.
 - `GET /api/tu/notifications` (rewrite ke `/api/tu?op=notifications`): inbox for the authenticated user and assigned units (maximum 50, newest first).
 - `PATCH /api/tu/notifications/read` (rewrite ke `/api/tu?op=notification-read`): marks one notification as read only if addressed to the user or one of their assigned units.
+- Front Office includes an internal notification center for the authenticated user and assigned units; it never displays visitor PII in notification text and does not send external messages.
 - `GET /api/tu/visits` (rewrite ke `/api/tu?op=visits`): lists up to 100 recent visits; Front Office roles can see the operational register, while unit officers are scoped to assigned destination units.
 - `POST /api/tu/visits`: creates a receptionist-assisted walk-in or appointment request. The API derives the actor from the validated Supabase identity; clients cannot set the creator, source, or initial status.
 - `PATCH /api/tu/visits`: accepts workflow actions `approve`, `reject`, `clarify`, `resubmit`, `checkin`, and `checkout`. Unit decisions require the destination unit assignment (or supervisory role); check-in/check-out require Front Office roles.
