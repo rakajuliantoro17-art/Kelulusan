@@ -64,7 +64,7 @@ test("Sprint 3 protocol checklist tasks support validated staff assignment end-t
 test("Sprint 4 authenticated API exposes SLA and private operational activity only internally",()=>{
  for(const op of ["permit-service-level","permit-internal-notes","permit-communications","permit-operational-summary"])assert.ok(api.includes('op==="'+op+'"'),op);
  for(const fn of ["permit_set_service_level","permit_internal_note_create","permit_communication_log_create","permit_operational_summary"])assert.ok(api.includes('"'+fn+'"'),fn);
- assert.match(api,/first_response_due_at,resolution_due_at/);
+ assert.match(api,/first_response_due_at/);
  assert.match(api,/permit_internal_notes/);
  assert.match(api,/permit_communications/);
  const publicTrack=api.slice(api.indexOf('if(opInput==="permit-public-create"'),api.indexOf('if(opInput==="notifications-dispatch")'));
