@@ -74,7 +74,7 @@
    identity.append(node("span","fo-visitor-avatar",String(v.visitor_name||"T").trim().split(/\s+/).slice(0,2).map(x=>x[0]?.toUpperCase()||"").join("")));
    const copy=node("div");copy.append(node("strong","",v.visitor_name),node("small","",v.organization||"Pengunjung perorangan"));identity.append(copy);
    const meta=node("div","fo-visitor-meta");
-   meta.append(node("strong","",unitName(v.destination_unit_id)+(v.host_name?" · "+v.host_name:"")),node("small","",v.visit_code+" · "+formatDate(v.created_at)));
+   meta.append(node("strong","",unitName(v.destination_unit_id)+(v.host_name?" · "+v.host_name:"")),node("small","",v.purpose),node("small","",v.visit_code+" · "+formatDate(v.created_at)));
    const actions=node("div","fo-visitor-actions");
    const status=STATUS[v.status]||["Status tidak dikenal",""];actions.append(node("span","fo-status "+status[1],status[0]));
    if(v.visit_kind==="appointment")actions.append(node("small","fo-visit-time","Janji temu · "+formatDate(v.scheduled_at)));
