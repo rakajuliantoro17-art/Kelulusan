@@ -37,3 +37,40 @@
 .hp-captcha-wrap{grid-column:1/-1;display:grid;gap:7px;min-height:70px;padding:12px;border:1px solid rgba(140,202,255,.14);border-radius:10px;background:rgba(125,183,238,.035)}.hp-captcha-wrap small{color:#9fb2c8;font-size:10px;line-height:1.5}.hp-public-panel .hk-btn:disabled{opacity:.45;cursor:not-allowed;filter:saturate(.5)}
 
 .hp-task-controls{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap}.hp-task-controls .hk-btn{min-height:32px;padding:0 9px;font-size:9px}.hp-task-controls select{max-width:130px}@media(max-width:560px){.hp-protocol-record{align-items:flex-start;flex-direction:column}.hp-task-controls{width:100%;justify-content:flex-start}.hp-task-controls select{max-width:none;flex:1}}
+
+
+/* Sprint 4 — operational control and service-level workspace */
+.hp-operational-panel{margin:14px 0;padding:16px 18px}
+.hp-operational-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:14px}
+.hp-operational-metric{min-width:0;padding:12px;border:1px solid rgba(145,190,232,.14);border-radius:12px;background:linear-gradient(145deg,rgba(125,183,238,.075),rgba(255,255,255,.018));}
+.hp-operational-metric span,.hp-operational-metric b{display:block}
+.hp-operational-metric span{min-height:28px;color:#91a6bf;font-size:9px;line-height:1.5}
+.hp-operational-metric b{margin-top:5px;color:#eaf4ff;font-size:22px;font-variant-numeric:tabular-nums}
+.hp-sla-panel,.hp-activity-panel{margin-top:16px;padding:16px;border:1px solid rgba(145,190,232,.14);border-radius:14px;background:rgba(7,20,36,.28)}
+.hp-sla-panel>.hp-toolbar-title{align-items:center}
+.hp-sla-panel h3,.hp-activity-panel h3{margin:0;color:#eaf3ff;font-size:13px}
+.hp-priority-tag{display:inline-flex;align-items:center;padding:6px 10px;border:1px solid rgba(145,190,232,.2);border-radius:999px;color:#c9d8e8;font-size:9px;font-weight:800;letter-spacing:.08em}
+.priority-urgent{border-color:rgba(255,105,105,.4);background:rgba(220,75,75,.13);color:#ffb8b8}
+.priority-high{border-color:rgba(237,170,85,.35);background:rgba(220,150,65,.1);color:#f2cf9f}
+.priority-normal{background:rgba(125,183,238,.07);color:#c9def4}
+.priority-low{background:rgba(110,180,150,.08);color:#a9ddc6}
+.hp-sla-status-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:13px 0}
+.hp-sla-status-grid>div{display:grid;gap:5px;min-width:0;padding:11px;border:1px solid rgba(145,190,232,.12);border-radius:10px;background:rgba(255,255,255,.025)}
+.hp-sla-status-grid small{color:#8fa5be;font-size:9px}
+.hp-sla-status-grid b{color:#dceafa;font-size:11px}
+.hp-sla-status-grid span{overflow-wrap:anywhere;color:#9fb2ca;font-size:9px;line-height:1.5}
+.hp-sla-form{grid-template-columns:repeat(2,minmax(0,1fr));align-items:end}
+.hp-sla-form label,.hp-communication-form label{display:grid;gap:6px;color:#a9bdd3;font-size:10px}
+.hp-sla-form input,.hp-sla-form select,.hp-communication-form input,.hp-communication-form select,.hp-mini-form textarea{width:100%;min-height:37px;padding:8px 10px;border:1px solid rgba(171,205,238,.18);border-radius:9px;background:rgba(8,19,34,.72);color:#edf5ff;font:inherit}
+.hp-sla-form .hp-pause-label{display:flex;align-items:center;gap:8px;min-height:37px}
+.hp-sla-form .hp-pause-label input{width:auto;min-height:auto;accent-color:#70b6f0}
+.hp-sla-form>button{justify-self:start}
+.hp-operational-columns{align-items:start}
+.hp-private-hint{margin:7px 0 12px;color:#d4b984;font-size:9px;line-height:1.6}
+.hp-activity-panel .hp-mini-form{margin-top:13px}
+.hp-activity-panel .hp-event{padding:11px 0}
+.hp-communication-form{grid-template-columns:1fr 1fr}
+.hp-communication-form textarea{grid-column:1/-1}
+.hp-communication-form button{justify-self:start}
+@media(max-width:900px){.hp-operational-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.hp-operational-metrics{gap:7px}.hp-operational-metric{padding:10px}.hp-operational-metric b{font-size:19px}.hp-sla-status-grid{grid-template-columns:1fr}.hp-sla-form,.hp-communication-form{grid-template-columns:1fr}.hp-communication-form textarea{grid-column:auto}.hp-operational-columns{grid-template-columns:1fr}}
