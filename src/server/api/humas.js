@@ -684,8 +684,8 @@ module.exports=async function humasApi(req,res){
       if(op==="permit-workspace"&&req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
       if(req.method==="GET"){
         if(op==="permit-workspace"){
-          const [summary,items]=await Promise.all([rpc(c,"permit_summary",{}),listPermits(c,req)]);
-          return send(res,200,{success:true,data:{user:auth.user,roles:userRoles,summary,...items}});
+          const [summary,operationalSummary,items]=await Promise.all([rpc(c,"permit_summary",{}),rpc(c,"permit_operational_summary",{}),listPermits(c,req)]);
+          return send(res,200,{success:true,data:{user:auth.user,roles:userRoles,summary,operationalSummary,...items}});
         }
         const id=str(req.query&&req.query.id,64);
         if(id){if(!uuid(id))return send(res,400,{success:false,error:"invalid_query",message:"ID permohonan tidak valid."});const permit=await permitDetail(c,id);if(!permit)return send(res,404,{success:false,error:"record_not_found",message:"Permohonan tidak ditemukan."});return send(res,200,{success:true,data:{permit}});}
@@ -738,6 +738,49 @@ module.exports=async function humasApi(req,res){
         return send(res,200,{success:true,data:{permit}});
       }
       res.setHeader("Allow","GET, POST, PATCH");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
+    }
+
+    if(op==="permit-service-level"){
+      if(req.method!=="PATCH"){res.setHeader("Allow","PATCH");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      if(!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat mengatur SLA."});
+      const b=bodyOf(req),id=str(b.id,64),priority=str(b.priority,20),first=str(b.first_response_due_at,40),resolution=str(b.resolution_due_at,40),pause=b.pause===true,reason=str(b.pause_reason,500);
+      if(!uuid(id)||!["low","normal","high","urgent"].includes(priority)||!isoDateTime(first)||!isoDateTime(resolution)||(first&&resolution&&Date.parse(resolution)<Date.parse(first))||(pause&&!reason))return send(res,400,{success:false,error:"invalid_request",message:"Prioritas, tenggat SLA, atau alasan jeda tidak valid."});
+      const permit=await rpc(c,"permit_set_service_level",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_permit_id:id,p_priority:priority,p_first_response_due_at:first||null,p_resolution_due_at:resolution||null,p_pause:pause,p_pause_reason:reason||null});
+      return send(res,200,{success:true,data:{permit}});
+    }
+
+    if(op==="permit-internal-notes"||op==="permit-communications"){
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun tidak memiliki akses catatan operasional."});
+      const b=bodyOf(req);
+      if(req.method==="GET"){
+        const id=str(req.query&&req.query.permit_id,64);
+        if(!uuid(id))return send(res,400,{success:false,error:"invalid_query",message:"ID permohonan tidak valid."});
+        const table=op==="permit-internal-notes"?"permit_internal_notes":"permit_communications";
+        const select=op==="permit_internal-notes"?"id,note,actor_role,created_at":"id,channel,direction,contact_name,subject,summary,contacted_at,follow_up_at,actor_role,created_at";
+        const order=op==="permit_internal-notes"?"created_at.desc":"contacted_at.desc";
+        const items=await restList(c,table,new URLSearchParams({select,permit_id:"eq."+id,order,limit:"100"}));
+        return send(res,200,{success:true,data:{items}});
+      }
+      if(req.method==="POST"){
+        if(!staffOnly(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Hanya Staf HUMAS yang dapat mencatat aktivitas internal."});
+        const id=str(b.permit_id,64);if(!uuid(id))return send(res,400,{success:false,error:"invalid_request",message:"ID permohonan tidak valid."});
+        if(op==="permit-internal-notes"){
+          const note=str(b.note,5000);if(!note)return send(res,400,{success:false,error:"invalid_request",message:"Catatan internal wajib diisi."});
+          const item=await rpc(c,"permit_internal_note_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_permit_id:id,p_note:note});
+          return send(res,201,{success:true,data:{item}});
+        }
+        const payload={channel:str(b.channel,20),direction:str(b.direction,20),contact_name:str(b.contact_name,180),subject:str(b.subject,250),summary:str(b.summary,5000),contacted_at:str(b.contacted_at,40),follow_up_at:str(b.follow_up_at,40)};
+        if(!["email","phone","whatsapp","in_person","letter","other"].includes(payload.channel)||!["inbound","outbound","internal"].includes(payload.direction)||!payload.summary||!isoDateTime(payload.contacted_at)||!isoDateTime(payload.follow_up_at)||(payload.contacted_at&&payload.follow_up_at&&Date.parse(payload.follow_up_at)<Date.parse(payload.contacted_at)))return send(res,400,{success:false,error:"invalid_request",message:"Log komunikasi atau jadwal tindak lanjut tidak valid."});
+        const item=await rpc(c,"permit_communication_log_create",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_permit_id:id,p_payload:payload});
+        return send(res,201,{success:true,data:{item}});
+      }
+      res.setHeader("Allow","GET, POST");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
+    }
+
+    if(op==="permit-operational-summary"){
+      if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun tidak memiliki akses ringkasan operasional."});
+      return send(res,200,{success:true,data:await rpc(c,"permit_operational_summary",{})});
     }
 
     if(op==="permit-upload-url"){
