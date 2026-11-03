@@ -570,8 +570,8 @@ module.exports=async function humasApi(req,res){
     if(op==="alumni-workspace"){
       if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
       if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun ini tidak memiliki akses data alumni."});
-      const q=req.query||{},[summary,alumniData]=await Promise.all([rpc(c,"alumni_summary",{}),listAlumni(c,{query:{page:q.page||"1",limit:q.limit||"25",search:q.search||"",year:q.year||"",status:q.status||"",consent:q.consent||""}})]);
-      return send(res,200,{success:true,data:{user:auth.user,roles:userRoles,summary,alumni:alumniData.alumni,page:alumniData.page,limit:alumniData.limit}});
+      const q=req.query||{},[summary,alumniData,latestRows]=await Promise.all([rpc(c,"alumni_summary",{}),listAlumni(c,{query:{page:q.page||"1",limit:q.limit||"25",search:q.search||"",year:q.year||"",status:q.status||"",consent:q.consent||""}}),restList(c,"alumni_profiles",new URLSearchParams({select:"updated_at",record_status:"eq.active",order:"updated_at.desc",limit:"1"}))]);
+      return send(res,200,{success:true,data:{user:auth.user,roles:userRoles,summary,alumni:alumniData.alumni,latest_updated_at:latestRows[0]?.updated_at||null,page:alumniData.page,limit:alumniData.limit}});
     }
     if(op==="alumni-detail"){
       if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
