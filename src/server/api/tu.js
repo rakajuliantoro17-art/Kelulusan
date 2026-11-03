@@ -189,9 +189,10 @@ async function createVisit(c, userId, body) {
   const scheduledAt = typeof body.scheduled_at === "string" ? body.scheduled_at : null;
   if (visitorName.length < 2 || visitorName.length > 100 || purpose.length < 2 || purpose.length > 160 ||
       organization.length > 120 || phone.length > 25 || (phone && !/^[+0-9 ()-]{6,25}$/.test(phone)) ||
-      host.length > 100 || notes.length > 1000 || !UUID_RE.test(unitId) || body.privacy_notice_delivered !== true) {
+      host.length > 100 || notes.length > 1000 || !UUID_RE.test(unitId)) {
     throw visitError("invalid_visit_input");
   }
+  if (body.privacy_notice_delivered !== true) throw visitError("privacy_notice_required");
   if (kind === "appointment" && (!scheduledAt || !Number.isFinite(Date.parse(scheduledAt)) || Date.parse(scheduledAt) < Date.now() - 300000)) {
     throw visitError("invalid_appointment_time");
   }
@@ -395,6 +396,7 @@ function safeError(res, error) {
     visit_store_unavailable: [503, "visit_store_unavailable", "Layanan kunjungan sementara tidak tersedia."],
     visit_forbidden: [403, "visit_forbidden", "Akun tidak memiliki kewenangan untuk operasi kunjungan ini."],
     invalid_visit_input: [400, "invalid_visit_input", "Periksa kembali data kunjungan yang dimasukkan."],
+    privacy_notice_required: [400, "privacy_notice_required", "Konfirmasi bahwa pemberitahuan privasi telah disampaikan kepada pengunjung wajib dilakukan."],
     invalid_appointment_time: [400, "invalid_appointment_time", "Waktu janji temu harus valid dan tidak berada di masa lalu."],
     invalid_destination_unit: [400, "invalid_destination_unit", "Unit tujuan tidak ditemukan atau tidak aktif."],
     invalid_visit_id: [400, "invalid_visit_id", "ID kunjungan tidak valid."],
