@@ -23,7 +23,9 @@ const files = [
   "202611020014_humas_permit_rate_limit_persistence.sql",
   "202611020015_humas_permit_protocol_fk_indexes.sql",
   "202611030001_humas_protocol_task_assignment.sql",
-  "202611030002_humas_permit_service_operations.sql"
+  "202611030002_humas_permit_service_operations.sql",
+  "202611030003_humas_alumni_analytics.sql",
+  "202611030004_humas_alumni_analytics_filter_fix.sql"
 ];
 
 test("HUMAS migrations exist in dependency order", () => {
@@ -135,4 +137,14 @@ test("Sprint 4 permit service operations add SLA, private notes and communicatio
   assert.ok(sql.includes("task_status in ('pending','in_progress','blocked')"));
   assert.ok(sql.includes("revoke all on table humas.permit_internal_notes,humas.permit_communications"));
   assert.ok(sql.includes("to service_role"));
+});
+
+test("Sprint 5 analytics RPC is aggregate-only and restricted to service role",()=>{
+  const sql=migration(files[17]);
+  assert.match(sql,/create or replace function humas\.alumni_analytics/);
+  assert.match(sql,/'coverage_percent'/);
+  assert.match(sql,/'top_institutions'/);
+  assert.match(sql,/'data_quality'/);
+  assert.match(sql,/revoke all on function humas\.alumni_analytics/);
+  assert.match(sql,/grant execute on function humas\.alumni_analytics.*to service_role/s);
 });
