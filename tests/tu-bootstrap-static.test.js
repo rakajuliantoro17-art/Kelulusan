@@ -16,7 +16,7 @@ test("first Head TU bootstrap is private and not executable by application roles
 });
 
 test("bootstrap verifies confirmed, active Auth identity and is one-time", () => {
-  assert.match(migration, /email_confirmed_at is null/);
+  assert.match(migration, /v_confirmed_at is null/);
   assert.match(migration, /v_deleted_at is not null/);
   assert.match(migration, /v_banned_until > now\(\)/);
   assert.match(migration, /Bootstrap ditutup: sudah ada Head TU aktif/);
