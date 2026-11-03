@@ -7,6 +7,7 @@ const migration = fs.readFileSync("supabase/migrations/20261103053529_tu_front_o
 const followup = fs.readFileSync("supabase/migrations/20261103053750_tu_visit_resubmission_notification.sql", "utf8");
 const appendOnly = fs.readFileSync("supabase/migrations/20261103053857_tu_visit_events_append_only.sql", "utf8");
 const privacy = fs.readFileSync("supabase/migrations/20261103054507_tu_visit_privacy_notice_acknowledgement.sql", "utf8");
+const noDelete = fs.readFileSync("supabase/migrations/20261103054915_tu_visits_no_hard_delete.sql", "utf8");
 const ui = fs.readFileSync("src/pintuku/assets/js/tata-usaha-front-office.js", "utf8");
 const html = fs.readFileSync("src/pintuku/dashboard/tata-usaha-front-office.html", "utf8");
 const routes = JSON.parse(fs.readFileSync("vercel.json", "utf8")).rewrites;
@@ -54,6 +55,7 @@ test("resubmitted clarification notifies the destination unit again", () => {
   assert.ok(appendOnly.includes("grant select, insert on tu.visit_events to service_role"));
   assert.match(privacy, /tu_visits_privacy_notice_consistency/);
   assert.match(privacy, /privacy_notice_delivered_at timestamptz/);
+  assert.ok(noDelete.includes("revoke delete on tu.visits from service_role"));
 });
 
 test("Front Office UI uses server APIs and does not keep volatile visitor arrays", () => {
