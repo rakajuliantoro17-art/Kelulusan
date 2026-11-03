@@ -35,3 +35,6 @@ html[data-theme="light"] .fo-status.rejected,html[data-theme="light"] .fo-status
 @media(max-width:700px){.fo-workspace-tabs{grid-template-columns:1fr}}
 
 .fo-tab[hidden],.fo-view[hidden]{display:none!important}
+
+.fo-register-tools{display:flex;align-items:flex-end;gap:9px}.fo-register-tools .fo-search{min-width:200px}
+@media(max-width:700px){.fo-register-tools{align-items:stretch;flex-direction:column}.fo-register-tools .fo-search{min-width:0}}
