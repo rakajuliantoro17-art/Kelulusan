@@ -195,7 +195,7 @@ jobs:
         run: node --test src/humas/tests/humas-migrations-static.test.js src/humas/tests/humas-permit-transactions.test.js src/humas/tests/humas-permit-public-intake.test.js
 
       - name: Run TU authentication security tests
-        run: node --test src/TU/src/TU/tests/tu-auth-static.test.js
+        run: node --test src/TU/tests/tu-auth-static.test.js
 
       - name: Run TU invitation acceptance security tests
         run: node --test src/TU/tests/tu-invite-static.test.js
