@@ -74,3 +74,14 @@
 .hp-communication-form button{justify-self:start}
 @media(max-width:900px){.hp-operational-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.hp-operational-metrics{gap:7px}.hp-operational-metric{padding:10px}.hp-operational-metric b{font-size:19px}.hp-sla-status-grid{grid-template-columns:1fr}.hp-sla-form,.hp-communication-form{grid-template-columns:1fr}.hp-communication-form textarea{grid-column:auto}.hp-operational-columns{grid-template-columns:1fr}}
+
+.hp-readiness-panel{margin:0 0 16px;padding:15px;border:1px solid rgba(145,190,232,.15);border-radius:13px;background:linear-gradient(145deg,rgba(100,164,225,.09),rgba(255,255,255,.02))}
+.hp-readiness-panel h3{margin:0;color:#eaf3ff;font-size:13px}
+.hp-readiness-panel .hp-toolbar-title>strong{color:#d8ecff;font-size:22px;font-variant-numeric:tabular-nums}
+.hp-readiness-track{height:7px;margin:12px 0;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
+.hp-readiness-track span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#5f9ed7,#83d2bd)}
+.hp-readiness-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.hp-readiness-metrics>div{display:grid;gap:4px}
+.hp-readiness-metrics small{color:#8fa5be;font-size:9px}
+.hp-readiness-metrics b{color:#dceafa;font-size:12px}
+@media(max-width:600px){.hp-readiness-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
