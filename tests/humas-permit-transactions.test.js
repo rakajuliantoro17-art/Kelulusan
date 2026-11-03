@@ -79,3 +79,27 @@ test("Sprint 4 workspace UI renders SLA controls, private notes, communication a
  assert.match(ui,/Catatan internal · Privat/);
  assert.match(ui,/Tindak lanjut/);
 });
+
+test("Sprint 5 alumni analytics is role-protected and returns aggregate-only reporting",()=>{
+  assert.ok(api.includes('op==="alumni-analytics"'));
+  assert.match(api,/alumni_analytics/);
+  const start=api.indexOf('if(op==="alumni-analytics")');
+  const end=api.indexOf('if(op==="alumni-workspace")',start);
+  const endpoint=api.slice(start,end);
+  assert.match(endpoint,/hasRead\(userRoles\)/);
+  assert.match(endpoint,/p_graduation_year/);
+  assert.match(endpoint,/p_survey_year/);
+  assert.match(endpoint,/alumni_analytics/);
+  assert.doesNotMatch(endpoint,/whatsapp|email|full_name|contact_preference/);
+});
+test("Sprint 5 alumni analytics workspace exposes cohort, status, institution and data-quality views",()=>{
+  const html=fs.readFileSync(path.join(root,"src/pintuku/dashboard/humas-alumni.html"),"utf8");
+  const migration=fs.readFileSync(path.join(root,"supabase/migrations/202611030003_humas_alumni_analytics.sql"),"utf8");
+  for(const id of ["analyticsPanel","analyticsGraduationFilter","analyticsSurveyFilter","analyticsStatus","analyticsCohorts","analyticsInstitutions","analyticsIndustries","analyticsProvinces","analyticsPeriods","analyticsQuality"])assert.ok(html.includes(id),id);
+  for(const field of ["by_status","by_cohort","by_survey_year","top_institutions","top_industries","top_provinces","data_quality"])assert.ok(migration.includes("'"+field+"'"),field);
+  assert.match(migration,/revoke all on function humas\.alumni_analytics\(integer,integer\) from public,anon,authenticated/);
+  assert.match(migration,/grant execute on function humas\.alumni_analytics\(integer,integer\) to service_role/);
+  assert.match(ui,/loadAnalytics/);
+  assert.match(ui,/analyticsCoverage/);
+  assert.match(ui,/coverage_percent/);
+});
