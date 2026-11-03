@@ -37,19 +37,17 @@ CHANGELOG (v1.1.0):
     const STORAGE_KEY = "kesiswaan-stats-hit:" + page;
 
     // Sudah pernah dihitung di sesi tab ini? -> lewati.
+    // Penanda baru dipasang SETELAH server memastikan hit tercatat
+    // (success + configured). Dulu dipasang sebelum kirim, sehingga hit
+    // yang gagal / saat statistik belum aktif ikut "terkunci" dan tidak
+    // pernah dihitung ulang di tab yang sama.
     try {
-
         if (sessionStorage.getItem(STORAGE_KEY) === "1") return;
+    } catch (e) {}
 
-        // Tandai SEBELUM kirim supaya tidak dobel kalau script
-        // kebetulan berjalan dua kali.
-        sessionStorage.setItem(STORAGE_KEY, "1");
-
-    } catch (e) {
-
-        // sessionStorage tidak tersedia -- lanjut kirim hit.
-
-    }
+    // Cegah kirim ganda kalau script berjalan dua kali di halaman yang sama.
+    if (window.__kesiswaanStatsSent) return;
+    window.__kesiswaanStatsSent = true;
 
     try {
 
@@ -57,7 +55,14 @@ CHANGELOG (v1.1.0):
             method: "POST",
             cache: "no-store",
             keepalive: true
-        }).catch(() => {});
+        })
+            .then((r) => r.json())
+            .then((j) => {
+                if (j && j.success && j.configured) {
+                    try { sessionStorage.setItem(STORAGE_KEY, "1"); } catch (e) {}
+                }
+            })
+            .catch(() => {});
 
     } catch (e) {
 
