@@ -61,6 +61,9 @@ test("Front Office UI uses server APIs and does not keep volatile visitor arrays
   assert.match(ui, /api\("\/api\/tu\/visits"/);
   assert.doesNotMatch(ui, /const visitors\s*=\s*\[\]/);
   assert.match(ui, /foApprovalQueue/);
+  assert.match(ui, /api\("\\/api\\/tu\\/notifications"/);
+  assert.match(ui, /api\("\\/api\\/tu\\/notifications\\/read"/);
+  assert.match(html, /foNotificationPanel/);
 });
 
 test("kiosk remains explicitly unavailable until public intake is secured", () => {
