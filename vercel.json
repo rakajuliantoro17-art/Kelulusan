@@ -80,6 +80,10 @@
       "destination": "/src/pintuku/dashboard/tata-usaha-login.html"
     },
     {
+      "source": "/api/tu/visits",
+      "destination": "/api/tu?op=visits"
+    },
+    {
       "source": "/api/tu/notifications/read",
       "destination": "/api/tu?op=notification-read"
     },
