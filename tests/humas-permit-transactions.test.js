@@ -59,3 +59,23 @@ test("Sprint 3 protocol checklist tasks support validated staff assignment end-t
  assert.ok(ui.includes("data-task-assignment"));
  assert.ok(ui.includes("Tugas berhasil diambil."));
 });
+
+
+test("Sprint 4 authenticated API exposes SLA and private operational activity only internally",()=>{
+ for(const op of ["permit-service-level","permit-internal-notes","permit-communications","permit-operational-summary"])assert.ok(api.includes('op==="'+op+'"'),op);
+ for(const fn of ["permit_set_service_level","permit_internal_note_create","permit_communication_log_create","permit_operational_summary"])assert.ok(api.includes('"'+fn+'"'),fn);
+ assert.match(api,/first_response_due_at,resolution_due_at/);
+ assert.match(api,/permit_internal_notes/);
+ assert.match(api,/permit_communications/);
+ const publicTrack=api.slice(api.indexOf('if(opInput==="permit-public-create"'),api.indexOf('if(opInput==="notifications-dispatch")'));
+ assert.doesNotMatch(publicTrack,/permit_internal_notes|permit_communications|permit_operational_summary/);
+});
+
+test("Sprint 4 workspace UI renders SLA controls, private notes, communication and readiness KPIs",()=>{
+ for(const id of ["operationalMetrics","refreshOperational","slaForm","internalNoteForm","communicationForm","hp-readiness-panel","hp-sla-panel"])assert.ok(ui.includes(id),id);
+ for(const op of ["permit-service-level","permit-internal-notes","permit-communications"])assert.ok(ui.includes('"'+op+'"'),op);
+ assert.match(ui,/Jeda SLA/);
+ assert.match(ui,/Tenggat penyelesaian/);
+ assert.match(ui,/Catatan internal · Privat/);
+ assert.match(ui,/Tindak lanjut/);
+});
