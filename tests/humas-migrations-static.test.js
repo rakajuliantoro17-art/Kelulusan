@@ -157,7 +157,7 @@ test("Sprint 6 alumni imports are private, role-gated, staged and auditable",()=
  const base=migration(files[19]);const duplicateFix=migration(files[20]);const updateFix=migration(files[21]);
  for(const table of ["alumni_import_batches","alumni_import_rows"]){assert.match(base,new RegExp("create table if not exists humas\\."+table));assert.match(base,new RegExp("alter table humas\\."+table+" enable row level security"));}
  for(const fn of ["alumni_import_batch_create","alumni_import_row_review"])assert.match(base,new RegExp("create or replace function humas\\."+fn));
- assert.match(base,/grant execute on function humas\\.alumni_import_batch_create.*to service_role/s);
+ assert.match(base,/grant execute on function humas\.alumni_import_batch_create.*to service_role/s);
  assert.match(duplicateFix,/v_duplicate_in_batch/);
  assert.match(updateFix,/update_existing/);
  assert.match(updateFix,/consent_fundraising',false/);
