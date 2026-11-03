@@ -6,6 +6,7 @@ const api = fs.readFileSync("src/server/api/tu.js", "utf8");
 const migration = fs.readFileSync("supabase/migrations/20261103053529_tu_front_office_visits_workflow.sql", "utf8");
 const followup = fs.readFileSync("supabase/migrations/20261103053750_tu_visit_resubmission_notification.sql", "utf8");
 const appendOnly = fs.readFileSync("supabase/migrations/20261103053857_tu_visit_events_append_only.sql", "utf8");
+const privacy = fs.readFileSync("supabase/migrations/20261103054507_tu_visit_privacy_notice_acknowledgement.sql", "utf8");
 const ui = fs.readFileSync("src/pintuku/assets/js/tata-usaha-front-office.js", "utf8");
 const html = fs.readFileSync("src/pintuku/dashboard/tata-usaha-front-office.html", "utf8");
 const routes = JSON.parse(fs.readFileSync("vercel.json", "utf8")).rewrites;
@@ -20,6 +21,8 @@ test("visit API is server-authenticated and exposes read/create/transition opera
 test("registration derives actor and source on the server", () => {
   assert.match(api, /created_by: userId, updated_by: userId/);
   assert.match(api, /source: "receptionist", status: "pending_unit"/);
+  assert.match(api, /body\.privacy_notice_delivered !== true/);
+  assert.match(api, /privacy_notice_delivered_at: new Date\(\)\.toISOString\(\)/);
   assert.match(api, /FRONT_OFFICE_ROLES/);
   assert.doesNotMatch(api, /source:\s*body\.source/);
 });
@@ -49,6 +52,8 @@ test("resubmitted clarification notifies the destination unit again", () => {
   assert.match(followup, /recipient_unit_id, notification_type/);
   assert.ok(appendOnly.includes("revoke update, delete on tu.visit_events from service_role"));
   assert.ok(appendOnly.includes("grant select, insert on tu.visit_events to service_role"));
+  assert.match(privacy, /tu_visits_privacy_notice_consistency/);
+  assert.match(privacy, /privacy_notice_delivered_at timestamptz/);
 });
 
 test("Front Office UI uses server APIs and does not keep volatile visitor arrays", () => {
