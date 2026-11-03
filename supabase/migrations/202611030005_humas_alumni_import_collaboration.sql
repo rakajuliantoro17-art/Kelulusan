@@ -97,7 +97,7 @@ begin
     if pg_catalog.length(v_name)<2 or pg_catalog.length(v_name)>180 then
       v_status := 'invalid'; v_error := 'Nama wajib diisi (2–180 karakter).';
     elsif coalesce(v_item->>'graduation_year','') !~ '^[0-9]{4}$'
-      or (v_item->>'graduation_year')::integer not between 1950 and 2100 then
+      or (v_item->>'graduation_year') < '1950' or (v_item->>'graduation_year') > '2100' then
       v_status := 'invalid'; v_error := 'Tahun lulus harus antara 1950–2100.';
     elsif v_email<>'' and v_email !~ '^[^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+$' then
       v_status := 'invalid'; v_error := 'Format email tidak valid.';
