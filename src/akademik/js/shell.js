@@ -173,7 +173,7 @@ window.Shell = (() => {
                     &#9776;
                 </button>
 
-                <a href="/index.html" class="app-navbar-brand">
+                <a href="/" class="app-navbar-brand" aria-label="Kembali ke dashboard utama PINTUKU" title="Dashboard utama PINTUKU">
                     <img src="/assets/shared/logos/sman1-sooko.png" alt="Logo ${CONFIG.SCHOOL_NAME}">
                     <strong>${CONFIG.SCHOOL_NAME}</strong>
                 </a>
