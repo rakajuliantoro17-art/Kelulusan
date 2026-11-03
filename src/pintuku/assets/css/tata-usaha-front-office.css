@@ -38,3 +38,12 @@ html[data-theme="light"] .fo-status.rejected,html[data-theme="light"] .fo-status
 
 .fo-register-tools{display:flex;align-items:flex-end;gap:9px}.fo-register-tools .fo-search{min-width:200px}
 @media(max-width:700px){.fo-register-tools{align-items:stretch;flex-direction:column}.fo-register-tools .fo-search{min-width:0}}
+
+/* Internal PINTUKU notification center. */
+.fo-notification-panel{margin:0 0 18px}.fo-unread-count{align-self:center;padding:6px 9px;border:1px solid var(--tu-border);border-radius:9px;color:var(--tu-muted);font-size:9px;white-space:nowrap}
+.fo-notifications{display:grid}.fo-notification-item{display:grid;grid-template-columns:8px minmax(0,1fr) auto;align-items:start;gap:11px;padding:12px 2px;border-bottom:1px solid var(--tu-border)}.fo-notification-item:last-child{border-bottom:0}.fo-notification-item.is-read{opacity:.68}
+.fo-notification-dot{width:7px;height:7px;margin-top:5px;border-radius:50%;background:#70b9e8}.fo-notification-dot.is-priority{background:#d7a24c;box-shadow:0 0 0 3px rgba(215,162,76,.12)}
+.fo-notification-copy strong{display:block;color:var(--tu-ink);font-size:10px}.fo-notification-copy p{margin:4px 0;color:var(--tu-muted);font-size:9px;line-height:1.6}.fo-notification-copy small{color:var(--tu-subtle);font-size:8px}
+.fo-notification-actions{display:flex;align-items:center;gap:7px}.fo-notification-link{color:var(--tu-accent,#8fc5f2);font-size:9px;text-decoration:none;white-space:nowrap}.fo-notification-empty{padding:18px 4px;color:var(--tu-muted);font-size:10px;text-align:center}
+html[data-theme="light"] .fo-notification-copy strong{color:#19324c}
+@media(max-width:700px){.fo-notification-item{grid-template-columns:8px minmax(0,1fr)}.fo-notification-actions{grid-column:2;justify-content:flex-start}}
