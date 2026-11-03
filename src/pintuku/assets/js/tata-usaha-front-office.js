@@ -5,7 +5,7 @@
  const $$=(s,root=document)=>Array.from(root.querySelectorAll(s));
  const setText=(el,value)=>{if(el)el.textContent=value;};
  const node=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el;};
- const state={visits:[],units:[],roles:[],context:null,loading:false};
+ const state={visits:[],units:[],roles:[],notifications:[],context:null,loading:false};
  const FO_ROLES=new Set(["principal","head_tu","fo_coordinator","fo_receptionist","tu_operator"]);
  const APPROVER_ROLES=new Set(["unit_officer","head_tu","principal"]);
  const STATUS={
@@ -109,9 +109,46 @@
   state.visits=Array.isArray(data.visits)?data.visits:[];
   render();
  };
+ const renderNotifications=()=>{
+  const host=$("#foNotifications");if(!host)return;
+  host.replaceChildren();
+  const unread=state.notifications.filter(n=>!n.read_at).length;
+  setText($("#foUnreadCount"),unread+" belum dibaca");
+  if(!state.notifications.length){host.append(node("div","fo-notification-empty","Belum ada notifikasi operasional."));return;}
+  state.notifications.slice(0,12).forEach(item=>{
+   const row=node("article","fo-notification-item"+(item.read_at?" is-read":""));
+   const marker=node("span","fo-notification-dot"+(item.priority==="urgent"||item.priority==="high"?" is-priority":""));
+   const content=node("div","fo-notification-copy");
+   content.append(node("strong","",item.title||"Notifikasi PINTUKU"),node("p","",item.body||""),node("small","",formatDate(item.created_at)));
+   const actions=node("div","fo-notification-actions");
+   if(item.target_path&&typeof item.target_path==="string"&&item.target_path.startsWith("/tata-usaha/")){
+    const link=node("a","fo-notification-link","Buka");link.href=item.target_path;actions.append(link);
+   }
+   if(!item.read_at){const b=node("button","fo-mini-btn","Tandai dibaca");b.type="button";b.dataset.notificationRead=item.id;actions.append(b);}
+   row.append(marker,content,actions);host.append(row);
+  });
+ };
+ const loadNotifications=async()=>{
+  try{
+   const data=await api("/api/tu/notifications");
+   state.notifications=Array.isArray(data.notifications)?data.notifications:[];
+   renderNotifications();
+  }catch(error){
+   const host=$("#foNotifications");if(host){host.replaceChildren(node("div","fo-notification-empty","Notifikasi belum dapat dimuat."));}
+   setText($("#foUnreadCount"),"—");
+  }
+ };
+ const handleNotification=async event=>{
+  const button=event.target.closest("[data-notification-read]");if(!button)return;
+  button.disabled=true;
+  try{
+   await api("/api/tu/notifications/read",{method:"PATCH",body:JSON.stringify({id:button.dataset.notificationRead})});
+   await loadNotifications();
+  }catch(error){showNotice(error.message,"error");button.disabled=false;}
+ };
  const updateVisit=async(id,action,note)=>{
   await api("/api/tu/visits",{method:"PATCH",body:JSON.stringify({id,action,note:note||""})});
-  await loadVisits();
+  await Promise.all([loadVisits(),loadNotifications()]);
  };
  const handleAction=async event=>{
   const button=event.target.closest("[data-action][data-id]");if(!button)return;
@@ -155,7 +192,7 @@
    const button=form.querySelector('button[type="submit"]');if(button){button.disabled=true;button.textContent="Menyimpan…";}
    try{
     const result=await api("/api/tu/visits",{method:"POST",body:JSON.stringify(data)});
-    form.reset();toggleSchedule();await loadVisits();setView("reception");
+    form.reset();toggleSchedule();await Promise.all([loadVisits(),loadNotifications()]);setView("reception");
     const feedback=$("#foRegisterFeedback");if(feedback){feedback.hidden=false;feedback.textContent="Registrasi tersimpan. Nomor kunjungan: "+result.visit.visit_code+". Menunggu keputusan unit tujuan.";}
     showNotice("Registrasi "+result.visit.visit_code+" tersimpan. Unit tujuan menerima notifikasi internal.","success");
    }catch(error){showNotice(error.message,"error");}
@@ -176,9 +213,9 @@
   document.addEventListener("keydown",e=>{if(e.key==="Escape")close();});
   $$(".fo-tab").forEach(b=>b.addEventListener("click",()=>setView(b.dataset.view)));
   document.addEventListener("click",e=>{const b=e.target.closest("[data-switch]");if(b)setView(b.dataset.switch);});
-  $("#foQueue")?.addEventListener("click",handleAction);$("#foApprovalQueue")?.addEventListener("click",handleAction);
+  $("#foQueue")?.addEventListener("click",handleAction);$("#foApprovalQueue")?.addEventListener("click",handleAction);$("#foNotifications")?.addEventListener("click",handleNotification);
   $("#foSearch")?.addEventListener("input",renderQueue);
-  $("#foRefresh")?.addEventListener("click",async()=>{const b=$("#foRefresh");b.disabled=true;try{await loadVisits();showNotice("Data kunjungan berhasil diperbarui.","success");}catch(error){showNotice(error.message,"error");}finally{b.disabled=false;}});
+  $("#foRefresh")?.addEventListener("click",async()=>{const b=$("#foRefresh");b.disabled=true;try{await Promise.all([loadVisits(),loadNotifications()]);showNotice("Data kunjungan dan notifikasi berhasil diperbarui.","success");}catch(error){showNotice(error.message,"error");}finally{b.disabled=false;}});
   $("#foRegisterForm")?.elements.visit_kind?.addEventListener("change",toggleSchedule);
   submitRegistration($("#foRegisterForm"));
   $("#foHelp")?.addEventListener("click",()=>{$("#foGuide").open=true;$("#foGuide").scrollIntoView({behavior:"smooth",block:"center"});});
@@ -196,7 +233,7 @@
     setText($("#foCurrentIdentity"),context.user?.email||"Petugas terautentikasi");
     setText($("#foConnectionState"),"Layanan tersambung");
     if(isFo)fillUnits();
-    await loadVisits();
+    await Promise.all([loadVisits(),loadNotifications()]);
     if(!isFo&&isApprover)setView("approvals");
     showNotice("Terhubung ke backend. Data kunjungan dimuat dari database dan perubahan status diaudit.","success");
    }catch(error){
