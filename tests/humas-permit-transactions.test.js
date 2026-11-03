@@ -93,14 +93,19 @@ test("Sprint 5 alumni analytics is role-protected and returns aggregate-only rep
   assert.match(endpoint,/alumni_analytics/);
   assert.doesNotMatch(endpoint,/whatsapp|email|full_name|contact_preference/);
 });
-test("Sprint 5 alumni analytics workspace exposes cohort, status, institution and data-quality views",()=>{
+test("Sprint 5 alumni directory uses a short public data-update form and simple operational dashboard",()=>{
   const html=fs.readFileSync(path.join(root,"src/pintuku/dashboard/humas-alumni.html"),"utf8");
-  const migration=fs.readFileSync(path.join(root,"supabase/migrations/202611030003_humas_alumni_analytics.sql"),"utf8");
-  for(const id of ["analyticsPanel","analyticsGraduationFilter","analyticsSurveyFilter","analyticsStatus","analyticsCohorts","analyticsInstitutions","analyticsIndustries","analyticsProvinces","analyticsPeriods","analyticsQuality"])assert.ok(html.includes(id),id);
-  for(const field of ["by_status","by_cohort","by_survey_year","top_institutions","top_industries","top_provinces","data_quality"])assert.ok(migration.includes("'"+field+"'"),field);
-  assert.match(migration,/revoke all on function humas\.alumni_analytics\(integer,integer\) from public,anon,authenticated/);
-  assert.match(migration,/grant execute on function humas\.alumni_analytics\(integer,integer\) to service_role/);
-  assert.match(alumniUi,/loadAnalytics/);
-  assert.match(alumniUi,/analyticsCoverage/);
-  assert.match(alumniUi,/coverage_percent/);
+  const publicHtml=fs.readFileSync(path.join(root,"src/pintuku/dashboard/humas-alumni-public.html"),"utf8");
+  const publicJs=fs.readFileSync(path.join(root,"src/pintuku/assets/js/humas-alumni-public.js"),"utf8");
+  const publicApi=fs.readFileSync(path.join(root,"src/server/api/humas-alumni-public.js"),"utf8");
+  for(const id of ["kpiTotal","kpiVerified","kpiPending","kpiLatest","alumniRows","intakeRows"])assert.ok(html.includes(id),id);
+  assert.doesNotMatch(html,/analyticsPanel|analyticsCoverage|Cakupan tracer/);
+  assert.match(html,/Direktori alumni/);
+  for(const field of ["full_name","graduation_year","current_status","city","whatsapp","email","employer","consent_data_processing"])assert.ok(publicHtml.includes('name="'+field+'"'),field);
+  for(const field of ["survey_year","study_program","business_name","province","contact_preference"])assert.ok(!publicHtml.includes('name="'+field+'"'),field);
+  assert.match(publicHtml,/sekitar 1 menit/);
+  assert.match(publicJs,/contact_preference=out\.whatsapp\?"whatsapp":out\.email\?"email":"none"/);
+  assert.match(publicApi,/p_payload:payload/);
+  assert.match(publicApi,/Formulir publik pembaruan data alumni/);
+  assert.match(alumniUi,/latest_updated_at/);
 });
