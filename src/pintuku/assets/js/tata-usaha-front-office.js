@@ -185,7 +185,7 @@
   updateClock();setInterval(updateClock,30000);
   (async()=>{
    try{
-    const context=await window.tuAuth.getContext();state.context=context;state.roles=context.roles||[];
+    const context=await window.tuAuth.getContext();state.context=context;state.roles=context.roles||[];state.units=Array.isArray(context.units)?context.units:[];
     const isFo=state.roles.some(r=>FO_ROLES.has(r.role_code));
     const isApprover=state.roles.some(r=>APPROVER_ROLES.has(r.role_code));
     if(!isFo){["#tabReception","#tabRegister","#tabKiosk"].forEach(sel=>{const el=$(sel);if(el)el.hidden=true;});}
