@@ -64,6 +64,14 @@
       "destination": "/api/tu?op=auth"
     },
     {
+      "source": "/tata-usaha/accept-invite",
+      "destination": "/src/pintuku/dashboard/tata-usaha-accept-invite.html"
+    },
+    {
+      "source": "/tata-usaha/accept-invite/",
+      "destination": "/src/pintuku/dashboard/tata-usaha-accept-invite.html"
+    },
+    {
       "source": "/tata-usaha/login",
       "destination": "/src/pintuku/dashboard/tata-usaha-login.html"
     },
