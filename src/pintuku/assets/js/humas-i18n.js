@@ -65,6 +65,39 @@ permitProtocolPairs.push(["Related permit request (optional)","Permohonan izin t
 Object.assign(maps.id,Object.fromEntries(permitProtocolPairs.slice(-7)));
 Object.assign(maps.en,Object.fromEntries(permitProtocolPairs.slice(-7).map(([en,id])=>[id,en])));
 
+const alumniAnalyticsPairs=[
+ ["Graduate outcomes & tracer coverage","Hasil lulusan & cakupan survei"],
+ ["Summary of alumni status, tracer completion, cohort distribution, education, and employment sectors.","Ringkasan status alumni, keterisian tracer, sebaran angkatan, pendidikan, dan bidang kerja."],
+ ["Update analytics","Perbarui analitik"],
+ ["Graduation cohort","Angkatan"],
+ ["Tracer update year","Tahun pembaruan tracer"],
+ ["Profiles in filter","Profil dalam filter"],
+ ["Tracer completed","Tracer terisi"],
+ ["Tracer coverage","Cakupan tracer"],
+ ["Status not reported","Belum melaporkan status"],
+ ["Graduate status","Status setelah lulus"],
+ ["Coverage by cohort","Cakupan per angkatan"],
+ ["Universities / institutions","Perguruan tinggi / lembaga"],
+ ["Industry sectors","Bidang industri"],
+ ["Province distribution","Sebaran domisili provinsi"],
+ ["Update period","Periode pemutakhiran"],
+ ["Data quality","Kualitas data"],
+ ["Methodology note: this analytics reads the latest snapshot in each alumni profile. Figures by year represent the last recorded update, not longitudinal history for each alumnus.","Catatan metodologi: analitik ini membaca snapshot terkini pada profil alumni. Angka per tahun menunjukkan tahun pemutakhiran terakhir yang tercatat, bukan riwayat longitudinal setiap alumni."],
+ ["Studying","Kuliah"],
+ ["Employed","Bekerja"],
+ ["Entrepreneur","Wirausaha"],
+ ["Seeking work","Mencari kerja"],
+ ["Other","Lainnya"],
+ ["Not reported","Belum dilaporkan"],
+ ["No data available for display.","Belum ada data untuk ditampilkan."],
+ ["No tracer period data yet.","Belum ada data periode tracer."],
+ ["profiles without contact","profil tanpa kontak"],
+ ["profiles without domicile","profil tanpa domisili"],
+ ["statuses not reported","status belum dilaporkan"]
+];
+Object.assign(maps.id,Object.fromEntries(alumniAnalyticsPairs.map(([en,id])=>[en,id])));
+Object.assign(maps.en,Object.fromEntries(alumniAnalyticsPairs.map(([en,id])=>[id,en])));
+
 function translate(){
  if(busy)return;busy=true;
  const lang=document.documentElement.lang==="en"?"en":"id",map=maps[lang];
