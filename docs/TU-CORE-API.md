@@ -25,7 +25,7 @@ The database schema `tu` must be added to Supabase **Settings → API → Expose
 ## Workflow and security boundary
 - Visit transactions and audit events are stored in `tu.visits` and `tu.visit_events`; a database trigger writes internal PINTUKU notifications in the same transaction.
 - Visitor PII is not included in notification title/body. Unit officers do not receive visitor contact phone numbers from the visit list API.
-- Front Office cannot approve or reject its own destination requests. Unit officers can decide only for assigned units. Only Front Office roles can record check-in/check-out.
+- Front Office cannot approve or reject its own destination requests. Unit officers can decide only for assigned units. Only Front Office roles can record check-in/check-out. Registration requires the receptionist to confirm that the visitor privacy notice was delivered; the acknowledgement and timestamp are persisted with the visit.
 - The public self-service kiosk is intentionally disabled until a separate anti-abuse, rate-limit, and privacy-safe public intake flow is implemented.
 
 ## Not implemented
