@@ -133,6 +133,77 @@ async function markNotificationRead(c, userId, unitIds, notificationId) {
   }
   return result.body.length > 0;
 }
+async function supabaseAuth(c, path, payload, accessToken) {
+  const headers = {
+    apikey: c.publishableKey,
+    "Content-Type": "application/json",
+    Accept: "application/json"
+  };
+  if (accessToken) headers.Authorization = "Bearer " + accessToken;
+  return request(c.baseUrl + "/auth/v1/" + path, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(payload || {})
+  });
+}
+function safeSession(body) {
+  if (!body || typeof body.access_token !== "string" ||
+      typeof body.refresh_token !== "string" ||
+      !Number.isFinite(Number(body.expires_in))) return null;
+  return {
+    access_token: body.access_token,
+    refresh_token: body.refresh_token,
+    token_type: "bearer",
+    expires_in: Number(body.expires_in),
+    expires_at: Number(body.expires_at) || Math.floor(Date.now() / 1000) + Number(body.expires_in),
+    user: body.user && typeof body.user.id === "string"
+      ? { id: body.user.id, email: typeof body.user.email === "string" ? body.user.email : null }
+      : null
+  };
+}
+async function authOperation(c, req, res) {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST, OPTIONS");
+    return send(res, 405, { success: false, code: "method_not_allowed", message: "Metode tidak diizinkan." });
+  }
+  const body = bodyOf(req);
+  const action = String(body.action || "");
+  let result;
+  if (action === "login") {
+    const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+    const password = typeof body.password === "string" ? body.password : "";
+    if (email.length > 254 || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email) ||
+        password.length < 1 || password.length > 256) {
+      return send(res, 400, { success: false, code: "invalid_credentials_format", message: "Email atau kata sandi tidak valid." });
+    }
+    result = await supabaseAuth(c, "token?grant_type=password", { email, password });
+  } else if (action === "refresh") {
+    const refreshToken = typeof body.refresh_token === "string" ? body.refresh_token : "";
+    if (!refreshToken || refreshToken.length > 4096) {
+      return send(res, 400, { success: false, code: "invalid_refresh_token", message: "Sesi perlu diperbarui. Silakan masuk kembali." });
+    }
+    result = await supabaseAuth(c, "token?grant_type=refresh_token", { refresh_token: refreshToken });
+  } else if (action === "logout") {
+    const accessToken = bearer(req);
+    if (accessToken) await supabaseAuth(c, "logout", {}, accessToken);
+    return send(res, 200, { success: true });
+  } else {
+    return send(res, 400, { success: false, code: "invalid_action", message: "Operasi autentikasi tidak dikenal." });
+  }
+  if (result.response.status === 400 || result.response.status === 401 || result.response.status === 422) {
+    return send(res, 401, { success: false, code: "authentication_failed", message: "Email atau kata sandi salah, atau sesi telah berakhir." });
+  }
+  if (!result.response.ok) {
+    return send(res, 503, { success: false, code: "auth_unavailable", message: "Layanan autentikasi sedang tidak tersedia." });
+  }
+  const session = safeSession(result.body);
+  if (!session || !session.user) return send(res, 502, { success: false, code: "invalid_auth_response", message: "Respons autentikasi tidak dapat diverifikasi." });
+  const roles = await activeRoles(c, session.user.id);
+  if (!requireRole(roles)) {
+    return send(res, 403, { success: false, code: "insufficient_role", message: "Akun berhasil dikenali, tetapi belum memiliki peran Tata Usaha yang aktif. Hubungi Kepala TU atau administrator yang berwenang." });
+  }
+  return send(res, 200, { success: true, session, roles: roles.map(role => ({ role_code: role.role_code, unit_id: role.unit_id })) });
+}
 function bodyOf(req) {
   return req.body && typeof req.body === "object" && !Array.isArray(req.body) ? req.body : {};
 }
@@ -154,8 +225,13 @@ module.exports = async function tuApi(req, res) {
   }
   const c = config();
   if (!c) return send(res, 503, { success: false, code: "service_unavailable", message: "Konfigurasi layanan TU belum lengkap." });
+  const op = String((req.query && req.query.op) || "");
+  if (op === "auth") {
+    try { return await authOperation(c, req, res); }
+    catch (error) { return safeError(res, error); }
+  }
   const token = bearer(req);
-  if (!token) return send(res, 401, { success: false, code: "unauthorized", message: "Silakan masuk melalui akun PINTUKU." });
+  if (!token) return send(res, 401, { success: false, code: "unauthorized", message: "Silakan masuk melalui akun Tata Usaha." });
 
   try {
     const auth = await authenticate(c, token);
@@ -163,7 +239,6 @@ module.exports = async function tuApi(req, res) {
     const roles = await activeRoles(c, auth.user.id);
     if (!requireRole(roles)) return send(res, 403, { success: false, code: "insufficient_role", message: "Akun belum memiliki peran Tata Usaha." });
 
-    const op = String((req.query && req.query.op) || "");
     if (op === "context" && req.method === "GET") {
       const units = await listUnits(c);
       const unitIds = [...new Set(roles.map(role => role.unit_id).filter(Boolean))];
