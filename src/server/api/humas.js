@@ -844,6 +844,7 @@ module.exports=async function humasApi(req,res){
       }
       if(req.method==="PATCH"){
         const id=str(b.id,64),payload={};for(const k of ["task_title","task_category","task_status","due_at","notes"])if(Object.prototype.hasOwnProperty.call(b,k))payload[k]=String(b[k]??"").trim();
+        if(Object.prototype.hasOwnProperty.call(b,"assigned_to")){const assignee=String(b.assigned_to??"").trim();if(assignee&&!uuid(assignee))return send(res,400,{success:false,error:"invalid_request",message:"ID petugas tidak valid."});payload.assigned_to=assignee;}
         if(!uuid(id)||!Object.keys(payload).length||(payload.task_category&&!PROTOCOL_TASKS.has(payload.task_category))||(payload.due_at&&!isoDateTime(payload.due_at))||(payload.task_status&&!["pending","in_progress","done","blocked","cancelled"].includes(payload.task_status)))return send(res,400,{success:false,error:"invalid_request",message:"Perubahan checklist tidak valid."});
         const task=await rpc(c,"protocol_task_update",{p_actor_id:auth.user.id,p_actor_role:WRITE_ROLE,p_task_id:id,p_payload:payload});
         return send(res,200,{success:true,data:{task}});
