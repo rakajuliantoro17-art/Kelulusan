@@ -60,6 +60,18 @@
   ],
   "rewrites": [
     {
+      "source": "/api/tu/auth",
+      "destination": "/api/tu?op=auth"
+    },
+    {
+      "source": "/tata-usaha/login",
+      "destination": "/src/pintuku/dashboard/tata-usaha-login.html"
+    },
+    {
+      "source": "/tata-usaha/login/",
+      "destination": "/src/pintuku/dashboard/tata-usaha-login.html"
+    },
+    {
       "source": "/api/tu/notifications/read",
       "destination": "/api/tu?op=notification-read"
     },
