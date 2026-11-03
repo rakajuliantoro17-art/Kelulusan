@@ -1,7 +1,7 @@
 "use strict";
 const test=require("node:test");
 const assert=require("node:assert/strict");
-const handler=require("../src/server/api/humas-alumni-public.js");
+const handler=require("../../../src/server/api/humas-alumni-public.js");
 
 function validBody(overrides={}){return{
  full_name:"Alumni Pengujian",graduation_year:"2018",whatsapp:"08123456789",email:"",
