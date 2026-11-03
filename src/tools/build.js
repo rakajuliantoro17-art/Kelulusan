@@ -64,6 +64,8 @@ const REQUIRED = [
   "src/pintuku/assets/css/service-modules.css",
   "src/pintuku/dashboard/sarpras.html",
   "src/pintuku/dashboard/tata-usaha.html",
+  "src/pintuku/assets/css/tata-usaha-dashboard.css",
+  "src/pintuku/assets/js/tata-usaha-dashboard.js",
   "src/pintuku/pwa/sw.js",
   "src/pintuku/pwa/manifest.json",
   "src/pintuku/assets/css/portal.css",
