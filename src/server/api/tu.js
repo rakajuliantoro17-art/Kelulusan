@@ -78,9 +78,12 @@ async function activeRoles(c, userId) {
   return result.body.filter(row => row && ALLOWED_ROLES.has(row.role_code) &&
     (row.unit_id === null || /^[0-9a-f-]{36}$/i.test(row.unit_id)));
 }
+const TU_ACCESS_ROLES = new Set([
+  "principal", "head_tu", "fo_coordinator", "fo_receptionist", "unit_officer", "tu_operator"
+]);
 function requireRole(roles) {
-  // Technical operators do not receive business-data access by virtue of their technical role.
-  return Array.isArray(roles) && roles.some(role => role.role_code !== "system_operator");
+  // Only explicit TU business roles may enter this workspace; teacher roles and technical operators are insufficient.
+  return Array.isArray(roles) && roles.some(role => TU_ACCESS_ROLES.has(role.role_code));
 }
 async function listUnits(c) {
   const query = new URLSearchParams({
