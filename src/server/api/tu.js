@@ -189,7 +189,7 @@ async function createVisit(c, userId, body) {
   const scheduledAt = typeof body.scheduled_at === "string" ? body.scheduled_at : null;
   if (visitorName.length < 2 || visitorName.length > 100 || purpose.length < 2 || purpose.length > 160 ||
       organization.length > 120 || phone.length > 25 || (phone && !/^[+0-9 ()-]{6,25}$/.test(phone)) ||
-      host.length > 100 || notes.length > 1000 || !UUID_RE.test(unitId)) {
+      host.length > 100 || notes.length > 1000 || !UUID_RE.test(unitId) || body.privacy_notice_delivered !== true) {
     throw visitError("invalid_visit_input");
   }
   if (kind === "appointment" && (!scheduledAt || !Number.isFinite(Date.parse(scheduledAt)) || Date.parse(scheduledAt) < Date.now() - 300000)) {
@@ -206,6 +206,7 @@ async function createVisit(c, userId, body) {
     contact_phone: phone || null, purpose, destination_unit_id: unitId,
     host_name: host || null, notes: notes || null, visit_kind: kind,
     scheduled_at: kind === "appointment" ? new Date(scheduledAt).toISOString() : null,
+    privacy_notice_delivered: true, privacy_notice_delivered_at: new Date().toISOString(),
     source: "receptionist", status: "pending_unit", created_by: userId, updated_by: userId
   };
   const headers = adminHeaders(c);
