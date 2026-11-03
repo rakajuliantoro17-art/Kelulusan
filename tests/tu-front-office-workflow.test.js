@@ -47,8 +47,8 @@ test("resubmitted clarification notifies the destination unit again", () => {
   assert.match(followup, /new\.status = 'pending_unit'/);
   assert.match(followup, /Klarifikasi kunjungan telah dikirim/);
   assert.match(followup, /recipient_unit_id, notification_type/);
-  assert.match(appendOnly, /revoke update, delete on tu\\.visit_events from service_role/);
-  assert.match(appendOnly, /grant select, insert on tu\\.visit_events to service_role/);
+  assert.ok(appendOnly.includes("revoke update, delete on tu.visit_events from service_role"));
+  assert.ok(appendOnly.includes("grant select, insert on tu.visit_events to service_role"));
 });
 
 test("Front Office UI uses server APIs and does not keep volatile visitor arrays", () => {
