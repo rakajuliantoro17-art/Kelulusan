@@ -106,6 +106,6 @@ test("Sprint 5 alumni directory uses a short public data-update form and simple 
   assert.match(publicHtml,/sekitar 1 menit/);
   assert.match(publicJs,/contact_preference=out\.whatsapp\?"whatsapp":out\.email\?"email":"none"/);
   assert.match(publicApi,/p_payload:payload/);
-  assert.match(publicApi,/Formulir publik pembaruan data alumni/);
+  assert.match(publicApi,/!payload\.whatsapp&&!payload\.email/);
   assert.match(alumniUi,/latest_updated_at/);
 });
