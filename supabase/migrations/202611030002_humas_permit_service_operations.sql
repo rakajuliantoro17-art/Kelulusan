@@ -94,7 +94,7 @@ begin
       and ur.role_code='staff_humas' and ur.is_active=true and ur.revoked_at is null) then
     raise exception using errcode='42501',message='forbidden';
   end if;
-  if p_priority not in ('low','normal','high','urgent')
+  if p_priority is null or p_priority not in ('low','normal','high','urgent')
     or (p_pause and nullif(pg_catalog.btrim(coalesce(p_pause_reason,'')),'') is null)
     or (p_first_response_due_at is not null and p_resolution_due_at is not null
       and p_resolution_due_at < p_first_response_due_at) then
