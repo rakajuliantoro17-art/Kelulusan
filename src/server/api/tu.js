@@ -186,6 +186,40 @@ async function authOperation(c, req, res) {
       return send(res, 400, { success: false, code: "invalid_refresh_token", message: "Sesi perlu diperbarui. Silakan masuk kembali." });
     }
     result = await supabaseAuth(c, "token?grant_type=refresh_token", { refresh_token: refreshToken });
+  } else if (action === "verify-invite") {
+    const tokenHash = typeof body.token_hash === "string" ? body.token_hash.trim() : "";
+    if (tokenHash.length < 20 || tokenHash.length > 512 || !/^[A-Za-z0-9._~-]+$/.test(tokenHash)) {
+      return send(res, 400, { success: false, code: "invalid_invite_token", message: "Tautan undangan tidak valid. Minta administrator mengirim undangan baru." });
+    }
+    result = await supabaseAuth(c, "verify", { token_hash: tokenHash, type: "invite" });
+    if (result.response.status === 400 || result.response.status === 401 || result.response.status === 422) {
+      return send(res, 410, { success: false, code: "invite_expired", message: "Tautan undangan sudah kedaluwarsa atau pernah digunakan. Minta undangan baru kepada administrator." });
+    }
+    if (!result.response.ok) return send(res, 503, { success: false, code: "auth_unavailable", message: "Layanan verifikasi undangan sedang tidak tersedia." });
+    const inviteSession = safeSession(result.body);
+    if (!inviteSession || !inviteSession.user) return send(res, 502, { success: false, code: "invalid_auth_response", message: "Respons verifikasi undangan tidak dapat diverifikasi." });
+    return send(res, 200, { success: true, access_token: inviteSession.access_token, email: inviteSession.user.email });
+  } else if (action === "set-invite-password") {
+    const accessToken = typeof body.access_token === "string" ? body.access_token : "";
+    const password = typeof body.password === "string" ? body.password : "";
+    if (!accessToken || accessToken.length > 8192 || password.length < 12 || password.length > 256) {
+      return send(res, 400, { success: false, code: "invalid_password_input", message: "Kata sandi harus terdiri dari 12–256 karakter." });
+    }
+    const identity = await authenticate(c, accessToken);
+    if (!identity.ok) return send(res, 401, { success: false, code: "invite_session_invalid", message: "Sesi undangan tidak valid. Buka kembali tautan undangan." });
+    const update = await request(c.baseUrl + "/auth/v1/user", {
+      method: "PUT",
+      headers: { apikey: c.publishableKey, Authorization: "Bearer " + accessToken, "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ password })
+    });
+    if (update.response.status === 400 || update.response.status === 422) {
+      return send(res, 400, { success: false, code: "password_rejected", message: "Kata sandi ditolak. Gunakan kata sandi yang lebih kuat dan coba kembali." });
+    }
+    if (!update.response.ok || !update.body || typeof update.body.id !== "string") {
+      return send(res, 503, { success: false, code: "password_update_failed", message: "Kata sandi belum berhasil disimpan. Coba kembali melalui tautan undangan yang masih aktif." });
+    }
+    await supabaseAuth(c, "logout", {}, accessToken);
+    return send(res, 200, { success: true, message: "Kata sandi berhasil dibuat. Silakan masuk melalui halaman login Tata Usaha." });
   } else if (action === "logout") {
     const accessToken = bearer(req);
     if (accessToken) await supabaseAuth(c, "logout", {}, accessToken);
