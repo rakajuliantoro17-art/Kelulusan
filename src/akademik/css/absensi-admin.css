@@ -198,3 +198,13 @@ simulasi-tka.css.
     }
 
 }
+
+.absensi-qr-card .absensi-qr-foto{
+    display:block;
+    width:64px;
+    height:80px;
+    object-fit:cover;
+    border-radius:8px;
+    margin:0 auto 8px;
+    background:#e5e7eb;
+}

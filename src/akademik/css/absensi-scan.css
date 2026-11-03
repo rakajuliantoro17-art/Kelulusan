@@ -260,3 +260,14 @@ dari jarak antre.
     }
 
 }
+
+.absensi-scan-feedback .absensi-scan-foto{
+    display:block;
+    width:96px;
+    height:120px;
+    object-fit:cover;
+    border-radius:12px;
+    margin:0 auto 10px;
+    background:#e5e7eb;
+    box-shadow:0 4px 14px rgba(0,0,0,.2);
+}

@@ -33,6 +33,7 @@ Response:
 const { fetchSheetRows, cleanNIS } = require("./_lib/gsheet");
 const { appendRow } = require("./_lib/gsheet-write");
 const { verifyAdmin } = require("./admin-auth");
+const { ambilSiswa, uraiKode } = require("./_lib/siswa-sync");
 
 const SHEET_STUDENTS = "STUDENTS";
 const SHEET_ABSENSI = "ABSENSI";
@@ -105,7 +106,20 @@ module.exports = async (req, res) => {
 
     const body = readBody(req);
 
-    const nis = cleanNIS(body.nis);
+    // Kartu Kesiswaan: "kode" bertanda tangan (SSK1.<NIS>.<tanda>). QR lama (hanya NIS) tetap diterima.
+    const kodeMentah = String(body.kode || "").trim();
+    let nis = "";
+
+    if (kodeMentah) {
+        nis = uraiKode(kodeMentah) || "";
+        if (!nis) {
+            res.status(200).json({ success: false, status: "invalid", message: "QR tidak dikenali atau bukan kartu siswa SMAN 1 Sooko." });
+            return;
+        }
+        nis = cleanNIS(nis);
+    } else {
+        nis = cleanNIS(body.nis);
+    }
     const mapel = String(body.mapel || "").trim();
     const jamKe = String(body.jamKe || "").trim();
 
@@ -121,28 +135,11 @@ module.exports = async (req, res) => {
 
     try {
 
-        // 1) Cari siswa dari sheet STUDENTS.
-        const studentRows = await fetchSheetRows(SHEET_STUDENTS, spreadsheetId);
+        // 1) Cari siswa: utama dari Data_Siswa Kesiswaan (ada foto), cadangan sheet STUDENTS.
+        const { list } = await ambilSiswa(spreadsheetId);
 
-        let student = null;
-
-        for (let i = 1; i < studentRows.length; i++) {
-
-            const row = studentRows[i];
-
-            if (cleanNIS(row[0]) === nis) {
-
-                student = {
-                    nis,
-                    nama: String(row[1] || "").trim(),
-                    kelas: String(row[2] || "").trim()
-                };
-
-                break;
-
-            }
-
-        }
+        const found = list.find((x) => cleanNIS(x.nis) === nis);
+        const student = found ? { nis, nama: found.nama, kelas: found.kelas, foto: found.foto || "" } : null;
 
         if (!student) {
             res.status(200).json({
@@ -179,7 +176,7 @@ module.exports = async (req, res) => {
                 success: true,
                 status: "duplicate",
                 message: `${student.nama} sudah tercatat hadir untuk sesi ini.`,
-                data: { nama: student.nama, kelas: student.kelas }
+                data: { nis: student.nis, nama: student.nama, kelas: student.kelas, foto: student.foto }
             });
             return;
         }
@@ -200,7 +197,7 @@ module.exports = async (req, res) => {
             success: true,
             status: "recorded",
             message: `${student.nama} berhasil dicatat hadir.`,
-            data: { nama: student.nama, kelas: student.kelas }
+            data: { nis: student.nis, nama: student.nama, kelas: student.kelas, foto: student.foto }
         });
 
     } catch (err) {

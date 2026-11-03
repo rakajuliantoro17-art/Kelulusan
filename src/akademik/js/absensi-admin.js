@@ -80,9 +80,14 @@ CHANGELOG (v1.1.0):
 
     }
 
-    function qrPayload(nis) {
+    // Isi QR = kode kartu Kesiswaan (SSK1.<NIS>.<tanda>) sehingga satu kartu
+    // dipakai di Kesiswaan dan Akademik. Kalau server tidak mengirim kode
+    // (mis. cadangan lama), pakai format JSON lama.
+    function qrPayload(student) {
 
-        return JSON.stringify({ t: "SMANSASOO-ABSEN", nis: String(nis) });
+        if (student && student.kode) return student.kode;
+
+        return JSON.stringify({ t: "SMANSASOO-ABSEN", nis: String(student && student.nis) });
 
     }
 
@@ -124,11 +129,11 @@ CHANGELOG (v1.1.0):
 
     }
 
-    function drawQr(canvas, nis) {
+    function drawQr(canvas, student) {
 
         return new Promise((resolve, reject) => {
 
-            window.QRCode.toCanvas(canvas, qrPayload(nis), { width: 220, margin: 1 }, (err) => {
+            window.QRCode.toCanvas(canvas, qrPayload(student), { width: 220, margin: 1 }, (err) => {
 
                 if (err) reject(err);
                 else resolve();
@@ -147,6 +152,19 @@ CHANGELOG (v1.1.0):
 
         const card = document.createElement("div");
         card.className = "absensi-qr-card";
+
+        if (student.foto) {
+
+            const foto = document.createElement("img");
+            foto.className = "absensi-qr-foto";
+            foto.src = student.foto;
+            foto.alt = "Foto " + student.nama;
+            foto.loading = "lazy";
+            foto.referrerPolicy = "no-referrer";
+            foto.onerror = () => foto.remove();
+            card.appendChild(foto);
+
+        }
 
         const canvas = document.createElement("canvas");
         card.appendChild(canvas);
@@ -214,7 +232,7 @@ CHANGELOG (v1.1.0):
                 grid.appendChild(card);
 
                 jobs.push(
-                    drawQr(canvas, student.nis).catch((err) => {
+                    drawQr(canvas, student).catch((err) => {
 
                         failed++;
                         console.warn("Gagal generate QR untuk", student.nis, err);
@@ -574,7 +592,7 @@ CHANGELOG (v1.1.0):
 
                 }
 
-                const dataUrl = await window.QRCode.toDataURL(qrPayload(list[i].nis), {
+                const dataUrl = await window.QRCode.toDataURL(qrPayload(list[i]), {
                     width: PRINT_QR_SIZE,
                     margin: 1,
                     errorCorrectionLevel: "M"
@@ -647,7 +665,9 @@ CHANGELOG (v1.1.0):
         return (Array.isArray(list) ? list : []).map((s) => ({
             nis: String(s.nis == null ? "" : s.nis),
             nama: String(s.nama == null ? "" : s.nama),
-            kelas: String(s.kelas == null ? "" : s.kelas)
+            kelas: String(s.kelas == null ? "" : s.kelas),
+            foto: String(s.foto == null ? "" : s.foto),
+            kode: String(s.kode == null ? "" : s.kode)
         })).filter((s) => s.nis);
 
     }

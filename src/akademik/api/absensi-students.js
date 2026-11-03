@@ -18,10 +18,8 @@ TIDAK butuh Service Account.
 ==========================================================
 */
 
-const { fetchSheetRows, cleanNIS } = require("./_lib/gsheet");
 const { verifyAdmin } = require("./admin-auth");
-
-const SHEET_NAME = "STUDENTS";
+const { ambilSiswa, kodeUntuk } = require("./_lib/siswa-sync");
 
 module.exports = async (req, res) => {
 
@@ -51,28 +49,16 @@ module.exports = async (req, res) => {
 
     try {
 
-        const rows = await fetchSheetRows(SHEET_NAME, spreadsheetId);
+        const { list, sumber } = await ambilSiswa(spreadsheetId);
 
-        const students = [];
-
-        for (let i = 1; i < rows.length; i++) {
-
-            const row = rows[i];
-
-            const nis = cleanNIS(row[0]);
-            const nama = String(row[1] || "").trim();
-            const kelas = String(row[2] || "").trim();
-
-            if (!nis || !nama) continue;
-
-            students.push({ nis, nama, kelas });
-
-        }
+        const students = list
+            .filter((x) => x.nis && x.nama)
+            .map((x) => ({ nis: x.nis, nama: x.nama, kelas: x.kelas, foto: x.foto || "", kode: kodeUntuk(x.nis) }));
 
         res.status(200).json({
             success: true,
             configured: true,
-            message: `Berhasil memuat ${students.length} siswa.`,
+            message: `Berhasil memuat ${students.length} siswa (sumber: ${sumber === "kesiswaan" ? "Data Siswa Kesiswaan" : "sheet STUDENTS absensi"}).`,
             data: students
         });
 

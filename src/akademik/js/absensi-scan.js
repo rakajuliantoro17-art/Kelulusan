@@ -19,7 +19,8 @@ lewat kamera. Alur:
      kamera di setiap siswa).
 
 Format isi QR (dibuat oleh pages/absensi-admin.html):
-  {"t":"SMANSASOO-ABSEN","nis":"<NIS>"}
+  Kartu Kesiswaan : SSK1.<NIS>.<tanda tangan>   (utama, ada foto)
+  QR lama (JSON)  : {"t":"SMANSASOO-ABSEN","nis":"<NIS>"}
 ==========================================================
 */
 
@@ -67,14 +68,20 @@ Format isi QR (dibuat oleh pages/absensi-admin.html):
 
     }
 
+    // Hasil: { kode } untuk kartu Kesiswaan (SSK1.<NIS>.<tanda>, diverifikasi server),
+    // { nis } untuk QR lama berformat JSON, atau null kalau bukan QR kita.
     function parseQrText(text) {
+
+        const raw = String(text || "").trim();
+
+        if (/^SSK1\.[A-Za-z0-9\-_]{1,24}\.[0-9A-F]{10}$/.test(raw)) return { kode: raw };
 
         try {
 
-            const data = JSON.parse(text);
+            const data = JSON.parse(raw);
 
             if (data && data.t === "SMANSASOO-ABSEN" && data.nis) {
-                return String(data.nis);
+                return { nis: String(data.nis) };
             }
 
             return null;
@@ -87,13 +94,27 @@ Format isi QR (dibuat oleh pages/absensi-admin.html):
 
     }
 
+    function escapeHtml(s) {
+
+        return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+    }
+
+    function fotoHtml(data) {
+
+        if (!data || !data.foto) return "";
+
+        return `<img class="absensi-scan-foto" src="${escapeHtml(data.foto)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">`;
+
+    }
+
     async function handleDecoded(text) {
 
         if (isPaused) return;
 
-        const nis = parseQrText(text);
+        const parsed = parseQrText(text);
 
-        if (!nis) {
+        if (!parsed) {
             showFeedback("err", "QR tidak dikenali", "Pastikan ini kartu QR absensi SMANSASOO.");
             pauseThenResume(1500);
             return;
@@ -107,7 +128,7 @@ Format isi QR (dibuat oleh pages/absensi-admin.html):
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    nis,
+                    ...parsed,
                     mapel: currentSession.mapel,
                     jamKe: currentSession.jamKe
                 })
@@ -117,13 +138,17 @@ Format isi QR (dibuat oleh pages/absensi-admin.html):
 
             if (result.status === "recorded") {
 
-                showFeedback("ok", `&#10003; ${result.data.nama}`, `${result.data.kelas || ""} &middot; berhasil dicatat hadir`.trim());
+                showFeedback("ok", `${fotoHtml(result.data)}&#10003; ${escapeHtml(result.data.nama)}`, `${escapeHtml(result.data.kelas || "")} &middot; berhasil dicatat hadir`.trim());
                 recordedCount += 1;
                 updateCount();
 
             } else if (result.status === "duplicate") {
 
-                showFeedback("warn", `${result.data.nama}`, "Sudah tercatat hadir untuk sesi ini.");
+                showFeedback("warn", `${fotoHtml(result.data)}${escapeHtml(result.data.nama)}`, "Sudah tercatat hadir untuk sesi ini.");
+
+            } else if (result.status === "invalid") {
+
+                showFeedback("err", "QR tidak dikenali", escapeHtml(result.message || "Bukan kartu siswa SMAN 1 Sooko."));
 
             } else if (result.status === "not_found") {
 
