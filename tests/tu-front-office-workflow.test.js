@@ -29,7 +29,7 @@ test("unit approval and front office check-in/check-out are separate authorities
   assert.match(api, /if \(!isFrontOffice\) throw visitError\("visit_forbidden"\)/);
   assert.match(api, /visit\.status !== "approved"/);
   assert.match(api, /visit\.status !== "checked_in"/);
-  assert.match(api, /status: "checked_in"/);
+  assert.match(api, /nextStatus = "checked_in"/);
 });
 
 test("visit schema has RLS, private browser grants, audit and notification triggers", () => {
