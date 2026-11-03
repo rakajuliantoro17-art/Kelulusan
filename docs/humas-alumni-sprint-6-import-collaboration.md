@@ -54,6 +54,7 @@ Migrations:
 - 202611030006_humas_alumni_import_batch_duplicate_fix.sql
 - 202611030007_humas_alumni_import_update_existing.sql
 - 202611030008_humas_alumni_import_preserve_known_status.sql
+- 202611030009_humas_alumni_import_fk_indexes.sql
 
 Tabel:
 - humas.alumni_import_batches
