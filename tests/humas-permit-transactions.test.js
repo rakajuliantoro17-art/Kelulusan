@@ -48,3 +48,14 @@ test("permit workspace provides list, detail, workflow and document interactions
  assert.match(ui,/facilityFields/);
  assert.match(ui,/agendaPermitSelect/);
 });
+
+
+test("Sprint 3 protocol checklist tasks support validated staff assignment end-to-end",()=>{
+ const migration=fs.readFileSync(path.join(root,"supabase/migrations/202611030001_humas_protocol_task_assignment.sql"),"utf8");
+ assert.ok(migration.includes("task_assignment_changed"));
+ assert.ok(migration.includes("invalid_task_assignee"));
+ assert.ok(migration.includes("ur.role_code='staff_humas'"));
+ assert.ok(api.includes("payload.assigned_to=assignee"));
+ assert.ok(ui.includes("data-task-assignment"));
+ assert.ok(ui.includes("Tugas berhasil diambil."));
+});
