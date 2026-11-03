@@ -24,6 +24,7 @@
                     <button class="settings-close" id="settingsClose" type="button" aria-label="Tutup panel">&times;</button>
                 </div>
                 <div class="settings-drawer-body">
+                    <section class="settings-account" id="settingsAccount" aria-label="Akun staf"></section>
                     <div class="settings-row">
                         <div class="settings-row-text">
                             <span class="settings-row-title">Mode tampilan</span>
@@ -58,12 +59,26 @@
             drawer.setAttribute("aria-hidden", "true");
             trigger.setAttribute("aria-expanded", "false");
         };
+        // Akun staf (login, menu sesuai peran, keluar) ada di panel ini: satu-satunya tombol melayang.
+        const account = document.getElementById("settingsAccount");
+        const syncAccount = () => {
+            if (window.AdminBadge) AdminBadge.renderInto(account);
+            const s = window.AdminBadge ? AdminBadge.summary() : { logged: false, label: "" };
+            trigger.classList.toggle("is-active", s.logged);
+            trigger.setAttribute("aria-label", s.logged ? "Buka panel pengaturan (" + s.label + ")" : "Buka panel pengaturan dan masuk staf");
+        };
         const open = () => {
+            syncAccount();
             drawer.classList.add("open");
             overlay.classList.add("open");
             drawer.setAttribute("aria-hidden", "false");
             trigger.setAttribute("aria-expanded", "true");
+            if (window.AdminBadge) AdminBadge.focusLogin();
         };
+        // pilih menu di halaman yang sama (mis. #data): tutup panel
+        account.addEventListener("click", (e) => { if (e.target.closest(".kd-menu-item")) close(); });
+        document.addEventListener("adminauth:change", syncAccount);
+        syncAccount();
 
         trigger.addEventListener("click", () => drawer.classList.contains("open") ? close() : open());
         overlay.addEventListener("click", close);
