@@ -109,6 +109,7 @@ jobs:
           node --check src/pintuku/assets/js/tu-auth.js
           node --check src/pintuku/assets/js/tu-login.js
           node --check src/pintuku/assets/js/tu-invite.js
+          node --check src/pintuku/assets/js/tata-usaha-front-office.js
           node --check tests/tu-invite-static.test.js
           node --check src/pintuku/assets/js/tata-usaha-access.js
           node --check api/humas-notifications.js
@@ -188,6 +189,9 @@ jobs:
 
       - name: Run TU invitation acceptance security tests
         run: node --test tests/tu-invite-static.test.js
+
+      - name: Run TU Front Office workflow security tests
+        run: node --test tests/tu-front-office-workflow.test.js
 
       - name: Run TU bootstrap security tests
         run: node --test tests/tu-bootstrap-static.test.js
