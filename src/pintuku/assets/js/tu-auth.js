@@ -28,6 +28,13 @@
  };
  window.tuAuth=Object.freeze({
   getAccessToken,
+  getContext:async()=>{
+   const token=await getAccessToken();
+   const response=await fetch("/api/tu/context",{headers:{Authorization:"Bearer "+token},cache:"no-store"});
+   const data=await response.json().catch(()=>({}));
+   if(!response.ok||!data.success)throw new Error(data.message||"context_unavailable");
+   return data;
+  },
   getSession:()=>session?{user:session.user||null,expires_at:session.expires_at}:null,
   logout:async()=>{const token=session?.access_token;clear();session=null;try{await fetch("/api/tu/auth",{method:"POST",headers:{"Content-Type":"application/json",...(token?{Authorization:"Bearer "+token}:{})},cache:"no-store",body:JSON.stringify({action:"logout"})});}catch(_){}location.replace(LOGIN);}
  });
