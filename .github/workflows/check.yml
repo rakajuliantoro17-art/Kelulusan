@@ -104,6 +104,7 @@ jobs:
           node --check src/pintuku/assets/js/humas-perizinan-public.js
           node --check src/server/api/humas.js
           node --check src/server/api/tu.js
+          node --check tests/tu-bootstrap-static.test.js
           node --check api/tu.js
           node --check src/pintuku/assets/js/tu-auth.js
           node --check src/pintuku/assets/js/tu-login.js
@@ -179,6 +180,9 @@ jobs:
 
       - name: Run TU authentication security tests
         run: node --test tests/tu-auth-static.test.js
+
+      - name: Run TU bootstrap security tests
+        run: node --test tests/tu-bootstrap-static.test.js
 
       - name: Success
         run: echo "Integrated project verification completed."
