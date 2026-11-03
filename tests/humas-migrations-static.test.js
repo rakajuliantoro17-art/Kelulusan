@@ -123,14 +123,15 @@ test("public alumni intake stores pending submissions and gates review through s
 
 test("Sprint 4 permit service operations add SLA, private notes and communication history",()=>{
   const sql=migration(files[16]);
-  for(const column of ["priority","first_response_due_at","first_responded_at","resolution_due_at","sla_paused_at","sla_pause_reason","last_activity_at"])assert.match(sql,new RegExp("add column if not exists "+column));
+  for(const column of ["priority","first_response_due_at","first_responded_at","resolution_due_at","sla_paused_at","sla_pause_reason","last_activity_at"])assert.ok(sql.includes("add column if not exists "+column));
   for(const table of ["permit_internal_notes","permit_communications"]){
-    assert.match(sql,new RegExp("create table if not exists humas\\\\."+table));
-    assert.match(sql,new RegExp("alter table humas\\\\."+table+" enable row level security"));
+    assert.ok(sql.includes("create table if not exists humas."+table));
+    assert.ok(sql.includes("alter table humas."+table+" enable row level security"));
   }
-  for(const fn of ["permit_set_service_level","permit_internal_note_create","permit_communication_log_create","permit_operational_summary"])assert.match(sql,new RegExp("create or replace function humas\\\\."+fn));
-  assert.match(sql,/first_responded_at is null/);
-  assert.match(sql,/task_status in \\(\x27pending\x27,\x27in_progress\x27,\x27blocked\x27\\)/);
-  assert.match(sql,/revoke all on table humas\\.permit_internal_notes,humas\\.permit_communications/);
-  assert.match(sql,/to service_role/);
+  for(const fn of ["permit_set_service_level","permit_internal_note_create","permit_communication_log_create","permit_operational_summary"])assert.ok(sql.includes("create or replace function humas."+fn));
+  assert.ok(sql.includes("first_responded_at is null"));
+  assert.ok(sql.includes("resolution_due_at + (pg_catalog.now()-sla_paused_at)"));
+  assert.ok(sql.includes("task_status in ('pending','in_progress','blocked')"));
+  assert.ok(sql.includes("revoke all on table humas.permit_internal_notes,humas.permit_communications"));
+  assert.ok(sql.includes("to service_role"));
 });
