@@ -109,7 +109,14 @@ begin
   update humas.permit_requests set
     priority=p_priority,
     first_response_due_at=p_first_response_due_at,
-    resolution_due_at=p_resolution_due_at,
+    resolution_due_at=case
+      when not p_pause and sla_paused_at is not null
+        then resolution_due_at + (pg_catalog.now()-sla_paused_at)
+      else p_resolution_due_at end,
+    first_response_due_at=case
+      when not p_pause and sla_paused_at is not null
+        then first_response_due_at + (pg_catalog.now()-sla_paused_at)
+      else p_first_response_due_at end,
     sla_paused_at=case when p_pause then coalesce(sla_paused_at,pg_catalog.now()) else null end,
     sla_pause_reason=case when p_pause then nullif(pg_catalog.btrim(p_pause_reason),'') else null end,
     last_activity_at=pg_catalog.now()
@@ -195,7 +202,12 @@ begin
     coalesce(nullif(p_payload->>'contacted_at','')::timestamptz,pg_catalog.now()),
     nullif(p_payload->>'follow_up_at','')::timestamptz,p_actor_id,p_actor_role
   ) returning * into v_row;
-  update humas.permit_requests set last_activity_at=pg_catalog.now() where id=p_permit_id;
+  update humas.permit_requests set
+    last_activity_at=pg_catalog.now(),
+    first_responded_at=case
+      when v_row.direction='outbound' then coalesce(first_responded_at,v_row.contacted_at)
+      else first_responded_at end
+  where id=p_permit_id;
   insert into humas.permit_workflow_events(permit_id,event_type,actor_id,actor_role,metadata)
   values(p_permit_id,'communication_logged',p_actor_id,p_actor_role,
     pg_catalog.jsonb_build_object('communication_id',v_row.id,'channel',v_row.channel,'direction',v_row.direction));
@@ -218,13 +230,15 @@ select pg_catalog.jsonb_build_object(
   'high_priority',(select count(*) from humas.permit_requests
     where priority='high' and status not in ('completed','rejected','cancelled','archived')),
   'response_overdue',(select count(*) from humas.permit_requests
-    where submitted_at is not null and first_response_due_at < pg_catalog.now()
-      and sla_paused_at is null and status not in ('completed','rejected','cancelled','archived')),
+    where submitted_at is not null and first_responded_at is null
+      and first_response_due_at < pg_catalog.now() and sla_paused_at is null and status not in ('completed','rejected','cancelled','archived')),
   'resolution_overdue',(select count(*) from humas.permit_requests
     where resolution_due_at < pg_catalog.now() and sla_paused_at is null
       and status not in ('completed','rejected','cancelled','archived')),
-  'followups_due',(select count(*) from humas.permit_communications
-    where follow_up_at <= pg_catalog.now()),
+  'followups_due',(select count(*) from humas.permit_communications c
+    join humas.permit_requests p on p.id=c.permit_id
+    where c.follow_up_at <= pg_catalog.now()
+      and p.status not in ('completed','rejected','cancelled','archived')),
   'protocol_tasks_overdue',(select count(*) from humas.protocol_tasks t
     join humas.protocol_agendas a on a.id=t.agenda_id
     where t.due_at < pg_catalog.now() and t.task_status in ('pending','in_progress','blocked')
