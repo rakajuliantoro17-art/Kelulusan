@@ -103,6 +103,11 @@ jobs:
           node --check src/pintuku/assets/js/humas-perizinan.js
           node --check src/pintuku/assets/js/humas-perizinan-public.js
           node --check src/server/api/humas.js
+          node --check src/server/api/tu.js
+          node --check api/tu.js
+          node --check src/pintuku/assets/js/tu-auth.js
+          node --check src/pintuku/assets/js/tu-login.js
+          node --check src/pintuku/assets/js/tata-usaha-access.js
           node --check api/humas-notifications.js
           node --check src/server/api/humas-alumni-public.js
           echo "JavaScript syntax OK"
@@ -144,6 +149,10 @@ jobs:
         run: |
           node --check src/tools/build.js
           node src/tools/build.js
+          test -f dist/src/pintuku/dashboard/tata-usaha-login.html
+          test -f dist/src/pintuku/assets/css/tata-usaha-login.css
+          test -f dist/src/pintuku/assets/js/tu-auth.js
+          test -f dist/src/pintuku/assets/js/tu-login.js
           test -f dist/src/pintuku/dashboard/index.html
           test -f dist/src/pintuku/dashboard/humas-kemitraan.html
           test -f dist/src/pintuku/assets/css/humas-kemitraan.css
@@ -167,6 +176,9 @@ jobs:
 
       - name: Run HUMAS permit and protocol source tests
         run: node --test tests/humas-migrations-static.test.js tests/humas-permit-transactions.test.js tests/humas-permit-public-intake.test.js
+
+      - name: Run TU authentication security tests
+        run: node --test tests/tu-auth-static.test.js
 
       - name: Success
         run: echo "Integrated project verification completed."
