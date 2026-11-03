@@ -184,6 +184,7 @@ async function createVisit(c, userId, body) {
   const unitId = typeof body.destination_unit_id === "string" ? body.destination_unit_id : "";
   const host = typeof body.host_name === "string" ? body.host_name.trim() : "";
   const notes = typeof body.notes === "string" ? body.notes.trim() : "";
+  if (body.visit_kind !== undefined && !["walk_in","appointment"].includes(body.visit_kind)) throw visitError("invalid_visit_input");
   const kind = body.visit_kind === "appointment" ? "appointment" : "walk_in";
   const scheduledAt = typeof body.scheduled_at === "string" ? body.scheduled_at : null;
   if (visitorName.length < 2 || visitorName.length > 100 || purpose.length < 2 || purpose.length > 160 ||
