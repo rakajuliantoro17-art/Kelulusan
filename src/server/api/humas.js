@@ -558,6 +558,15 @@ module.exports=async function humasApi(req,res){
       res.setHeader("Allow","GET, PATCH");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});
     }
 
+    if(op==="alumni-analytics"){
+      if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
+      if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun ini tidak memiliki akses analitik alumni."});
+      const q=req.query||{};
+      const parseYear=(value)=>{if(value===undefined||value===null||value==="")return null;const s=String(value);if(!/^\\d{4}$/.test(s)||Number(s)<1950||Number(s)>2100)throw Object.assign(new Error("invalid_query"),{code:"invalid_query"});return Number(s);};
+      const graduationYear=parseYear(q.graduation_year),surveyYear=parseYear(q.survey_year);
+      const analytics=await rpc(c,"alumni_analytics",{p_graduation_year:graduationYear,p_survey_year:surveyYear});
+      return send(res,200,{success:true,data:analytics});
+    }
     if(op==="alumni-workspace"){
       if(req.method!=="GET"){res.setHeader("Allow","GET");return send(res,405,{success:false,error:"method_not_allowed",message:"Metode permintaan tidak didukung."});}
       if(!hasRead(userRoles))return send(res,403,{success:false,error:"insufficient_role",message:"Akun ini tidak memiliki akses data alumni."});
