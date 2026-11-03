@@ -140,7 +140,8 @@
    host_name:String(fd.get("host")||"").trim(),
    notes:String(fd.get("notes")||"").trim(),
    visit_kind:fd.get("visit_kind")==="appointment"?"appointment":"walk_in",
-   scheduled_at:String(fd.get("scheduled_at")||"")
+   scheduled_at:String(fd.get("scheduled_at")||""),
+   privacy_notice_delivered:fd.get("privacy_notice_delivered")==="on"
   };
  };
  const submitRegistration=form=>{
