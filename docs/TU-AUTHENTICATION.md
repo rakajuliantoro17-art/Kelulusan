@@ -23,7 +23,7 @@ The database schema `tu` must be present in Supabase **Settings → API → Expo
 
 1. Create or invite the user in Supabase Auth using an approved school email address.
 2. Verify the account through the school's approved identity process.
-3. Assign an active business role in `tu.user_roles` using a trusted administrative process.
+3. Assign the first `head_tu` role using the restricted SQL procedure documented in [Secure Head TU Bootstrap](TU-HEAD-TU-BOOTSTRAP.md). Subsequent role governance will be implemented separately.
 4. Only these roles can enter the TU workspace: `principal`, `head_tu`, `fo_coordinator`, `fo_receptionist`, `unit_officer`, and `tu_operator`.
 5. `teacher`, `homeroom_teacher`, and `system_operator` alone do not authorize entry to the TU workspace.
 
@@ -42,3 +42,8 @@ There is intentionally no public role-assignment or bootstrap endpoint. Do not l
 The access and refresh tokens are readable by JavaScript in the active tab. This is a pragmatic compatibility choice for the current static multi-page portal, not equivalent to an HttpOnly cookie. A strict Content Security Policy, XSS review, and server-managed HttpOnly session are recommended before broad production rollout.
 
 The login flow cannot be considered operational until the deployment environment variables, exposed-schema setting, Supabase Auth account, and at least one authorized TU business-role assignment are configured and verified. No account, role, or credential is created by this code change.
+
+
+## First Head TU bootstrap
+
+The first Head TU role is provisioned only by a trusted database administrator through Supabase SQL Editor. There is no public bootstrap API, browser-side role grant, or self-escalation path. See [TU Head TU Bootstrap](TU-HEAD-TU-BOOTSTRAP.md) and `scripts/tu/bootstrap-first-head-tu.sql`.
