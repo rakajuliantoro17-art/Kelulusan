@@ -24,9 +24,22 @@ async function fetchNilaiJSON(url) {
 
     try {
 
+        // Staf yang sedang login ikut mengirim token, supaya server menyertakan
+        // foto dan QR siswa. Pengunjung biasa tidak punya token dan tidak
+        // menerima data itu.
+        const headers = {};
+
+        try {
+            const sesi = JSON.parse(sessionStorage.getItem("smansasoo-admin-session") || "null");
+            if (sesi && sesi.token && Date.now() < (sesi.exp || 0) * 1000) {
+                headers.Authorization = "Bearer " + sesi.token;
+            }
+        } catch (e) { /* sessionStorage tidak tersedia, lanjut tanpa token */ }
+
         const response = await fetch(url, {
             cache: "no-store",
-            signal: controller.signal
+            signal: controller.signal,
+            headers
         });
 
         if (!response.ok) {

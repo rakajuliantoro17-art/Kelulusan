@@ -442,3 +442,10 @@ body[data-page="nilai"] .bg-layer{
     background-image:url("/assets/akademik/images/tyr.jpg");
 
 }
+
+/* Foto + QR siswa: hanya tampil untuk staf yang login */
+.nilai-identity{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.nilai-staff{display:flex;align-items:center;gap:10px}
+.nilai-staff-foto{width:72px;height:90px;object-fit:cover;border-radius:10px;background:#e5e7eb;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.7rem;color:#64748b}
+.nilai-staff-qr{width:90px;height:90px;border-radius:8px;background:#fff;padding:3px}
+@media print{.nilai-staff{display:none!important}}

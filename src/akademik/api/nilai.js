@@ -27,6 +27,8 @@ CHANGELOG (v1.1.0):
 */
 
 const { SHEET_NAMES, cleanNIS, fetchSheetRows, resolveSheetId } = require("./_lib/gsheet");
+const { verifyAdmin } = require("./admin-auth");
+const { ambilSiswa, kodeUntuk } = require("./_lib/siswa-sync");
 
 function parseSubjectData(mapelTitle, kelas, nis, nama, assessments, nilaiRaport) {
     let completedCount = 0;
@@ -150,6 +152,23 @@ module.exports = async (req, res) => {
         if (subjects.length === 0) {
             res.status(200).json({ success: false, message: `Siswa dengan NIS "${targetNIS}" tidak ditemukan.` });
             return;
+        }
+
+        // Foto dan kode QR kartu HANYA untuk staf yang login. Pencarian nilai ini
+        // terbuka untuk umum dan NIS mudah ditebak, jadi foto siswa dan QR yang
+        // bisa dipakai absen tidak boleh ikut dikirim ke pengunjung biasa.
+        const staf = verifyAdmin(req);
+        if (staf.configured && staf.ok) {
+            try {
+                const { list } = await ambilSiswa(process.env.GOOGLE_SHEET_ID_ABSENSI);
+                const siswa = list.find((x) => cleanNIS(x.nis) === targetNIS);
+                if (siswa) {
+                    const kode = kodeUntuk(siswa.nis);
+                    subjects.forEach((sub) => { sub.foto = siswa.foto || ""; sub.kode = kode; });
+                }
+            } catch (e) {
+                console.warn("nilai: foto/QR staf tidak dimuat:", e && e.message);
+            }
         }
 
         res.status(200).json({ success: true, message: "Data berhasil ditemukan.", data: subjects });

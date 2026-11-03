@@ -138,11 +138,14 @@ window.NilaiUI = (() => {
 
             <div class="nilai-header">
 
-                <div>
+                <div class="nilai-identity">
+                    ${staffBlockHTML(subject)}
+                    <div>
                     <span class="nilai-badge">${escapeHTML(subject.kelas)}</span>
                     <span class="nilai-badge nilai-badge-alt">${escapeHTML(subject.mapel)}</span>
                     <h2>${escapeHTML(subject.nama)}</h2>
                     <p class="nilai-nis">NIS: ${escapeHTML(subject.nis)}</p>
+                    </div>
                 </div>
 
                 <div class="nilai-raport-box">
@@ -185,6 +188,8 @@ window.NilaiUI = (() => {
 
         `;
 
+        drawStaffQr(subject);
+
         result.querySelectorAll("[data-tab-index]").forEach((btn) => {
 
             btn.addEventListener("click", () => {
@@ -196,6 +201,52 @@ window.NilaiUI = (() => {
             });
 
         });
+
+    }
+
+    /* ==========================================
+       FOTO + QR (hanya terkirim untuk staf login)
+    ========================================== */
+
+    function staffBlockHTML(subject) {
+
+        if (!subject.kode) return "";
+
+        const foto = subject.foto
+            ? `<img class="nilai-staff-foto" src="${escapeHTML(subject.foto)}" alt="Foto ${escapeHTML(subject.nama)}" referrerpolicy="no-referrer" onerror="this.outerHTML='<span class=&quot;nilai-staff-foto nilai-staff-foto--kosong&quot;>Foto belum ada</span>'">`
+            : `<span class="nilai-staff-foto nilai-staff-foto--kosong">Foto belum ada</span>`;
+
+        return `<div class="nilai-staff no-print">${foto}<canvas class="nilai-staff-qr" data-nilai-qr aria-label="QR kartu siswa"></canvas></div>`;
+
+    }
+
+    function loadQrLib() {
+
+        if (window.QRCode && typeof window.QRCode.toCanvas === "function") return Promise.resolve();
+
+        return new Promise((resolve, reject) => {
+
+            const el = document.createElement("script");
+            el.src = "/akademik/js/vendor/qrcode.min.js";
+            el.onload = resolve;
+            el.onerror = reject;
+            document.head.appendChild(el);
+
+        });
+
+    }
+
+    function drawStaffQr(subject) {
+
+        if (!subject.kode) return;
+
+        const canvas = result.querySelector("[data-nilai-qr]");
+
+        if (!canvas) return;
+
+        loadQrLib()
+            .then(() => window.QRCode.toCanvas(canvas, subject.kode, { width: 112, margin: 1 }, () => {}))
+            .catch(() => canvas.remove());
 
     }
 
