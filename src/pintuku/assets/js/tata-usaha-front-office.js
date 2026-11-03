@@ -43,13 +43,12 @@
    const data=readForm(form);if(!data.name||!data.purpose||!data.unit)return;
    const record=addVisitor(data,source);
    if(source==="kiosk"){
-    const body=$("#foKioskBody");body.replaceChildren();const success=node("div","fo-kiosk-success");success.append(node("div","fo-kiosk-symbol","✓"),node("span","tu-section-kicker","REGISTRASI DITERIMA"),node("h2","","Terima kasih, "+record.name+"."),node("p","","Registrasi awal Anda sudah masuk ke antrean petugas. Silakan tunjukkan nomor kunjungan berikut kepada petugas Front Office untuk konfirmasi dan arahan selanjutnya."),node("div","fo-ticket-code",record.code));const next=node("button","","Kembali ke halaman awal");next.type="button";next.addEventListener("click",()=>{form.reset();body.replaceChildren(...kioskInitialNodes);$("#foKioskForm")?.reset();});success.append(next);body.append(success);
+    const body=$("#foKioskBody");const success=node("div","fo-kiosk-success");success.append(node("div","fo-kiosk-symbol","✓"),node("span","tu-section-kicker","REGISTRASI DITERIMA"),node("h2","","Terima kasih, "+record.name+"."),node("p","","Registrasi awal Anda sudah masuk ke antrean petugas. Silakan tunjukkan nomor kunjungan berikut kepada petugas Front Office untuk konfirmasi dan arahan selanjutnya."),node("div","fo-ticket-code",record.code));const next=node("button","","Kembali ke halaman awal");next.type="button";next.addEventListener("click",()=>{form.reset();success.remove();form.hidden=false;});form.hidden=true;body.append(success);
    }else{
     form.reset();const feedback=$("#foRegisterFeedback");if(feedback){feedback.hidden=false;feedback.textContent="Registrasi berhasil dibuat untuk sesi ini. Nomor kunjungan: "+record.code;}setView("reception");
    }
   });
  };
- const kioskInitialNodes=[];
  const init=()=>{
   const sidebar=$("#tuSidebar"),toggle=$("#tuMenuToggle"),backdrop=$("#tuSidebarBackdrop");
   const close=()=>{sidebar?.classList.remove("is-open");backdrop?.classList.remove("is-visible");toggle?.setAttribute("aria-expanded","false");};
@@ -60,7 +59,6 @@
   $("#foQueue")?.addEventListener("click",e=>{const b=e.target.closest("[data-action]");if(!b)return;const v=visitors.find(x=>x.code===b.dataset.code);if(!v)return;if(b.dataset.action==="accept"&&v.status==="waiting")v.status="active";else if(b.dataset.action==="finish"&&v.status==="active")v.status="done";render();});
   $("#foSearch")?.addEventListener("input",render);
   const reg=$("#foRegisterForm"),kiosk=$("#foKioskForm");
-  if(kiosk){const body=$("#foKioskBody");Array.from(body.childNodes).forEach(n=>kioskInitialNodes.push(n.cloneNode(true)));}
   if(reg)submit(reg,"receptionist");if(kiosk)submit(kiosk,"kiosk");
   $("#foHelp")?.addEventListener("click",()=>{$("#foGuide").open=true;$("#foGuide").scrollIntoView({behavior:"smooth",block:"center"});});
   const updateClock=()=>{const d=nowDate();setText($("#foToday"),new Intl.DateTimeFormat("id",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(d));setText($("#foClock"),new Intl.DateTimeFormat("id",{hour:"2-digit",minute:"2-digit"}).format(d));setText($("#foKioskClock"),new Intl.DateTimeFormat("id",{hour:"2-digit",minute:"2-digit"}).format(d));};
