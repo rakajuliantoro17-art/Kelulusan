@@ -208,6 +208,14 @@
       "destination": "/src/pintuku/dashboard/humas.html"
     },
     {
+      "source": "/tata-usaha/front-office",
+      "destination": "/src/pintuku/dashboard/tata-usaha-front-office.html"
+    },
+    {
+      "source": "/tata-usaha/front-office/",
+      "destination": "/src/pintuku/dashboard/tata-usaha-front-office.html"
+    },
+    {
       "source": "/tata-usaha",
       "destination": "/src/pintuku/dashboard/tata-usaha.html"
     },
