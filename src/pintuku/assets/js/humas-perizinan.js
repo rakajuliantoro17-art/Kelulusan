@@ -102,11 +102,32 @@ $("permitForm").elements.namedItem("permit_type").addEventListener("change",e=>{
 $("closeForm").addEventListener("click",()=>{$("permitFormPanel").hidden=true;state.editingPermitId=null;$("permitForm").reset();$("permitFormPanel").querySelector("h2").textContent="Permohonan Baru";$("permitForm").querySelector('[type="submit"]').textContent="Simpan sebagai draft";});
 $("closeDetail").addEventListener("click",()=>{$("permitDetailPanel").hidden=true;state.selected=null;});
 $("refreshPermits").addEventListener("click",()=>loadPermits().catch(e=>notice(e.message,"error")));
+$("refreshOperational").addEventListener("click",()=>loadPermits().catch(e=>notice(e.message,"error")));
 ["permitSearch","permitTypeFilter","permitStatusFilter"].forEach(id=>$(id).addEventListener(id==="permitSearch"?"change":"change",()=>loadPermits().catch(e=>notice(e.message,"error"))));
 $("permitList").addEventListener("click",e=>{const b=e.target.closest("[data-permit]");if(b)openPermit(b.dataset.permit).catch(err=>notice(err.message,"error"));});
 $("permitForm").addEventListener("submit",async e=>{e.preventDefault();const form=e.currentTarget,fd=new FormData(form),payload=Object.fromEntries(fd.entries());payload.facility_details={facility_name:payload.facility_name||"",facility_equipment:payload.facility_equipment||"",facility_layout:payload.facility_layout||""};delete payload.facility_name;delete payload.facility_equipment;delete payload.facility_layout;for(const k of ["requested_start_at","requested_end_at"])if(payload[k])payload[k]=new Date(payload[k]).toISOString();try{const editing=state.editingPermitId;const r=editing?await request("permits","PATCH",{...payload,id:editing,action:"update_draft"}):await request("permits","POST",payload);if(!r.r.ok)throw new Error(r.data.message||"Permohonan gagal disimpan.");const id=editing||r.data.data.permit.id;state.editingPermitId=null;form.reset();$("permitFormPanel").hidden=true;$("permitFormPanel").querySelector("h2").textContent="Permohonan Baru";form.querySelector('[type="submit"]').textContent="Simpan sebagai draft";notice(editing?"Draft permohonan berhasil diperbarui.":"Draft permohonan berhasil dibuat.");await loadPermits();await openPermit(id);}catch(err){notice(err.message,"error");}});
 $("permitDetail").addEventListener("click",e=>{const a=e.target.closest("[data-action]"),d=e.target.closest("[data-download]");if(a){if(a.dataset.action==="edit")editPermit();else transition(a.dataset.action).catch(err=>notice(err.message,"error"));}if(d)downloadDocument(d.dataset.download).catch(err=>notice(err.message,"error"));});
-$("permitDetail").addEventListener("submit",e=>{if(e.target.id==="documentForm"){e.preventDefault();const btn=e.target.querySelector('[type="submit"]');btn.disabled=true;uploadDocument(e.target).catch(err=>notice(err.message,"error")).finally(()=>{btn.disabled=false;});}});
+$("permitDetail").addEventListener("submit",async e=>{
+ const form=e.target;if(!["documentForm","slaForm","internalNoteForm","communicationForm"].includes(form.id))return;e.preventDefault();
+ const btn=form.querySelector('[type="submit"]');if(btn)btn.disabled=true;
+ try{
+  if(form.id==="documentForm"){await uploadDocument(form);return;}
+  const fd=new FormData(form),payload=Object.fromEntries(fd.entries()),id=state.selected.id;
+  if(form.id==="slaForm"){
+   payload.id=id;payload.pause=fd.has("pause");for(const k of ["first_response_due_at","resolution_due_at"])if(payload[k])payload[k]=new Date(payload[k]).toISOString();
+   const r=await request("permit-service-level","PATCH",payload);if(!r.r.ok)throw new Error(r.data.message||"Pengaturan SLA gagal disimpan.");
+   notice("Prioritas dan SLA berhasil diperbarui.");
+  }else if(form.id==="internalNoteForm"){
+   const r=await request("permit-internal-notes","POST",{permit_id:id,note:payload.note});if(!r.r.ok)throw new Error(r.data.message||"Catatan internal gagal disimpan.");
+   notice("Catatan internal tersimpan secara privat.");
+  }else{
+   for(const k of ["contacted_at","follow_up_at"])if(payload[k])payload[k]=new Date(payload[k]).toISOString();
+   const r=await request("permit-communications","POST",{...payload,permit_id:id});if(!r.r.ok)throw new Error(r.data.message||"Log komunikasi gagal disimpan.");
+   notice("Riwayat komunikasi berhasil dicatat.");
+  }
+  await loadPermits();await openPermit(id);
+ }catch(err){notice(err.message,"error");}finally{if(btn)btn.disabled=false;}
+});
 
 $("newAgendaBtn").addEventListener("click",()=>{$("agendaFormPanel").hidden=false;$("agendaFormPanel").scrollIntoView({behavior:"smooth"});});
 $("closeAgendaForm").addEventListener("click",()=>{$("agendaFormPanel").hidden=true;});
