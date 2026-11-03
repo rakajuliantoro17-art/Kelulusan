@@ -33,3 +33,5 @@ html[data-theme="light"] .fo-status.approved{color:#276b9f}
 html[data-theme="light"] .fo-status.clarification{color:#8a6324}
 html[data-theme="light"] .fo-status.rejected,html[data-theme="light"] .fo-status.cancelled{color:#9b4444}
 @media(max-width:700px){.fo-workspace-tabs{grid-template-columns:1fr}}
+
+.fo-tab[hidden],.fo-view[hidden]{display:none!important}
