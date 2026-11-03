@@ -13,8 +13,10 @@ Memisahkan source berdasarkan domain aplikasi dan meminimalkan folder aplikasi d
 - `src/akademik/`: source modul Akademik.
 - `src/kesiswaan/`: source modul Kesiswaan.
 - `src/server/api/`: dispatcher API modul.
+- `src/humas/scripts/`, `src/humas/supabase/migrations/`, `src/humas/tests/`: script, migrasi, dan pengujian HUMAS.
+- `src/TU/scripts/`, `src/TU/supabase/migrations/`, `src/TU/tests/`: script, migrasi, dan pengujian Tata Usaha.
 - `public/assets/`: ikon dan favicon publik.
 - `docs/`: dokumentasi repository.
 
 ## Catatan migrasi
-Reposisi ini mempertahankan konten file dan blob source. Dispatcher API disesuaikan relative import-nya setelah berpindah ke `src/server/api/`. Konfigurasi Vercel belum diubah; route dan output deployment akan dipetakan pada tahap build berikutnya.
+Folder `scripts/`, `supabase/`, dan `tests/` di root dipindahkan ke dalam `src/` dan dipisahkan menurut domain HUMAS dan TU. Kedua modul tetap menggunakan project Supabase yang sama; pemisahan ini hanya mengatur ownership file source, migrasi, script, dan test. Workflow GitHub Actions diperbarui untuk menggunakan lokasi baru. Konfigurasi Vercel dan route runtime tidak diubah.

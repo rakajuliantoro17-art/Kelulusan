@@ -3,8 +3,8 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 
-const migration = fs.readFileSync("supabase/migrations/20261103051204_tu_head_tu_bootstrap_audit.sql", "utf8");
-const bootstrap = fs.readFileSync("scripts/tu/bootstrap-first-head-tu.sql", "utf8");
+const migration = fs.readFileSync("src/TU/supabase/migrations/20261103051204_tu_head_tu_bootstrap_audit.sql", "utf8");
+const bootstrap = fs.readFileSync("src/TU/scripts/bootstrap-first-head-tu.sql", "utf8");
 const docs = fs.readFileSync("docs/TU-HEAD-TU-BOOTSTRAP.md", "utf8");
 
 test("first Head TU bootstrap is private and not executable by application roles", () => {

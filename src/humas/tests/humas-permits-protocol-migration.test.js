@@ -4,8 +4,8 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
-const root = path.resolve(__dirname, "..");
-const file = path.join(root, "supabase/migrations/202611020011_humas_permits_protocol_foundation.sql");
+const root = path.resolve(__dirname, "../../..");
+const file = path.join(root, "src/humas/supabase/migrations/202611020011_humas_permits_protocol_foundation.sql");
 const sql = fs.readFileSync(file, "utf8");
 
 test("permit and protocol foundation defines three permit scopes", () => {

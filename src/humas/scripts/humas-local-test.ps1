@@ -6,7 +6,7 @@
 #
 # Run from repository root:
 #   $env:HUMAS_TEST_DATABASE_URL = "postgresql://postgres:<LOCAL_PASSWORD>@localhost:5432/pintuku_humas_test"
-#   .\scripts\humas-local-test.ps1
+#   .\src\humas\scripts\humas-local-test.ps1
 
 $ErrorActionPreference = "Stop"
 
@@ -31,20 +31,20 @@ if (-not $psql) {
   throw "psql tidak ditemukan. Instal PostgreSQL lokal beserta Command Line Tools, lalu buka ulang PowerShell."
 }
 
-$bootstrap = "tests/humas-local-bootstrap.sql"
-$integration = "tests/humas-local-integration.sql"
-$security = "tests/humas-local-security.sql"
+$bootstrap = "src/humas/tests/humas-local-bootstrap.sql"
+$integration = "src/humas/tests/humas-local-integration.sql"
+$security = "src/humas/tests/humas-local-security.sql"
 $migrations = @(
-  "supabase/migrations/202611020001_humas_partnership_foundation.sql",
-  "supabase/migrations/202611020002_humas_rbac_foundation.sql",
-  "supabase/migrations/202611020003_humas_partner_management.sql",
-  "supabase/migrations/202611020004_humas_agreement_drafts.sql",
-  "supabase/migrations/202611020005_humas_security_hardening.sql",
-  "supabase/migrations/202611020006_humas_operator_role_separation.sql",
-  "supabase/migrations/202611020007_humas_operational_workflow.sql",
-  "supabase/migrations/202611020008_humas_proposals_sponsorship.sql",
-  "supabase/migrations/202611020009_humas_alumni_tracer_study.sql",
-  "supabase/migrations/202611020010_humas_alumni_public_intake.sql"
+  "src/humas/supabase/migrations/202611020001_humas_partnership_foundation.sql",
+  "src/humas/supabase/migrations/202611020002_humas_rbac_foundation.sql",
+  "src/humas/supabase/migrations/202611020003_humas_partner_management.sql",
+  "src/humas/supabase/migrations/202611020004_humas_agreement_drafts.sql",
+  "src/humas/supabase/migrations/202611020005_humas_security_hardening.sql",
+  "src/humas/supabase/migrations/202611020006_humas_operator_role_separation.sql",
+  "src/humas/supabase/migrations/202611020007_humas_operational_workflow.sql",
+  "src/humas/supabase/migrations/202611020008_humas_proposals_sponsorship.sql",
+  "src/humas/supabase/migrations/202611020009_humas_alumni_tracer_study.sql",
+  "src/humas/supabase/migrations/202611020010_humas_alumni_public_intake.sql"
 )
 
 if (-not (Test-Path $bootstrap) -or -not (Test-Path $integration) -or -not (Test-Path $security)) {

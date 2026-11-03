@@ -16,6 +16,14 @@ PINTUKU adalah portal terpadu layanan digital SMAN 1 Sooko Mojokerto. Repository
 │   │   └── legacy/          # Struktur Sarpras lama yang dipertahankan
 │   ├── akademik/            # Modul Akademik beserta API dan asetnya
 │   ├── kesiswaan/           # Modul Kesiswaan beserta API dan asetnya
+│   ├── humas/
+│   │   ├── scripts/          # Runner dan utilitas pengujian HUMAS
+│   │   ├── supabase/migrations/ # Migrasi database khusus HUMAS
+│   │   └── tests/            # Test API, migration, dan integrasi HUMAS
+│   ├── TU/
+│   │   ├── scripts/          # Bootstrap dan utilitas Tata Usaha
+│   │   ├── supabase/migrations/ # Migrasi database khusus TU
+│   │   └── tests/            # Test autentikasi dan workflow TU
 │   └── server/
 │       └── api/             # Dispatcher API untuk seluruh modul
 ├── public/
@@ -33,6 +41,9 @@ PINTUKU adalah portal terpadu layanan digital SMAN 1 Sooko Mojokerto. Repository
 - `src/pintuku/` hanya memuat shell, halaman portal, dan aset bersama PINTUKU.
 - `src/Sarpras/`, `src/akademik/`, dan `src/kesiswaan/` menjaga isolasi kode masing-masing modul.
 - `src/Sarpras/legacy/` mempertahankan struktur lama yang sebelumnya berada di root agar tidak hilang selama konsolidasi dan dapat ditinjau sebelum dibersihkan.
+- `src/humas/` mengisolasi script, migrasi Supabase, dan pengujian khusus HUMAS.
+- `src/TU/` mengisolasi script, migrasi Supabase, dan pengujian khusus Tata Usaha.
+- HUMAS dan TU tetap menggunakan satu project Supabase bersama, tetapi file migrasi dikelompokkan menurut domain modul.
 - `src/server/api/` menjadi lokasi source dispatcher API. Adaptasi runtime/deployment akan dikerjakan pada tahap build tersendiri.
 - `public/` hanya untuk aset publik yang perlu disajikan sebagai file statis.
 - `docs/` menyimpan dokumentasi repository. `.github/` tetap di root karena merupakan metadata workflow platform.

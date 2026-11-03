@@ -3,8 +3,8 @@ const test=require("node:test");
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
-const root=path.resolve(__dirname,"..");
-const sql=fs.readFileSync(path.join(root,"supabase/migrations/202611020012_humas_permit_transactions.sql"),"utf8");
+const root=path.resolve(__dirname, "../../..");
+const sql=fs.readFileSync(path.join(root,"src/humas/supabase/migrations/202611020012_humas_permit_transactions.sql"),"utf8");
 const api=fs.readFileSync(path.join(root,"src/server/api/humas.js"),"utf8");
 const ui=fs.readFileSync(path.join(root,"src/pintuku/assets/js/humas-perizinan.js"),"utf8");
 const alumniUi=fs.readFileSync(path.join(root,"src/pintuku/assets/js/humas-alumni.js"),"utf8");
@@ -52,7 +52,7 @@ test("permit workspace provides list, detail, workflow and document interactions
 
 
 test("Sprint 3 protocol checklist tasks support validated staff assignment end-to-end",()=>{
- const migration=fs.readFileSync(path.join(root,"supabase/migrations/202611030001_humas_protocol_task_assignment.sql"),"utf8");
+ const migration=fs.readFileSync(path.join(root,"src/humas/supabase/migrations/202611030001_humas_protocol_task_assignment.sql"),"utf8");
  assert.ok(migration.includes("task_assignment_changed"));
  assert.ok(migration.includes("invalid_task_assignee"));
  assert.ok(migration.includes("ur.role_code='staff_humas'"));
