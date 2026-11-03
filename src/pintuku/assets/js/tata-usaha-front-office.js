@@ -88,7 +88,9 @@
  const renderApprovals=()=>{
   const host=$("#foApprovalQueue");if(!host)return;
   host.replaceChildren();
-  const rows=state.visits.filter(v=>v.status==="pending_unit");
+  const assignedUnits=state.roles.filter(r=>r.role_code==="unit_officer"&&r.unit_id).map(r=>r.unit_id);
+  const supervisor=state.roles.some(r=>["head_tu","principal"].includes(r.role_code));
+  const rows=state.visits.filter(v=>v.status==="pending_unit"&&(supervisor||assignedUnits.includes(v.destination_unit_id)));
   if(!rows.length){const empty=node("div","fo-empty");empty.append(node("span","","✓"),node("strong","","Tidak ada permintaan menunggu keputusan"),node("p","","Permintaan baru dari Front Office akan tampil di sini."));host.append(empty);return;}
   const list=node("div","fo-visitor-list");
   rows.forEach(v=>{
