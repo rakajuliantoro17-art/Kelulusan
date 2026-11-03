@@ -5,7 +5,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const root = path.resolve(__dirname, "../../..");
-const migration = (name) => fs.readFileSync(path.join(root, "supabase/migrations", name), "utf8");
+const migration = (name) => fs.readFileSync(path.join(root, "src/humas/supabase/migrations", name), "utf8");
 const files = [
   "202611020001_humas_partnership_foundation.sql",
   "202611020002_humas_rbac_foundation.sql",
@@ -34,7 +34,7 @@ const files = [
 ];
 
 test("HUMAS migrations exist in dependency order", () => {
-  for (const file of files) assert.ok(fs.existsSync(path.join(root, "supabase/migrations", file)), file);
+  for (const file of files) assert.ok(fs.existsSync(path.join(root, "src/humas/supabase/migrations", file)), file);
   assert.deepEqual([...files].sort(), files);
 });
 
