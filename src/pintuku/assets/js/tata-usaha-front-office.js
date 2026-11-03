@@ -177,6 +177,7 @@
   document.addEventListener("click",e=>{const b=e.target.closest("[data-switch]");if(b)setView(b.dataset.switch);});
   $("#foQueue")?.addEventListener("click",handleAction);$("#foApprovalQueue")?.addEventListener("click",handleAction);
   $("#foSearch")?.addEventListener("input",renderQueue);
+  $("#foRefresh")?.addEventListener("click",async()=>{const b=$("#foRefresh");b.disabled=true;try{await loadVisits();showNotice("Data kunjungan berhasil diperbarui.","success");}catch(error){showNotice(error.message,"error");}finally{b.disabled=false;}});
   $("#foRegisterForm")?.elements.visit_kind?.addEventListener("change",toggleSchedule);
   submitRegistration($("#foRegisterForm"));
   $("#foHelp")?.addEventListener("click",()=>{$("#foGuide").open=true;$("#foGuide").scrollIntoView({behavior:"smooth",block:"center"});});
