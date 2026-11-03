@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f"><meta name="description" content="Manajemen akses dan identitas Tata Usaha PINTUKU.">
+<script>try{var t=localStorage.getItem("pintuku-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>
+<title>Manajemen Akses & Identitas · PINTUKU</title>
+<link rel="manifest" href="/manifest.json"><link rel="icon" href="/assets/shared/icons/favicon.ico">
+<link rel="stylesheet" href="/css/portal-shell.css"><link rel="stylesheet" href="/css/portal.css"><link rel="stylesheet" href="/css/portal-settings.css"><link rel="stylesheet" href="/css/service-modules.css"><link rel="stylesheet" href="/css/pintuku-glass.css"><link rel="stylesheet" href="/css/tata-usaha-dashboard.css"><link rel="stylesheet" href="/css/tata-usaha-access.css">
+<script src="/js/portal-shell.js" defer></script><script src="/js/portal-settings.js" defer></script><script src="/js/tata-usaha-access.js" defer></script>
+</head>
+<body class="tu-dashboard-page tu-access-page" data-portal-module="tata-usaha" data-tu-view="access">
+<div data-portal-header></div>
+<div class="tu-app-shell">
+<aside class="tu-sidebar" id="tuSidebar" aria-label="Navigasi Tata Usaha">
+ <div class="tu-sidebar-brand"><div class="tu-brand-mark" aria-hidden="true">TU</div><div><strong>Tata Usaha</strong><span>Office Management</span></div></div>
+ <div class="tu-nav-caption">RUANG KERJA</div>
+ <nav class="tu-side-nav">
+  <a class="tu-nav-link" href="/tata-usaha"><span class="tu-nav-icon">▦</span><span>Dashboard Utama</span></a>
+  <a class="tu-nav-link" href="/tata-usaha/front-office"><span class="tu-nav-icon">♙</span><span>Front Office</span></a>
+  <a class="tu-nav-link is-active" href="/tata-usaha/akses" aria-current="page"><span class="tu-nav-icon">♧</span><span>Akses & Identitas</span></a>
+  <a class="tu-nav-link" href="/tata-usaha#persuratan"><span class="tu-nav-icon">✉</span><span>Persuratan</span></a>
+  <a class="tu-nav-link" href="/tata-usaha#arsip"><span class="tu-nav-icon">▤</span><span>Arsip & Dokumen</span></a>
+ </nav>
+ <div class="tu-sidebar-bottom"><div class="tu-help-card"><span class="tu-help-icon">i</span><div><strong>Kontrol akses</strong><span>Penetapan peran bisnis harus melalui otorisasi resmi.</span></div></div><a class="tu-nav-link tu-settings-hint" href="/tata-usaha"><span class="tu-nav-icon">⚙</span><span>Preferensi tampilan melalui Pengaturan PINTUKU</span></a></div>
+</aside>
+<main class="tu-main">
+ <div class="tu-mobilebar"><button type="button" id="tuMenuToggle" class="tu-menu-toggle" aria-expanded="false" aria-controls="tuSidebar">☰ Menu Tata Usaha</button><span class="tu-mobile-label">PINTUKU · ACCESS CONTROL</span></div>
+ <header class="tu-topbar"><div class="tu-breadcrumb"><a href="/tata-usaha">Tata Usaha</a><span>/</span><strong>Akses & Identitas</strong></div><div class="tu-top-actions"><span class="tu-system-state"><i></i> Governance workspace</span><div class="tu-user-chip"><span class="tu-user-avatar">AC</span><span><strong>Access Control</strong><small>Role & identity governance</small></span></div></div></header>
+ <div class="tu-content">
+  <section class="tu-welcome access-hero"><div class="tu-welcome-copy"><div class="tu-eyebrow">IDENTITY · AUTHORIZATION · GOVERNANCE</div><h1>Manajemen akses & identitas</h1><p>Kelola kewenangan pengguna dan pemetaan identitas lintas modul dengan prinsip least privilege, verifikasi eksplisit, dan jejak audit.</p><div class="tu-date-line"><span>◈</span><span>Workspace tata kelola akses</span><span>·</span><span>Internal PINTUKU</span></div></div><div class="access-hero-mark" aria-hidden="true">IAM<span>CONTROL</span></div></section>
+  <div class="access-alert" id="accessStatus" role="status" aria-live="polite"><span class="access-alert-icon">…</span><div><strong>Memeriksa kesiapan layanan</strong><p>Antarmuka sedang memeriksa status layanan otorisasi TU.</p></div></div>
+  <section class="access-summary-grid" aria-label="Ringkasan kontrol akses">
+   <article class="access-summary"><span>MODEL OTORISASI</span><strong>Role-Based Access</strong><small>Role bisnis dipisahkan dari operator teknis</small></article>
+   <article class="access-summary"><span>IDENTITY LINKING</span><strong>Explicit verification</strong><small>Tidak ada pencocokan akun otomatis melalui email</small></article>
+   <article class="access-summary"><span>DATA BOUNDARY</span><strong>Server-side only</strong><small>Schema TU tidak diakses langsung dari browser</small></article>
+  </section>
+  <nav class="access-tabs" role="tablist" aria-label="Pengaturan akses">
+   <button class="access-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="accessRoles" data-access-tab="roles"><span>01</span> Manajemen Peran</button>
+   <button class="access-tab" type="button" role="tab" aria-selected="false" aria-controls="accessIdentity" data-access-tab="identity"><span>02</span> Pemetaan Identitas</button>
+   <button class="access-tab" type="button" role="tab" aria-selected="false" aria-controls="accessUnits" data-access-tab="units"><span>03</span> Struktur Unit</button>
+  </nav>
+  <section class="access-panel is-active" id="accessRoles" role="tabpanel">
+   <div class="access-panel-head"><div><span class="tu-section-kicker">ROLE ASSIGNMENT</span><h2>Direktori peran pengguna</h2><p>Peran menentukan ruang lingkup tindakan, bukan sekadar tampilan menu.</p></div><span class="access-lock">Terkunci sampai admin bisnis ditetapkan</span></div>
+   <div class="access-role-grid">
+    <article><b>Principal</b><span>Kewenangan pimpinan sekolah</span><small>Persetujuan strategis dan oversight</small></article>
+    <article><b>Head TU</b><span>Administrator operasional TU</span><small>Pengelolaan layanan dan penugasan</small></article>
+    <article><b>FO Coordinator</b><span>Koordinator Front Office</span><small>Pengawasan antrean dan layanan tamu</small></article>
+    <article><b>FO Receptionist</b><span>Petugas penerimaan</span><small>Registrasi, check-in, dan check-out</small></article>
+    <article><b>Unit Officer</b><span>Petugas unit tujuan</span><small>Konfirmasi dan tindak lanjut permintaan</small></article>
+    <article><b>Teacher / Homeroom</b><span>Guru dan wali kelas</span><small>Akses sesuai penugasan yang disahkan</small></article>
+    <article><b>TU Operator</b><span>Operator administrasi</span><small>Proses administrasi sesuai kewenangan</small></article>
+    <article><b>System Operator</b><span>Operator teknis</span><small>Tidak otomatis memperoleh akses data bisnis</small></article>
+   </div>
+   <div class="access-empty"><span class="access-empty-symbol">⌑</span><div><strong>Belum ada penetapan peran aktif</strong><p>Database saat ini belum memiliki role TU aktif. Penetapan pertama harus dilakukan melalui prosedur bootstrap yang tervalidasi, bukan melalui formulir publik atau klaim akun sendiri.</p></div></div>
+   <div class="access-action-row"><button type="button" class="access-button" disabled>+ Tetapkan peran pengguna</button><small>Aktivasi menunggu endpoint administrasi dan akun Head TU pertama yang diverifikasi.</small></div>
+  </section>
+  <section class="access-panel" id="accessIdentity" role="tabpanel" hidden>
+   <div class="access-panel-head"><div><span class="tu-section-kicker">CROSS-MODULE IDENTITY</span><h2>Pemetaan identitas lintas modul</h2><p>Menghubungkan satu akun PINTUKU dengan identitas yang sudah diverifikasi pada sistem sumber.</p></div><span class="access-lock">Verifikasi manual</span></div>
+   <div class="access-policy-list">
+    <div><span>01</span><section><b>Identitas PINTUKU</b><p>Akun autentikasi menjadi identitas utama untuk sesi dan otorisasi.</p></section></div>
+    <div><span>02</span><section><b>Identitas sumber</b><p>Akademik, Kesiswaan, dan Sarpras tetap menjadi pemilik data masing-masing.</p></section></div>
+    <div><span>03</span><section><b>Verifikasi eksplisit</b><p>Pengaitan memerlukan subject ID dari sistem sumber dan pemeriksaan oleh petugas berwenang. Email tidak digunakan sebagai kunci pencocokan otomatis.</p></section></div>
+    <div><span>04</span><section><b>Audit dan pencabutan</b><p>Setiap pengaitan, verifikasi, dan pencabutan harus memiliki pelaku, waktu, alasan, serta status yang dapat ditelusuri.</p></section></div>
+   </div>
+   <div class="access-empty"><span class="access-empty-symbol">⌁</span><div><strong>Belum ada identitas yang dipetakan</strong><p>Belum ada proses linking yang dapat ditampilkan. Form verifikasi akan diaktifkan setelah otorisasi peran dan kontrak API sistem sumber selesai.</p></div></div>
+   <div class="access-source-list"><span>SUMBER INTEGRASI</span><div><b>Akademik</b><em>Nonaktif</em></div><div><b>Kesiswaan</b><em>Nonaktif</em></div><div><b>Sarpras</b><em>Nonaktif</em></div></div>
+  </section>
+  <section class="access-panel" id="accessUnits" role="tabpanel" hidden>
+   <div class="access-panel-head"><div><span class="tu-section-kicker">ORGANIZATIONAL DIRECTORY</span><h2>Struktur unit layanan</h2><p>Unit operasional yang menjadi tujuan layanan dan cakupan penugasan.</p></div><span class="access-lock">Sumber: schema TU</span></div>
+   <div class="access-unit-list" id="accessUnitList"><div class="access-loading">Menunggu konteks otorisasi untuk memuat direktori unit.</div></div>
+   <p class="access-footnote">Daftar unit hanya ditampilkan dari API server setelah sesi dan peran pengguna tervalidasi.</p>
+  </section>
+  <footer class="tu-page-footer"><span>PINTUKU · Tata Usaha · Access Governance</span><span>SMAN 1 Sooko Mojokerto</span></footer>
+ </div>
+</main>
+</div>
+<div class="tu-sidebar-backdrop" id="tuSidebarBackdrop"></div>
+</body></html>
