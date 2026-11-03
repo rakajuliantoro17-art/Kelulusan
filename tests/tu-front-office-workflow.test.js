@@ -5,6 +5,7 @@ const fs = require("node:fs");
 const api = fs.readFileSync("src/server/api/tu.js", "utf8");
 const migration = fs.readFileSync("supabase/migrations/20261103053529_tu_front_office_visits_workflow.sql", "utf8");
 const followup = fs.readFileSync("supabase/migrations/20261103053750_tu_visit_resubmission_notification.sql", "utf8");
+const appendOnly = fs.readFileSync("supabase/migrations/20261103053857_tu_visit_events_append_only.sql", "utf8");
 const ui = fs.readFileSync("src/pintuku/assets/js/tata-usaha-front-office.js", "utf8");
 const html = fs.readFileSync("src/pintuku/dashboard/tata-usaha-front-office.html", "utf8");
 const routes = JSON.parse(fs.readFileSync("vercel.json", "utf8")).rewrites;
@@ -46,6 +47,8 @@ test("resubmitted clarification notifies the destination unit again", () => {
   assert.match(followup, /new\.status = 'pending_unit'/);
   assert.match(followup, /Klarifikasi kunjungan telah dikirim/);
   assert.match(followup, /recipient_unit_id, notification_type/);
+  assert.match(appendOnly, /revoke update, delete on tu\\.visit_events from service_role/);
+  assert.match(appendOnly, /grant select, insert on tu\\.visit_events to service_role/);
 });
 
 test("Front Office UI uses server APIs and does not keep volatile visitor arrays", () => {
