@@ -1,4 +1,4 @@
-/* Dedicated Tata Usaha session guard. Tokens are tab-scoped; never use localStorage. */
+/* Dedicated Tata Usaha session guard. Tokens are tab-scoped. */
 (() => {
  "use strict";
  const KEY="pintuku-tu-session";
