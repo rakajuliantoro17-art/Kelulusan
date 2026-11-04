@@ -83,6 +83,8 @@ const REQUIRED = [
   "src/pintuku/assets/css/tata-usaha-access.css",
   "src/pintuku/assets/css/tata-usaha-login.css",
   "src/pintuku/assets/js/tata-usaha-dashboard.js",
+  "src/pintuku/assets/css/tata-usaha-spreadsheet.css",
+  "src/pintuku/assets/js/tata-usaha-spreadsheet.js",
   "src/pintuku/assets/js/tata-usaha-access.js",
   "src/pintuku/assets/js/tu-auth.js",
   "src/pintuku/assets/js/tu-login.js",
