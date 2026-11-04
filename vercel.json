@@ -60,6 +60,14 @@
   ],
   "rewrites": [
     {
+      "source": "/lobby",
+      "destination": "/src/pintuku/dashboard/tata-usaha-lobby.html"
+    },
+    {
+      "source": "/lobby/",
+      "destination": "/src/pintuku/dashboard/tata-usaha-lobby.html"
+    },
+    {
       "source": "/api/tu/auth",
       "destination": "/api/tu?op=auth"
     },

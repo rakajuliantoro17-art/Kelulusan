@@ -1,0 +1,22 @@
+# PINTUKU — Front Office Lobby Display
+
+## Tujuan
+Halaman `/lobby` adalah layar informasi publik untuk area lobby SMAN 1 Sooko. Halaman menyambut pengunjung, menampilkan alur pelayanan, dan memberi petunjuk awal berdasarkan tujuan kunjungan.
+
+## Batas fungsi
+- Tidak memerlukan login dan tidak mengakses API.
+- Tidak menerima nama, nomor telepon, NIK, atau data pribadi pengunjung.
+- Tidak menampilkan antrean, notifikasi, identitas petugas, atau riwayat kunjungan.
+- Pemilihan kategori layanan hanya mengubah petunjuk di layar dan tidak mengirim data.
+- Tombol layar penuh disediakan untuk monitor/TV lobby.
+- Pencatatan kunjungan tetap dilakukan petugas pada buku layanan sesuai prosedur sekolah yang berlaku.
+
+## Penggunaan
+1. Buka `/lobby` pada perangkat display di area penerimaan.
+2. Aktifkan layar penuh bila browser dan perangkat mendukung.
+3. Pengunjung memilih kategori layanan untuk membaca petunjuk.
+4. Pengunjung menyampaikan tujuan kepada petugas Front Office.
+5. Petugas mencatat kunjungan pada buku layanan dan menghubungi unit tujuan sesuai prosedur.
+
+## Catatan tata kelola
+Nama unit merupakan kategori pengarahan, bukan janji lokasi ruangan atau jam layanan tertentu. Penempatan ruangan, jam operasional, nomor kontak, standar waktu layanan, dan isi SOP harus ditetapkan sekolah sebelum ditambahkan sebagai informasi publik.
