@@ -57,8 +57,8 @@
         <div class="tu-login-alert" id="tuLoginAlert" role="status" aria-live="polite" hidden></div>
         <form id="tuLoginForm" novalidate>
           <div class="field-group">
-            <label for="tuEmail">Email akun</label>
-            <input id="tuEmail" name="email" type="email" autocomplete="username" maxlength="254" placeholder="nama@sekolah.id" required>
+            <label for="tuEmail">Username / email akun</label>
+            <input id="tuEmail" name="email" type="text" inputmode="email" autocomplete="username" maxlength="254" placeholder="nama@sekolah.id" required>
           </div>
           <div class="field-group">
             <div class="tu-password-label"><label for="tuPassword">Kata sandi</label><button type="button" id="tuTogglePassword" aria-pressed="false">Tampilkan</button></div>
@@ -66,14 +66,14 @@
           </div>
           <button class="tu-login-submit" id="tuLoginSubmit" type="submit"><span>Masuk ke Dashboard TU</span><span aria-hidden="true">→</span></button>
         </form>
-        <div class="login-security"><span aria-hidden="true">◈</span><p>Autentikasi divalidasi melalui layanan resmi PINTUKU. Hak akses ditentukan oleh peran Tata Usaha yang aktif.</p></div>
+        <div class="login-security"><span aria-hidden="true">◈</span><p>Autentikasi diperiksa melalui Spreadsheet akun TU. Hak akses ditentukan oleh status dan peran yang aktif.</p></div>
       </section>
       <div class="login-assistance" id="bantuan"><span class="assistance-mark" aria-hidden="true">?</span><span><strong>Kesulitan mengakses akun?</strong><small>Hubungi administrator Tata Usaha melalui jalur komunikasi internal sekolah.</small></span></div>
     </aside>
   </section>
 
   <section class="guidance-strip" id="panduan" aria-label="Panduan akses">
-    <div><span class="guidance-number">01</span><span><strong>Masukkan akun terdaftar</strong><small>Gunakan alamat email akun Tata Usaha.</small></span></div>
+    <div><span class="guidance-number">01</span><span><strong>Masukkan akun terdaftar</strong><small>Gunakan Username yang terdaftar pada Spreadsheet Pengguna TU.</small></span></div>
     <div><span class="guidance-number">02</span><span><strong>Verifikasi autentikasi</strong><small>Sistem memeriksa kredensial dan status sesi.</small></span></div>
     <div><span class="guidance-number">03</span><span><strong>Akses ruang kerja</strong><small>Dashboard terbuka jika peran TU telah disahkan.</small></span></div>
   </section>
