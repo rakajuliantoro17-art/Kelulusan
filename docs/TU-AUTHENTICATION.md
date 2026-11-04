@@ -67,7 +67,7 @@ Plaintext compatibility is retained only to avoid unexpectedly locking out exist
 
 Supabase remains the server-side operational data store for TU. It is not the login provider. The migration src/TU/supabase/migrations/202611040001_tu_spreadsheet_identity_provider.sql creates tu.staff_identities, a minimal identity mirror required for referential integrity in visitor audit records. It does not store passwords.
 
-Apply the TU migrations in order in the intended Supabase project before testing login or Front Office transactions. The migration preserves existing actor references as inactive legacy identities and enforces at most one active Head TU identity. The existing tu.user_roles and tu.identity_links tables remain for historical/transition compatibility; the new login flow does not use Supabase Auth role assignments.
+Apply the TU migrations in order in the intended Supabase project before testing login or Front Office transactions. The migration preserves existing actor references as inactive legacy identities. The authentication adapter fails closed if more than one active Head TU row exists in the spreadsheet. The existing tu.user_roles and tu.identity_links tables remain for historical/transition compatibility; the new login flow does not use Supabase Auth role assignments.
 
 ## Deployment checklist
 
