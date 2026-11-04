@@ -38,7 +38,7 @@ function add(){openEntry();}
 function exportCsv(){
  const data=rows[active];if(!data.length){alert("Belum ada data untuk diekspor.");return;}
  const headers=["Tanggal","Perihal/Kegiatan","Penanggung Jawab","Unit Terkait","Tenggat","Status"];
- const quote=v=>{let value=String(v??"");if(/^[\s]*[=+@\\-]/.test(value))value="\t"+value;return '"' + value.replace(/"/g,'""') + '"' ;};
+ const quote=v=>{let value=String(v??"");if(/^[\s]*[-=+@]/.test(value))value="\t"+value;return '"' + value.replace(/"/g,'""') + '"' ;};
  const csv="\uFEFF"+[headers,...data.map(r=>[r.date,r.subject,r.owner,r.unit,r.due,r.status])].map(row=>row.map(quote).join(";")).join("\r\n");
  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
  a.href=url;a.download="TUPINTUKU-"+active+"-"+today()+".csv";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
