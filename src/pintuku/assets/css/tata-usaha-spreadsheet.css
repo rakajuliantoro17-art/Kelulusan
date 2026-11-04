@@ -33,3 +33,19 @@ html[data-theme="light"] .tu-sheet-table th{background:#f1f6fb}html[data-theme="
 .tu-sheet-btn:focus-visible,.tu-sheet-tabs button:focus-visible,.tu-sheet-search input:focus-visible,.tu-sheet-row-action:focus-visible{outline:3px solid rgba(122,190,248,.8);outline-offset:2px}
 @media(max-width:720px){.tu-sheet-toolbar,.tu-sheet-summary{align-items:stretch;flex-direction:column}.tu-sheet-actions{justify-content:flex-start}.tu-sheet-search{max-width:none;margin-left:0}.tu-sheet-footer{flex-direction:column}}
 @media(prefers-reduced-motion:reduce){.tu-sheet-table tbody tr{transition:none}}
+
+.tu-sheet-dialog{width:min(540px,calc(100vw - 28px));max-width:none;padding:0;border:1px solid var(--tu-border);border-radius:18px;background:#102238;color:#eaf2fc;box-shadow:0 28px 90px rgba(0,0,0,.42)}
+.tu-sheet-dialog::backdrop{background:rgba(2,9,18,.68);backdrop-filter:blur(5px)}
+.tu-sheet-dialog form{display:grid;gap:14px;padding:20px}
+.tu-sheet-dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--tu-border)}
+.tu-sheet-dialog-head h3{margin:6px 0 0;font-size:18px;color:inherit}
+.tu-sheet-dialog-close{width:32px;height:32px;border:1px solid var(--tu-border);border-radius:9px;background:rgba(255,255,255,.05);color:inherit;font-size:20px;cursor:pointer}
+.tu-sheet-dialog label{display:grid;gap:6px;color:#b9c9db;font-size:10px;font-weight:700}
+.tu-sheet-dialog input,.tu-sheet-dialog select{width:100%;min-height:39px;padding:8px 10px;border:1px solid rgba(174,202,234,.2);border-radius:9px;background:#0a1929;color:#edf5ff;font:inherit;font-size:11px}
+.tu-sheet-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tu-sheet-dialog-note{margin:0;color:#a4b5c9;font-size:9px;line-height:1.6}
+.tu-sheet-dialog-actions{display:flex;justify-content:flex-end;gap:8px;padding-top:5px}
+html[data-theme="light"] .tu-sheet-dialog{background:#fff;color:#19324c}
+html[data-theme="light"] .tu-sheet-dialog label{color:#526a83}
+html[data-theme="light"] .tu-sheet-dialog input,html[data-theme="light"] .tu-sheet-dialog select{background:#f6f9fc;color:#19324c;border-color:rgba(50,91,132,.2)}
+@media(max-width:480px){.tu-sheet-form-grid{grid-template-columns:1fr}.tu-sheet-dialog form{padding:16px}}
