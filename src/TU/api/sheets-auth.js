@@ -14,7 +14,6 @@ const ROLE_ALIASES = new Map([
   ["kepala tata usaha", "head_tu"], ["kepala-tata-usaha", "head_tu"],
   ["koordinator front office", "fo_coordinator"], ["fo_coordinator", "fo_coordinator"],
   ["petugas front office", "fo_receptionist"], ["resepsionis", "fo_receptionist"], ["fo_receptionist", "fo_receptionist"],
-  ["petugas unit", "unit_officer"], ["unit_officer", "unit_officer"],
   ["operator tu", "tu_operator"], ["tu_operator", "tu_operator"],
   ["kepala sekolah", "principal"], ["principal", "principal"]
 ]);
