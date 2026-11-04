@@ -57,6 +57,7 @@ Plaintext compatibility is retained only to avoid unexpectedly locking out exist
 - Successful login creates an HMAC-SHA256 signed session with an eight-hour expiry.
 - The browser stores the token in tab-scoped sessionStorage, not localStorage.
 - There is no refresh token. An expired session requires the user to sign in again.
+- Logout clears the tab's local token; because sessions are stateless, a copied token remains usable until expiry unless the account is disabled or its role is changed in the spreadsheet.
 - Each protected API request verifies the signature and expiry, then re-reads the TU spreadsheet to confirm that the account remains active and its role is still allowed.
 - Deactivating an account or changing its role in the spreadsheet therefore affects the next protected API request.
 - Login attempts are limited to five failures per IP/username within ten minutes per server instance. A shared distributed rate limiter should be added before high-volume public exposure.
@@ -66,7 +67,7 @@ Plaintext compatibility is retained only to avoid unexpectedly locking out exist
 
 Supabase remains the server-side operational data store for TU. It is not the login provider. The migration src/TU/supabase/migrations/202611040001_tu_spreadsheet_identity_provider.sql creates tu.staff_identities, a minimal identity mirror required for referential integrity in visitor audit records. It does not store passwords.
 
-Apply the TU migrations in order in the intended Supabase project before testing login or Front Office transactions. The migration preserves existing actor references as inactive legacy identities. The existing tu.user_roles and tu.identity_links tables remain for historical/transition compatibility; the new login flow does not use Supabase Auth role assignments.
+Apply the TU migrations in order in the intended Supabase project before testing login or Front Office transactions. The migration preserves existing actor references as inactive legacy identities and enforces at most one active Head TU identity. The existing tu.user_roles and tu.identity_links tables remain for historical/transition compatibility; the new login flow does not use Supabase Auth role assignments.
 
 ## Deployment checklist
 
@@ -74,7 +75,7 @@ Apply the TU migrations in order in the intended Supabase project before testing
 2. Set GOOGLE_SHEET_ID_TU to that file's ID.
 3. Set TU_SESSION_SECRET to a cryptographically random value of at least 32 characters.
 4. Confirm Supabase operational environment variables are configured server-side.
-5. Apply all TU migrations, including the Spreadsheet identity migration, in order.
+5. Confirm the tu schema is listed under Supabase API Settings → Exposed schemas; keep access restricted to the server credential. Apply all TU migrations, including the Spreadsheet identity migration, in order.
 6. Deploy the feature branch to a preview environment.
 7. Verify Head TU login, role mapping, account deactivation, and protected Front Office API operations using a test account.
 8. Do not merge to main or promote the deployment until the owner approves the preview tests.
