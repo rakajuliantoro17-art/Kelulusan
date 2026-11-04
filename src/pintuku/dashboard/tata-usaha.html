@@ -109,6 +109,20 @@
         </div>
         <div class="tu-sheet-footer"><span id="tuSheetFootnote">Belum ada data operasional yang dimuat.</span><span>Ekspor CSV · UTF-8</span></div>
       </div>
+      <dialog class="tu-sheet-dialog" id="tuSheetDialog" aria-labelledby="tuSheetDialogTitle">
+        <form id="tuSheetForm" method="dialog">
+          <div class="tu-sheet-dialog-head"><div><span class="tu-section-kicker">ENTRI BARU</span><h3 id="tuSheetDialogTitle">Tambah catatan administrasi</h3></div><button type="button" class="tu-sheet-dialog-close" id="tuSheetClose" aria-label="Tutup">×</button></div>
+          <label>Perihal / kegiatan <input name="subject" required maxlength="180" placeholder="Contoh: Rekap surat masuk bulan berjalan"></label>
+          <div class="tu-sheet-form-grid">
+            <label>Penanggung jawab <input name="owner" maxlength="100" placeholder="Nama petugas"></label>
+            <label>Unit terkait <select name="unit"><option value="">Pilih unit</option><option>Tata Usaha</option><option>Kurikulum</option><option>Kesiswaan</option><option>Sarpras</option><option>Humas</option><option>Pimpinan</option><option>Lainnya</option></select></label>
+            <label>Tenggat <input name="due" type="date"></label>
+            <label>Status <select name="status"><option>Menunggu</option><option>Dalam proses</option><option>Selesai</option></select></label>
+          </div>
+          <p class="tu-sheet-dialog-note">Hindari memasukkan NIK, nomor telepon pribadi, data siswa, atau informasi rahasia. Data hanya tersedia selama sesi browser.</p>
+          <div class="tu-sheet-dialog-actions"><button type="button" class="tu-sheet-btn tu-sheet-btn-secondary" id="tuSheetCancel">Batal</button><button type="submit" class="tu-sheet-btn tu-sheet-btn-primary">Simpan entri sementara</button></div>
+        </form>
+      </dialog>
     </section>
     <section class="tu-work-section" id="pusat-tugas" aria-labelledby="tuTasksTitle">
       <div class="tu-section-heading"><div><span class="tu-section-kicker">WORK PRIORITY CENTER</span><h2 id="tuTasksTitle">Pusat Tugas Hari Ini</h2><p>Daftar pekerjaan yang perlu diperiksa dan ditindaklanjuti.</p></div><span class="tu-data-state">Belum terhubung</span></div>
