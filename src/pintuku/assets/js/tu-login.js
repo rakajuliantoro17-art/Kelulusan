@@ -5,7 +5,7 @@
  const show=message=>{alertBox.textContent=message;alertBox.hidden=false;};
  const params=new URLSearchParams(location.search);
  const requested=params.get("next")||"";
- const safeNext=()=>requested.startsWith("/tata-usaha/")&&!requested.startsWith("//")?requested:"";
+ const safeNext=()=>requested.startsWith("/tata-usaha/dashboard")&&!requested.startsWith("//")?requested:"";
  const roleHome=role=>"/tata-usaha/dashboard?workspace="+encodeURIComponent(role||"staff_tu");
  $("tuTogglePassword")?.addEventListener("click",()=>{const visible=password.type==="password";password.type=visible?"text":"password";$("tuTogglePassword").textContent=visible?"Sembunyikan":"Tampilkan";$("tuTogglePassword").setAttribute("aria-pressed",String(visible));});
  form?.addEventListener("submit",async event=>{
