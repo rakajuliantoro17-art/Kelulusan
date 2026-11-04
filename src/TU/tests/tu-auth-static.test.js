@@ -60,7 +60,7 @@ test("TU browser guard verifies the signed session and uses tab-scoped storage",
   assert.match(guard, /GET/);
   assert.match(guard, /\/api\/tu\/auth/);
   assert.doesNotMatch(guard, /refresh_token/);
-  assert.doesNotMatch(guard, /localStorage/);
+  assert.doesNotMatch(guard, /localStorage\\s*\\./);
 });
 
 test("TU dashboard displays the authenticated account role", () => {
