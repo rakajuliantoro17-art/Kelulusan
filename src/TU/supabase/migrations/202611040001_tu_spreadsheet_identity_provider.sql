@@ -28,6 +28,21 @@ alter table tu.staff_identities enable row level security;
 revoke all on tu.staff_identities from public, anon, authenticated;
 grant select, insert, update, delete on tu.staff_identities to service_role;
 
+-- Preserve audit references from any earlier Supabase Auth-based preview data.
+insert into tu.staff_identities (id, username, display_name, role_code, is_active)
+select legacy.user_id, 'legacy:' || legacy.user_id::text, 'Akun legacy (riwayat)', 'tu_operator', false
+from (
+  select created_by as user_id from tu.visits
+  union select updated_by from tu.visits where updated_by is not null
+  union select checked_in_by from tu.visits where checked_in_by is not null
+  union select checked_out_by from tu.visits where checked_out_by is not null
+  union select actor_id from tu.visit_events
+  union select recipient_user_id from tu.visit_notifications where recipient_user_id is not null
+) as legacy
+where legacy.user_id is not null
+  and not exists (select 1 from tu.staff_identities current_identity where current_identity.id = legacy.user_id)
+on conflict (id) do nothing;
+
 -- Front Office transaction actors now reference the Spreadsheet-backed identity registry.
 alter table tu.visit_notifications
   drop constraint if exists visit_notifications_recipient_user_id_fkey;
