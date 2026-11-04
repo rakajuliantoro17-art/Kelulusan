@@ -1,32 +1,90 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07111f"><meta name="description" content="Login khusus Tata Usaha PINTUKU — SMAN 1 Sooko Mojokerto.">
-<script>try{var t=localStorage.getItem("pintuku-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#102b49">
+<meta name="description" content="Portal akses layanan Tata Usaha PINTUKU — SMAN 1 Sooko Mojokerto.">
+<script>try{var t=localStorage.getItem("pintuku-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="dark"}</script>
 <title>Masuk Tata Usaha · PINTUKU</title>
-<link rel="manifest" href="/manifest.json"><link rel="icon" href="/assets/shared/icons/favicon.ico">
-<link rel="stylesheet" href="/css/portal-shell.css"><link rel="stylesheet" href="/css/tata-usaha-login.css">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/assets/shared/icons/favicon.ico">
+<link rel="stylesheet" href="/css/tata-usaha-login.css">
 <script src="/js/tu-login.js" defer></script>
 </head>
 <body class="tu-login-page">
-<main class="tu-login-shell">
- <a class="tu-login-brand" href="/" aria-label="Kembali ke PINTUKU"><span class="tu-login-mark">TU</span><span><b>PINTUKU</b><small>Tata Usaha · Office Management</small></span></a>
- <section class="tu-login-card">
-  <span class="tu-login-kicker">SECURE WORKSPACE ACCESS</span>
-  <h1>Selamat datang kembali.</h1>
-  <p class="tu-login-intro">Masuk menggunakan akun Tata Usaha yang telah diaktifkan oleh administrator sekolah.</p>
-  <div class="tu-login-alert" id="tuLoginAlert" role="status" aria-live="polite" hidden></div>
-  <form id="tuLoginForm" novalidate>
-   <label for="tuEmail">Email akun</label>
-   <input id="tuEmail" name="email" type="email" autocomplete="username" maxlength="254" placeholder="nama@sekolah.id" required>
-   <div class="tu-password-label"><label for="tuPassword">Kata sandi</label><button type="button" id="tuTogglePassword" aria-pressed="false">Tampilkan</button></div>
-   <input id="tuPassword" name="password" type="password" autocomplete="current-password" maxlength="256" required>
-   <button class="tu-login-submit" id="tuLoginSubmit" type="submit"><span>Masuk ke ruang kerja</span><span aria-hidden="true">→</span></button>
-  </form>
-  <div class="tu-login-security"><span aria-hidden="true">◈</span><p>Sesi dienkripsi oleh koneksi HTTPS dan divalidasi melalui Supabase Auth. Akses fitur tetap mengikuti peran Tata Usaha yang disahkan.</p></div>
- </section>
- <footer>SMAN 1 Sooko Mojokerto <span>·</span> PINTUKU</footer>
+<header class="official-header">
+  <div class="official-header-inner">
+    <a class="institution-brand" href="/" aria-label="PINTUKU — kembali ke portal utama">
+      <span class="institution-logo"><img src="/assets/shared/logos/sman1-sooko.png" alt="Logo SMAN 1 Sooko" width="54" height="54"></span>
+      <span class="institution-copy"><strong>SMAN 1 SOOKO MOJOKERTO</strong><small>Pelayanan Integrasi &amp; Data Sekolah Terpadu</small></span>
+    </a>
+    <nav class="official-nav" aria-label="Navigasi utama">
+      <a href="/">Beranda</a>
+      <a href="#layanan">Tentang Layanan</a>
+      <a href="#panduan">Panduan</a>
+      <a href="#bantuan">Pusat Bantuan</a>
+    </nav>
+  </div>
+</header>
+
+<main class="official-main">
+  <div class="page-breadcrumb"><a href="/">PINTUKU</a><span aria-hidden="true">/</span><span>Tata Usaha</span><span aria-hidden="true">/</span><strong>Login Petugas</strong></div>
+  <section class="portal-intro" id="layanan">
+    <div class="intro-copy">
+      <span class="portal-eyebrow"><i aria-hidden="true"></i> PORTAL LAYANAN INTERNAL SEKOLAH</span>
+      <h1>Pelayanan administrasi yang <em>terpadu dan tertib.</em></h1>
+      <p>Ruang kerja digital Tata Usaha SMAN 1 Sooko untuk mendukung pelayanan administrasi, koordinasi unit, dan operasional sekolah secara terstruktur.</p>
+      <div class="intro-divider"></div>
+      <div class="service-points">
+        <div class="service-point"><span class="point-icon" aria-hidden="true">01</span><span><strong>Pelayanan terkoordinasi</strong><small>Alur layanan dan tindak lanjut dalam satu ruang kerja.</small></span></div>
+        <div class="service-point"><span class="point-icon" aria-hidden="true">02</span><span><strong>Identitas dan kewenangan</strong><small>Akses berdasarkan akun serta peran yang telah disahkan.</small></span></div>
+        <div class="service-point"><span class="point-icon" aria-hidden="true">03</span><span><strong>Informasi operasional</strong><small>Ringkasan pekerjaan untuk membantu koordinasi harian.</small></span></div>
+      </div>
+      <div class="intro-note"><span aria-hidden="true">i</span><p>Portal ini diperuntukkan bagi petugas Tata Usaha dan pengguna internal yang telah memperoleh kewenangan akses.</p></div>
+    </div>
+
+    <aside class="login-column" aria-label="Formulir masuk Tata Usaha">
+      <section class="tu-login-card">
+        <div class="login-card-heading">
+          <span class="login-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 7.8 7.5 9.5 4.3-1.7 7.5-4.9 7.5-9.5V6L12 3Z"/><path d="m9 12 2 2 4-4"/></svg>
+          </span>
+          <span class="login-card-kicker">AKSES PETUGAS</span>
+          <h2>Masuk ke Tata Usaha</h2>
+          <p>Gunakan akun resmi yang telah diaktifkan oleh administrator sekolah.</p>
+        </div>
+        <div class="tu-login-alert" id="tuLoginAlert" role="status" aria-live="polite" hidden></div>
+        <form id="tuLoginForm" novalidate>
+          <div class="field-group">
+            <label for="tuEmail">Email akun</label>
+            <input id="tuEmail" name="email" type="email" autocomplete="username" maxlength="254" placeholder="nama@sekolah.id" required>
+          </div>
+          <div class="field-group">
+            <div class="tu-password-label"><label for="tuPassword">Kata sandi</label><button type="button" id="tuTogglePassword" aria-pressed="false">Tampilkan</button></div>
+            <input id="tuPassword" name="password" type="password" autocomplete="current-password" maxlength="256" required>
+          </div>
+          <button class="tu-login-submit" id="tuLoginSubmit" type="submit"><span>Masuk ke Dashboard TU</span><span aria-hidden="true">→</span></button>
+        </form>
+        <div class="login-security"><span aria-hidden="true">◈</span><p>Autentikasi divalidasi melalui layanan resmi PINTUKU. Hak akses ditentukan oleh peran Tata Usaha yang aktif.</p></div>
+      </section>
+      <div class="login-assistance" id="bantuan"><span class="assistance-mark" aria-hidden="true">?</span><span><strong>Kesulitan mengakses akun?</strong><small>Hubungi administrator Tata Usaha melalui jalur komunikasi internal sekolah.</small></span></div>
+    </aside>
+  </section>
+
+  <section class="guidance-strip" id="panduan" aria-label="Panduan akses">
+    <div><span class="guidance-number">01</span><span><strong>Masukkan akun terdaftar</strong><small>Gunakan alamat email akun Tata Usaha.</small></span></div>
+    <div><span class="guidance-number">02</span><span><strong>Verifikasi autentikasi</strong><small>Sistem memeriksa kredensial dan status sesi.</small></span></div>
+    <div><span class="guidance-number">03</span><span><strong>Akses ruang kerja</strong><small>Dashboard terbuka jika peran TU telah disahkan.</small></span></div>
+  </section>
 </main>
+
+<footer class="official-footer">
+  <div class="official-footer-inner">
+    <span><strong>SMAN 1 Sooko Mojokerto</strong><small>PINTUKU · Pelayanan Integrasi &amp; Data Sekolah Terpadu</small></span>
+    <span class="footer-right">Portal layanan internal sekolah <b>·</b> © <span id="currentYear">2026</span></span>
+  </div>
+</footer>
+<script>document.getElementById("currentYear").textContent=String(new Date().getFullYear())</script>
 </body>
 </html>
