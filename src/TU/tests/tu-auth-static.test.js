@@ -14,7 +14,7 @@ const routes = JSON.parse(fs.readFileSync("vercel.json", "utf8")).rewrites;
 test("TU auth endpoint accepts only POST login and local logout", () => {
   assert.match(api, /if \(req\.method !== "POST"\)/);
   assert.match(api, /op === "auth"/);
-  assert.match(api, /action === "login"/);
+  assert.match(api, /action !== "login"/);
   assert.match(api, /action === "logout"/);
   assert.doesNotMatch(api, /action === "refresh"|verify-invite|set-invite-password|supabaseAuth/);
 });
