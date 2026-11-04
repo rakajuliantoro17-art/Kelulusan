@@ -131,7 +131,7 @@ function verifyPassword(stored, given) {
   return constantTimeEqual(password, value);
 }
 function stableIdentityId(username) {
-  const bytes = crypto.createHash("sha256").update("pintuku-tu-identity:" + username).digest().subarray(0, 16);
+  const bytes = crypto.createHash("sha1").update("pintuku-tu-identity:" + username).digest().subarray(0, 16);
   bytes[6] = (bytes[6] & 0x0f) | 0x50;
   bytes[8] = (bytes[8] & 0x3f) | 0x80;
   const hex = bytes.toString("hex");
