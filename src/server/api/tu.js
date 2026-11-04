@@ -5,11 +5,6 @@
  * All TU schema access is server-side through the Supabase service credential.
  * Browser clients must never receive the service credential or direct schema grants.
  */
-const ALLOWED_ROLES = new Set([
-  "principal", "head_tu", "fo_coordinator", "fo_receptionist",
-  "unit_officer", "tu_operator", "teacher", "homeroom_teacher", "system_operator"
-]);
-
 function send(res, status, payload) {
   return res.status(status).json(payload);
 }
@@ -78,7 +73,10 @@ function verifySession(token) {
   try {
     const payload = JSON.parse(Buffer.from(parts[0], "base64url").toString("utf8"));
     const now = Math.floor(Date.now() / 1000);
-    if (!payload || !payload.u || !payload.exp || now >= payload.exp || payload.exp - payload.iat > SESSION_TTL) return null;
+    if (!payload || typeof payload.u !== "string" || typeof payload.sub !== "string" ||
+        !Number.isInteger(payload.iat) || !Number.isInteger(payload.exp) ||
+        payload.exp <= now || payload.iat > now + 60 ||
+        payload.exp <= payload.iat || payload.exp - payload.iat > SESSION_TTL) return null;
     return payload;
   } catch (_) { return null; }
 }
@@ -137,18 +135,6 @@ async function authenticate(c, token) {
     user: { id: user.id, email: user.email, name: user.name, username: user.username },
     roles: [{ role_code: user.role_code, unit_id: null }]
   };
-}
-async function activeRoles(c, userId) {
-  // Role assignments are sourced from the TU Spreadsheet, never Supabase Auth.
-  const query = new URLSearchParams({ select: "role_code", id: "eq." + userId, is_active: "eq.true", limit: "1" });
-  const result = await request(c.baseUrl + "/rest/v1/staff_identities?" + query, { headers: adminHeaders(c) });
-  if (!result.response.ok || !Array.isArray(result.body)) {
-    throw Object.assign(new Error("identity_store_unavailable"), { code: "identity_store_unavailable" });
-  }
-  return result.body.filter(row => row && ALLOWED_ROLES.has(row.role_code)).map(row => ({ role_code: row.role_code, unit_id: null }));
-}
-function requireRole(roles) {
-  return Array.isArray(roles) && roles.some(role => TU_ACCESS_ROLES.has(role.role_code));
 }
 const TU_ACCESS_ROLES = new Set([
   "principal", "head_tu", "fo_coordinator", "fo_receptionist", "unit_officer", "tu_operator"
