@@ -25,7 +25,7 @@ function configError(message) {
   return Object.assign(new Error(message), { code: "tu_sheet_unavailable" });
 }
 function normalizeRole(value) {
-  const key = String(value || "").trim().toLowerCase().replace(/\\s+/g, " ");
+  const key = String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
   return ROLE_ALIASES.get(key) || null;
 }
 function isActiveStatus(value) {
