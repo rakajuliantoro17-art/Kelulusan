@@ -20,6 +20,11 @@ create table if not exists tu.staff_identities (
 create index if not exists tu_staff_identities_active_role_idx
   on tu.staff_identities(role_code) where is_active;
 
+-- The spreadsheet must not authorize multiple active Head TU accounts.
+create unique index if not exists tu_single_active_spreadsheet_head_tu_idx
+  on tu.staff_identities(role_code)
+  where role_code = 'head_tu' and is_active;
+
 drop trigger if exists tu_staff_identities_set_updated_at on tu.staff_identities;
 create trigger tu_staff_identities_set_updated_at before update on tu.staff_identities
 for each row execute function tu.set_updated_at();
