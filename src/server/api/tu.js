@@ -438,7 +438,9 @@ module.exports = async function tuApi(req, res) {
 
     if (op === "context" && req.method === "GET") {
       const units = await listUnits(c);
-      const unitIds = [...new Set(roles.map(role => role.unit_id).filter(Boolean))];
+      const isGlobalManager = roles.some(role => ["principal", "head_tu"].includes(role.role_code));
+      const unitIds = isGlobalManager ? units.map(unit => unit.id)
+        : [...new Set(roles.map(role => role.unit_id).filter(Boolean))];
       return send(res, 200, {
         success: true,
         user: auth.user,
@@ -464,8 +466,10 @@ module.exports = async function tuApi(req, res) {
       if (!visit) return send(res, 404, { success: false, code: "record_not_found", message: "Kunjungan tidak ditemukan." });
       return send(res, 200, { success: true, visit });
     }
-    const unitIds = [...new Set(roles.map(role => role.unit_id).filter(Boolean))];
     if (op === "notifications" && req.method === "GET") {
+      const isGlobalManager = roles.some(role => ["principal", "head_tu"].includes(role.role_code));
+      const unitIds = isGlobalManager ? (await listUnits(c)).map(unit => unit.id)
+        : [...new Set(roles.map(role => role.unit_id).filter(Boolean))];
       const notifications = await listNotifications(c, auth.user.id, unitIds);
       return send(res, 200, {
         success: true,
