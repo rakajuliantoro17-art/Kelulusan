@@ -141,12 +141,20 @@ async function loadUsers(c) {
   })).filter(user => user.username && user.password && !INACTIVE.has(user.status));
 }
 function passwordMatches(stored, given) {
+  const strong = /^scrypt:([0-9a-f]{32}):([0-9a-f]{128})$/i.exec(stored);
+  if (strong) {
+    const salt = Buffer.from(strong[1], "hex");
+    const expected = Buffer.from(strong[2], "hex");
+    const actual = crypto.scryptSync(String(given), salt, 64);
+    return crypto.timingSafeEqual(expected, actual);
+  }
   const match = /^sha256:([0-9a-f]{64})$/i.exec(stored);
   if (match) {
     const expected = Buffer.from(match[1], "hex");
     const actual = sha(given);
     return expected.length === actual.length && crypto.timingSafeEqual(expected, actual);
   }
+  // Plaintext remains supported only for compatibility with the initial account sheet.
   return safeEqual(given, stored);
 }
 function sign(payload, secret) {
