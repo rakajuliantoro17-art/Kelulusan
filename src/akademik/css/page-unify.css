@@ -294,3 +294,31 @@ html[data-theme="light"] body[data-page="privacy"] .header p { color: #35516d; }
 /* Kartu isi About/Privacy putih di kedua tema -> teks harus gelap (tema gelap sebelumnya terang di atas putih). */
 body[data-page="about"] .container :is(.search-card, .result-card, section) :is(p, li, span, div, td),
 body[data-page="privacy"] .container :is(.search-card, .result-card, section) :is(p, li, span, div, td) { color: #243a50; }
+
+/* ==========================================================
+   Judul halaman: logo + judul + deskripsi RATA TENGAH di semua
+   halaman Akademik (menimpa aturan rata-kiri di atas). Blok ini
+   sengaja di paling akhir dengan spesifisitas sama agar menang.
+   ========================================================== */
+body[data-page] .app-content > .header,
+body[data-page] .header,
+body[data-page] .container > .header { text-align: center; }
+
+body[data-page] .app-content > .header,
+body[data-page] .header > .container,
+body[data-page] .header .container,
+body[data-page] .container > .header { align-items: center; text-align: center; }
+
+body[data-page] .header .logo { margin-left: auto; margin-right: auto; }
+body[data-page] .header h1,
+body[data-page] .header h1 span { text-align: center; }
+body[data-page] .header p { margin-left: auto; margin-right: auto; text-align: center; }
+
+/* Hero berjenis lain: Simulasi TKA, Prestasi, Rasionalisasi SNBP */
+body[data-page] :is(.tka-hero, .prestasi-hero, .rs-hero) { text-align: center; }
+body[data-page] :is(.tka-hero, .prestasi-hero, .rs-hero) :is(h1, h2, p) { text-align: center; margin-left: auto; margin-right: auto; }
+body[data-page] :is(.tka-hero, .prestasi-hero, .rs-hero) :is(.tka-actions, .rs-actions, .hero-actions) { justify-content: center; }
+
+/* Halaman Tentang & Privasi */
+body[data-page="about"] .header,
+body[data-page="privacy"] .header { text-align: center; }
