@@ -14,10 +14,12 @@
 <link rel="stylesheet" href="/css/service-modules.css">
 <link rel="stylesheet" href="/css/pintuku-glass.css">
 <link rel="stylesheet" href="/css/tata-usaha-dashboard.css">
+<link rel="stylesheet" href="/css/tata-usaha-spreadsheet.css">
 <script src="/js/tu-auth.js" defer></script>
 <script src="/js/portal-shell.js" defer></script>
 <script src="/js/portal-settings.js" defer></script>
 <script src="/js/tata-usaha-dashboard.js" defer></script>
+<script src="/js/tata-usaha-spreadsheet.js" defer></script>
 </head>
 <body class="tu-dashboard-page" data-portal-module="tata-usaha" data-tu-view="dashboard">
 <div data-portal-header></div>
@@ -31,6 +33,7 @@
   <nav class="tu-side-nav">
     <a class="tu-nav-link is-active" href="/tata-usaha/dashboard" aria-current="page"><span class="tu-nav-icon" aria-hidden="true">▦</span><span>Dashboard</span></a>
     <a class="tu-nav-link" href="#pusat-tugas"><span class="tu-nav-icon" aria-hidden="true">☷</span><span>Pusat Tugas Hari Ini</span></a>
+    <a class="tu-nav-link" href="#tu-spreadsheet"><span class="tu-nav-icon" aria-hidden="true">▦</span><span>Spreadsheet Administrasi</span></a>
     <a class="tu-nav-link" href="/tata-usaha/front-office"><span class="tu-nav-icon" aria-hidden="true">♙</span><span>Front Office</span></a>
     <a class="tu-nav-link" href="/tata-usaha/akses"><span class="tu-nav-icon" aria-hidden="true">♧</span><span>Akses & Identitas</span></a>
     <a class="tu-nav-link" href="#persuratan"><span class="tu-nav-icon" aria-hidden="true">✉</span><span>Persuratan</span></a>
@@ -71,6 +74,40 @@
         <article class="tu-kpi-card"><span class="tu-kpi-icon tu-violet" aria-hidden="true">✉</span><div><span class="tu-kpi-label">Surat masuk</span><strong>—</strong><small>Perlu pencatatan dan disposisi</small></div></article>
         <article class="tu-kpi-card"><span class="tu-kpi-icon tu-teal" aria-hidden="true">▤</span><div><span class="tu-kpi-label">Permohonan layanan</span><strong>—</strong><small>Administrasi siswa dan umum</small></div></article>
         <article class="tu-kpi-card"><span class="tu-kpi-icon tu-amber" aria-hidden="true">⚒</span><div><span class="tu-kpi-label">Tiket operasional</span><strong>—</strong><small>Permintaan bantuan internal</small></div></article>
+      </div>
+    </section>
+    <section class="tu-sheet-section" id="tu-spreadsheet" aria-labelledby="tuSheetTitle">
+      <div class="tu-section-heading">
+        <div><span class="tu-section-kicker">ADMINISTRATIVE WORKBOOK</span><h2 id="tuSheetTitle">Spreadsheet Administrasi TU</h2><p>Register kerja terpadu untuk pencatatan, pemantauan, dan rekapitulasi administrasi.</p></div>
+        <span class="tu-data-state">Mode pratinjau · sesi browser</span>
+      </div>
+      <div class="tu-sheet-notice" role="note"><strong>Ruang kerja sementara.</strong> Data yang ditambahkan hanya tersimpan selama sesi browser ini. Belum terhubung ke Supabase atau data operasional sekolah. Jangan masukkan data pribadi/sensitif.</div>
+      <div class="tu-sheet-panel">
+        <div class="tu-sheet-toolbar">
+          <div class="tu-sheet-tabs" role="tablist" aria-label="Kategori spreadsheet">
+            <button type="button" class="is-active" data-sheet="pekerjaan" role="tab" aria-selected="true">Register Pekerjaan</button>
+            <button type="button" data-sheet="persuratan" role="tab" aria-selected="false">Persuratan</button>
+            <button type="button" data-sheet="layanan" role="tab" aria-selected="false">Layanan Administrasi</button>
+            <button type="button" data-sheet="arsip" role="tab" aria-selected="false">Arsip & Dokumen</button>
+          </div>
+          <div class="tu-sheet-actions">
+            <button type="button" class="tu-sheet-btn tu-sheet-btn-secondary" id="tuSheetExport">Unduh CSV</button>
+            <button type="button" class="tu-sheet-btn tu-sheet-btn-primary" id="tuSheetAdd">+ Tambah baris</button>
+          </div>
+        </div>
+        <div class="tu-sheet-summary" aria-live="polite">
+          <div><span>Total entri</span><strong id="tuSheetCount">0</strong></div>
+          <div><span>Dalam proses</span><strong id="tuSheetProgress">0</strong></div>
+          <div><span>Selesai</span><strong id="tuSheetDone">0</strong></div>
+          <label class="tu-sheet-search"><span class="sr-only">Cari data spreadsheet</span><input id="tuSheetSearch" type="search" placeholder="Cari perihal, penanggung jawab, status…"></label>
+        </div>
+        <div class="tu-sheet-table-wrap">
+          <table class="tu-sheet-table">
+            <thead><tr><th scope="col">No.</th><th scope="col">Tanggal</th><th scope="col">Perihal / Kegiatan</th><th scope="col">Penanggung jawab</th><th scope="col">Unit terkait</th><th scope="col">Tenggat</th><th scope="col">Status</th><th scope="col">Aksi</th></tr></thead>
+            <tbody id="tuSheetBody"><tr><td colspan="8" class="tu-sheet-empty">Belum ada entri. Gunakan “Tambah baris” untuk menguji format register.</td></tr></tbody>
+          </table>
+        </div>
+        <div class="tu-sheet-footer"><span id="tuSheetFootnote">Belum ada data operasional yang dimuat.</span><span>Ekspor CSV · UTF-8</span></div>
       </div>
     </section>
     <section class="tu-work-section" id="pusat-tugas" aria-labelledby="tuTasksTitle">
