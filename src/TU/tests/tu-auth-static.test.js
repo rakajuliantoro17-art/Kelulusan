@@ -32,7 +32,7 @@ test("TU accounts and roles come only from the dedicated Pengguna spreadsheet", 
   assert.match(sheet, /'Pengguna'!A:E/);
   assert.match(sheet, /Username/);
   assert.match(sheet, /Status/);
-  assert.match(sheet, /Kepala TU/);
+  assert.match(sheet, /kepala tu/i);
   assert.match(sheet, /return ACTIVE\.has\(status\) && !INACTIVE\.has\(status\)/);
   assert.match(sheet, /ROLE_ALIASES\.get\(key\) \|\| null/);
   assert.match(api, /tuSheetAuth\.authenticatePassword/);
