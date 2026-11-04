@@ -24,6 +24,14 @@ let cachedExpiry = 0;
 function configError(message) {
   return Object.assign(new Error(message), { code: "tu_sheet_unavailable" });
 }
+function normalizeRole(value) {
+  const key = String(value || "").trim().toLowerCase().replace(/\\s+/g, " ");
+  return ROLE_ALIASES.get(key) || null;
+}
+function isActiveStatus(value) {
+  const status = String(value || "").trim().toLowerCase();
+  return ACTIVE.has(status) && !INACTIVE.has(status);
+}
 function base64url(value) {
   return Buffer.from(value).toString("base64url");
 }
@@ -132,8 +140,10 @@ function stableIdentityId(username) {
 async function findActiveUser(username) {
   const normalized = String(username || "").trim().toLowerCase();
   const users = await readUsers();
-  const user = users.find(item => item.username === normalized);
-  if (!user || !user.active || !user.role) return null;
+  const matches = users.filter(item => item.username === normalized);
+  if (matches.length !== 1) return null;
+  const user = matches[0];
+  if (!user.active || !user.role) return null;
   return {
     id: stableIdentityId(user.username),
     username: user.username,
@@ -145,8 +155,10 @@ async function findActiveUser(username) {
 async function authenticatePassword(username, password) {
   const normalized = String(username || "").trim().toLowerCase();
   const users = await readUsers();
-  const user = users.find(item => item.username === normalized);
-  if (!user || !user.active || !user.role || !verifyPassword(user.password, password)) return null;
+  const matches = users.filter(item => item.username === normalized);
+  if (matches.length !== 1) return null;
+  const user = matches[0];
+  if (!user.active || !user.role || !verifyPassword(user.password, password)) return null;
   return {
     id: stableIdentityId(user.username),
     username: user.username,
@@ -155,4 +167,7 @@ async function authenticatePassword(username, password) {
     role_code: user.role
   };
 }
-module.exports = { readUsers, findActiveUser, authenticatePassword, stableIdentityId };
+module.exports = {
+  readUsers, findActiveUser, authenticatePassword, stableIdentityId,
+  verifyPassword, normalizeRole, isActiveStatus
+};
