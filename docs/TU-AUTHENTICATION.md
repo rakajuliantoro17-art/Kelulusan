@@ -1,60 +1,84 @@
-# PINTUKU Tata Usaha — Dedicated Authentication
+# PINTUKU Tata Usaha — Spreadsheet Authentication
 
-## Scope
+## Architecture
 
-Tata Usaha uses a dedicated Supabase Auth login. It does not reuse the separate Firebase, Akademik, or Kesiswaan sessions.
+Tata Usaha uses a dedicated Google Spreadsheet as its account and role source of truth. It does not use Supabase Auth for staff login and does not reuse Firebase, Akademik, or Kesiswaan sessions.
 
-- Login page: `/tata-usaha/login`
-- Auth endpoint: `POST /api/tu/auth`
-- Workspace endpoints: `/api/tu/context`, `/api/tu/units`, and notification endpoints
-- Protected pages: TU dashboard, Front Office, and Access Governance
+- Login page: /tata-usaha/login
+- Auth endpoint: POST /api/tu/auth
+- Protected workspace endpoints: /api/tu/context, /api/tu/units, visit and notification endpoints
+- Account source: separate Google Spreadsheet, tab Pengguna
+- Required column order: Username | Nama | Password | Status | Peran
+- The spreadsheet must be shared with the configured Google Service Account as Viewer.
+- Spreadsheet access is server-side only. Password cells are never returned to the browser or copied into Supabase.
 
 ## Required deployment configuration
 
-The serverless API requires:
+Configure these environment variables in the Vercel project for the intended deployment environment:
 
-- `SUPABASE_URL`
-- `SUPABASE_PUBLISHABLE_KEY`
-- `SUPABASE_SECRET_KEY` or `SUPABASE_SERVICE_ROLE_KEY`
+| Variable | Purpose |
+| --- | --- |
+| GOOGLE_SHEET_ID_TU | ID of the separate TU spreadsheet file |
+| GOOGLE_SERVICE_ACCOUNT_EMAIL | Service Account email |
+| GOOGLE_SERVICE_ACCOUNT_KEY | Service Account private key |
+| TU_SESSION_SECRET | Random secret of at least 32 characters for HMAC-SHA256 sessions |
+| SUPABASE_URL | Supabase project URL for TU operational data |
+| SUPABASE_SECRET_KEY or SUPABASE_SERVICE_ROLE_KEY | Server-only credential for the isolated tu schema |
 
-The database schema `tu` must be present in Supabase **Settings → API → Exposed schemas** for server-side PostgREST calls. Do not grant browser roles direct access to schema `tu`; server code uses the secret credential.
+Do not expose the Google private key, TU session secret, or Supabase secret/service-role key through any NEXT_PUBLIC_ variable or browser code. Do not use GOOGLE_SHEET_ID or the Kesiswaan spreadsheet ID for TU. The TU module reads only GOOGLE_SHEET_ID_TU.
 
-## Invitation acceptance flow
+## Spreadsheet contract
 
-- Production acceptance page: `/tata-usaha/accept-invite`.
-- Configure the Supabase **Site URL** as `https://sookosip.vercel.app` and add `https://sookosip.vercel.app/**` to allowed Redirect URLs.
-- In **Authentication → Email Templates → Invite User**, use a token-hash link:
-  `{{ .SiteURL }}/tata-usaha/accept-invite?token_hash={{ .TokenHash }}&type=invite`
-- The page removes the token hash from browser history before calling the same-origin API.
-- The API verifies the one-time invite token with Supabase Auth, holds the short-lived access token only in page memory, and updates the password through the authenticated Auth user endpoint.
-- No service/secret key is sent to the browser. The invite acceptance endpoint does not assign business roles or persist an application session.
-- Expired, invalid, and already-used tokens return an actionable error; issue a fresh invitation after confirming the production URL and template.
+The first row of tab Pengguna must contain these headers in this exact order:
 
-## Account activation
+1. Username
+2. Nama
+3. Password
+4. Status
+5. Peran
 
-1. Create or invite the user in Supabase Auth using an approved school email address.
-2. Verify the account through the school's approved identity process.
-3. Assign the first `head_tu` role using the restricted SQL procedure documented in [Secure Head TU Bootstrap](TU-HEAD-TU-BOOTSTRAP.md). Subsequent role governance will be implemented separately.
-4. Only these roles can enter the TU workspace: `principal`, `head_tu`, `fo_coordinator`, `fo_receptionist`, `unit_officer`, and `tu_operator`.
-5. `teacher`, `homeroom_teacher`, and `system_operator` alone do not authorize entry to the TU workspace.
+The login form's email/username field is matched case-insensitively against Username.
 
-There is intentionally no public role-assignment or bootstrap endpoint. Do not let a user grant a role to themselves. The first Head TU assignment must be provisioned by a trusted database administrator after the designated account UUID has been verified.
+- Status must explicitly be an active value: aktif, active, ya, yes, y, true, 1, or on. Empty or unknown status values deny access.
+- Explicit inactive values include tidak, nonaktif, non-aktif, no, n, false, 0, and off.
+- Unknown roles deny access. There is no fallback role.
+- Kepala TU, Kepala-TU, kepala_tu, head_tu, Kepala Tata Usaha, and Kepala-Tata-Usaha map to head_tu.
+- Other explicitly supported role labels are mapped in src/TU/api/sheets-auth.js. Do not enter arbitrary role names expecting automatic access.
 
-## Session behavior
+Password storage accepts:
+- scrypt$<salt-base64url>$<hash-base64url> (preferred; 64-byte derived key)
+- sha256:<64-hex-character-digest> (compatibility)
+- Legacy plaintext (compatibility with the existing school spreadsheet convention)
 
-- Password login, refresh-token rotation, and logout are proxied through the same-origin serverless API.
-- Browser session data is held in tab-scoped `sessionStorage`; it is not written to `localStorage`.
-- The API validates Supabase Auth identity and checks active TU business roles before returning a session.
-- Protected pages validate the server-side TU context before displaying workspace content.
-- Tokens are never logged by this implementation and responses are marked `Cache-Control: no-store`.
+Plaintext compatibility is retained only to avoid unexpectedly locking out existing spreadsheet accounts. It is not the recommended long-term storage format. Migrate passwords to scrypt hashes through a controlled administrator process; never send passwords to developers or commit them to the repository.
 
-## Security boundary and known limitation
+## Session and authorization behavior
 
-The access and refresh tokens are readable by JavaScript in the active tab. This is a pragmatic compatibility choice for the current static multi-page portal, not equivalent to an HttpOnly cookie. A strict Content Security Policy, XSS review, and server-managed HttpOnly session are recommended before broad production rollout.
+- Successful login creates an HMAC-SHA256 signed session with an eight-hour expiry.
+- The browser stores the token in tab-scoped sessionStorage, not localStorage.
+- There is no refresh token. An expired session requires the user to sign in again.
+- Each protected API request verifies the signature and expiry, then re-reads the TU spreadsheet to confirm that the account remains active and its role is still allowed.
+- Deactivating an account or changing its role in the spreadsheet therefore affects the next protected API request.
+- Login attempts are limited to five failures per IP/username within ten minutes per server instance. A shared distributed rate limiter should be added before high-volume public exposure.
+- The session token is readable by JavaScript in the active tab. This is a compatibility choice for the current static multi-page portal, not equivalent to an HttpOnly cookie. Apply a strict Content Security Policy and complete an XSS review before broad production rollout.
 
-The login flow cannot be considered operational until the deployment environment variables, exposed-schema setting, Supabase Auth account, and at least one authorized TU business-role assignment are configured and verified. No account, role, or credential is created by this code change.
+## Supabase's remaining responsibility
 
+Supabase remains the server-side operational data store for TU. It is not the login provider. The migration src/TU/supabase/migrations/202611040001_tu_spreadsheet_identity_provider.sql creates tu.staff_identities, a minimal identity mirror required for referential integrity in visitor audit records. It does not store passwords.
 
-## First Head TU bootstrap
+Apply the TU migrations in order in the intended Supabase project before testing login or Front Office transactions. The migration preserves existing actor references as inactive legacy identities. The existing tu.user_roles and tu.identity_links tables remain for historical/transition compatibility; the new login flow does not use Supabase Auth role assignments.
 
-The first Head TU role is provisioned only by a trusted database administrator through Supabase SQL Editor. There is no public bootstrap API, browser-side role grant, or self-escalation path. See [TU Head TU Bootstrap](TU-HEAD-TU-BOOTSTRAP.md) and `scripts/tu/bootstrap-first-head-tu.sql`.
+## Deployment checklist
+
+1. Confirm the Service Account has Viewer access to the separate TU spreadsheet.
+2. Set GOOGLE_SHEET_ID_TU to that file's ID.
+3. Set TU_SESSION_SECRET to a cryptographically random value of at least 32 characters.
+4. Confirm Supabase operational environment variables are configured server-side.
+5. Apply all TU migrations, including the Spreadsheet identity migration, in order.
+6. Deploy the feature branch to a preview environment.
+7. Verify Head TU login, role mapping, account deactivation, and protected Front Office API operations using a test account.
+8. Do not merge to main or promote the deployment until the owner approves the preview tests.
+
+## Legacy Supabase Auth invitation flow
+
+The previous Supabase Auth invite/accept flow is no longer used for TU login. Existing invite-related pages, role-bootstrap SQL, and Auth-specific tables are retained as legacy artifacts for now; do not use them to provision new TU accounts. The Google Spreadsheet Pengguna tab is the sole source of login eligibility and TU role mapping.
