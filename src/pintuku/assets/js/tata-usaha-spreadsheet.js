@@ -18,7 +18,7 @@ function render(){
  const all=rows[active];$("tuSheetCount").textContent=all.length;
  $("tuSheetProgress").textContent=all.filter(r=>r.status==="Dalam proses"||r.status==="Menunggu").length;
  $("tuSheetDone").textContent=all.filter(r=>r.status==="Selesai").length;
- $("tuSheetFootnote").textContent=all.length+" entri pada "+sheets[active]+". Data hanya berada di sesi browser.";
+ $("tuSheetFootnote").textContent=all.length+" entri pada "+sheets[active]+". Data hanya berada di memori halaman dan hilang saat dimuat ulang.";
 }
 function add(){const dialog=$("tuSheetDialog");if(!dialog)return;dialog.showModal();$("tuSheetForm")?.querySelector('[name="subject"]')?.focus();}
 function exportCsv(){
