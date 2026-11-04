@@ -12,7 +12,7 @@
  document.documentElement.classList.add("tu-auth-pending");
  const verify=async()=>{
   if(!session||typeof session.token!=="string"||!session.token||Number(session.expires_at||session.exp)*1000<=Date.now())return null;
-  const response=await fetch("/api/tu/auth",{headers:{Authorization:"Bearer "+session.token},cache:"no-store"});
+  const response=await fetch("/api/tu/auth",{method:"GET",headers:{Authorization:"Bearer "+session.token},cache:"no-store"});
   const data=await response.json().catch(()=>({}));
   if(response.status===401)return null;
   if(!response.ok||!data.valid||!data.session)throw new Error(data.message||"session_unavailable");
