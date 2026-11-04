@@ -18,13 +18,13 @@
   <p class="tu-login-intro">Masuk menggunakan akun Tata Usaha yang telah diaktifkan oleh administrator sekolah.</p>
   <div class="tu-login-alert" id="tuLoginAlert" role="status" aria-live="polite" hidden></div>
   <form id="tuLoginForm" novalidate>
-   <label for="tuEmail">Email akun</label>
-   <input id="tuEmail" name="email" type="email" autocomplete="username" maxlength="254" placeholder="nama@sekolah.id" required>
+   <label for="tuUsername">Username akun</label>
+   <input id="tuUsername" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="80" placeholder="Masukkan username" required>
    <div class="tu-password-label"><label for="tuPassword">Kata sandi</label><button type="button" id="tuTogglePassword" aria-pressed="false">Tampilkan</button></div>
    <input id="tuPassword" name="password" type="password" autocomplete="current-password" maxlength="256" required>
    <button class="tu-login-submit" id="tuLoginSubmit" type="submit"><span>Masuk ke ruang kerja</span><span aria-hidden="true">→</span></button>
   </form>
-  <div class="tu-login-security"><span aria-hidden="true">◈</span><p>Sesi dienkripsi oleh koneksi HTTPS dan divalidasi melalui Supabase Auth. Akses fitur tetap mengikuti peran Tata Usaha yang disahkan.</p></div>
+  <div class="tu-login-security"><span aria-hidden="true">◈</span><p>Sesi diverifikasi oleh server melalui token bertanda tangan. Akses ruang kerja mengikuti peran akun Tata Usaha yang tercatat pada spreadsheet sekolah.</p></div>
  </section>
  <footer>SMAN 1 Sooko Mojokerto <span>·</span> PINTUKU</footer>
 </main>
