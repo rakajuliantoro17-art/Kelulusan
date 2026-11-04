@@ -54,6 +54,21 @@
         '</div></aside>';
     while (wrap.firstElementChild) document.body.appendChild(wrap.firstElementChild);
 
+    if (document.body.dataset.portalModule === "tata-usaha-public") {
+      const body = document.getElementById("pintukuSettingsDrawer")?.querySelector(".ps-body");
+      if (body && !body.querySelector("[data-tu-staff-entry]")) {
+        const heading = document.createElement("div");
+        heading.className = "ps-sub";
+        heading.textContent = "AKSES PETUGAS";
+        const link = document.createElement("a");
+        link.className = "ps-link";
+        link.href = "/tata-usaha/login?next=%2Ftata-usaha%2Fdashboard";
+        link.dataset.tuStaffEntry = "true";
+        link.innerHTML = '<span>Masuk ke Dashboard TU</span><span aria-hidden="true">→</span>';
+        body.append(heading, link);
+      }
+    }
+
     const trigger = document.getElementById("pintukuSettingsTrigger");
     const overlay = document.getElementById("pintukuSettingsOverlay");
     const drawer = document.getElementById("pintukuSettingsDrawer");

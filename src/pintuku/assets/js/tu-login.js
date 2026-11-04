@@ -4,8 +4,8 @@
  const form=$("tuLoginForm"),email=$("tuEmail"),password=$("tuPassword"),submit=$("tuLoginSubmit"),alertBox=$("tuLoginAlert");
  const show=(message)=>{alertBox.textContent=message;alertBox.hidden=false;};
  const params=new URLSearchParams(location.search);
- const requested=params.get("next")||"/tata-usaha";
- const safeNext=()=>requested.startsWith("/tata-usaha")&&!requested.startsWith("//")?requested:"/tata-usaha";
+ const requested=params.get("next")||"/tata-usaha/dashboard";
+ const safeNext=()=>requested.startsWith("/tata-usaha")&&!requested.startsWith("//")?requested:"/tata-usaha/dashboard";
  $("tuTogglePassword")?.addEventListener("click",()=>{const showPassword=password.type==="password";password.type=showPassword?"text":"password";$("tuTogglePassword").textContent=showPassword?"Sembunyikan":"Tampilkan";$("tuTogglePassword").setAttribute("aria-pressed",String(showPassword));});
  form?.addEventListener("submit",async event=>{
   event.preventDefault();alertBox.hidden=true;

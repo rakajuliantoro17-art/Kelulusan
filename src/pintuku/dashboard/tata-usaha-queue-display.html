@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#07111f"><meta name="color-scheme" content="light dark">
+<meta name="description" content="Layar informasi antrean pelayanan Tata Usaha SMAN 1 Sooko.">
+<script>try{var t=localStorage.getItem("pintuku-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>
+<title>Layar Antrean · Tata Usaha PINTUKU</title><link rel="icon" href="/assets/shared/icons/favicon.ico"><link rel="stylesheet" href="/css/tata-usaha-public.css"><script src="/js/tata-usaha-public.js" defer></script>
+</head>
+<body class="tu-public-page tu-queue-page" data-tu-public-view="queue">
+<main class="tu-queue-shell">
+<header class="tu-queue-header"><div class="tu-queue-brand"><span class="tu-public-logo"><img src="/assets/shared/logos/sman1-sooko.png" alt="Logo SMAN 1 Sooko" width="42" height="42"></span><span><strong>SMAN 1 SOOKO</strong><small>FRONT OFFICE SERVICE CENTER</small></span></div><div class="tu-queue-clock"><strong id="tuQueueClock">--:--</strong><span id="tuQueueDate">Memuat tanggal…</span></div><div class="tu-queue-actions"><span class="tu-queue-connection" id="tuQueueConnection"><i></i> Data antrean belum tersambung</span><button type="button" id="tuQueueFullscreen" class="tu-queue-fullscreen">⛶ Layar penuh</button></div></header>
+<section class="tu-queue-title"><span class="tu-public-kicker">PUBLIC SERVICE INFORMATION</span><h1>Informasi Antrean</h1><p>Silakan perhatikan nomor antrean dan unit pelayanan yang dituju.</p></section>
+<section class="tu-queue-current-grid" aria-label="Panggilan antrean saat ini">
+ <article class="tu-queue-current-card"><span class="tu-queue-label">NOMOR SEDANG DIPANGGIL</span><strong class="tu-queue-number" id="tuQueueCurrentNumber">— — —</strong><span class="tu-queue-unit" id="tuQueueCurrentUnit">Belum ada panggilan aktif</span><span class="tu-queue-call-status">Menunggu data layanan</span></article>
+ <article class="tu-queue-counter-card"><span class="tu-queue-label">LOKET / PETUGAS</span><strong id="tuQueueCounter">—</strong><span id="tuQueueCounterName">Informasi loket akan tampil setelah sistem terhubung.</span><div class="tu-queue-counter-rule"></div><small>Ikuti petunjuk petugas Front Office.</small></article>
+</section>
+<section class="tu-queue-units" aria-labelledby="tuQueueUnitsTitle"><div class="tu-queue-section-heading"><div><span class="tu-public-kicker">DETAILED QUEUE STATUS</span><h2 id="tuQueueUnitsTitle">Status Antrean per Unit</h2></div><span class="tu-queue-updated" id="tuQueueUpdated">Belum ada pembaruan data</span></div>
+<div class="tu-queue-unit-grid">
+ <article class="tu-queue-unit-card"><span class="tu-queue-unit-index">01</span><div><strong>Akademik</strong><small>Unit pelayanan akademik</small></div><span class="tu-queue-unit-current">—</span><span class="tu-queue-unit-status">Menunggu data</span></article>
+ <article class="tu-queue-unit-card"><span class="tu-queue-unit-index">02</span><div><strong>Kepegawaian</strong><small>Administrasi kepegawaian</small></div><span class="tu-queue-unit-current">—</span><span class="tu-queue-unit-status">Menunggu data</span></article>
+ <article class="tu-queue-unit-card"><span class="tu-queue-unit-index">03</span><div><strong>Persuratan</strong><small>Surat masuk dan keluar</small></div><span class="tu-queue-unit-current">—</span><span class="tu-queue-unit-status">Menunggu data</span></article>
+ <article class="tu-queue-unit-card"><span class="tu-queue-unit-index">04</span><div><strong>Umum</strong><small>Layanan administrasi umum</small></div><span class="tu-queue-unit-current">—</span><span class="tu-queue-unit-status">Menunggu data</span></article>
+</div></section>
+<div class="tu-queue-announcement"><span aria-hidden="true">i</span><p>Mohon menunggu hingga nomor antrean Anda dipanggil. Layar ini tidak menampilkan nama atau informasi pribadi pengunjung.</p></div>
+<footer class="tu-queue-footer"><span>SMAN 1 Sooko Mojokerto · Pelayanan ramah dan tertib</span><span>LAYAR INFORMASI ANTREAN PINTUKU</span></footer>
+</main></body></html>

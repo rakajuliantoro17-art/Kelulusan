@@ -60,6 +60,22 @@
   ],
   "rewrites": [
     {
+      "source": "/tata-usaha/queue-display/",
+      "destination": "/src/pintuku/dashboard/tata-usaha-queue-display.html"
+    },
+    {
+      "source": "/tata-usaha/queue-display",
+      "destination": "/src/pintuku/dashboard/tata-usaha-queue-display.html"
+    },
+    {
+      "source": "/tata-usaha/dashboard/",
+      "destination": "/src/pintuku/dashboard/tata-usaha.html"
+    },
+    {
+      "source": "/tata-usaha/dashboard",
+      "destination": "/src/pintuku/dashboard/tata-usaha.html"
+    },
+    {
       "source": "/lobby",
       "destination": "/src/pintuku/dashboard/tata-usaha-lobby.html"
     },
