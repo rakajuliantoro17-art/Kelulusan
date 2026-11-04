@@ -415,13 +415,17 @@ module.exports = async function tuApi(req, res) {
     res.setHeader("Allow", "GET, POST, PATCH, OPTIONS");
     return res.status(204).end();
   }
-  const c = config();
-  if (!c) return send(res, 503, { success: false, code: "service_unavailable", message: "Konfigurasi layanan TU belum lengkap." });
   const op = String((req.query && req.query.op) || "");
+  // Login workspace memakai akun pada Google Spreadsheet TU, tidak memakai Supabase Auth.
   if (op === "auth") {
-    try { return await authOperation(c, req, res); }
-    catch (error) { return safeError(res, error); }
+    try { return await require("../../TU/server/auth")(req, res); }
+    catch (error) {
+      console.error("TU spreadsheet auth error:", error && error.message);
+      return send(res, 503, { success: false, valid: false, code: "tu_auth_unavailable", message: "Layanan login Tata Usaha sementara tidak tersedia." });
+    }
   }
+  const c = config();
+  if (!c) return send(res, 503, { success: false, code: "service_unavailable", message: "Konfigurasi layanan operasional TU belum lengkap." });
   const token = bearer(req);
   if (!token) return send(res, 401, { success: false, code: "unauthorized", message: "Silakan masuk melalui akun Tata Usaha." });
 
