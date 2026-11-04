@@ -28,3 +28,9 @@ Nama unit merupakan kategori pengarahan, bukan janji lokasi ruangan atau jam lay
 - Layout desktop dioptimalkan untuk layar lebar/TV 16:9; breakpoint tablet dan ponsel tetap disediakan.
 - Informasi pengunjung ditandai pada header, sedangkan jam dan tanggal lokal tetap diperbarui otomatis.
 - Logo hanya menggunakan aset yang sudah ada di repository; tidak ada logo baru atau identitas rekaan.
+
+## Penyempurnaan visual tahap lanjutan
+- Delapan kategori layanan menggunakan ikon SVG garis yang konsisten, tanpa dependensi ikon eksternal.
+- Ukuran teks alur layanan, kategori, dan petunjuk diperbesar dengan skala responsif untuk keterbacaan layar lebar.
+- Area informasi pengunjung menampilkan tiga pesan umum secara bergilir setiap 8,5 detik; rotasi otomatis dihentikan saat preferensi reduced-motion aktif.
+- Pesan bergilir tidak memuat jadwal, lokasi ruangan, nama petugas, kontak, atau ketentuan operasional yang belum divalidasi sekolah.
