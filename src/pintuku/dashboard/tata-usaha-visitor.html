@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f"><meta name="color-scheme" content="light dark">
+<meta name="description" content="Buku Tamu Digital dan layanan Front Office SMAN 1 Sooko Mojokerto.">
+<script>try{var t=localStorage.getItem("pintuku-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>
+<title>Buku Tamu Digital · Tata Usaha PINTUKU</title>
+<link rel="icon" href="/assets/shared/icons/favicon.ico">
+<link rel="stylesheet" href="/css/portal-settings.css"><link rel="stylesheet" href="/css/pintuku-glass.css"><link rel="stylesheet" href="/css/tata-usaha-public.css">
+<script src="/js/portal-settings.js" defer></script><script src="/js/tata-usaha-public.js" defer></script>
+</head>
+<body class="tu-public-page" data-portal-module="tata-usaha-public" data-tu-public-view="visitor">
+<main class="tu-public-shell">
+<header class="tu-public-header">
+ <a class="tu-public-brand" href="/" aria-label="Kembali ke PINTUKU"><span class="tu-public-logo"><img src="/assets/shared/logos/sman1-sooko.png" alt="Logo SMAN 1 Sooko" width="42" height="42"></span><span><strong>SMAN 1 SOOKO</strong><small>MOJOKERTO · PINTUKU</small></span></a>
+ <div class="tu-public-header-meta"><span class="tu-public-live"><i></i> FRONT OFFICE SERVICE</span><span class="tu-public-clock" id="tuPublicClock">--:--</span><span class="tu-public-date" id="tuPublicDate">Memuat tanggal…</span></div>
+</header>
+<section class="tu-public-hero">
+ <div class="tu-public-hero-copy"><span class="tu-public-eyebrow">ONE-STOP SCHOOL SERVICE</span><p class="tu-public-greeting" id="tuPublicGreeting">Selamat datang</p><h1>Selamat datang di<br><span>SMAN 1 Sooko.</span></h1><p class="tu-public-lead">Kami siap membantu kebutuhan Anda. Silakan lakukan pencatatan kunjungan untuk mendapatkan nomor antrean dan petunjuk layanan.</p><div class="tu-public-trust"><span aria-hidden="true">✦</span><span>Pelayanan ramah, tertib, dan bertanggung jawab.</span></div></div>
+ <aside class="tu-public-welcome-card"><span class="tu-public-kicker">ALUR PELAYANAN</span><h2>Empat langkah sederhana</h2><ol class="tu-public-steps">
+ <li><b>01</b><span><strong>Isi buku tamu</strong><small>Lengkapi identitas dan tujuan kunjungan.</small></span></li><li><b>02</b><span><strong>Pilih unit layanan</strong><small>Tentukan unit yang akan dituju.</small></span></li><li><b>03</b><span><strong>Dapatkan antrean</strong><small>Nomor antrean diberikan setelah registrasi.</small></span></li><li><b>04</b><span><strong>Menunggu panggilan</strong><small>Perhatikan layar informasi antrean.</small></span></li>
+ </ol></aside>
+</section>
+<section class="tu-public-action-grid" aria-label="Akses layanan pengunjung">
+ <article class="tu-public-action-card tu-public-primary-card"><div class="tu-public-card-icon" aria-hidden="true">▤</div><span class="tu-public-kicker">VISITOR REGISTRATION</span><h2>Buku Tamu Digital</h2><p>Catat kunjungan Anda secara mandiri. Petugas Front Office juga dapat membantu apabila diperlukan.</p><button class="tu-public-primary-button" type="button" id="tuOpenVisitorForm">Mulai Isi Buku Tamu <span aria-hidden="true">→</span></button><small class="tu-public-note">Data hanya digunakan untuk keperluan pelayanan kunjungan sekolah.</small></article>
+ <article class="tu-public-action-card"><div class="tu-public-card-icon" aria-hidden="true">▦</div><span class="tu-public-kicker">LIVE SERVICE INFORMATION</span><h2>Layar Informasi Antrean</h2><p>Pantau nomor yang dipanggil, unit tujuan, loket pelayanan, dan status antrean.</p><a class="tu-public-secondary-link" href="/tata-usaha/queue-display/">Lihat Layar Antrean <span aria-hidden="true">↗</span></a><small class="tu-public-note">Informasi antrean publik tidak menampilkan identitas pribadi pengunjung.</small></article>
+</section>
+<section class="tu-public-form-section" id="tuVisitorFormSection" hidden aria-labelledby="tuVisitorFormTitle">
+ <div class="tu-public-section-heading"><div><span class="tu-public-kicker">VISITOR CHECK-IN</span><h2 id="tuVisitorFormTitle">Formulir Buku Tamu</h2><p>Isi informasi yang diperlukan untuk membantu petugas mengarahkan kunjungan Anda.</p></div><button class="tu-public-close-button" id="tuCloseVisitorForm" type="button" aria-label="Tutup formulir">×</button></div>
+ <div class="tu-public-preview-notice" role="status"><strong>Mode pratinjau UI.</strong> Pengiriman data belum diaktifkan. Formulir ini belum menyimpan atau mengirim data pengunjung.</div>
+ <form id="tuVisitorForm" class="tu-public-form" novalidate>
+ <div class="tu-public-form-grid">
+  <label>Nama lengkap <em>*</em><input name="visitor_name" autocomplete="name" maxlength="100" required placeholder="Nama lengkap pengunjung"></label>
+  <label>Kategori pengunjung <em>*</em><select name="visitor_category" required><option value="">Pilih kategori</option><option>Orang tua / wali siswa</option><option>Alumni</option><option>Instansi pemerintah</option><option>Mitra / organisasi</option><option>Masyarakat umum</option><option>Lainnya</option></select></label>
+  <label>Asal instansi / organisasi<input name="organization" autocomplete="organization" maxlength="120" placeholder="Nama instansi (jika ada)"></label>
+  <label>Nomor kontak (opsional)<input name="contact_phone" type="tel" autocomplete="tel" maxlength="25" placeholder="Nomor yang dapat dihubungi"></label>
+  <label>Unit tujuan <em>*</em><select name="destination_unit" required><option value="">Pilih unit tujuan</option><option>Kepala Sekolah</option><option>Tata Usaha</option><option>Kurikulum</option><option>Kesiswaan</option><option>Sarana Prasarana</option><option>Humas</option><option>Guru / Wali Kelas</option><option>Keamanan</option></select></label>
+  <label>Keperluan kunjungan <em>*</em><select name="purpose" required><option value="">Pilih keperluan</option><option>Administrasi / persuratan</option><option>Koordinasi / konsultasi</option><option>Keperluan siswa / orang tua</option><option>Kerja sama / kemitraan</option><option>Undangan / kegiatan sekolah</option><option>Layanan fasilitas</option><option>Lainnya</option></select></label>
+  <label class="tu-public-full-field">Pihak yang dituju (opsional)<input name="host_name" maxlength="100" placeholder="Nama pejabat, staf, atau guru"></label>
+  <label class="tu-public-full-field">Keterangan singkat (opsional)<textarea name="notes" rows="3" maxlength="300" placeholder="Tuliskan informasi tambahan seperlunya"></textarea></label>
+ </div>
+ <label class="tu-public-consent"><input type="checkbox" name="privacy_acknowledged" required><span>Saya memahami bahwa informasi ini digunakan untuk pencatatan dan pelayanan kunjungan sekolah. <em>*</em></span></label>
+ <div class="tu-public-form-actions"><button class="tu-public-primary-button" type="submit">Tinjau Registrasi <span aria-hidden="true">→</span></button><button class="tu-public-secondary-button" type="reset">Kosongkan</button></div>
+ <p class="tu-public-form-feedback" id="tuVisitorFeedback" role="status" aria-live="polite" hidden></p>
+ </form>
+</section>
+<footer class="tu-public-footer"><div><strong>TERIMA KASIH TELAH BERKUNJUNG</strong><span>SMAN 1 Sooko Mojokerto · Front Office & Tata Usaha</span></div><span>PINTUKU · DIGITAL SERVICE CENTER</span></footer>
+</main>
+</body></html>

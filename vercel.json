@@ -60,6 +60,38 @@
   ],
   "rewrites": [
     {
+      "source": "/tata-usaha/akses/",
+      "destination": "/src/pintuku/dashboard/tata-usaha-access.html"
+    },
+    {
+      "source": "/tata-usaha/akses",
+      "destination": "/src/pintuku/dashboard/tata-usaha-access.html"
+    },
+    {
+      "source": "/tata-usaha/queue-display/",
+      "destination": "/src/pintuku/dashboard/tata-usaha-queue-display.html"
+    },
+    {
+      "source": "/tata-usaha/queue-display",
+      "destination": "/src/pintuku/dashboard/tata-usaha-queue-display.html"
+    },
+    {
+      "source": "/tata-usaha/dashboard/",
+      "destination": "/src/pintuku/dashboard/tata-usaha.html"
+    },
+    {
+      "source": "/tata-usaha/dashboard",
+      "destination": "/src/pintuku/dashboard/tata-usaha.html"
+    },
+    {
+      "source": "/lobby",
+      "destination": "/src/pintuku/dashboard/tata-usaha-lobby.html"
+    },
+    {
+      "source": "/lobby/",
+      "destination": "/src/pintuku/dashboard/tata-usaha-lobby.html"
+    },
+    {
       "source": "/api/tu/auth",
       "destination": "/api/tu?op=auth"
     },
@@ -257,19 +289,19 @@
     },
     {
       "source": "/tata-usaha",
-      "destination": "/src/pintuku/dashboard/tata-usaha.html"
+      "destination": "/src/pintuku/dashboard/tata-usaha-visitor.html"
     },
     {
       "source": "/tata-usaha/",
-      "destination": "/src/pintuku/dashboard/tata-usaha.html"
+      "destination": "/src/pintuku/dashboard/tata-usaha-visitor.html"
     },
     {
       "source": "/tu",
-      "destination": "/src/pintuku/dashboard/tata-usaha.html"
+      "destination": "/src/pintuku/dashboard/tata-usaha-visitor.html"
     },
     {
       "source": "/tu/",
-      "destination": "/src/pintuku/dashboard/tata-usaha.html"
+      "destination": "/src/pintuku/dashboard/tata-usaha-visitor.html"
     },
     {
       "source": "/",
