@@ -11,7 +11,7 @@ Spreadsheet khusus TU harus memiliki tab bernama persis `Pengguna`, dengan heade
 
 - `Username`: identitas login; pencocokan tidak membedakan huruf besar/kecil.
 - `Nama`: nama yang ditampilkan di dashboard.
-- `Password`: untuk kompatibilitas awal menerima teks biasa atau format `sha256:<64 karakter hex>`.
+- `Password`: menerima format `scrypt:<salt-32-hex>:<hash-128-hex>` (direkomendasikan), `sha256:<64 karakter hex>` (kompatibilitas), atau teks biasa (hanya kompatibilitas awal; migrasikan segera ke scrypt).
 - `Status`: akun dianggap aktif kecuali nilainya salah satu dari `Tidak`, `Nonaktif`, `Non-aktif`, `No`, `N`, `False`, `0`, atau `Off`.
 - `Peran`: salah satu peran yang dikenali di bawah.
 
