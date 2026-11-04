@@ -21,13 +21,12 @@ function setHeaders(res) {
 }
 function config() {
   const raw = process.env.SUPABASE_URL;
-  const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY;
   const adminKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!raw || !publishableKey || !adminKey) return null;
+  if (!raw || !adminKey) return null;
   try {
     const url = new URL(raw);
     if (url.protocol !== "https:") return null;
-    return { baseUrl: url.origin, publishableKey, adminKey };
+    return { baseUrl: url.origin, adminKey };
   } catch (_) {
     return null;
   }
@@ -49,34 +48,107 @@ function adminHeaders(c, schema = true) {
   if (!c.adminKey.startsWith("sb_secret_")) headers.Authorization = "Bearer " + c.adminKey;
   return headers;
 }
-async function authenticate(c, token) {
-  const result = await request(c.baseUrl + "/auth/v1/user", {
-    headers: {
-      apikey: c.publishableKey,
-      Authorization: "Bearer " + token,
-      Accept: "application/json"
-    }
+const crypto = require("crypto");
+const tuSheetAuth = require("../../TU/api/sheets-auth.js");
+const SESSION_TTL = 8 * 60 * 60;
+const MAX_LOGIN_FAILURES = 5;
+const LOGIN_WINDOW_MS = 10 * 60 * 1000;
+const loginFailures = new Map();
+
+function sessionSecret() {
+  const secret = String(process.env.TU_SESSION_SECRET || "");
+  return secret.length >= 32 ? secret : "";
+}
+function encodeToken(value) {
+  return Buffer.from(value).toString("base64url");
+}
+function signSession(payload) {
+  const body = encodeToken(JSON.stringify(payload));
+  const signature = crypto.createHmac("sha256", sessionSecret()).update(body).digest("base64url");
+  return body + "." + signature;
+}
+function verifySession(token) {
+  if (!sessionSecret() || typeof token !== "string" || token.length > 8192) return null;
+  const parts = token.split(".");
+  if (parts.length !== 2) return null;
+  const expected = crypto.createHmac("sha256", sessionSecret()).update(parts[0]).digest();
+  let supplied;
+  try { supplied = Buffer.from(parts[1], "base64url"); } catch (_) { return null; }
+  if (supplied.length !== expected.length || !crypto.timingSafeEqual(supplied, expected)) return null;
+  try {
+    const payload = JSON.parse(Buffer.from(parts[0], "base64url").toString("utf8"));
+    const now = Math.floor(Date.now() / 1000);
+    if (!payload || !payload.u || !payload.exp || now >= payload.exp || payload.exp - payload.iat > SESSION_TTL) return null;
+    return payload;
+  } catch (_) { return null; }
+}
+function loginKey(req, username) {
+  const forwarded = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim();
+  const ip = forwarded || (req.socket && req.socket.remoteAddress) || "unknown";
+  return ip + "|" + String(username || "").toLowerCase().slice(0, 254);
+}
+function isRateLimited(key) {
+  const entry = loginFailures.get(key);
+  if (!entry || Date.now() >= entry.resetAt) {
+    loginFailures.delete(key);
+    return false;
+  }
+  return entry.count >= MAX_LOGIN_FAILURES;
+}
+function recordLoginFailure(key) {
+  const now = Date.now();
+  const entry = loginFailures.get(key);
+  if (!entry || now >= entry.resetAt) loginFailures.set(key, { count: 1, resetAt: now + LOGIN_WINDOW_MS });
+  else entry.count += 1;
+}
+function clearLoginFailures(key) {
+  loginFailures.delete(key);
+}
+async function ensureStaffIdentity(c, user) {
+  const headers = adminHeaders(c);
+  headers["Content-Profile"] = "tu";
+  headers["Content-Type"] = "application/json";
+  headers.Prefer = "resolution=merge-duplicates,return=minimal";
+  const response = await request(c.baseUrl + "/rest/v1/staff_identities?on_conflict=username", {
+    method: "POST",
+    headers,
+    body: JSON.stringify([{
+      id: user.id,
+      username: user.username,
+      display_name: user.name,
+      role_code: user.role_code,
+      is_active: true,
+      last_seen_at: new Date().toISOString()
+    }])
   });
-  if (result.response.status === 401 || result.response.status === 403) return { ok: false, status: 401 };
-  if (!result.response.ok || !result.body || typeof result.body.id !== "string") return { ok: false, status: 502 };
-  return { ok: true, user: { id: result.body.id, email: typeof result.body.email === "string" ? result.body.email : null } };
+  if (!response.response.ok) {
+    console.error("TU staff identity upsert failed:", response.response.status);
+    throw Object.assign(new Error("identity_store_unavailable"), { code: "identity_store_unavailable" });
+  }
+}
+async function authenticate(c, token) {
+  const payload = verifySession(token);
+  if (!payload) return { ok: false, status: 401 };
+  const user = await tuSheetAuth.findActiveUser(payload.u);
+  if (!user || user.id !== payload.sub) return { ok: false, status: 401 };
+  await ensureStaffIdentity(c, user);
+  return {
+    ok: true,
+    user: { id: user.id, email: user.email, name: user.name, username: user.username },
+    roles: [{ role_code: user.role_code, unit_id: null }]
+  };
 }
 async function activeRoles(c, userId) {
-  const query = new URLSearchParams({
-    select: "role_code,unit_id",
-    user_id: "eq." + userId,
-    is_active: "eq.true",
-    revoked_at: "is.null",
-    order: "assigned_at.asc"
-  });
-  const result = await request(c.baseUrl + "/rest/v1/user_roles?" + query, {
-    headers: adminHeaders(c)
-  });
+  // Role assignments are sourced from the TU Spreadsheet, never Supabase Auth.
+  const query = new URLSearchParams({ select: "role_code", id: "eq." + userId, is_active: "eq.true", limit: "1" });
+  const result = await request(c.baseUrl + "/rest/v1/staff_identities?" + query, { headers: adminHeaders(c) });
   if (!result.response.ok || !Array.isArray(result.body)) {
-    throw Object.assign(new Error("role_store_unavailable"), { code: "role_store_unavailable" });
+    throw Object.assign(new Error("identity_store_unavailable"), { code: "identity_store_unavailable" });
   }
-  return result.body.filter(row => row && ALLOWED_ROLES.has(row.role_code) &&
-    (row.unit_id === null || /^[0-9a-f-]{36}$/i.test(row.unit_id)));
+  return result.body.filter(row => row && ALLOWED_ROLES.has(row.role_code)).map(row => ({ role_code: row.role_code, unit_id: null }));
+}
+function requireRole(roles) {
+  return Array.isArray(roles) && roles.some(role => TU_ACCESS_ROLES.has(role.role_code));
 }
 const TU_ACCESS_ROLES = new Set([
   "principal", "head_tu", "fo_coordinator", "fo_receptionist", "unit_officer", "tu_operator"
@@ -280,34 +352,6 @@ async function transitionVisit(c, userId, roles, body) {
   return safeVisit(result.body[0], canSeeAll);
 }
 
-async function supabaseAuth(c, path, payload, accessToken) {
-  const headers = {
-    apikey: c.publishableKey,
-    "Content-Type": "application/json",
-    Accept: "application/json"
-  };
-  if (accessToken) headers.Authorization = "Bearer " + accessToken;
-  return request(c.baseUrl + "/auth/v1/" + path, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(payload || {})
-  });
-}
-function safeSession(body) {
-  if (!body || typeof body.access_token !== "string" ||
-      typeof body.refresh_token !== "string" ||
-      !Number.isFinite(Number(body.expires_in))) return null;
-  return {
-    access_token: body.access_token,
-    refresh_token: body.refresh_token,
-    token_type: "bearer",
-    expires_in: Number(body.expires_in),
-    expires_at: Number(body.expires_at) || Math.floor(Date.now() / 1000) + Number(body.expires_in),
-    user: body.user && typeof body.user.id === "string"
-      ? { id: body.user.id, email: typeof body.user.email === "string" ? body.user.email : null }
-      : null
-  };
-}
 async function authOperation(c, req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST, OPTIONS");
@@ -315,75 +359,48 @@ async function authOperation(c, req, res) {
   }
   const body = bodyOf(req);
   const action = String(body.action || "");
-  let result;
-  if (action === "login") {
-    const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
-    const password = typeof body.password === "string" ? body.password : "";
-    if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
-        password.length < 1 || password.length > 256) {
-      return send(res, 400, { success: false, code: "invalid_credentials_format", message: "Email atau kata sandi tidak valid." });
-    }
-    result = await supabaseAuth(c, "token?grant_type=password", { email, password });
-  } else if (action === "refresh") {
-    const refreshToken = typeof body.refresh_token === "string" ? body.refresh_token : "";
-    if (!refreshToken || refreshToken.length > 4096) {
-      return send(res, 400, { success: false, code: "invalid_refresh_token", message: "Sesi perlu diperbarui. Silakan masuk kembali." });
-    }
-    result = await supabaseAuth(c, "token?grant_type=refresh_token", { refresh_token: refreshToken });
-  } else if (action === "verify-invite") {
-    const tokenHash = typeof body.token_hash === "string" ? body.token_hash.trim() : "";
-    if (tokenHash.length < 20 || tokenHash.length > 512 || !/^[A-Za-z0-9._~-]+$/.test(tokenHash)) {
-      return send(res, 400, { success: false, code: "invalid_invite_token", message: "Tautan undangan tidak valid. Minta administrator mengirim undangan baru." });
-    }
-    result = await supabaseAuth(c, "verify", { token_hash: tokenHash, type: "invite" });
-    if (result.response.status === 400 || result.response.status === 401 || result.response.status === 422) {
-      return send(res, 410, { success: false, code: "invite_expired", message: "Tautan undangan sudah kedaluwarsa atau pernah digunakan. Minta undangan baru kepada administrator." });
-    }
-    if (!result.response.ok) return send(res, 503, { success: false, code: "auth_unavailable", message: "Layanan verifikasi undangan sedang tidak tersedia." });
-    const inviteSession = safeSession(result.body);
-    if (!inviteSession || !inviteSession.user) return send(res, 502, { success: false, code: "invalid_auth_response", message: "Respons verifikasi undangan tidak dapat diverifikasi." });
-    return send(res, 200, { success: true, access_token: inviteSession.access_token, email: inviteSession.user.email });
-  } else if (action === "set-invite-password") {
-    const accessToken = typeof body.access_token === "string" ? body.access_token : "";
-    const password = typeof body.password === "string" ? body.password : "";
-    if (!accessToken || accessToken.length > 8192 || password.length < 12 || password.length > 256) {
-      return send(res, 400, { success: false, code: "invalid_password_input", message: "Kata sandi harus terdiri dari 12–256 karakter." });
-    }
-    const identity = await authenticate(c, accessToken);
-    if (!identity.ok) return send(res, 401, { success: false, code: "invite_session_invalid", message: "Sesi undangan tidak valid. Buka kembali tautan undangan." });
-    const update = await request(c.baseUrl + "/auth/v1/user", {
-      method: "PUT",
-      headers: { apikey: c.publishableKey, Authorization: "Bearer " + accessToken, "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ password })
-    });
-    if (update.response.status === 400 || update.response.status === 422) {
-      return send(res, 400, { success: false, code: "password_rejected", message: "Kata sandi ditolak. Gunakan kata sandi yang lebih kuat dan coba kembali." });
-    }
-    if (!update.response.ok || !update.body || typeof update.body.id !== "string") {
-      return send(res, 503, { success: false, code: "password_update_failed", message: "Kata sandi belum berhasil disimpan. Coba kembali melalui tautan undangan yang masih aktif." });
-    }
-    await supabaseAuth(c, "logout", {}, accessToken);
-    return send(res, 200, { success: true, message: "Kata sandi berhasil dibuat. Silakan masuk melalui halaman login Tata Usaha." });
-  } else if (action === "logout") {
-    const accessToken = bearer(req);
-    if (accessToken) await supabaseAuth(c, "logout", {}, accessToken);
-    return send(res, 200, { success: true });
-  } else {
+  if (action === "logout") return send(res, 200, { success: true });
+  if (action !== "login") {
     return send(res, 400, { success: false, code: "invalid_action", message: "Operasi autentikasi tidak dikenal." });
   }
-  if (result.response.status === 400 || result.response.status === 401 || result.response.status === 422) {
-    return send(res, 401, { success: false, code: "authentication_failed", message: "Email atau kata sandi salah, atau sesi telah berakhir." });
+  if (!sessionSecret()) {
+    return send(res, 503, { success: false, code: "auth_not_configured", message: "TU_SESSION_SECRET belum dikonfigurasi (minimal 32 karakter)." });
   }
-  if (!result.response.ok) {
-    return send(res, 503, { success: false, code: "auth_unavailable", message: "Layanan autentikasi sedang tidak tersedia." });
+  const username = typeof body.email === "string" ? body.email.trim().toLowerCase()
+    : (typeof body.username === "string" ? body.username.trim().toLowerCase() : "");
+  const password = typeof body.password === "string" ? body.password : "";
+  if (!username || username.length > 254 || password.length < 1 || password.length > 256) {
+    return send(res, 400, { success: false, code: "invalid_credentials_format", message: "Username/email atau kata sandi tidak valid." });
   }
-  const session = safeSession(result.body);
-  if (!session || !session.user) return send(res, 502, { success: false, code: "invalid_auth_response", message: "Respons autentikasi tidak dapat diverifikasi." });
-  const roles = await activeRoles(c, session.user.id);
-  if (!requireRole(roles)) {
-    return send(res, 403, { success: false, code: "insufficient_role", message: "Akun berhasil dikenali, tetapi belum memiliki peran Tata Usaha yang aktif. Hubungi Kepala TU atau administrator yang berwenang." });
+  const key = loginKey(req, username);
+  if (isRateLimited(key)) {
+    return send(res, 429, { success: false, code: "too_many_attempts", message: "Terlalu banyak percobaan. Coba kembali setelah 10 menit." });
   }
-  return send(res, 200, { success: true, session, roles: roles.map(role => ({ role_code: role.role_code, unit_id: role.unit_id })) });
+  const user = await tuSheetAuth.authenticatePassword(username, password);
+  if (!user) {
+    recordLoginFailure(key);
+    return send(res, 401, { success: false, code: "authentication_failed", message: "Akun tidak aktif, peran tidak diizinkan, atau username/kata sandi salah." });
+  }
+  clearLoginFailures(key);
+  await ensureStaffIdentity(c, user);
+  const now = Math.floor(Date.now() / 1000);
+  const expiresAt = now + SESSION_TTL;
+  const accessToken = signSession({
+    sub: user.id, u: user.username, n: user.name, r: user.role_code,
+    iat: now, exp: expiresAt
+  });
+  const session = {
+    access_token: accessToken,
+    token_type: "bearer",
+    expires_in: SESSION_TTL,
+    expires_at: expiresAt,
+    user: { id: user.id, email: user.email, name: user.name, username: user.username }
+  };
+  return send(res, 200, {
+    success: true,
+    session,
+    roles: [{ role_code: user.role_code, unit_id: null }]
+  });
 }
 function bodyOf(req) {
   return req.body && typeof req.body === "object" && !Array.isArray(req.body) ? req.body : {};
@@ -392,6 +409,8 @@ function safeError(res, error) {
   const errors = {
     invalid_request: [400, "invalid_request", "Permintaan tidak valid."],
     role_store_unavailable: [503, "role_store_unavailable", "Layanan otorisasi TU belum tersedia."],
+    tu_sheet_unavailable: [503, "tu_sheet_unavailable", "Spreadsheet akun TU sementara tidak dapat dibaca. Periksa konfigurasi dan akses Service Account."],
+    identity_store_unavailable: [503, "identity_store_unavailable", "Penyimpanan identitas TU belum siap. Jalankan migrasi database TU terlebih dahulu."],
     data_store_unavailable: [503, "data_store_unavailable", "Layanan data TU sementara tidak tersedia."],
     visit_store_unavailable: [503, "visit_store_unavailable", "Layanan kunjungan sementara tidak tersedia."],
     visit_forbidden: [403, "visit_forbidden", "Akun tidak memiliki kewenangan untuk operasi kunjungan ini."],
@@ -427,9 +446,9 @@ module.exports = async function tuApi(req, res) {
 
   try {
     const auth = await authenticate(c, token);
-    if (!auth.ok) return send(res, auth.status, { success: false, code: "unauthorized", message: "Sesi tidak valid atau layanan autentikasi tidak tersedia." });
-    const roles = await activeRoles(c, auth.user.id);
-    if (!requireRole(roles)) return send(res, 403, { success: false, code: "insufficient_role", message: "Akun belum memiliki peran Tata Usaha." });
+    if (!auth.ok) return send(res, auth.status, { success: false, code: "unauthorized", message: "Sesi tidak valid, akun dinonaktifkan, atau peran telah berubah." });
+    const roles = auth.roles;
+    if (!requireRole(roles)) return send(res, 403, { success: false, code: "insufficient_role", message: "Akun belum memiliki peran Tata Usaha yang aktif." });
 
     if (op === "context" && req.method === "GET") {
       const units = await listUnits(c);
