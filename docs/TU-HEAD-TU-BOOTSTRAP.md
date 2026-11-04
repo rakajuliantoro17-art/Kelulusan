@@ -1,3 +1,5 @@
+> **DEPRECATED FOR THE SPREADSHEET LOGIN FLOW (2026-11-04).** Do not create a Supabase Auth account or run the bootstrap procedure below for new TU access. The active Head TU account and role must be maintained in the separate TU Google Spreadsheet tab Pengguna. This document and its SQL migration are retained only as legacy audit/bootstrap artifacts.
+
 # Secure Head TU Bootstrap
 
 ## Design
