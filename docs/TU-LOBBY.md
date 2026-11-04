@@ -20,3 +20,11 @@ Halaman `/lobby` adalah layar informasi publik untuk area lobby SMAN 1 Sooko. Ha
 
 ## Catatan tata kelola
 Nama unit merupakan kategori pengarahan, bukan janji lokasi ruangan atau jam layanan tertentu. Penempatan ruangan, jam operasional, nomor kontak, standar waktu layanan, dan isi SOP harus ditetapkan sekolah sebelum ditambahkan sebagai informasi publik.
+
+
+## Identitas visual dan tampilan layar
+- Header menggunakan logo resmi sekolah dari `/assets/shared/logos/sman1-sooko.png`.
+- Palet visual menggunakan navy, biru, putih, dan aksen emas lembut dengan kontras tinggi.
+- Layout desktop dioptimalkan untuk layar lebar/TV 16:9; breakpoint tablet dan ponsel tetap disediakan.
+- Informasi pengunjung ditandai pada header, sedangkan jam dan tanggal lokal tetap diperbarui otomatis.
+- Logo hanya menggunakan aset yang sudah ada di repository; tidak ada logo baru atau identitas rekaan.
