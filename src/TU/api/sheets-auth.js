@@ -144,6 +144,7 @@ async function findActiveUser(username) {
   if (matches.length !== 1) return null;
   const user = matches[0];
   if (!user.active || !user.role) return null;
+  if (user.role === "head_tu" && users.filter(item => item.active && item.role === "head_tu").length !== 1) return null;
   return {
     id: stableIdentityId(user.username),
     username: user.username,
@@ -159,6 +160,7 @@ async function authenticatePassword(username, password) {
   if (matches.length !== 1) return null;
   const user = matches[0];
   if (!user.active || !user.role || !verifyPassword(user.password, password)) return null;
+  if (user.role === "head_tu" && users.filter(item => item.active && item.role === "head_tu").length !== 1) return null;
   return {
     id: stableIdentityId(user.username),
     username: user.username,
