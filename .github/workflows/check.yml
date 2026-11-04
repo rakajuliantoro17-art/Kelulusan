@@ -172,6 +172,9 @@ jobs:
           test -f dist/src/pintuku/dashboard/tata-usaha-accept-invite.html
           test -f dist/src/pintuku/assets/css/tu-invite.css
           test -f dist/src/pintuku/assets/js/tu-invite.js
+          test -f dist/src/pintuku/dashboard/tata-usaha-lobby.html
+          test -f dist/src/pintuku/assets/css/tata-usaha-lobby.css
+          test -f dist/src/pintuku/assets/js/tata-usaha-lobby.js
           test -f dist/src/pintuku/dashboard/index.html
           test -f dist/src/pintuku/dashboard/humas-kemitraan.html
           test -f dist/src/pintuku/assets/css/humas-kemitraan.css
