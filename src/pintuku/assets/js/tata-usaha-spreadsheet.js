@@ -20,16 +20,7 @@ function render(){
  $("tuSheetDone").textContent=all.filter(r=>r.status==="Selesai").length;
  $("tuSheetFootnote").textContent=all.length+" entri pada "+sheets[active]+". Data hanya berada di sesi browser.";
 }
-function add(){
- const subject=prompt("Perihal / kegiatan:");if(!subject||!subject.trim())return;
- const owner=prompt("Penanggung jawab (opsional):")||"";
- const unit=prompt("Unit terkait (mis. TU, Kurikulum, Kesiswaan, Sarpras, Humas):")||"";
- const due=prompt("Tenggat (YYYY-MM-DD, opsional):")||"";
- const status=prompt("Status: Menunggu / Dalam proses / Selesai","Menunggu")||"Menunggu";
- const allowed=["Menunggu","Dalam proses","Selesai"];
- rows[active].push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),date:today(),subject:subject.trim(),owner:owner.trim(),unit:unit.trim(),due:due.trim(),status:allowed.includes(status.trim())?status.trim():"Menunggu"});
- render();
-}
+function add(){const dialog=$("tuSheetDialog");if(!dialog)return;dialog.showModal();$("tuSheetForm")?.querySelector('[name="subject"]')?.focus();}
 function exportCsv(){
  const data=rows[active];if(!data.length){alert("Belum ada data untuk diekspor.");return;}
  const headers=["Tanggal","Perihal/Kegiatan","Penanggung Jawab","Unit Terkait","Tenggat","Status"];
@@ -44,6 +35,14 @@ function init(){
   active=btn.dataset.sheet;root.querySelectorAll("[data-sheet]").forEach(tab=>{const selected=tab===btn;tab.classList.toggle("is-active",selected);tab.setAttribute("aria-selected",String(selected));});render();
  }));
  $("tuSheetAdd")?.addEventListener("click",add);
+ const dialog=$("tuSheetDialog"),form=$("tuSheetForm");
+ const close=()=>dialog?.close();
+ $("tuSheetClose")?.addEventListener("click",close);$("tuSheetCancel")?.addEventListener("click",close);
+ dialog?.addEventListener("click",event=>{if(event.target===dialog)close();});
+ form?.addEventListener("submit",event=>{event.preventDefault();const data=new FormData(form);const subject=String(data.get("subject")||"").trim();if(!subject)return;
+  rows[active].push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),date:today(),subject,owner:String(data.get("owner")||"").trim(),unit:String(data.get("unit")||"").trim(),due:String(data.get("due")||"").trim(),status:String(data.get("status")||"Menunggu")});
+  form.reset();close();render();
+ });
  $("tuSheetExport")?.addEventListener("click",exportCsv);
  $("tuSheetSearch")?.addEventListener("input",render);
  $("tuSheetBody")?.addEventListener("click",event=>{const btn=event.target.closest("[data-delete]");if(!btn)return;rows[active]=rows[active].filter(r=>r.id!==btn.dataset.delete);render();});
