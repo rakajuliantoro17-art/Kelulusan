@@ -7,21 +7,21 @@ test("service selection is local-only and accessible",()=>{assert.match(js,/guid
 test("lobby assets are included in static build requirements",()=>{assert.match(build,/src\/pintuku\/dashboard\/tata-usaha-lobby\.html/);assert.match(build,/src\/pintuku\/assets\/css\/tata-usaha-lobby\.css/);assert.match(build,/src\/pintuku\/assets\/js\/tata-usaha-lobby\.js/);});
 
 test("TU public entry, queue display, and protected dashboard routes stay separated", () => {
-  const config = JSON.parse(fs.readFileSync(path.join(root, "vercel.json"), "utf8"));
+  const config = JSON.parse(fs.readFileSync("vercel.json", "utf8"));
   const routes = new Map(config.rewrites.map((item) => [item.source, item.destination]));
   assert.equal(routes.get("/tata-usaha"), "/src/pintuku/dashboard/tata-usaha-visitor.html");
   assert.equal(routes.get("/tata-usaha/dashboard"), "/src/pintuku/dashboard/tata-usaha.html");
   assert.equal(routes.get("/tata-usaha/queue-display"), "/src/pintuku/dashboard/tata-usaha-queue-display.html");
 });
 test("TU public queue display does not expose visitor personal information", () => {
-  const html = fs.readFileSync(path.join(root, "src/pintuku/dashboard/tata-usaha-queue-display.html"), "utf8");
+  const html = fs.readFileSync("src/pintuku/dashboard/tata-usaha-queue-display.html", "utf8");
   assert.match(html, /Status Antrean per Unit/);
   assert.doesNotMatch(html, /visitor_name|contact_phone|visitor_email|Nama Pengunjung|Nomor Telepon/);
 });
 test("TU public visitor form is explicitly preview-only until public intake API is implemented", () => {
-  const html = fs.readFileSync(path.join(root, "src/pintuku/dashboard/tata-usaha-visitor.html"), "utf8");
-  const js = fs.readFileSync(path.join(root, "src/pintuku/assets/js/tata-usaha-public.js"), "utf8");
+  const html = fs.readFileSync("src/pintuku/dashboard/tata-usaha-visitor.html", "utf8");
+  const js = fs.readFileSync("src/pintuku/assets/js/tata-usaha-public.js", "utf8");
   assert.match(html, /Mode pratinjau UI/);
   assert.match(js, /endpoint registrasi publik belum diaktifkan/);
-  assert.doesNotMatch(js, /fetch\\s*\\(/);
+  assert.doesNotMatch(js, /fetch\s*\(/);
 });
