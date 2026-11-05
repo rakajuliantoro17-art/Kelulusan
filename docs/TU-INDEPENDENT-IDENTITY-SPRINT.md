@@ -62,7 +62,15 @@ Optional column F is:
 
 Do not manually delete audit rows to force rollback.
 
-The existing active-role unique index is retained through the column rename; the migration does not create a redundant second unique index.\n\n## Deployment and migration gate
+The existing active-role unique index is retained through the column rename; the migration does not create a redundant second unique index.\n\n## Security review notes
+
+- Spreadsheet authentication is fail-closed: only explicit active status values are accepted, duplicate usernames are rejected even when one row is inactive, and the latest status/role is re-read for each API request.
+- The current login attempt limiter is an in-memory per-serverless-instance map. It is not a distributed lockout control and can be bypassed across instances/restarts; before production launch, replace it with a shared rate-limit store and trust only platform-verified client IP headers.
+- Password hashing should be migrated to scrypt for every account. Plaintext and SHA-256 formats remain compatibility paths only and must be removed before production launch.
+- Supabase advisors report RLS-enabled tables with no policies. For the TU schema this is intentional only because browser roles have no table/schema grants and all reads/writes are server-mediated with a secret/service credential. Keep those grants revoked; never add a broad authenticated policy to silence the INFO finding.
+- The project-level advisor also reports leaked-password protection disabled for Supabase Auth. TU spreadsheet login does not depend on Supabase Auth, but the setting remains relevant to other modules and should be reviewed separately.
+
+## Deployment and migration gate
 
 This branch is not production. The SQL migration is a reviewed artifact only. Do not run it against Supabase, alter production environment variables, merge to `main`, or deploy until separately approved.
 
