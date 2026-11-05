@@ -10,8 +10,8 @@ begin
   end if;
   if exists (select 1 from tu.user_roles) or exists (select 1 from tu.role_audit_logs)
      or exists (select 1 from tu.visits) or exists (select 1 from tu.visit_events)
-     or exists (select 1 from tu.integration_sync_logs where initiated_by_identity_id is not null)
-     or exists (select 1 from tu.visit_notifications where recipient_identity_id is not null) then
+     or exists (select 1 from tu.integration_sync_logs)
+     or exists (select 1 from tu.visit_notifications) then
     raise exception 'Rollback blocked: TU operational or audit records exist. Use point-in-time recovery or a reviewed reverse data migration.';
   end if;
 end;
