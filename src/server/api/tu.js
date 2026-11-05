@@ -50,21 +50,84 @@ function adminHeaders(c, schema = true) {
   return headers;
 }
 async function authenticate(c, token) {
-  const result = await request(c.baseUrl + "/auth/v1/user", {
-    headers: {
-      apikey: c.publishableKey,
-      Authorization: "Bearer " + token,
-      Accept: "application/json"
-    }
+  let resolved;
+  try { resolved = await require("../../TU/server/auth").resolveSession(token); }
+  catch (_) { return { ok: false, status: 503 }; }
+  if (!resolved) return { ok: false, status: 401 };
+
+  const identityHeaders = adminHeaders(c);
+  identityHeaders["Content-Profile"] = "tu";
+  identityHeaders["Content-Type"] = "application/json";
+  identityHeaders.Prefer = "resolution=merge-duplicates,return=representation";
+  const identityResult = await request(c.baseUrl + "/rest/v1/identities?on_conflict=external_subject", {
+    method: "POST", headers: identityHeaders,
+    body: JSON.stringify({
+      external_subject: resolved.user.username.toLowerCase(),
+      display_name: resolved.user.nama,
+      identity_type: "staff",
+      identity_source: "spreadsheet",
+      is_active: true,
+      last_synced_at: new Date().toISOString()
+    })
   });
-  if (result.response.status === 401 || result.response.status === 403) return { ok: false, status: 401 };
-  if (!result.response.ok || !result.body || typeof result.body.id !== "string") return { ok: false, status: 502 };
-  return { ok: true, user: { id: result.body.id, email: typeof result.body.email === "string" ? result.body.email : null } };
+  if (!identityResult.response.ok || !Array.isArray(identityResult.body) || !identityResult.body[0] ||
+      typeof identityResult.body[0].id !== "string") return { ok: false, status: 503 };
+  const identity = identityResult.body[0];
+
+  const roleMap = { head_tu: "head_tu", staff_tu: "tu_operator", receptionist: "fo_receptionist",
+    fo_coordinator: "fo_coordinator", unit_officer: "unit_officer", principal: "principal" };
+  const roleCode = roleMap[resolved.role];
+  if (!roleCode) return { ok: false, status: 403 };
+
+  let unitId = null;
+  if (roleCode === "unit_officer") {
+    const unitCode = String(resolved.user.unit_code || "").trim().toLowerCase();
+    if (!/^[a-z][a-z0-9_]{1,39}$/.test(unitCode)) return { ok: false, status: 403, code: "unit_assignment_required" };
+    const unitResult = await request(c.baseUrl + "/rest/v1/units?select=id&unit_code=eq." +
+      encodeURIComponent(unitCode) + "&is_active=eq.true", { headers: adminHeaders(c) });
+    if (!unitResult.response.ok || !Array.isArray(unitResult.body)) return { ok: false, status: 503 };
+    if (!unitResult.body[0]) return { ok: false, status: 403, code: "unit_assignment_invalid" };
+    unitId = unitResult.body[0].id;
+  }
+
+  const currentRoles = await request(c.baseUrl + "/rest/v1/user_roles?select=id,role_code,unit_id,is_active,revoked_at&identity_id=eq." +
+    encodeURIComponent(identity.id), { headers: adminHeaders(c) });
+  if (!currentRoles.response.ok || !Array.isArray(currentRoles.body)) return { ok: false, status: 503 };
+  const roleHeaders = adminHeaders(c);
+  roleHeaders["Content-Profile"] = "tu";
+  roleHeaders["Content-Type"] = "application/json";
+  for (const row of currentRoles.body) {
+    if (row.role_code !== roleCode || row.unit_id !== unitId || !row.is_active || row.revoked_at) {
+      const patch = await request(c.baseUrl + "/rest/v1/user_roles?id=eq." + encodeURIComponent(row.id), {
+        method: "PATCH", headers: roleHeaders,
+        body: JSON.stringify({ is_active: false, revoked_at: new Date().toISOString() })
+      });
+      if (!patch.response.ok) return { ok: false, status: 503 };
+    }
+  }
+  const matching = currentRoles.body.find(row => row.role_code === roleCode && row.unit_id === unitId);
+  if (matching) {
+    const patch = await request(c.baseUrl + "/rest/v1/user_roles?id=eq." + encodeURIComponent(matching.id), {
+      method: "PATCH", headers: roleHeaders,
+      body: JSON.stringify({ is_active: true, revoked_at: null, notes: "Disinkronkan dari spreadsheet Pengguna." })
+    });
+    if (!patch.response.ok) return { ok: false, status: 503 };
+  } else {
+    const inserted = await request(c.baseUrl + "/rest/v1/user_roles", {
+      method: "POST", headers: { ...roleHeaders, Prefer: "return=representation" },
+      body: JSON.stringify({ identity_id: identity.id, role_code: roleCode, unit_id: unitId,
+        is_active: true, assigned_by_identity_id: null, notes: "Disinkronkan dari spreadsheet Pengguna." })
+    });
+    if (!inserted.response.ok) return { ok: false, status: 503 };
+  }
+  const roles = await activeRoles(c, identity.id);
+  if (!requireRole(roles)) return { ok: false, status: 403 };
+  return { ok: true, user: { id: identity.id, username: resolved.user.username, nama: resolved.user.nama }, roles };
 }
 async function activeRoles(c, userId) {
   const query = new URLSearchParams({
     select: "role_code,unit_id",
-    user_id: "eq." + userId,
+    identity_id: "eq." + userId,
     is_active: "eq.true",
     revoked_at: "is.null",
     order: "assigned_at.asc"
@@ -103,7 +166,7 @@ async function listNotifications(c, userId, unitIds) {
     order: "created_at.desc",
     limit: "50"
   });
-  const clauses = ["recipient_user_id.eq." + userId];
+  const clauses = ["recipient_identity_id.eq." + userId];
   if (unitIds.length) clauses.push("recipient_unit_id.in.(" + unitIds.join(",") + ")");
   query.set("or", "(" + clauses.join(",") + ")");
   const result = await request(c.baseUrl + "/rest/v1/visit_notifications?" + query, {
@@ -208,7 +271,7 @@ async function createVisit(c, userId, body) {
     host_name: host || null, notes: notes || null, visit_kind: kind,
     scheduled_at: kind === "appointment" ? new Date(scheduledAt).toISOString() : null,
     privacy_notice_delivered: true, privacy_notice_delivered_at: new Date().toISOString(),
-    source: "receptionist", status: "pending_unit", created_by: userId, updated_by: userId
+    source: "receptionist", status: "pending_unit", created_by_identity_id: userId, updated_by_identity_id: userId
   };
   const headers = adminHeaders(c);
   headers["Content-Profile"] = "tu";
@@ -241,7 +304,7 @@ async function transitionVisit(c, userId, roles, body) {
   const isApprover = assignedApprover || supervisor;
   const isFrontOffice = canSeeAll;
   let nextStatus = "";
-  const patch = { updated_by: userId, status_note: note || null };
+  const patch = { updated_by_identity_id: userId, status_note: note || null };
   if (["approve","reject","clarify"].includes(action)) {
     if (!isApprover) throw visitError("visit_forbidden");
     if (visit.status !== "pending_unit") throw visitError("visit_transition_conflict");
@@ -252,10 +315,10 @@ async function transitionVisit(c, userId, roles, body) {
     if (!isFrontOffice) throw visitError("visit_forbidden");
     if (action === "checkin") {
       if (visit.status !== "approved") throw visitError("visit_transition_conflict");
-      nextStatus = "checked_in"; patch.checked_in_at = new Date().toISOString(); patch.checked_in_by = userId;
+      nextStatus = "checked_in"; patch.checked_in_at = new Date().toISOString(); patch.checked_in_by_identity_id = userId;
     } else if (action === "checkout") {
       if (visit.status !== "checked_in") throw visitError("visit_transition_conflict");
-      nextStatus = "completed"; patch.checked_out_at = new Date().toISOString(); patch.checked_out_by = userId;
+      nextStatus = "completed"; patch.checked_out_at = new Date().toISOString(); patch.checked_out_by_identity_id = userId;
     } else if (action === "cancel") {
       if (!["pending_unit","approved","clarification_requested"].includes(visit.status)) throw visitError("visit_transition_conflict");
       nextStatus = "cancelled";
@@ -431,9 +494,8 @@ module.exports = async function tuApi(req, res) {
 
   try {
     const auth = await authenticate(c, token);
-    if (!auth.ok) return send(res, auth.status, { success: false, code: "unauthorized", message: "Sesi tidak valid atau layanan autentikasi tidak tersedia." });
-    const roles = await activeRoles(c, auth.user.id);
-    if (!requireRole(roles)) return send(res, 403, { success: false, code: "insufficient_role", message: "Akun belum memiliki peran Tata Usaha." });
+    if (!auth.ok) return send(res, auth.status, { success: false, code: auth.code || "unauthorized", message: auth.code === "unit_assignment_required" ? "Kolom UnitCode pada spreadsheet wajib diisi untuk Petugas Unit." : auth.code === "unit_assignment_invalid" ? "UnitCode akun tidak cocok dengan unit aktif di sistem TU." : "Sesi tidak valid atau layanan identitas TU tidak tersedia." });
+    const roles = auth.roles;
 
     if (op === "context" && req.method === "GET") {
       const units = await listUnits(c);
