@@ -69,6 +69,39 @@
       }
     }
 
+    if (document.body.dataset.portalModule === "sarpras") {
+      const body = document.getElementById("pintukuSettingsDrawer")?.querySelector(".ps-body");
+      if (body && !body.querySelector("[data-sarpras-access-entry]")) {
+        const heading = document.createElement("div");
+        heading.className = "ps-sub";
+        heading.textContent = "AKSES PORTAL SARPRAS";
+        const entries = [
+          ["Masuk Admin / Staff", "/sarpras/admin"],
+          ["Masuk Portal Eksekutif", "/sarpras/eksekutif"],
+          ["Masuk Guru / Siswa", "/sarpras/pengguna"]
+        ];
+        const nodes = [heading];
+        entries.forEach(([label, href]) => {
+          const link = document.createElement("a");
+          link.className = "ps-link";
+          link.href = href;
+          link.dataset.sarprasAccessEntry = "true";
+          const title = document.createElement("span");
+          title.textContent = label;
+          const arrow = document.createElement("span");
+          arrow.setAttribute("aria-hidden", "true");
+          arrow.textContent = "→";
+          link.append(title, arrow);
+          nodes.push(link);
+        });
+        const note = document.createElement("p");
+        note.className = "ps-note";
+        note.textContent = "Jalur ini saat ini membuka pratinjau UI. Form login dan verifikasi hak akses belum diaktifkan.";
+        nodes.push(note);
+        body.append(...nodes);
+      }
+    }
+
     const trigger = document.getElementById("pintukuSettingsTrigger");
     const overlay = document.getElementById("pintukuSettingsOverlay");
     const drawer = document.getElementById("pintukuSettingsDrawer");
