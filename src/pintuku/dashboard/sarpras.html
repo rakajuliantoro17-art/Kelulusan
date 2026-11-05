@@ -4,58 +4,106 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#07111f">
+  <meta name="description" content="Portal publik Sarana dan Prasarana SMAN 1 Sooko Mojokerto. Informasi layanan, inventaris, dan pengelolaan fasilitas sekolah.">
+  <meta name="color-scheme" content="light dark">
   <script>try{var t=localStorage.getItem("pintuku-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>
-  <meta name="description" content="Dashboard modul Sarana &amp; Prasarana — PINTUKU, SMAN 1 Sooko Mojokerto.">
-  <title>Dashboard Sarana &amp; Prasarana · PINTUKU</title>
-  <link rel="manifest" href="/manifest.json">
-  <link rel="stylesheet" href="/css/portal-shell.css">
-  <link rel="stylesheet" href="/css/portal.css">
-  <link rel="stylesheet" href="/css/portal-stats.css">
-  <link rel="stylesheet" href="/css/portal-settings.css">
-  <link rel="stylesheet" href="/css/pintuku-glass.css">
-  <script src="/js/portal-shell.js" defer></script>
-  <script src="/js/visit-stats.js" defer></script>
-  <script src="/js/portal-settings.js" defer></script>
+  <title>Sarana &amp; Prasarana · PINTUKU</title>
+  <link rel="manifest" href="/src/pintuku/pwa/manifest.json">
+  <link rel="icon" href="/assets/shared/icons/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/shared/icons/app-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/pintuku/assets/css/portal-shell.css">
+  <link rel="stylesheet" href="/src/pintuku/assets/css/portal.css">
+  <link rel="stylesheet" href="/src/pintuku/assets/css/portal-settings.css">
+  <link rel="stylesheet" href="/src/pintuku/assets/css/pintuku-glass.css">
+  <link rel="stylesheet" href="/src/pintuku/assets/css/service-modules.css">
+  <link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-public.css">
+  <script src="/src/shared/assets/registry.js" defer></script>
+  <script src="/src/pintuku/assets/js/portal-shell.js" defer></script>
+  <script src="/src/pintuku/assets/js/portal-settings.js" defer></script>
 </head>
 <body data-portal-module="sarpras">
   <div data-portal-header></div>
-  <main class="portal-wrap vs-scope" data-module="sarpras" style="min-height:calc(100vh - 180px);padding-bottom:56px">
-    <header class="mod-hero">
-      <div class="eyebrow">Module 02 · Sarana &amp; Prasarana</div>
-      <h1>Dashboard Sarana &amp; Prasarana</h1>
-      <p>Pengelolaan inventaris, kondisi aset dan ruang, audit QR, pemeliharaan, pengadaan, laporan, dan dashboard sesuai peran pengguna.</p>
-      <div class="mod-crumb"><a class="button button-quiet" href="/">← Kembali ke beranda</a></div>
-    </header>
+  <main class="portal-wrap service-page sarpras-public">
+    <section class="service-hero" aria-labelledby="sarpras-title">
+      <div>
+        <span class="sp-hero-kicker">Module 02 · PINTUKU · SMAN 1 Sooko</span>
+        <h1 id="sarpras-title">Sarana sekolah terawat, layanan semakin bermanfaat.</h1>
+        <p>SARPRASIN merupakan portal pengelolaan sarana dan prasarana SMAN 1 Sooko untuk mendukung inventarisasi, pemantauan kondisi aset, pemeliharaan, dan tata kelola fasilitas sekolah secara tertib dan terintegrasi.</p>
+        <div class="service-actions">
+          <a class="button button-primary" href="#layanan">Jelajahi layanan <span aria-hidden="true">↗</span></a>
+          <a class="button button-quiet" href="/">Kembali ke PINTUKU</a>
+        </div>
+      </div>
+      <div class="sp-hero-mark" aria-hidden="true">
+        <svg viewBox="0 0 180 180" fill="none">
+          <path d="M25 151V66l65-34 65 34v85M14 151h152" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M54 82h18m36 0h18M54 108h18m36 0h18M76 151v-25h28v25" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+          <path d="m38 59 52-27 52 27" stroke="#71e2dc" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="90" cy="18" r="5" fill="#71e2dc"/>
+        </svg>
+      </div>
+    </section>
 
-    <h2 class="mod-section-title">Statistik kunjungan</h2>
-    <section class="vs-wrap" aria-label="Statistik kunjungan sarpras" data-visit-stats="sarpras" data-full><p class="vs-empty" role="status">Memuat statistik…</p></section>
+    <section class="sp-section" aria-labelledby="portal-access-title">
+      <div class="sp-section-title">
+        <h2 id="portal-access-title">Empat portal, satu ekosistem</h2>
+        <p>Setiap portal memiliki fungsi dan batas akses berbeda. Tahap ini mengaktifkan tampilan publik sebagai pintu masuk Sarpras.</p>
+      </div>
+      <div class="sp-access-grid">
+        <article class="sp-access-card is-active">
+          <div class="sp-access-icon" aria-hidden="true">◎</div>
+          <h3>Portal Publik</h3>
+          <p>Informasi umum, layanan publik, dan ringkasan sarana-prasarana yang telah disetujui untuk dipublikasikan.</p>
+          <span class="sp-state ready">TAMPILAN AKTIF</span>
+        </article>
+        <article class="sp-access-card">
+          <div class="sp-access-icon" aria-hidden="true">▦</div>
+          <h3>Admin &amp; Staff</h3>
+          <p>Pengelolaan inventaris, data ruang, pemeliharaan, pengadaan, pengguna, dan pelaporan operasional.</p>
+          <span class="sp-state">TAHAP INTEGRASI</span>
+        </article>
+        <article class="sp-access-card">
+          <div class="sp-access-icon" aria-hidden="true">▥</div>
+          <h3>Portal Eksekutif</h3>
+          <p>Monitoring kondisi aset, ringkasan anggaran, indikator risiko, tren, dan laporan strategis.</p>
+          <span class="sp-state">TAHAP INTEGRASI</span>
+        </article>
+        <article class="sp-access-card">
+          <div class="sp-access-icon" aria-hidden="true">⌂</div>
+          <h3>Guru &amp; Siswa</h3>
+          <p>Akses informasi fasilitas, inventaris ruang, serta layanan pelaporan kondisi sarana sekolah.</p>
+          <span class="sp-state">TAHAP INTEGRASI</span>
+        </article>
+      </div>
+    </section>
 
-    <div class="mod-grid">
-      <section class="mod-panel" aria-labelledby="svc-t">
-        <h3 id="svc-t">Cakupan layanan</h3>
-        <ul class="mod-list">
-          <li><span class="chip wip">Audit</span><span>Inventaris aset</span></li>
-          <li><span class="chip wip">Audit</span><span>Kondisi aset &amp; ruang</span></li>
-          <li><span class="chip wip">Audit</span><span>Audit QR</span></li>
-          <li><span class="chip wip">Audit</span><span>Pemeliharaan</span></li>
-          <li><span class="chip wip">Audit</span><span>Pengadaan &amp; persetujuan</span></li>
-          <li><span class="chip wip">Audit</span><span>Laporan &amp; dashboard</span></li>
-        </ul>
-      </section>
-      <section class="mod-panel" aria-labelledby="int-t">
-        <h3 id="int-t">Kesiapan integrasi</h3>
-        <p class="lead">Status ini berasal dari dokumentasi repositori. Sumber: <strong>Sarprasin</strong>.</p>
-        <ul class="mod-list">
-          <li><span class="chip wip">Belum</span><span>Struktur dan rute Sarpras masih dalam tahap audit integrasi</span></li>
-          <li><span class="chip wip">Belum</span><span>Build (Vite) belum dibuktikan siap produksi</span></li>
-          <li><span class="chip ok">Selesai</span><span>Kode sumber sudah berada di src/Sarpras (firebase, ai, tabel, komponen UI)</span></li>
-          <li><span class="chip wip">Belum</span><span>Dispatcher API serverless Sarpras belum ada di /api</span></li>
-          <li><span class="chip ok">Selesai</span><span>Firebase dipisah dari layanan Akademik dan Kesiswaan</span></li>
-        </ul>
-      </section>
-      <section class="mod-panel" style="grid-column:1/-1" aria-labelledby="note-t"><h3 id="note-t">Catatan penting</h3><p class="lead" style="margin:0">Rute produksi Sarpras belum ditetapkan. Jangan anggap seluruh fitur sudah siap hanya karena kodenya ada di repositori.</p></section>
+    <section id="layanan" class="sp-section" aria-labelledby="services-title">
+      <div class="sp-section-title">
+        <h2 id="services-title">Ruang lingkup layanan Sarpras</h2>
+        <p>Fitur ditampilkan sebagai informasi layanan. Akses transaksi dan data operasional akan dibuka setelah integrasi tiap portal selesai diuji.</p>
+      </div>
+      <div class="sp-service-grid">
+        <article class="sp-service-card"><span class="sp-service-icon" aria-hidden="true">▤</span><div><strong>Inventaris aset</strong><p>Pendataan barang, identitas aset, kategori, lokasi, dan penanggung jawab.</p></div></article>
+        <article class="sp-service-card"><span class="sp-service-icon" aria-hidden="true">⌂</span><div><strong>Data ruang &amp; fasilitas</strong><p>Informasi ruang belajar, laboratorium, fasilitas umum, dan kelengkapannya.</p></div></article>
+        <article class="sp-service-card"><span class="sp-service-icon" aria-hidden="true">⌁</span><div><strong>Pemeliharaan</strong><p>Pencatatan kebutuhan perawatan, kerusakan, tindak lanjut, dan riwayat pekerjaan.</p></div></article>
+        <article class="sp-service-card"><span class="sp-service-icon" aria-hidden="true">▦</span><div><strong>Audit QR</strong><p>Identifikasi aset melalui kode QR untuk membantu pemeriksaan dan validasi inventaris.</p></div></article>
+        <article class="sp-service-card"><span class="sp-service-icon" aria-hidden="true">◫</span><div><strong>Pengadaan</strong><p>Dokumentasi usulan kebutuhan, proses pengadaan, dan persetujuan sesuai kewenangan.</p></div></article>
+        <article class="sp-service-card"><span class="sp-service-icon" aria-hidden="true">▥</span><div><strong>Laporan &amp; monitoring</strong><p>Ringkasan kondisi aset dan laporan pengelolaan untuk kebutuhan sekolah.</p></div></article>
+      </div>
+    </section>
 
-    </div>
+    <section class="sp-section" aria-labelledby="public-data-title">
+      <div class="sp-section-title">
+        <h2 id="public-data-title">Transparansi informasi</h2>
+        <p>Data publik hanya akan ditampilkan dalam bentuk ringkasan agregat yang telah dipublikasikan dan tidak memuat informasi sensitif.</p>
+      </div>
+      <div class="sp-public-note" role="status">
+        <strong>Ringkasan data belum dipublikasikan.</strong> Angka inventaris dan kondisi aset tidak ditampilkan sebagai angka perkiraan. Informasi akan muncul setelah sumber data publik Sarpras terhubung dan ringkasan resmi diterbitkan oleh pengelola.
+      </div>
+    </section>
   </main>
   <div data-portal-footer></div>
 </body>
