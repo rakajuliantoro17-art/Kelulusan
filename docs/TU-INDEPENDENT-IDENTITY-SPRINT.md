@@ -38,7 +38,7 @@ Optional column F is:
 - Other roles may leave it blank.
 - Password formats remain scrypt preferred, sha256 compatibility, and plaintext only as a temporary legacy fallback. Migrate all plaintext values to scrypt before operational launch.
 - Usernames must be unique after lowercase normalization.
-- Spreadsheet status and role changes must be revalidated server-side; the browser's role display is never authorization.
+- Spreadsheet status must explicitly be `Aktif`, `Active`, `Ya`, `Yes`, `Y`, `True`, `1`, or `On`; blank or unrecognized values are inactive. Status and role changes must be revalidated server-side; the browser's role display is never authorization.
 
 ## Role normalization
 
@@ -56,13 +56,13 @@ Optional column F is:
 1. Stop TU API traffic and disable the spreadsheet-auth feature flag/route.
 2. Take a database backup or confirm a usable Supabase PITR restore point.
 3. Prefer PITR if any staff identity, role assignment, visit, event, notification, or audit data has been created.
-4. The guarded rollback SQL is only for a pre-launch/empty-data rollback. It intentionally aborts if any staff identity, role assignment, role audit record, visit, or visit event exists. The two seeded system identities alone do not block an empty-data rollback.
+4. The guarded rollback SQL is only for a pre-launch/empty-data rollback. It intentionally aborts if any staff identity, role assignment, role audit record, visit, visit event, integration sync log, or notification exists. The two seeded system identities alone do not block an empty-data rollback. It restores the previous Auth-backed audit/workflow functions and the deprecated Head TU bootstrap routine after restoring the original columns and foreign keys.
 5. Before re-enabling the old API after schema rollback, restore the previous definitions of `tu_private.audit_user_role_change()` and `tu.handle_visit_workflow()` from the immediately preceding migrations. The rollback script intentionally does not recreate the deprecated Auth-only Head TU bootstrap routine.
 6. Re-run the full migration and API test suite before restoring traffic.
 
 Do not manually delete audit rows to force rollback.
 
-## Deployment and migration gate
+The existing active-role unique index is retained through the column rename; the migration does not create a redundant second unique index.\n\n## Deployment and migration gate
 
 This branch is not production. The SQL migration is a reviewed artifact only. Do not run it against Supabase, alter production environment variables, merge to `main`, or deploy until separately approved.
 
