@@ -63,6 +63,7 @@ const REQUIRED = [
   "src/pintuku/assets/js/humas-perizinan-public.js",
   "src/pintuku/assets/css/service-modules.css",
   "src/pintuku/dashboard/sarpras.html",
+  "src/pintuku/assets/css/sarpras-public.css",
   "src/pintuku/dashboard/tata-usaha.html",
   "src/pintuku/dashboard/tata-usaha-front-office.html",
   "src/pintuku/dashboard/tata-usaha-visitor.html",
