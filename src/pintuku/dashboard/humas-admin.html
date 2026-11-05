@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f"><meta name="description" content="Dashboard administrasi HUMAS PINTUKU SMAN 1 Sooko.">
+<title>Admin HUMAS · PINTUKU</title>
+<link rel="manifest" href="/manifest.json"><link rel="icon" href="/assets/shared/icons/favicon.ico">
+<link rel="stylesheet" href="/src/pintuku/assets/css/portal-shell.css">
+<link rel="stylesheet" href="/src/pintuku/assets/css/portal.css">
+<link rel="stylesheet" href="/src/pintuku/assets/css/portal-settings.css">
+<link rel="stylesheet" href="/src/pintuku/assets/css/pintuku-glass.css">
+<link rel="stylesheet" href="/src/pintuku/assets/css/humas-admin.css">
+<script>try{var t=localStorage.getItem("pintuku-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>
+<script src="/src/shared/assets/registry.js" defer></script>
+<script src="/src/pintuku/assets/js/portal-shell.js" defer></script>
+<script src="/src/pintuku/assets/js/portal-settings.js" defer></script>
+<script src="/src/pintuku/assets/js/humas-admin.js" defer></script>
+</head>
+<body data-portal-module="humas" data-humas-admin="preview">
+<div data-portal-header></div>
+<main class="ha-admin-wrap">
+  <aside class="ha-admin-sidebar" aria-label="Navigasi dashboard Admin HUMAS">
+    <a class="ha-admin-brand" href="/humas"><span class="ha-admin-brand-mark">H</span><span><strong>HUMAS</strong><small>ADMIN WORKSPACE</small></span></a>
+    <div class="ha-admin-nav-label">WORKSPACE</div>
+    <nav class="ha-admin-nav">
+      <a class="is-active" href="#overview" aria-current="page"><span class="ha-nav-icon">▦</span>Ringkasan</a>
+      <a href="#account-review"><span class="ha-nav-icon">♙</span>Verifikasi Akun</a>
+      <a href="#services"><span class="ha-nav-icon">▤</span>Administrasi Layanan</a>
+      <a href="#activity"><span class="ha-nav-icon">◷</span>Log Aktivitas</a>
+    </nav>
+    <div class="ha-admin-sidebar-foot"><span class="ha-admin-avatar">AH</span><span><strong>Admin HUMAS</strong><small>Role khusus · Pratinjau</small></span></div>
+  </aside>
+
+  <section class="ha-admin-main">
+    <header class="ha-admin-topbar">
+      <div><span class="ha-admin-eyebrow">PINTUKU / HUMAS / ADMINISTRASI</span><div class="ha-admin-page-title">Dashboard Admin</div></div>
+      <div class="ha-admin-top-actions"><span class="ha-admin-mode">MODE PRATINJAU</span><a class="ha-admin-back" href="/humas">Kembali ke portal HUMAS ↗</a></div>
+    </header>
+
+    <div class="ha-admin-preview" role="status"><span class="ha-preview-dot"></span><div><strong>Pratinjau UI — autentikasi dan data belum dihubungkan.</strong><p>Seluruh indikator di halaman ini sengaja ditampilkan sebagai placeholder. Halaman ini belum boleh digunakan untuk mengelola akun atau data operasional.</p></div></div>
+
+    <section id="overview" class="ha-admin-welcome">
+      <div><span class="ha-admin-eyebrow">CONTROL CENTER · HUBUNGAN MASYARAKAT</span><h1>Selamat datang di<br><span>ruang kendali HUMAS.</span></h1><p>Pusat pemantauan layanan, verifikasi akun eksternal, dan administrasi akses internal SMAN 1 Sooko.</p></div>
+      <div class="ha-admin-date"><span>HARI INI</span><strong id="haAdminDate">—</strong><small id="haAdminDay">Tanggal lokal perangkat</small></div>
+    </section>
+
+    <section class="ha-admin-section" aria-labelledby="kpi-title">
+      <div class="ha-admin-section-head"><div><span class="ha-admin-eyebrow">MONITORING</span><h2 id="kpi-title">Ikhtisar operasional</h2></div><span class="ha-admin-muted">Menunggu integrasi sumber data</span></div>
+      <div class="ha-admin-kpis">
+        <article class="ha-admin-kpi"><span class="ha-kpi-icon blue">♙</span><div><small>Akun menunggu review</small><strong>—</strong><em>Belum terhubung</em></div></article>
+        <article class="ha-admin-kpi"><span class="ha-kpi-icon cyan">✓</span><div><small>Akun disetujui</small><strong>—</strong><em>Belum terhubung</em></div></article>
+        <article class="ha-admin-kpi"><span class="ha-kpi-icon gold">▤</span><div><small>Permohonan layanan</small><strong>—</strong><em>Belum terhubung</em></div></article>
+        <article class="ha-admin-kpi"><span class="ha-kpi-icon violet">◷</span><div><small>Aktivitas hari ini</small><strong>—</strong><em>Belum terhubung</em></div></article>
+      </div>
+    </section>
+
+    <section id="account-review" class="ha-admin-section">
+      <div class="ha-admin-section-head"><div><span class="ha-admin-eyebrow">IDENTITY & ACCESS</span><h2>Verifikasi akun eksternal</h2><p>Admin HUMAS memeriksa kelayakan akun; pendaftaran mandiri tidak otomatis memberikan akses layanan.</p></div><span class="ha-admin-chip">OTORITAS KHUSUS</span></div>
+      <div class="ha-admin-review-panel">
+        <div class="ha-admin-review-copy"><span class="ha-review-symbol">♙</span><div><h3>Antrean pemeriksaan akun</h3><p>Alumni, mitra, komite, dan masyarakat yang telah melengkapi profil akan masuk ke antrean review.</p></div></div>
+        <div class="ha-admin-review-empty"><span>—</span><strong>Belum ada data yang dimuat</strong><small>Antrean akan tampil setelah API, status verifikasi email, dan kebijakan persetujuan terintegrasi.</small></div>
+        <div class="ha-admin-review-footer"><span>Keputusan harus memiliki alasan, aktor, dan waktu pencatatan.</span><button type="button" disabled title="Aktif setelah integrasi backend">Buka antrean akun <span>→</span></button></div>
+      </div>
+    </section>
+
+    <section id="services" class="ha-admin-section">
+      <div class="ha-admin-section-head"><div><span class="ha-admin-eyebrow">SERVICE MANAGEMENT</span><h2>Administrasi layanan HUMAS</h2><p>Akses cepat menuju workspace layanan yang telah tersedia pada modul HUMAS.</p></div></div>
+      <div class="ha-admin-service-grid">
+        <a class="ha-admin-service-card" href="/humas/kemitraan"><span class="ha-service-symbol">◇</span><span class="ha-service-meta">01 · KEMITRAAN</span><strong>Kemitraan & MoU</strong><small>Direktori mitra, dokumen kerja sama, dan masa berlaku.</small><span class="ha-service-link">Buka workspace ↗</span></a>
+        <a class="ha-admin-service-card" href="/humas/proposal"><span class="ha-service-symbol">▤</span><span class="ha-service-meta">02 · PROPOSAL</span><strong>Proposal & Sponsorship</strong><small>Penerimaan proposal dan tindak lanjut dukungan kegiatan.</small><span class="ha-service-link">Buka workspace ↗</span></a>
+        <a class="ha-admin-service-card" href="/humas/alumni"><span class="ha-service-symbol">♧</span><span class="ha-service-meta">03 · ALUMNI</span><strong>Tracer Study Alumni</strong><small>Direktori alumni dan pemutakhiran data lulusan.</small><span class="ha-service-link">Buka workspace ↗</span></a>
+        <article class="ha-admin-service-card is-planned"><span class="ha-service-symbol">◎</span><span class="ha-service-meta">04 · KOMUNIKASI</span><strong>Informasi & Pengaduan</strong><small>Registrasi aspirasi, disposisi, dan pemantauan penyelesaian.</small><span class="ha-service-link">Tahap pengembangan</span></article>
+      </div>
+    </section>
+
+    <section id="activity" class="ha-admin-section">
+      <div class="ha-admin-section-head"><div><span class="ha-admin-eyebrow">AUDIT TRAIL</span><h2>Aktivitas administrasi terbaru</h2><p>Log bersifat append-only pada implementasi backend; tampilan ini belum membaca data.</p></div><span class="ha-admin-muted">0 record dimuat</span></div>
+      <div class="ha-admin-table-wrap"><table class="ha-admin-table"><thead><tr><th>WAKTU</th><th>AKTOR</th><th>AKTIVITAS</th><th>OBJEK</th><th>HASIL</th></tr></thead><tbody><tr><td colspan="5"><div class="ha-admin-table-empty"><strong>Belum ada aktivitas untuk ditampilkan.</strong><span>Riwayat akan muncul setelah autentikasi dan audit log aktif.</span></div></td></tr></tbody></table></div>
+    </section>
+    <footer class="ha-admin-footer"><span>PINTUKU · SMAN 1 Sooko Mojokerto</span><span>Admin HUMAS · Antarmuka pratinjau</span></footer>
+  </section>
+</main>
+<div data-portal-footer></div>
+</body></html>
