@@ -14,7 +14,7 @@
  */
 const crypto = require("crypto");
 
-const TTL_SECONDS = 60 * 60;
+const TTL_SECONDS = 8 * 60 * 60;
 const MAX_FAILS = 5;
 const WINDOW_MS = 10 * 60 * 1000;
 const failures = new Map();
