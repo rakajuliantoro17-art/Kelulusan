@@ -3,6 +3,11 @@
  "use strict";
  const KEY="pintuku-tu-session";
  const LOGIN="/tata-usaha/login";
+ const ROUTE_ROLES=[
+  {match:path=>path.startsWith("/tata-usaha/akses"),roles:["head_tu"]},
+  {match:path=>path.startsWith("/tata-usaha/front-office"),roles:["head_tu","fo_coordinator","receptionist","unit_officer","principal"]}
+ ];
+ const canAccess=(path,role)=>{const rule=ROUTE_ROLES.find(item=>item.match(path));return !rule||rule.roles.includes(role);};
  const read=()=>{try{return JSON.parse(sessionStorage.getItem(KEY)||"null");}catch(_){return null;}};
  const save=value=>sessionStorage.setItem(KEY,JSON.stringify(value));
  const clear=()=>sessionStorage.removeItem(KEY);
@@ -29,12 +34,17 @@
   getContext:context,
   getSession:()=>session?{user:{username:session.username,nama:session.nama},role:session.role,expires_at:session.expires_at}:null,
   getRole:()=>session?.role||"",
+  canAccess:(path=location.pathname)=>canAccess(path,session?.role||""),
   logout
  });
  const guard=async()=>{
   try{
    const data=await verify();
    if(!data){clear();session=null;redirect();return;}
+   if(!canAccess(location.pathname, data.session.role)){
+    const target="/tata-usaha/dashboard?denied="+encodeURIComponent(location.pathname);
+    location.replace(target);return;
+   }
    document.documentElement.classList.remove("tu-auth-pending");
    const host=document.querySelector(".tu-sidebar-bottom");
    if(host&&!document.getElementById("tuLogoutButton")){
