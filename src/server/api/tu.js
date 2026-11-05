@@ -209,11 +209,15 @@ async function markNotificationRead(c, userId, unitIds, notificationId) {
   return result.body.length > 0;
 }
 
-const FRONT_OFFICE_ROLES = new Set(["principal","head_tu","fo_coordinator","fo_receptionist","tu_operator"]);
-const UNIT_APPROVER_ROLES = new Set(["unit_officer","head_tu","principal"]);
+const FRONT_OFFICE_ROLES = new Set(["head_tu","fo_coordinator","fo_receptionist"]);
+const ALL_VISIT_VIEW_ROLES = new Set([...FRONT_OFFICE_ROLES, "principal"]);
+const UNIT_APPROVER_ROLES = new Set(["unit_officer","head_tu"]);
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 function hasFrontOfficeRole(roles) {
   return roles.some(role => FRONT_OFFICE_ROLES.has(role.role_code));
+}
+function hasAllVisitViewRole(roles) {
+  return roles.some(role => ALL_VISIT_VIEW_ROLES.has(role.role_code));
 }
 function visitError(code) {
   return Object.assign(new Error(code), { code });
@@ -238,7 +242,8 @@ async function listVisits(c, roles, queryInput) {
     const pattern = "*" + q + "*";
     query.set("or", "(visitor_name.ilike." + pattern + ",organization.ilike." + pattern + ",visit_code.ilike." + pattern + ")");
   }
-  const canSeeAll = hasFrontOfficeRole(roles);
+  const canSeeAll = hasAllVisitViewRole(roles);
+  const canSeeContact = hasFrontOfficeRole(roles);
   if (!canSeeAll) {
     const unitIds = [...new Set(roles.filter(role => role.role_code === "unit_officer" && role.unit_id).map(role => role.unit_id))];
     if (!unitIds.length) throw visitError("visit_forbidden");
@@ -246,7 +251,7 @@ async function listVisits(c, roles, queryInput) {
   }
   const result = await request(c.baseUrl + "/rest/v1/visits?" + query, { headers: adminHeaders(c) });
   if (!result.response.ok || !Array.isArray(result.body)) throw visitError("visit_store_unavailable");
-  return result.body.map(row => safeVisit(row, canSeeAll));
+  return result.body.map(row => safeVisit(row, canSeeContact));
 }
 async function createVisit(c, userId, body) {
   const visitorName = typeof body.visitor_name === "string" ? body.visitor_name.trim() : "";
