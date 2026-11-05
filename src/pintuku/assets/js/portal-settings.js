@@ -51,6 +51,9 @@
     const links = [{ id: "home", label: "Beranda", href: "/" }].concat(MODULES).map((m) =>
       '<li><a class="ps-link" href="' + m.href + '"' + (m.id === current ? ' aria-current="page"' : "") + '><span>' +
       esc(m.label) + '</span><span aria-hidden="true">→</span></a></li>').join("");
+    const internalAccess = current === "humas"
+      ? '<div class="ps-internal-access"><span class="ps-row-title">Akses internal</span><a class="ps-link" href="/humas/admin"><span>Masuk Dashboard HUMAS</span><span aria-hidden="true">→</span></a><p class="ps-note">Ruang kerja staf HUMAS · memerlukan autentikasi internal.</p></div>'
+      : "";
 
     const wrap = document.createElement("div");
     wrap.innerHTML =
@@ -68,6 +71,7 @@
           '<p class="ps-note">Pilihan tema disimpan di perangkat ini dan berlaku di seluruh halaman portal.</p>' +
           '<div class="ps-language"><div class="ps-row-text"><span class="ps-row-title">Bahasa / Language</span><span class="ps-row-desc">Pilih bahasa antarmuka</span></div><div class="ps-language-switch" role="group" aria-label="Pilih bahasa"><button type="button" data-pintuku-language="id" aria-pressed="true">ID</button><button type="button" data-pintuku-language="en" aria-pressed="false">EN</button></div></div>' +
           '<p class="ps-note">Bahasa antarmuka dapat diubah kapan saja. Dokumen resmi tetap mengikuti bahasa dokumen sumber.</p>' +
+          internalAccess +
           '<h2 class="ps-sub">Pintasan</h2><ul class="ps-links">' + links + '</ul>' +
         '</div></aside>';
     while (wrap.firstElementChild) document.body.appendChild(wrap.firstElementChild);
