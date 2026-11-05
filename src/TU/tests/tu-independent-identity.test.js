@@ -26,14 +26,17 @@ test("operational actor foreign keys move to standalone identities", () => {
   ]) assert.ok(migration.includes(column), "missing identity reference: " + column);
   assert.match(migration, /references tu\.identities\(id\)/);
   assert.match(migration, /drop function if exists tu_private\.bootstrap_first_head_tu/);
+  assert.match(migration, /system:spreadsheet-sync/);
+  assert.match(migration, /system:lobby-public-intake/);
   assert.doesNotMatch(migration, /references auth\.users/);
+  assert.doesNotMatch(migration, /drop table if exists tu\.identity_links/);
 });
 
 test("spreadsheet session is revalidated against current account status and role", () => {
   assert.match(auth, /Pengguna!A:F/);
   assert.match(auth, /async function resolveSession/);
   assert.match(auth, /currentRole !== payload\.r/);
-  assert.match(auth, /const TTL_SECONDS = 60 \* 60/);
+  assert.match(auth, /const TTL_SECONDS = 8 \* 60 \* 60/);
   assert.match(api, /resolveSession\(token\)/);
   assert.match(api, /identity_id=eq\./);
   assert.match(api, /recipient_identity_id/);
@@ -50,7 +53,7 @@ test("unit officer assignment is resolved from the optional UnitCode spreadsheet
 });
 
 test("rollback is guarded against removing active identity and audit history", () => {
-  assert.match(rollback, /Rollback blocked: tu\.identities is not empty/);
+  assert.match(rollback, /Rollback blocked: staff identities have been provisioned/);
   assert.match(rollback, /Rollback blocked: TU operational or audit records exist/);
   assert.match(docs, /Prefer PITR/);
   assert.match(docs, /NOT applied/);
