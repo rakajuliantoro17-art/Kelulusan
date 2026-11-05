@@ -2,15 +2,15 @@
 <html lang="id">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07111f"><meta name="description" content="Dashboard administrasi HUMAS PINTUKU SMAN 1 Sooko.">
-<title>Admin HUMAS · PINTUKU</title>
+<meta name="theme-color" content="#f3f6fb"><meta name="description" content="PINTUKU HUMAS Management Workspace — SMAN 1 Sooko.">
+<title>HUMAS Management Workspace · PINTUKU</title>
 <link rel="manifest" href="/manifest.json"><link rel="icon" href="/assets/shared/icons/favicon.ico">
 <link rel="stylesheet" href="/src/pintuku/assets/css/portal-shell.css">
 <link rel="stylesheet" href="/src/pintuku/assets/css/portal.css">
 <link rel="stylesheet" href="/src/pintuku/assets/css/portal-settings.css">
 <link rel="stylesheet" href="/src/pintuku/assets/css/pintuku-glass.css">
 <link rel="stylesheet" href="/src/pintuku/assets/css/humas-admin.css">
-<script>try{var t=localStorage.getItem("pintuku-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>
+<script>try{var t=localStorage.getItem("pintuku-theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="light"}</script>
 <script src="/src/shared/assets/registry.js" defer></script>
 <script src="/src/pintuku/assets/js/portal-shell.js" defer></script>
 <script src="/src/pintuku/assets/js/portal-settings.js" defer></script>
@@ -18,67 +18,54 @@
 </head>
 <body data-portal-module="humas" data-humas-admin="preview">
 <div data-portal-header></div>
-<main class="ha-admin-wrap">
-  <aside class="ha-admin-sidebar" aria-label="Navigasi dashboard Admin HUMAS">
-    <a class="ha-admin-brand" href="/humas"><span class="ha-admin-brand-mark">H</span><span><strong>HUMAS</strong><small>ADMIN WORKSPACE</small></span></a>
-    <div class="ha-admin-nav-label">WORKSPACE</div>
-    <nav class="ha-admin-nav">
-      <a class="is-active" href="#overview" aria-current="page"><span class="ha-nav-icon">▦</span>Ringkasan</a>
-      <a href="#account-review"><span class="ha-nav-icon">♙</span>Verifikasi Akun</a>
-      <a href="#services"><span class="ha-nav-icon">▤</span>Administrasi Layanan</a>
-      <a href="#activity"><span class="ha-nav-icon">◷</span>Log Aktivitas</a>
-    </nav>
-    <div class="ha-admin-sidebar-foot"><span class="ha-admin-avatar">AH</span><span><strong>Admin HUMAS</strong><small>Role khusus · Pratinjau</small></span></div>
-  </aside>
-
-  <section class="ha-admin-main">
-    <header class="ha-admin-topbar">
-      <div><span class="ha-admin-eyebrow">PINTUKU / HUMAS / ADMINISTRASI</span><div class="ha-admin-page-title">Dashboard Admin</div></div>
-      <div class="ha-admin-top-actions"><span class="ha-admin-mode">MODE PRATINJAU</span><a class="ha-admin-back" href="/humas">Kembali ke portal HUMAS ↗</a></div>
-    </header>
-
-    <div class="ha-admin-preview" role="status"><span class="ha-preview-dot"></span><div><strong>Pratinjau UI — autentikasi dan data belum dihubungkan.</strong><p>Seluruh indikator di halaman ini sengaja ditampilkan sebagai placeholder. Halaman ini belum boleh digunakan untuk mengelola akun atau data operasional.</p></div></div>
-
-    <section id="overview" class="ha-admin-welcome">
-      <div><span class="ha-admin-eyebrow">CONTROL CENTER · HUBUNGAN MASYARAKAT</span><h1>Selamat datang di<br><span>ruang kendali HUMAS.</span></h1><p>Pusat pemantauan layanan, verifikasi akun eksternal, dan administrasi akses internal SMAN 1 Sooko.</p></div>
-      <div class="ha-admin-date"><span>HARI INI</span><strong id="haAdminDate">—</strong><small id="haAdminDay">Tanggal lokal perangkat</small></div>
+<div class="ha-app">
+<aside class="ha-sidebar" id="haSidebar" aria-label="Navigasi workspace HUMAS">
+  <a class="ha-brand" href="/humas"><span class="ha-brand-logo">P</span><span><b>PINTUKU</b><small>HUMAS MANAGEMENT</small></span></a>
+  <div class="ha-sidebar-caption">MENU UTAMA</div>
+  <nav class="ha-nav">
+    <a class="ha-nav-link active" href="#overview" aria-current="page"><span class="ha-nav-ico">⌂</span><span>Beranda</span></a>
+    <details class="ha-nav-group" open><summary><span class="ha-nav-ico">▦</span><span>Hubungan Kelembagaan</span><i>⌄</i></summary><a href="/humas/kemitraan">Kemitraan & Kerja Sama</a><a href="#agenda">Agenda & Protokoler</a></details>
+    <details class="ha-nav-group" open><summary><span class="ha-nav-ico">▤</span><span>Administrasi</span><i>⌄</i></summary><a href="/humas/proposal">Proposal & Sponsorship</a><a href="#services">Layanan Publik</a></details>
+    <details class="ha-nav-group"><summary><span class="ha-nav-ico">◉</span><span>Komunikasi</span><i>⌄</i></summary><a href="#services">Publikasi</a><a href="#services">Dokumentasi</a></details>
+    <details class="ha-nav-group"><summary><span class="ha-nav-ico">♧</span><span>Alumni</span><i>⌄</i></summary><a href="/humas/alumni">Tracer Study</a></details>
+    <details class="ha-nav-group" open><summary><span class="ha-nav-ico">♙</span><span>Manajemen</span><i>⌄</i></summary><a href="#account-review">Persetujuan Akun</a><a href="#users">Pengguna & Hak Akses</a></details>
+    <details class="ha-nav-group"><summary><span class="ha-nav-ico">▥</span><span>Pelaporan</span><i>⌄</i></summary><a href="#reports">Laporan</a></details>
+    <details class="ha-nav-group"><summary><span class="ha-nav-ico">⚙</span><span>Sistem</span><i>⌄</i></summary><a href="#system">Pengaturan</a><a href="#activity">Log Aktivitas</a></details>
+  </nav>
+  <div class="ha-sidebar-bottom"><span class="ha-avatar">AH</span><span><b>Admin HUMAS</b><small>Administrator · Pratinjau</small></span><span class="ha-online-dot"></span></div>
+</aside>
+<main class="ha-main">
+  <header class="ha-header">
+    <div class="ha-header-left"><button class="ha-menu-toggle" id="haMenuToggle" aria-label="Buka navigasi" aria-expanded="false">☰</button><div class="ha-breadcrumb"><span>PINTUKU</span><b>/</b><span>HUMAS</span><b>/</b><strong>Beranda</strong></div></div>
+    <div class="ha-header-right"><span class="ha-preview-pill"><i></i> MODE PRATINJAU</span><button class="ha-icon-button" aria-label="Notifikasi" disabled>♧<em></em></button><div class="ha-user"><span class="ha-avatar">AH</span><span><b>Admin HUMAS</b><small>Administrator</small></span><span class="ha-user-chevron">⌄</span></div></div>
+  </header>
+  <div class="ha-content">
+    <div class="ha-preview-note"><b>Pratinjau antarmuka.</b> Data operasional, autentikasi, dan tindakan administratif belum terhubung. Tidak ada keputusan akun yang dapat diproses dari halaman ini.</div>
+    <section id="overview" class="ha-page-heading"><div><div class="ha-eyebrow">HUMAS · MANAGEMENT WORKSPACE</div><h1>Beranda</h1><p>Selamat datang di pusat administrasi Hubungan Masyarakat SMAN 1 Sooko.</p></div><div class="ha-date-box"><span id="haAdminDay">—</span><b id="haAdminDate">—</b></div></section>
+    <section class="ha-stat-grid" aria-label="Ringkasan operasional">
+      <article class="ha-stat-card"><div class="ha-stat-top"><span>Kemitraan aktif</span><i class="ha-stat-icon blue">◇</i></div><strong>—</strong><small>Data belum terhubung</small></article>
+      <article class="ha-stat-card"><div class="ha-stat-top"><span>Proposal masuk</span><i class="ha-stat-icon amber">▤</i></div><strong>—</strong><small>Data belum terhubung</small></article>
+      <article class="ha-stat-card"><div class="ha-stat-top"><span>Agenda mendatang</span><i class="ha-stat-icon violet">▦</i></div><strong>—</strong><small>Data belum terhubung</small></article>
+      <article class="ha-stat-card"><div class="ha-stat-top"><span>Akun menunggu</span><i class="ha-stat-icon teal">♙</i></div><strong>—</strong><small>Data belum terhubung</small></article>
     </section>
-
-    <section class="ha-admin-section" aria-labelledby="kpi-title">
-      <div class="ha-admin-section-head"><div><span class="ha-admin-eyebrow">MONITORING</span><h2 id="kpi-title">Ikhtisar operasional</h2></div><span class="ha-admin-muted">Menunggu integrasi sumber data</span></div>
-      <div class="ha-admin-kpis">
-        <article class="ha-admin-kpi"><span class="ha-kpi-icon blue">♙</span><div><small>Akun menunggu review</small><strong>—</strong><em>Belum terhubung</em></div></article>
-        <article class="ha-admin-kpi"><span class="ha-kpi-icon cyan">✓</span><div><small>Akun disetujui</small><strong>—</strong><em>Belum terhubung</em></div></article>
-        <article class="ha-admin-kpi"><span class="ha-kpi-icon gold">▤</span><div><small>Permohonan layanan</small><strong>—</strong><em>Belum terhubung</em></div></article>
-        <article class="ha-admin-kpi"><span class="ha-kpi-icon violet">◷</span><div><small>Aktivitas hari ini</small><strong>—</strong><em>Belum terhubung</em></div></article>
-      </div>
+    <section class="ha-dashboard-grid">
+      <article class="ha-panel ha-priority-panel"><div class="ha-panel-head"><div><h2>Prioritas pekerjaan</h2><p>Daftar tindak lanjut dan pemeriksaan yang perlu mendapat perhatian.</p></div><span class="ha-panel-label">WORK QUEUE</span></div><div class="ha-empty-state"><span class="ha-empty-icon">✓</span><b>Belum ada pekerjaan dimuat</b><small>Daftar prioritas akan muncul setelah data layanan terintegrasi.</small></div></article>
+      <article class="ha-panel" id="agenda"><div class="ha-panel-head"><div><h2>Agenda mendatang</h2><p>Jadwal kegiatan dan protokoler.</p></div><a href="#services">Lihat semua</a></div><div class="ha-empty-state compact"><span class="ha-empty-icon">▦</span><b>Belum ada agenda dimuat</b><small>Agenda akan ditampilkan berdasarkan jadwal yang tercatat.</small></div></article>
     </section>
-
-    <section id="account-review" class="ha-admin-section">
-      <div class="ha-admin-section-head"><div><span class="ha-admin-eyebrow">IDENTITY & ACCESS</span><h2>Verifikasi akun eksternal</h2><p>Admin HUMAS memeriksa kelayakan akun; pendaftaran mandiri tidak otomatis memberikan akses layanan.</p></div><span class="ha-admin-chip">OTORITAS KHUSUS</span></div>
-      <div class="ha-admin-review-panel">
-        <div class="ha-admin-review-copy"><span class="ha-review-symbol">♙</span><div><h3>Antrean pemeriksaan akun</h3><p>Alumni, mitra, komite, dan masyarakat yang telah melengkapi profil akan masuk ke antrean review.</p></div></div>
-        <div class="ha-admin-review-empty"><span>—</span><strong>Belum ada data yang dimuat</strong><small>Antrean akan tampil setelah API, status verifikasi email, dan kebijakan persetujuan terintegrasi.</small></div>
-        <div class="ha-admin-review-footer"><span>Keputusan harus memiliki alasan, aktor, dan waktu pencatatan.</span><button type="button" disabled title="Aktif setelah integrasi backend">Buka antrean akun <span>→</span></button></div>
-      </div>
+    <section id="account-review" class="ha-panel ha-section-panel">
+      <div class="ha-panel-head"><div><div class="ha-eyebrow">IDENTITY & ACCESS MANAGEMENT</div><h2>Persetujuan akun eksternal</h2><p>Review akun alumni, mitra, komite, dan masyarakat. Akun yang mendaftar tidak otomatis memperoleh akses layanan.</p></div><span class="ha-authority-badge">OTORITAS ADMIN HUMAS</span></div>
+      <div class="ha-toolbar"><div class="ha-tabs" role="tablist" aria-label="Filter status akun"><button class="is-selected" type="button" data-account-filter="all">Semua <span>—</span></button><button type="button" data-account-filter="pending">Menunggu <span>—</span></button><button type="button" data-account-filter="approved">Disetujui <span>—</span></button><button type="button" data-account-filter="rejected">Ditolak <span>—</span></button></div><div class="ha-table-tools"><label class="ha-search">⌕ <input id="haAccountSearch" type="search" placeholder="Cari nama atau email..." disabled aria-label="Cari akun"></label><button class="ha-filter-button" type="button" disabled>☷ Filter</button></div></div>
+      <div class="ha-table-scroll"><table class="ha-data-table"><thead><tr><th>IDENTITAS PENGGUNA</th><th>JENIS AKUN</th><th>VERIFIKASI EMAIL</th><th>STATUS REVIEW</th><th>TANGGAL DAFTAR</th><th>AKSI</th></tr></thead><tbody><tr><td colspan="6"><div class="ha-table-empty"><b>Data antrean belum tersedia</b><span>Hubungkan API akun HUMAS untuk menampilkan data aktual. Tindakan setujui/tolak hanya akan tersedia setelah otorisasi server aktif.</span></div></td></tr></tbody></table></div>
+      <div class="ha-table-footer"><span>Menampilkan 0 dari — akun</span><span>Halaman — dari —</span></div>
     </section>
-
-    <section id="services" class="ha-admin-section">
-      <div class="ha-admin-section-head"><div><span class="ha-admin-eyebrow">SERVICE MANAGEMENT</span><h2>Administrasi layanan HUMAS</h2><p>Akses cepat menuju workspace layanan yang telah tersedia pada modul HUMAS.</p></div></div>
-      <div class="ha-admin-service-grid">
-        <a class="ha-admin-service-card" href="/humas/kemitraan"><span class="ha-service-symbol">◇</span><span class="ha-service-meta">01 · KEMITRAAN</span><strong>Kemitraan & MoU</strong><small>Direktori mitra, dokumen kerja sama, dan masa berlaku.</small><span class="ha-service-link">Buka workspace ↗</span></a>
-        <a class="ha-admin-service-card" href="/humas/proposal"><span class="ha-service-symbol">▤</span><span class="ha-service-meta">02 · PROPOSAL</span><strong>Proposal & Sponsorship</strong><small>Penerimaan proposal dan tindak lanjut dukungan kegiatan.</small><span class="ha-service-link">Buka workspace ↗</span></a>
-        <a class="ha-admin-service-card" href="/humas/alumni"><span class="ha-service-symbol">♧</span><span class="ha-service-meta">03 · ALUMNI</span><strong>Tracer Study Alumni</strong><small>Direktori alumni dan pemutakhiran data lulusan.</small><span class="ha-service-link">Buka workspace ↗</span></a>
-        <article class="ha-admin-service-card is-planned"><span class="ha-service-symbol">◎</span><span class="ha-service-meta">04 · KOMUNIKASI</span><strong>Informasi & Pengaduan</strong><small>Registrasi aspirasi, disposisi, dan pemantauan penyelesaian.</small><span class="ha-service-link">Tahap pengembangan</span></article>
-      </div>
+    <section class="ha-lower-grid">
+      <article class="ha-panel" id="users"><div class="ha-panel-head"><div><h2>Pengguna & hak akses</h2><p>Pengelolaan role internal dan akun staf HUMAS.</p></div></div><div class="ha-info-row"><span class="ha-info-icon">♙</span><div><b>Kontrol akses berbasis peran</b><small>Staff HUMAS, Wakasek HUMAS, Kepala Sekolah, dan Admin HUMAS.</small></div><span class="ha-soon">Backend belum aktif</span></div></article>
+      <article class="ha-panel" id="activity"><div class="ha-panel-head"><div><h2>Aktivitas administrasi</h2><p>Jejak audit untuk keputusan dan perubahan data.</p></div><a href="#activity">Lihat log</a></div><div class="ha-empty-state compact"><span class="ha-empty-icon">◷</span><b>Belum ada log aktivitas dimuat</b><small>Audit trail akan diisi dari catatan server.</small></div></article>
     </section>
-
-    <section id="activity" class="ha-admin-section">
-      <div class="ha-admin-section-head"><div><span class="ha-admin-eyebrow">AUDIT TRAIL</span><h2>Aktivitas administrasi terbaru</h2><p>Log bersifat append-only pada implementasi backend; tampilan ini belum membaca data.</p></div><span class="ha-admin-muted">0 record dimuat</span></div>
-      <div class="ha-admin-table-wrap"><table class="ha-admin-table"><thead><tr><th>WAKTU</th><th>AKTOR</th><th>AKTIVITAS</th><th>OBJEK</th><th>HASIL</th></tr></thead><tbody><tr><td colspan="5"><div class="ha-admin-table-empty"><strong>Belum ada aktivitas untuk ditampilkan.</strong><span>Riwayat akan muncul setelah autentikasi dan audit log aktif.</span></div></td></tr></tbody></table></div>
-    </section>
-    <footer class="ha-admin-footer"><span>PINTUKU · SMAN 1 Sooko Mojokerto</span><span>Admin HUMAS · Antarmuka pratinjau</span></footer>
-  </section>
+    <section class="ha-panel ha-section-panel" id="services"><div class="ha-panel-head"><div><h2>Akses modul layanan</h2><p>Pintasan ke modul administrasi HUMAS.</p></div></div><div class="ha-module-grid"><a href="/humas/kemitraan"><span>◇</span><b>Kemitraan & MoU</b><small>Direktori mitra dan dokumen kerja sama</small><i>Buka modul →</i></a><a href="/humas/proposal"><span>▤</span><b>Proposal & Sponsorship</b><small>Penerimaan dan tindak lanjut proposal</small><i>Buka modul →</i></a><a href="/humas/alumni"><span>♧</span><b>Tracer Study Alumni</b><small>Direktori dan data lulusan</small><i>Buka modul →</i></a><a href="#reports"><span>▥</span><b>Pelaporan HUMAS</b><small>Rekap kegiatan dan layanan</small><i>Tahap berikutnya →</i></a></div></section>
+    <footer class="ha-footer"><span>PINTUKU · SMAN 1 Sooko Mojokerto</span><span>HUMAS Management Workspace · UI Preview</span></footer>
+  </div>
 </main>
+</div>
 <div data-portal-footer></div>
 </body></html>
