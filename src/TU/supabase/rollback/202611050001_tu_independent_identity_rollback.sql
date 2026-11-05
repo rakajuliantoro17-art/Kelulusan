@@ -9,7 +9,9 @@ begin
     raise exception 'Rollback blocked: staff identities have been provisioned. Use a reviewed data-migration/PITR plan; do not delete identity history blindly.';
   end if;
   if exists (select 1 from tu.user_roles) or exists (select 1 from tu.role_audit_logs)
-     or exists (select 1 from tu.visits) or exists (select 1 from tu.visit_events) then
+     or exists (select 1 from tu.visits) or exists (select 1 from tu.visit_events)
+     or exists (select 1 from tu.integration_sync_logs where initiated_by_identity_id is not null)
+     or exists (select 1 from tu.visit_notifications where recipient_identity_id is not null) then
     raise exception 'Rollback blocked: TU operational or audit records exist. Use point-in-time recovery or a reviewed reverse data migration.';
   end if;
 end;
