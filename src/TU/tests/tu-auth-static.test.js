@@ -37,7 +37,7 @@ test("TU session is signed, bounded to eight hours, and verified server-side", (
   assert.match(auth, /TU_SESSION_SECRET/);
   assert.match(auth, /function verifyToken/);
   assert.match(auth, /async function resolveSession/);
-  assert.match(auth, /currentRole !== payload\\.r/);
+  assert.match(auth, /currentRole !== payload\.r/);
   assert.match(auth, /timingSafeEqual/);
 });
 
@@ -63,7 +63,7 @@ test("TU browser guard verifies the signed session and uses tab-scoped storage",
   assert.match(guard, /GET/);
   assert.match(guard, /\/api\/tu\/auth/);
   assert.doesNotMatch(guard, /refresh_token/);
-  assert.doesNotMatch(guard, /localStorage\\s*\\./);
+  assert.doesNotMatch(guard, /localStorage\s*\./);
 });
 
 test("TU dashboard displays the authenticated account role", () => {
