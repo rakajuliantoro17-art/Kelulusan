@@ -20,7 +20,7 @@ test("visit API is server-authenticated and exposes read/create/transition opera
 });
 
 test("registration derives actor and source on the server", () => {
-  assert.match(api, /created_by: userId, updated_by: userId/);
+  assert.match(api, /created_by_identity_id: userId, updated_by_identity_id: userId/);
   assert.match(api, /source: "receptionist", status: "pending_unit"/);
   assert.match(api, /body\.privacy_notice_delivered !== true/);
   assert.match(api, /privacy_notice_delivered_at: new Date\(\)\.toISOString\(\)/);
