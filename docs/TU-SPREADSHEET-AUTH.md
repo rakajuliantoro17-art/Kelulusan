@@ -6,7 +6,7 @@ Login workspace TU menggunakan Google Spreadsheet dan token sesi HMAC-SHA256. Su
 
 Spreadsheet khusus TU harus memiliki tab bernama persis `Pengguna`, dengan header pada baris pertama:
 
-| Username | Nama | Password | Status | Peran | UnitCode |
+| Username | Nama | Password | Status | Peran | UnitCode | UnitCode |
 |---|---|---|---|---|
 
 - `Username`: identitas login; pencocokan tidak membedakan huruf besar/kecil.
@@ -15,7 +15,7 @@ Spreadsheet khusus TU harus memiliki tab bernama persis `Pengguna`, dengan heade
 - `Status`: akun dianggap aktif kecuali nilainya salah satu dari `Tidak`, `Nonaktif`, `Non-aktif`, `No`, `N`, `False`, `0`, atau `Off`.
 - `Peran`: salah satu peran yang dikenali di bawah.
 
-`UnitCode` adalah kolom opsional untuk semua role selain Petugas Unit. Untuk `Petugas Unit`, isi dengan `unit_code` aktif yang tersedia pada `tu.units` (contoh: `humas`, `sarpras`, atau `tata_usaha`). Header `UnitCode` boleh belum ada untuk akun non-Petugas Unit. Akun dengan peran kosong atau tidak dikenal ditolak. Jangan membagikan spreadsheet sebagai publik. Cukup bagikan sebagai **Viewer** kepada Google Service Account.
+`UnitCode` adalah kolom opsional untuk semua role selain Petugas Unit. Untuk `Petugas Unit`, isi dengan `unit_code` aktif yang tersedia pada `tu.units` (contoh: `humas`, `sarpras`, atau `tata_usaha`). Header `UnitCode` boleh belum ada untuk akun non-Petugas Unit. `UnitCode` opsional untuk role selain Petugas Unit. Untuk `Petugas Unit`, kolom ini wajib berisi `unit_code` aktif dari `tu.units`. Header `UnitCode` boleh belum ada selama tidak ada akun Petugas Unit. Akun dengan peran kosong atau tidak dikenal ditolak. Jangan membagikan spreadsheet sebagai publik. Cukup bagikan sebagai **Viewer** kepada Google Service Account.
 
 ## 2. Peran yang dikenali
 
