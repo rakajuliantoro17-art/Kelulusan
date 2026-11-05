@@ -24,14 +24,14 @@ The migration renames the Auth-backed actor columns and foreign keys in:
 - `tu.visits`
 - `tu.visit_events`
 
-It creates `tu.identities` and replaces the role-audit and visit-workflow trigger functions so audit actors and visit events use standalone TU identity UUIDs. It drops the legacy Auth-only first-Head-TU bootstrap routine; Head TU is provisioned through the spreadsheet account directory and controlled administrative process.
+It creates `tu.identities`, seeds the non-login system identities `system:spreadsheet-sync` and `system:lobby-public-intake`, and replaces the role-audit and visit-workflow trigger functions so audit actors and visit events use standalone TU identity UUIDs. It drops the legacy Auth-only first-Head-TU bootstrap routine; Head TU is provisioned through the spreadsheet account directory and controlled administrative process.
 
 ## Spreadsheet contract
 
-Existing columns A:E remain:
+The required columns A:E remain:
 `Username | Nama | Password | Status | Peran`
 
-A proposed optional column F is:
+Optional column F is:
 `UnitCode`
 
 - `UnitCode` is required for `unit_officer` accounts so the API can scope approvals to the assigned unit.
@@ -56,7 +56,7 @@ A proposed optional column F is:
 1. Stop TU API traffic and disable the spreadsheet-auth feature flag/route.
 2. Take a database backup or confirm a usable Supabase PITR restore point.
 3. Prefer PITR if any standalone identity, role, visit, event, notification, or audit data has been created.
-4. The guarded rollback SQL is only for a pre-launch/empty-data rollback. It intentionally aborts if `tu.identities`, role assignments, role audit records, visits, or visit events exist.
+4. The guarded rollback SQL is only for a pre-launch/empty-data rollback. It intentionally aborts if any staff identity, role assignment, role audit record, visit, or visit event exists. The two seeded system identities alone do not block an empty-data rollback.
 5. Before re-enabling the old API after schema rollback, restore the previous definitions of `tu_private.audit_user_role_change()` and `tu.handle_visit_workflow()` from the immediately preceding migrations. The rollback script intentionally does not recreate the deprecated Auth-only Head TU bootstrap routine.
 6. Re-run the full migration and API test suite before restoring traffic.
 
