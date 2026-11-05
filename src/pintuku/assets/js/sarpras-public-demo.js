@@ -2,9 +2,9 @@
 (() => {
   "use strict";
   const years = {
-    2026: { total: 1248, health: 82.4, attention: 96, rooms: 42, trend: [74, 76, 77, 79, 80, 82.4], condition: [["Baik", 894], ["Perlu perawatan", 258], ["Rusak", 96]], category: [["Mebel", 420], ["Elektronik", 286], ["Laboratorium", 214], ["Bangunan", 188], ["Lainnya", 140]], roomsData: [["Ruang kelas", 24], ["Laboratorium", 6], ["Kantor", 5], ["Fasilitas umum", 7]] },
-    2025: { total: 1196, health: 79.8, attention: 112, rooms: 40, trend: [70, 72, 74, 76, 78, 79.8], condition: [["Baik", 836], ["Perlu perawatan", 248], ["Rusak", 112]], category: [["Mebel", 405], ["Elektronik", 274], ["Laboratorium", 202], ["Bangunan", 180], ["Lainnya", 135]], roomsData: [["Ruang kelas", 23], ["Laboratorium", 6], ["Kantor", 5], ["Fasilitas umum", 6]] },
-    2024: { total: 1154, health: 76.2, attention: 137, rooms: 39, trend: [67, 68, 70, 72, 74, 76.2], condition: [["Baik", 778], ["Perlu perawatan", 239], ["Rusak", 137]], category: [["Mebel", 390], ["Elektronik", 261], ["Laboratorium", 194], ["Bangunan", 177], ["Lainnya", 132]], roomsData: [["Ruang kelas", 22], ["Laboratorium", 6], ["Kantor", 5], ["Fasilitas umum", 6]] }
+    2026: { total: 1248, health: 85.4, attention: 354, rooms: 42, trend: [80, 81, 82, 83, 84, 85.4], condition: [["Baik", 894], ["Perlu perawatan", 258], ["Rusak", 96]], category: [["Mebel", 420], ["Elektronik", 286], ["Laboratorium", 214], ["Bangunan", 188], ["Lainnya", 140]], roomsData: [["Ruang kelas", 24], ["Laboratorium", 6], ["Kantor", 5], ["Fasilitas umum", 7]] },
+    2025: { total: 1196, health: 84.0, attention: 360, rooms: 40, trend: [76, 77, 79, 81, 82, 84.0], condition: [["Baik", 836], ["Perlu perawatan", 248], ["Rusak", 112]], category: [["Mebel", 405], ["Elektronik", 274], ["Laboratorium", 202], ["Bangunan", 180], ["Lainnya", 135]], roomsData: [["Ruang kelas", 23], ["Laboratorium", 6], ["Kantor", 5], ["Fasilitas umum", 6]] },
+    2024: { total: 1154, health: 82.2, attention: 376, rooms: 39, trend: [70, 73, 75, 78, 80, 82.2], condition: [["Baik", 778], ["Perlu perawatan", 239], ["Rusak", 137]], category: [["Mebel", 390], ["Elektronik", 261], ["Laboratorium", 194], ["Bangunan", 177], ["Lainnya", 132]], roomsData: [["Ruang kelas", 22], ["Laboratorium", 6], ["Kantor", 5], ["Fasilitas umum", 6]] }
   };
   const $ = (id) => document.getElementById(id);
   if (!$("spPublicKpis") || !$("spDemoYear")) return;
@@ -19,7 +19,7 @@
   function renderKpis(d) {
     const cards = [
       ["total", "Total aset simulasi", fmt(d.total), "Contoh jumlah inventaris"],
-      ["health", "Indeks kondisi simulasi", d.health.toFixed(1).replace(".", ",") + "%", "Skor ilustratif kondisi aset"],
+      ["health", "Indeks kondisi simulasi", d.health.toFixed(1).replace(".", ",") + "%", "Skor ilustratif berbobot kondisi"],
       ["attention", "Perlu penanganan", fmt(d.attention), "Perawatan + rusak (contoh)"],
       ["rooms", "Ruang & fasilitas", fmt(d.rooms), "Contoh master data ruang"]
     ];
