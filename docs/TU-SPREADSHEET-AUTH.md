@@ -6,7 +6,7 @@ Login workspace TU menggunakan Google Spreadsheet dan token sesi HMAC-SHA256. Su
 
 Spreadsheet khusus TU harus memiliki tab bernama persis `Pengguna`, dengan header pada baris pertama:
 
-| Username | Nama | Password | Status | Peran |
+| Username | Nama | Password | Status | Peran | UnitCode |
 |---|---|---|---|---|
 
 - `Username`: identitas login; pencocokan tidak membedakan huruf besar/kecil.
@@ -15,7 +15,7 @@ Spreadsheet khusus TU harus memiliki tab bernama persis `Pengguna`, dengan heade
 - `Status`: akun dianggap aktif kecuali nilainya salah satu dari `Tidak`, `Nonaktif`, `Non-aktif`, `No`, `N`, `False`, `0`, atau `Off`.
 - `Peran`: salah satu peran yang dikenali di bawah.
 
-Akun dengan peran kosong atau tidak dikenal ditolak. Jangan membagikan spreadsheet sebagai publik. Cukup bagikan sebagai **Viewer** kepada Google Service Account.
+`UnitCode` adalah kolom opsional untuk semua role selain Petugas Unit. Untuk `Petugas Unit`, isi dengan `unit_code` aktif yang tersedia pada `tu.units` (contoh: `humas`, `sarpras`, atau `tata_usaha`). Header `UnitCode` boleh belum ada untuk akun non-Petugas Unit. Akun dengan peran kosong atau tidak dikenal ditolak. Jangan membagikan spreadsheet sebagai publik. Cukup bagikan sebagai **Viewer** kepada Google Service Account.
 
 ## 2. Peran yang dikenali
 
@@ -58,9 +58,9 @@ Salin hasilnya ke `TU_SESSION_SECRET`. Jangan kirim nilainya ke chat.
 - Percobaan login dibatasi 5 kali per kombinasi IP dan username dalam 10 menit (penyimpanan limiter sementara per instance).
 - Sesi ditandatangani HMAC-SHA256 dan berlaku 8 jam.
 - Browser menyimpan token hanya di `sessionStorage`; sesi berakhir ketika tab ditutup atau masa berlaku habis.
-- Endpoint verifikasi memeriksa tanda tangan dan masa berlaku token pada server.
+- Endpoint verifikasi dan setiap API operasional memeriksa tanda tangan, masa berlaku, status akun, serta role terbaru pada spreadsheet. Perubahan status/nonaktif atau perubahan role membuat token lama ditolak.
 - Logout menghapus sesi pada browser. Token stateless yang sudah diterbitkan tetap tidak dapat dipakai setelah kedaluwarsa; tidak ada daftar pencabutan token pada tahap ini.
 
 ## 5. Batas tahap implementasi
 
-Tahap ini mengganti **login dan verifikasi sesi workspace** serta mengirim pengguna ke dashboard berdasarkan peran. API operasional yang membaca/menulis kunjungan, notifikasi, dan data unit masih menggunakan otorisasi Supabase yang telah ada. API operasional tersebut belum dialihkan ke token spreadsheet dan perlu tahap integrasi/otorisasi tersendiri sebelum fitur-fitur itu dapat digunakan dengan akun spreadsheet.
+Login dan verifikasi sesi menggunakan spreadsheet. API operasional menggunakan token spreadsheet yang diverifikasi server, menyinkronkan username ke `tu.identities`, dan menyinkronkan role ke `tu.user_roles`. Foreign key actor operasional mengarah ke identitas mandiri. Migration SQL pada branch pengembangan belum diterapkan ke database; API operasional baru akan berjalan setelah migration disetujui dan diterapkan di lingkungan yang sesuai.
