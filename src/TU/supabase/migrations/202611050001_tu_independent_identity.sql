@@ -60,14 +60,8 @@ alter table tu.user_roles
   add constraint user_roles_assigned_by_identity_id_fkey
   foreign key (assigned_by_identity_id) references tu.identities(id) on delete set null;
 
--- Prevent duplicate active role grants for one identity and unit.
-create unique index if not exists tu_user_roles_identity_active_uidx
-  on tu.user_roles (
-    identity_id,
-    role_code,
-    (coalesce(unit_id, '00000000-0000-0000-0000-000000000000'::uuid))
-  )
-  where is_active and revoked_at is null;
+-- The existing tu_user_roles_active_unique index follows the renamed identity_id
+-- column automatically and continues enforcing one active role per identity/unit.
 
 -- Role audit references.
 alter table tu.role_audit_logs drop constraint if exists role_audit_logs_target_user_id_fkey;
