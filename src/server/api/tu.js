@@ -404,10 +404,15 @@ module.exports = async function tuApi(req, res) {
     if (op === "context" && req.method === "GET") {
       const units = await listUnits(c);
       const unitIds = [...new Set(roles.map(role => role.unit_id).filter(Boolean))];
+      const dashboardRole = { tu_operator: "staff_tu", fo_receptionist: "receptionist" };
       return send(res, 200, {
         success: true,
         user: auth.user,
-        roles: roles.map(role => ({ role_code: role.role_code, unit_id: role.unit_id })),
+        roles: roles.map(role => ({
+          role_code: dashboardRole[role.role_code] || role.role_code,
+          permission_role_code: role.role_code,
+          unit_id: role.unit_id
+        })),
         assigned_units: units.filter(unit => unitIds.includes(unit.id)),
         units
       });
