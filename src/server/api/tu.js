@@ -2,7 +2,7 @@
 
 /**
  * PINTUKU TU Core API.
- * All TU schema access is server-side through the Supabase service credential.
+ * TU identities and roles are sourced from the private spreadsheet; Supabase stores internal UUIDs only.
  * Browser clients must never receive the service credential or direct schema grants.
  */
 const ALLOWED_ROLES = new Set([
@@ -23,11 +23,11 @@ function config() {
   const raw = process.env.SUPABASE_URL;
   const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY;
   const adminKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!raw || !publishableKey || !adminKey) return null;
+  if (!raw || !adminKey) return null;
   try {
     const url = new URL(raw);
     if (url.protocol !== "https:") return null;
-    return { baseUrl: url.origin, publishableKey, adminKey };
+    return { baseUrl: url.origin, publishableKey: publishableKey || "", adminKey };
   } catch (_) {
     return null;
   }
@@ -182,7 +182,7 @@ async function markNotificationRead(c, userId, unitIds, notificationId) {
     throw Object.assign(new Error("invalid_request"), { code: "invalid_request" });
   }
   const query = new URLSearchParams({ id: "eq." + notificationId });
-  const clauses = ["recipient_user_id.eq." + userId];
+  const clauses = ["recipient_identity_id.eq." + userId];
   if (unitIds.length) clauses.push("recipient_unit_id.in.(" + unitIds.join(",") + ")");
   query.set("or", "(" + clauses.join(",") + ")");
   const headers = adminHeaders(c);
