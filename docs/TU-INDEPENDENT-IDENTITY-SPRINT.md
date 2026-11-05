@@ -8,7 +8,7 @@ Status: **prepared on development branch; migration NOT applied**.
 - Spreadsheet username is the external subject. `tu.identities.id` is the stable internal UUID used by operational foreign keys and audit trails.
 - Spreadsheet passwords are never copied into Supabase.
 - `tu.identity_links` remains intact for verified cross-module identity links. It is not the TU login source.
-- Public Lobby visitors remain anonymous; server-side system identity is used for visitor-created records.
+- The current Lobby display remains public and has no intake API. `system:lobby-public-intake` is reserved for a later public guestbook endpoint; it is not yet used by this branch.
 - Supabase service credentials remain server-only.
 
 ## Files
@@ -73,7 +73,7 @@ This branch is not production. The SQL migration is a reviewed artifact only. Do
 - The API upserts a stable `tu.identities` row and synchronizes the role assignment.
 - Unit officer authorization requires a valid active `UnitCode` mapped to `tu.units.unit_code`.
 - All visit actor columns and role audit references use `tu.identities.id`.
-- Public Lobby intake remains unauthenticated but rate-limited and uses a dedicated system identity.
+- The public Lobby guestbook submission endpoint remains disabled until a separate anti-spam, rate-limit, privacy-notice, and validation review is complete.
 - Role changes, disabled accounts, invalid unit mappings, expired tokens, and spreadsheet outages fail closed.
 - RLS remains enabled; browser roles receive no direct table grants. Service credentials remain server-only.
 - Tests cover each role, direct API calls, visit workflow transitions, audit events, notification visibility, and spreadsheet outages.
