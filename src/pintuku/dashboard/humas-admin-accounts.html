@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f3f6fa">
+<title>Manajemen Persetujuan Akun · HUMAS · PINTUKU</title>
+<link rel="stylesheet" href="/src/pintuku/assets/css/portal-shell.css">
+<link rel="stylesheet" href="/src/pintuku/assets/css/portal.css">
+<link rel="stylesheet" href="/src/pintuku/assets/css/portal-settings.css">
+<link rel="stylesheet" href="/src/pintuku/assets/css/pintuku-glass.css">
+<link rel="stylesheet" href="/src/pintuku/assets/css/humas-admin.css">
+<link rel="stylesheet" href="/src/pintuku/assets/css/humas-admin-accounts.css">
+<script>try{var t=localStorage.getItem("pintuku-theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="light"}</script>
+<script src="/src/shared/assets/registry.js" defer></script>
+<script src="/src/pintuku/assets/js/portal-shell.js" defer></script>
+<script src="/src/pintuku/assets/js/portal-settings.js" defer></script>
+<script src="/src/pintuku/assets/js/humas-admin-accounts.js" defer></script>
+</head>
+<body data-portal-module="humas" data-humas-admin="preview">
+<div data-portal-header></div>
+<div class="haa-shell">
+<aside class="haa-side"><a class="haa-brand" href="/humas/admin">PINTUKU <small>HUMAS MANAGEMENT</small></a><div class="haa-side-label">WORKSPACE</div>
+<a href="/humas/admin">Beranda</a><a class="active" href="/humas/admin/akun" aria-current="page">Persetujuan Akun</a><a href="#legacy">Review Akun Lama</a><a href="#decisions">Riwayat Keputusan</a><div class="haa-side-foot">ADMIN HUMAS<br><small>Antarmuka pratinjau</small></div></aside>
+<main class="haa-main">
+<header class="haa-top"><button id="haaMenu" aria-expanded="false" aria-label="Buka navigasi">☰</button><div><span>PINTUKU / HUMAS /</span> Manajemen Persetujuan Akun</div><span class="haa-preview">MODE PRATINJAU</span></header>
+<div class="haa-content">
+<div class="haa-notice"><b>Lingkungan pratinjau.</b> Data akun belum terhubung. Semua detail bersifat kosong; persetujuan, penolakan, dan perubahan status tidak dikirim ke server.</div>
+<section class="haa-heading"><div><div class="haa-kicker">IDENTITY & ACCESS MANAGEMENT</div><h1>Manajemen Persetujuan Akun</h1><p>Verifikasi identitas dan kelayakan akses akun eksternal HUMAS secara terkontrol.</p></div><a class="haa-back" href="/humas/admin">← Kembali ke dashboard</a></section>
+<section class="haa-metrics" aria-label="Ringkasan antrean akun">
+<article><span>Total akun</span><strong>—</strong><small>Menunggu koneksi data</small></article><article><span>Menunggu review</span><strong>—</strong><small>Belum tersedia</small></article><article><span>Email terverifikasi</span><strong>—</strong><small>Belum tersedia</small></article><article><span>Perlu review manual</span><strong>—</strong><small>Akun lama</small></article>
+</section>
+<section class="haa-panel" id="queue">
+<div class="haa-panel-title"><div><h2>1. Antrean akun eksternal</h2><p>Pencarian, filter status, pengurutan, dan navigasi halaman disiapkan untuk data aktual.</p></div><span class="haa-tag">ACCOUNT QUEUE</span></div>
+<div class="haa-controls"><div class="haa-tabs" role="tablist" aria-label="Filter status"><button class="selected" data-status="all" role="tab" aria-selected="true">Semua</button><button data-status="pending" role="tab" aria-selected="false">Menunggu</button><button data-status="approved" role="tab" aria-selected="false">Disetujui</button><button data-status="rejected" role="tab" aria-selected="false">Ditolak</button><button data-status="manual" role="tab" aria-selected="false">Review manual</button></div>
+<div class="haa-search-row"><label>⌕ <input id="haaSearch" type="search" placeholder="Cari nama, email, atau ID akun" aria-label="Cari akun"></label><select id="haaType" aria-label="Filter jenis akun"><option value="">Semua jenis akun</option><option value="alumni">Alumni</option><option value="mitra">Mitra</option><option value="komite">Komite</option><option value="masyarakat">Masyarakat</option></select><select id="haaSort" aria-label="Urutkan akun"><option value="newest">Pendaftaran terbaru</option><option value="oldest">Pendaftaran terlama</option><option value="name">Nama A–Z</option></select></div></div>
+<div class="haa-table-wrap"><table><thead><tr><th>IDENTITAS PENGGUNA</th><th>JENIS AKUN</th><th>EMAIL</th><th>VERIFIKASI</th><th>STATUS REVIEW</th><th>DAFTAR</th><th>AKSI</th></tr></thead><tbody><tr><td colspan="7"><div class="haa-empty"><b>Belum ada data antrean</b><span>Data akan tampil setelah API akun HUMAS terhubung. Tidak ada data contoh atau akun simulasi yang ditampilkan.</span></div></td></tr></tbody></table></div>
+<div class="haa-pagination"><span id="haaCount">0 akun ditampilkan</span><div><button disabled>‹ Sebelumnya</button><span>— / —</span><button disabled>Berikutnya ›</button></div></div>
+</section>
+<div class="haa-two-col">
+<section class="haa-panel" id="profile">
+<div class="haa-panel-title"><div><h2>2. Detail profil pengguna</h2><p>Panel detail akan terisi setelah satu akun dipilih dari antrean.</p></div></div>
+<div class="haa-profile-empty"><div class="haa-avatar">?</div><b>Belum ada akun dipilih</b><span>Identitas, kontak, kategori akun, dokumen pendukung, dan status profil akan ditampilkan di area ini.</span></div>
+<div class="haa-detail-grid"><div><small>ID akun</small><b>—</b></div><div><small>Nama lengkap</small><b>—</b></div><div><small>Email</small><b>—</b></div><div><small>Kategori</small><b>—</b></div><div><small>Tanggal registrasi</small><b>—</b></div><div><small>Status profil</small><b>—</b></div></div>
+</section>
+<section class="haa-panel" id="email-history">
+<div class="haa-panel-title"><div><h2>3. Riwayat verifikasi email</h2><p>Informasi autentikasi dan verifikasi, bukan pengganti persetujuan Admin HUMAS.</p></div></div>
+<div class="haa-timeline"><div><i></i><span><b>Status verifikasi</b><small>Belum ada data autentikasi</small></span><em>—</em></div><div><i></i><span><b>Waktu email dikirim</b><small>Menunggu integrasi Supabase Auth</small></span><em>—</em></div><div><i></i><span><b>Waktu verifikasi</b><small>Belum tersedia</small></span><em>—</em></div><div><i></i><span><b>Perubahan email</b><small>Riwayat perubahan akan dicatat server</small></span><em>—</em></div></div>
+<div class="haa-callout">Email terverifikasi tidak otomatis berarti akun disetujui. Status akses harus tetap menunggu keputusan Admin HUMAS.</div>
+</section>
+</div>
+<section class="haa-panel haa-decision" id="decision">
+<div class="haa-panel-title"><div><h2>4. Keputusan persetujuan / penolakan</h2><p>Form keputusan disiapkan dengan alasan wajib dan konfirmasi sebelum tindakan.</p></div><span class="haa-tag muted">NONAKTIF · PREVIEW</span></div>
+<div class="haa-decision-grid"><div><label for="haaDecisionReason">Alasan keputusan (wajib)</label><textarea id="haaDecisionReason" rows="3" placeholder="Alasan akan diwajibkan saat backend persetujuan diaktifkan." disabled></textarea><small>Alasan persetujuan atau penolakan harus tersimpan sebagai bagian dari audit trail.</small></div><div class="haa-decision-actions"><button type="button" disabled>Setujui akun</button><button type="button" disabled>Tolak akun</button><small>Tombol keputusan sengaja dinonaktifkan pada tahap pratinjau.</small></div></div>
+</section>
+<section class="haa-panel" id="decisions">
+<div class="haa-panel-title"><div><h2>5. Riwayat keputusan Admin HUMAS</h2><p>Catatan keputusan yang bersifat append-only untuk akuntabilitas.</p></div><span class="haa-tag">AUDIT TRAIL</span></div>
+<div class="haa-table-wrap"><table><thead><tr><th>WAKTU</th><th>ID AKUN</th><th>KEPUTUSAN</th><th>ALASAN</th><th>ADMIN PEMUTUS</th><th>REFERENSI AUDIT</th></tr></thead><tbody><tr><td colspan="6"><div class="haa-empty"><b>Riwayat keputusan belum tersedia</b><span>Log akan berasal dari tabel audit server. Catatan tidak boleh diedit atau dihapus melalui UI.</span></div></td></tr></tbody></table></div>
+</section>
+<section class="haa-panel" id="legacy">
+<div class="haa-panel-title"><div><h2>6. Review manual akun lama</h2><p>Akun yang sudah ada sebelum mekanisme approval baru wajib diperiksa satu per satu.</p></div><span class="haa-tag warn">MANUAL REVIEW</span></div>
+<div class="haa-legacy-grid"><div class="haa-legacy-step"><b>01 · Identifikasi</b><span>Cocokkan UID Supabase, email, dan profil yang sudah tersimpan.</span></div><div class="haa-legacy-step"><b>02 · Validasi</b><span>Periksa kepemilikan email, kelengkapan identitas, dan kategori akun.</span></div><div class="haa-legacy-step"><b>03 · Keputusan</b><span>Admin HUMAS menetapkan pending, approved, atau rejected dengan alasan.</span></div><div class="haa-legacy-step"><b>04 · Audit</b><span>Simpan aktor, waktu, alasan, dan status sebelum/sesudah.</span></div></div>
+<div class="haa-callout warning">Penting: status profil <code>complete</code> atau email terverifikasi tidak boleh otomatis mengubah akun lama menjadi <code>approved</code>. Seluruh akun lama tetap berstatus perlu review sampai keputusan manual tercatat.</div>
+</section>
+<footer class="haa-footer">PINTUKU · SMAN 1 Sooko Mojokerto <span>HUMAS · Account Governance Workspace</span></footer>
+</div></main></div>
+<div data-portal-footer></div>
+<div class="haa-modal" id="haaModal" hidden role="dialog" aria-modal="true" aria-labelledby="haaModalTitle"><div class="haa-modal-card"><button type="button" id="haaModalClose" aria-label="Tutup">×</button><h2 id="haaModalTitle">Konfirmasi keputusan</h2><p>Dialog ini hanya rancangan. Tidak ada keputusan yang dikirim.</p><label for="haaModalReason">Alasan keputusan</label><textarea id="haaModalReason" rows="4" required></textarea><div><button type="button" disabled>Konfirmasi (nonaktif)</button></div></div></div>
+</body></html>
