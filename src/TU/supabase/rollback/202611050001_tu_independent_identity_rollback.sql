@@ -76,7 +76,7 @@ drop table tu.identities;
 -- foreign keys have been returned to their original names.
 create or replace function tu_private.audit_user_role_change()
 returns trigger language plpgsql set search_path = ''
-as $
+as $$
 declare
   v_before jsonb; v_after jsonb; v_target_user_id uuid; v_role_code text;
   v_unit_id uuid; v_action text; v_actor_id_text text; v_actor_id uuid;
@@ -107,12 +107,12 @@ begin
   if tg_op = 'DELETE' then return old; end if;
   return new;
 end;
-$;
+$$;
 revoke all on function tu_private.audit_user_role_change() from public, anon, authenticated, service_role;
 
 create or replace function tu.handle_visit_workflow()
 returns trigger language plpgsql security invoker set search_path = ''
-as $
+as $$
 declare v_actor uuid; v_front_office_id uuid; v_event text;
 begin
   v_actor := coalesce(new.updated_by, new.created_by);
@@ -160,13 +160,13 @@ begin
   end if;
   return new;
 end;
-$;
+$$;
 revoke all on function tu.handle_visit_workflow() from public, anon, authenticated;
 grant execute on function tu.handle_visit_workflow() to service_role;
 
 create or replace function tu_private.bootstrap_first_head_tu(p_target_user_id uuid, p_actor_label text)
 returns uuid language plpgsql set search_path = ''
-as $
+as $$
 declare v_confirmed_at timestamptz; v_banned_until timestamptz; v_deleted_at timestamptz; v_unit_id uuid;
 begin
   if current_user not in ('postgres', 'supabase_admin') then
@@ -196,7 +196,7 @@ begin
     'Penetapan Head TU pertama melalui prosedur bootstrap administrator database.');
   return p_target_user_id;
 end;
-$;
+$$;
 revoke all on function tu_private.bootstrap_first_head_tu(uuid, text) from public, anon, authenticated, service_role;
 
 
