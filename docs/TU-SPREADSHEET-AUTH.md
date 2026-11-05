@@ -1,66 +1,73 @@
 # PINTUKU Tata Usaha — Spreadsheet Authentication
 
-Login workspace TU menggunakan Google Spreadsheet dan token sesi HMAC-SHA256. Supabase Auth tidak dipakai untuk proses login ini. Supabase yang sudah ada pada API operasional TU belum diubah pada tahap ini.
+Login dan otorisasi workspace TU menggunakan Google Spreadsheet serta token sesi HMAC-SHA256. Akun petugas TU tidak memerlukan Supabase Auth. Supabase menyimpan UUID identitas internal pada schema \`tu\`; spreadsheet tetap menjadi sumber akun dan role.
 
 ## 1. Format spreadsheet
 
-Spreadsheet khusus TU harus memiliki tab bernama persis `Pengguna`, dengan header pada baris pertama:
+Spreadsheet khusus TU harus memiliki tab bernama persis \`Pengguna\`, dengan header pada baris pertama:
 
-| Username | Nama | Password | Status | Peran | UnitCode | UnitCode |
-|---|---|---|---|---|
+| Username | Nama | Password | Status | Peran | UnitCode |
+|---|---|---|---|---|---|
 
-- `Username`: identitas login; pencocokan tidak membedakan huruf besar/kecil.
-- `Nama`: nama yang ditampilkan di dashboard.
-- `Password`: menerima format `scrypt:<salt-32-hex>:<hash-128-hex>` (direkomendasikan), `sha256:<64 karakter hex>` (kompatibilitas), atau teks biasa (hanya kompatibilitas awal; migrasikan segera ke scrypt).
-- `Status`: akun dianggap aktif kecuali nilainya salah satu dari `Tidak`, `Nonaktif`, `Non-aktif`, `No`, `N`, `False`, `0`, atau `Off`.
-- `Peran`: salah satu peran yang dikenali di bawah.
+- \`Username\`: identitas login; pencocokan tidak membedakan huruf besar/kecil dan harus unik.
+- \`Nama\`: nama yang ditampilkan pada dashboard.
+- \`Password\`: format \`scrypt:<salt-32-hex>:<hash-128-hex>\` direkomendasikan; \`sha256:<64 karakter hex>\` hanya kompatibilitas; teks biasa hanya fallback migrasi awal.
+- \`Status\`: akun dianggap aktif kecuali nilainya salah satu dari \`Tidak\`, \`Nonaktif\`, \`Non-aktif\`, \`No\`, \`N\`, \`False\`, \`0\`, atau \`Off\`.
+- \`Peran\`: salah satu peran yang dikenali di bawah.
+- \`UnitCode\`: opsional untuk semua role selain Petugas Unit. Untuk Petugas Unit, wajib berisi kode unit aktif dari \`tu.units\`, misalnya \`humas\`, \`sarpras\`, atau \`tata_usaha\`. Header ini boleh tidak ada jika belum ada akun Petugas Unit.
 
-`UnitCode` adalah kolom opsional untuk semua role selain Petugas Unit. Untuk `Petugas Unit`, isi dengan `unit_code` aktif yang tersedia pada `tu.units` (contoh: `humas`, `sarpras`, atau `tata_usaha`). Header `UnitCode` boleh belum ada untuk akun non-Petugas Unit. `UnitCode` opsional untuk role selain Petugas Unit. Untuk `Petugas Unit`, kolom ini wajib berisi `unit_code` aktif dari `tu.units`. Header `UnitCode` boleh belum ada selama tidak ada akun Petugas Unit. Akun dengan peran kosong atau tidak dikenal ditolak. Jangan membagikan spreadsheet sebagai publik. Cukup bagikan sebagai **Viewer** kepada Google Service Account.
+Akun dengan peran kosong atau tidak dikenal ditolak. Username duplikat harus diselesaikan sebelum operasional. Jangan membagikan spreadsheet sebagai publik; bagikan sebagai **Viewer** hanya kepada Google Service Account.
 
 ## 2. Peran yang dikenali
 
-| Nilai pada kolom Peran | Kode internal |
-|---|---|
-| Kepala TU / Head TU | `head_tu` |
-| Staf TU / Staff TU / Operator TU | `staff_tu` |
-| Resepsionis / Petugas Front Office | `receptionist` |
-| Koordinator Front Office | `fo_coordinator` |
-| Petugas Unit | `unit_officer` |
-| Kepala Sekolah | `principal` |
+| Nilai pada kolom Peran | Dashboard role | Database role |
+|---|---|---|
+| Kepala TU / Head TU | \`head_tu\` | \`head_tu\` |
+| Staf TU / Staff TU / Operator TU | \`staff_tu\` | \`tu_operator\` |
+| Resepsionis / Petugas Front Office | \`receptionist\` | \`fo_receptionist\` |
+| Koordinator Front Office | \`fo_coordinator\` | \`fo_coordinator\` |
+| Petugas Unit | \`unit_officer\` | \`unit_officer\` |
+| Kepala Sekolah | \`principal\` | \`principal\` |
 
-Setelah login, pengguna diarahkan ke dashboard TU dengan konteks `workspace` sesuai kode peran. Nama dan label peran ditampilkan pada identitas pengguna di dashboard.
+Spreadsheet menjadi sumber kebenaran role. \`tu.user_roles\` hanya disinkronkan sebagai representasi internal untuk otorisasi dan audit.
 
-## 3. Environment Variables Vercel
-
-Tambahkan pada Project Settings → Environment Variables:
+## 3. Environment variables
 
 | Variable | Isi |
 |---|---|
-| `GOOGLE_SHEET_ID_TU` | ID spreadsheet TU dari URL Google Sheets |
-| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Email Service Account yang sudah diberi akses Viewer |
-| `GOOGLE_SERVICE_ACCOUNT_KEY` | Private key Service Account |
-| `TU_SESSION_SECRET` | Secret acak khusus TU, minimal 32 byte |
+| \`GOOGLE_SHEET_ID_TU\` | ID spreadsheet TU |
+| \`GOOGLE_SERVICE_ACCOUNT_EMAIL\` | Email Service Account dengan akses Viewer |
+| \`GOOGLE_SERVICE_ACCOUNT_KEY\` | Private key Service Account |
+| \`TU_SESSION_SECRET\` | Secret acak khusus TU, minimal 32 byte |
+| \`SUPABASE_URL\` | URL project Supabase |
+| \`SUPABASE_SECRET_KEY\` atau \`SUPABASE_SERVICE_ROLE_KEY\` | Kredensial server-only untuk API operasional |
 
-Bila `GOOGLE_SERVICE_ACCOUNT_EMAIL` dan `GOOGLE_SERVICE_ACCOUNT_KEY` sudah dipakai modul lain, gunakan nilai Service Account yang sama. Jangan menaruh private key atau `TU_SESSION_SECRET` di source code, spreadsheet, atau commit Git.
+Jangan menaruh private key atau secret di source code, spreadsheet, atau commit Git. Kredensial Supabase tidak boleh dikirim ke browser.
 
-Buat secret acak secara lokal dengan Node.js:
+Buat secret secara lokal:
 
-```bash
+\`\`\`bash
 node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
-```
+\`\`\`
 
-Salin hasilnya ke `TU_SESSION_SECRET`. Jangan kirim nilainya ke chat.
+## 4. Perilaku sesi dan sinkronisasi
 
-## 4. Perilaku sesi
+- Server membaca tab \`Pengguna\` melalui Google Sheets API dengan scope read-only.
+- Password diperiksa di server; password tidak dikirim ke browser atau disimpan di Supabase.
+- Percobaan login dibatasi 5 kali per kombinasi IP dan username dalam 10 menit (limiter sementara per instance).
+- Sesi HMAC-SHA256 berlaku 8 jam dan disimpan browser hanya di \`sessionStorage\`.
+- Endpoint verifikasi dan setiap API operasional memvalidasi tanda tangan, masa berlaku, status akun, dan role terbaru pada spreadsheet.
+- Perubahan status menjadi nonaktif atau perubahan role membuat token lama ditolak.
+- Setiap akses API operasional menyinkronkan username ke \`tu.identities\` dan role ke \`tu.user_roles\`.
+- \`tu.identities\` menyediakan UUID internal stabil; password tidak pernah disalin ke tabel ini.
+- \`system:spreadsheet-sync\` menjadi aktor audit untuk sinkronisasi role.
+- \`system:lobby-public-intake\` disediakan untuk proses penerimaan tamu publik tanpa login.
+- Jika spreadsheet tidak dapat diverifikasi, API operasional gagal tertutup.
 
-- Server membaca tab `Pengguna` melalui Google Sheets API dengan scope read-only.
-- Password diperiksa di server; password tidak dikirim kembali ke browser.
-- Percobaan login dibatasi 5 kali per kombinasi IP dan username dalam 10 menit (penyimpanan limiter sementara per instance).
-- Sesi ditandatangani HMAC-SHA256 dan berlaku 8 jam.
-- Browser menyimpan token hanya di `sessionStorage`; sesi berakhir ketika tab ditutup atau masa berlaku habis.
-- Endpoint verifikasi dan setiap API operasional memeriksa tanda tangan, masa berlaku, status akun, serta role terbaru pada spreadsheet. Perubahan status/nonaktif atau perubahan role membuat token lama ditolak.
-- Logout menghapus sesi pada browser. Token stateless yang sudah diterbitkan tetap tidak dapat dipakai setelah kedaluwarsa; tidak ada daftar pencabutan token pada tahap ini.
+## 5. Catatan migrasi
 
-## 5. Batas tahap implementasi
+Migration \`202611050001_tu_independent_identity.sql\` dan rollback guard tersedia pada branch pengembangan. Keduanya belum diterapkan pada Supabase production. API operasional yang menggunakan kolom identitas mandiri memerlukan migration tersebut sebelum dapat dijalankan.
 
-Login dan verifikasi sesi menggunakan spreadsheet. API operasional menggunakan token spreadsheet yang diverifikasi server, menyinkronkan username ke `tu.identities`, dan menyinkronkan role ke `tu.user_roles`. Foreign key actor operasional mengarah ke identitas mandiri. Migration SQL pada branch pengembangan belum diterapkan ke database; API operasional baru akan berjalan setelah migration disetujui dan diterapkan di lingkungan yang sesuai.
+\`tu.identity_links\` tetap dipertahankan untuk kebutuhan integrasi lintas modul berbasis Supabase Auth; tabel itu bukan sumber login petugas TU.
+
+Logout menghapus token dari browser. Token stateless yang telah diterbitkan tetap tidak dapat digunakan setelah akun dinonaktifkan karena server memeriksa spreadsheet pada setiap permintaan, dan token juga berakhir setelah 8 jam.
