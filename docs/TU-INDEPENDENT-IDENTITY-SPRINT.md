@@ -55,7 +55,7 @@ Optional column F is:
 
 1. Stop TU API traffic and disable the spreadsheet-auth feature flag/route.
 2. Take a database backup or confirm a usable Supabase PITR restore point.
-3. Prefer PITR if any standalone identity, role, visit, event, notification, or audit data has been created.
+3. Prefer PITR if any staff identity, role assignment, visit, event, notification, or audit data has been created.
 4. The guarded rollback SQL is only for a pre-launch/empty-data rollback. It intentionally aborts if any staff identity, role assignment, role audit record, visit, or visit event exists. The two seeded system identities alone do not block an empty-data rollback.
 5. Before re-enabling the old API after schema rollback, restore the previous definitions of `tu_private.audit_user_role_change()` and `tu.handle_visit_workflow()` from the immediately preceding migrations. The rollback script intentionally does not recreate the deprecated Auth-only Head TU bootstrap routine.
 6. Re-run the full migration and API test suite before restoring traffic.
