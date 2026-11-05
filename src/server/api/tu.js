@@ -97,7 +97,7 @@ async function authenticate(c, token) {
   roleHeaders["Content-Profile"] = "tu";
   roleHeaders["Content-Type"] = "application/json";
   for (const row of currentRoles.body) {
-    if (row.role_code !== roleCode || row.unit_id !== unitId || !row.is_active || row.revoked_at) {
+    if (row.role_code !== roleCode || row.unit_id !== unitId) {
       const patch = await request(c.baseUrl + "/rest/v1/user_roles?id=eq." + encodeURIComponent(row.id), {
         method: "PATCH", headers: roleHeaders,
         body: JSON.stringify({ is_active: false, revoked_at: new Date().toISOString() })
