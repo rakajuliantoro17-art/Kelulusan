@@ -132,7 +132,7 @@ async function loadUsers(c) {
     peran: headers.indexOf("peran"),
     unitCode: headers.indexOf("unitcode")
   };
-  if (Object.values(index).some(value => value < 0)) throw new Error("tu_user_sheet_headers_invalid");
+  if (["username", "nama", "password", "status", "peran"].some(key => index[key] < 0)) throw new Error("tu_user_sheet_headers_invalid");
   return values.slice(1).map(row => ({
     username: String(row[index.username] || "").trim(),
     nama: String(row[index.nama] || "").trim(),
