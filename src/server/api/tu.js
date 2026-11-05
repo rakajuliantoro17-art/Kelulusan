@@ -73,6 +73,13 @@ async function authenticate(c, token) {
   if (!identityResult.response.ok || !Array.isArray(identityResult.body) || !identityResult.body[0] ||
       typeof identityResult.body[0].id !== "string") return { ok: false, status: 503 };
   const identity = identityResult.body[0];
+  const systemResult = await request(c.baseUrl +
+    "/rest/v1/identities?select=id&external_subject=eq.system%3Aspreadsheet-sync&limit=1",
+    { headers: adminHeaders(c) });
+  if (!systemResult.response.ok || !Array.isArray(systemResult.body) || !systemResult.body[0]) {
+    return { ok: false, status: 503 };
+  }
+  const syncIdentityId = systemResult.body[0].id;
 
   const roleMap = { head_tu: "head_tu", staff_tu: "tu_operator", receptionist: "fo_receptionist",
     fo_coordinator: "fo_coordinator", unit_officer: "unit_officer", principal: "principal" };
@@ -100,7 +107,7 @@ async function authenticate(c, token) {
     if (row.role_code !== roleCode || row.unit_id !== unitId) {
       const patch = await request(c.baseUrl + "/rest/v1/user_roles?id=eq." + encodeURIComponent(row.id), {
         method: "PATCH", headers: roleHeaders,
-        body: JSON.stringify({ is_active: false, revoked_at: new Date().toISOString() })
+        body: JSON.stringify({ is_active: false, revoked_at: new Date().toISOString(), assigned_by_identity_id: syncIdentityId })
       });
       if (!patch.response.ok) return { ok: false, status: 503 };
     }
@@ -110,7 +117,7 @@ async function authenticate(c, token) {
     if (!matching.is_active || matching.revoked_at) {
       const patch = await request(c.baseUrl + "/rest/v1/user_roles?id=eq." + encodeURIComponent(matching.id), {
         method: "PATCH", headers: roleHeaders,
-        body: JSON.stringify({ is_active: true, revoked_at: null, notes: "Disinkronkan dari spreadsheet Pengguna." })
+        body: JSON.stringify({ is_active: true, revoked_at: null, assigned_by_identity_id: syncIdentityId, notes: "Disinkronkan dari spreadsheet Pengguna." })
       });
       if (!patch.response.ok) return { ok: false, status: 503 };
     }
@@ -118,7 +125,7 @@ async function authenticate(c, token) {
     const inserted = await request(c.baseUrl + "/rest/v1/user_roles", {
       method: "POST", headers: { ...roleHeaders, Prefer: "return=representation" },
       body: JSON.stringify({ identity_id: identity.id, role_code: roleCode, unit_id: unitId,
-        is_active: true, assigned_by_identity_id: null, notes: "Disinkronkan dari spreadsheet Pengguna." })
+        is_active: true, assigned_by_identity_id: syncIdentityId, notes: "Disinkronkan dari spreadsheet Pengguna." })
     });
     if (!inserted.response.ok) return { ok: false, status: 503 };
   }
