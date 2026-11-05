@@ -49,13 +49,38 @@
 
     <section class="sp-section" aria-labelledby="public-kpi-title">
       <div class="sp-section-title"><div><span class="sp-hero-kicker">OPEN SCHOOL FACILITY DATA</span><h2 id="public-kpi-title">Ringkasan Sarana &amp; Prasarana Sekolah</h2></div><p>Ikhtisar agregat untuk warga sekolah, masyarakat, calon mitra, donatur, dan program CSR. Detail analisis dan indikator manajerial tersedia pada portal Eksekutif.</p></div>
-      <div class="sp-public-kpi-grid">
-        <article class="sp-public-kpi"><span>Total aset tercatat</span><strong>—</strong><small>Menunggu data inventaris tervalidasi</small></article>
-        <article class="sp-public-kpi"><span>Indeks kondisi aset</span><strong>—</strong><small>Indeks kelayakan berbasis kondisi aset</small></article>
-        <article class="sp-public-kpi"><span>Aset perlu penanganan</span><strong>—</strong><small>Perbaikan dan rusak, setelah verifikasi</small></article>
-        <article class="sp-public-kpi"><span>Ruang &amp; fasilitas</span><strong>—</strong><small>Menunggu master data ruang</small></article>
+      <div class="sp-demo-banner" role="note" aria-label="Data simulasi">
+        <span class="sp-demo-pulse" aria-hidden="true"></span>
+        <div><strong>MODE SIMULASI · DATA DUMMY</strong><p>Angka dan visual berikut hanya contoh interaktif untuk pratinjau dashboard. Bukan data inventaris, kondisi, anggaran, atau capaian resmi sekolah.</p></div>
       </div>
-      <div class="sp-public-meta"><span><b>Status data:</b> Belum terhubung</span><span><b>Periode laporan:</b> Belum ditetapkan</span><span><b>Pembaruan terakhir:</b> Belum tersedia</span></div>
+      <div class="sp-demo-toolbar">
+        <label class="sp-demo-year">Periode simulasi
+          <select id="spDemoYear" aria-label="Pilih periode simulasi"><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option></select>
+        </label>
+        <span class="sp-demo-status">Data resmi: <b>Belum tersedia</b></span>
+      </div>
+      <div class="sp-public-kpi-grid" id="spPublicKpis" aria-live="polite"></div>
+      <div class="sp-demo-insights">
+        <article class="sp-demo-panel sp-demo-trend">
+          <div class="sp-demo-panel-head"><div><span class="sp-demo-eyebrow">PERKEMBANGAN</span><h3>Tren indeks kondisi aset</h3></div><span class="sp-demo-tag">Ilustrasi</span></div>
+          <div id="spDemoTrend" class="sp-demo-chart" role="img" aria-label="Grafik tren simulasi indeks kondisi aset"></div>
+          <p class="sp-demo-caption">Tren ini dibuat dari data contoh dan tidak menggambarkan kondisi aktual sekolah.</p>
+        </article>
+        <article class="sp-demo-panel">
+          <div class="sp-demo-panel-head"><div><span class="sp-demo-eyebrow">KOMPOSISI</span><h3 id="spDemoBreakdownTitle">Kondisi aset</h3></div><span class="sp-demo-tag">Ilustrasi</span></div>
+          <div class="sp-demo-tabs" role="group" aria-label="Pilih jenis komposisi">
+            <button type="button" class="is-active" data-demo-view="condition" aria-pressed="true">Kondisi</button>
+            <button type="button" data-demo-view="category" aria-pressed="false">Kategori</button>
+            <button type="button" data-demo-view="rooms" aria-pressed="false">Fasilitas</button>
+          </div>
+          <div id="spDemoBreakdown" class="sp-demo-bars" aria-live="polite"></div>
+        </article>
+      </div>
+      <div class="sp-demo-detail" id="spDemoDetail" aria-live="polite">
+        <strong>Jelajahi ringkasan simulasi</strong><p>Pilih salah satu indikator atau tab komposisi untuk melihat keterangan ilustratif.</p>
+      </div>
+      <div class="sp-public-meta"><span><b>Status data resmi:</b> Belum tersedia / belum terhubung</span><span><b>Periode data resmi:</b> Belum ditetapkan</span><span><b>Pembaruan data resmi:</b> Belum tersedia</span></div>
+      <p class="sp-demo-disclaimer">Catatan keterbukaan: simulasi dipakai untuk memperlihatkan rancangan visual dan interaksi. Seluruh angka resmi akan tetap kosong sampai inventaris dan sumber data Sarpras diverifikasi serta disetujui sekolah.</p>
     </section>
     <section class="sp-section" aria-labelledby="support-title">
       <div class="sp-section-title"><h2 id="support-title">Kolaborasi untuk fasilitas sekolah yang lebih baik</h2><p>Informasi ini disiapkan sebagai dasar keterbukaan dan calon kemitraan, bukan permintaan dana tanpa dokumen pendukung.</p></div>
@@ -83,5 +108,6 @@
 
   </main>
   <div data-portal-footer></div>
+  <script src="/src/pintuku/assets/js/sarpras-public-demo.js" defer></script>
 </body>
 </html>
