@@ -61,8 +61,8 @@ test("unit officer assignment is resolved from the optional UnitCode spreadsheet
 });
 
 test("migration and rollback SQL use balanced dollar-quoted function bodies", () => {
-  assert.equal((migration.match(/\\$\\$/g) || []).length % 2, 0);
-  assert.equal((rollback.match(/\\$\\$/g) || []).length % 2, 0);
+  assert.equal((migration.match(/\$\$/g) || []).length % 2, 0);
+  assert.equal((rollback.match(/\$\$/g) || []).length % 2, 0);
 });
 
 test("rollback is guarded against removing active identity and audit history", () => {
