@@ -144,6 +144,10 @@
       "destination": "/src/pintuku/dashboard/sarpras-login.html"
     },
     {
+      "source": "/api/sarpras/summary",
+      "destination": "/api/sarpras?op=summary"
+    },
+    {
       "source": "/api/sarpras/auth",
       "destination": "/api/sarpras"
     },

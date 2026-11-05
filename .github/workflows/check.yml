@@ -121,6 +121,7 @@ jobs:
           node --check src/pintuku/assets/js/tu-login.js
           node --check src/pintuku/assets/js/sarpras-auth.js
           node --check src/pintuku/assets/js/sarpras-login.js
+          node --check src/pintuku/assets/js/sarpras-data.js
           node --check src/server/api/sarpras-auth.js
           node --check src/pintuku/assets/js/tu-invite.js
           node --check src/pintuku/assets/js/tata-usaha-front-office.js

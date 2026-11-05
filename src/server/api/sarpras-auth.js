@@ -248,8 +248,81 @@ function verify(req, res, c) {
     role: payload.r
   });
 }
+
+const SUMMARY_ROLES = new Set(["admin_sarpras", "staff_sarpras", "arsiparis", "wakasek_sarpras", "principal"]);
+async function readTab(c, tab, range) {
+  const token = await getGoogleToken(c);
+  const response = await fetch("https://sheets.googleapis.com/v4/spreadsheets/" + encodeURIComponent(c.sheetId) +
+    "/values/" + encodeURIComponent(tab + "!" + range) + "?valueRenderOption=UNFORMATTED_VALUE", {
+      headers: { Authorization: "Bearer " + token },
+      cache: "no-store",
+      signal: AbortSignal.timeout(10000)
+    });
+  if (!response.ok) throw new Error("sarpras_tab_unavailable_" + tab);
+  const data = await response.json();
+  const rows = Array.isArray(data.values) ? data.values : [];
+  if (!rows.length) return [];
+  const head = rows[0].map(v => String(v || "").trim());
+  return rows.slice(1).map(row => {
+    const o = {};
+    head.forEach((h, k) => { if (h) o[h] = row[k] === undefined ? "" : row[k]; });
+    return o;
+  }).filter(o => Object.values(o).some(v => String(v).trim() !== ""));
+}
+function bump(map, key, by) {
+  const k = String(key || "").trim() || "Tidak diisi";
+  map[k] = (map[k] || 0) + by;
+}
+function sorted(map, limit) {
+  const list = Object.entries(map).map(([label, value]) => ({ label, value })).sort((a, b) => b.value - a.value);
+  return limit ? list.slice(0, limit) : list;
+}
+async function summary(req, res, c) {
+  if (!c.secret) return send(res, 503, { success: false, code: "sarpras_auth_not_configured", message: "Sesi Sarpras belum dikonfigurasi." });
+  const payload = verifyToken(bearer(req), c.secret);
+  if (!payload) return send(res, 401, { success: false, code: "session_invalid", message: "Sesi tidak valid atau telah kedaluwarsa." });
+  if (!SUMMARY_ROLES.has(payload.r)) return send(res, 403, { success: false, code: "forbidden", message: "Peran akun tidak memiliki akses ke ringkasan aset." });
+  if (!c.sheetId || !c.email || !c.key) return send(res, 503, { success: false, code: "sarpras_auth_not_configured", message: "Spreadsheet Sarpras belum dikonfigurasi." });
+  try {
+    const [aset, ruangan, log] = await Promise.all([
+      readTab(c, "Aset", "A:O"), readTab(c, "Ruangan", "A:E"), readTab(c, "Log_Aktivitas", "A:D")
+    ]);
+    const kondisi = { Baik: 0, "Rusak Ringan": 0, "Rusak Berat": 0 };
+    const dana = {}, jenis = {}, tahun = {}, ruang = {};
+    const nameOf = new Map(ruangan.map(r => [String(r.Kode_Ruang), String(r.Nama_Ruangan || r.Kode_Ruang)]));
+    let nilai = 0, unit = 0, tanpaRuang = 0;
+    for (const r of aset) {
+      const qty = Number(r.Jumlah) > 0 ? Number(r.Jumlah) : 1;
+      const value = Number(r.Nilai) || 0;
+      unit += qty; nilai += value;
+      if (kondisi[r.Kondisi] !== undefined) kondisi[r.Kondisi] += qty; else bump(kondisi, r.Kondisi, qty);
+      bump(dana, r.Sumber_Dana, value); bump(jenis, r.Jenis_Barang, qty); bump(tahun, r.Tahun, qty);
+      if (r.Kode_Ruang) bump(ruang, nameOf.get(String(r.Kode_Ruang)) || r.Kode_Ruang, qty); else tanpaRuang += qty;
+    }
+    const baik = kondisi.Baik || 0;
+    const perlu = unit - baik;
+    return send(res, 200, {
+      success: true,
+      source: "Google Sheets · Database Sarpras",
+      generated_at: new Date().toISOString(),
+      totals: {
+        records: aset.length, aset: unit, ruangan: ruangan.length, nilai,
+        baik, rusak_ringan: kondisi["Rusak Ringan"] || 0, rusak_berat: kondisi["Rusak Berat"] || 0,
+        perlu_penanganan: perlu, indeks_kesehatan: unit ? Math.round((baik / unit) * 1000) / 10 : null,
+        tanpa_ruang: tanpaRuang
+      },
+      by_dana: sorted(dana), by_jenis: sorted(jenis), by_tahun: sorted(tahun).sort((a, b) => String(b.label).localeCompare(String(a.label))),
+      by_ruang: sorted(ruang, 8),
+      activity: log.slice(-5).reverse().map(l => ({ waktu: String(l.Waktu || ""), pengguna: String(l.Pengguna || ""), aktivitas: String(l.Aktivitas || ""), detail: String(l.Detail || "") }))
+    });
+  } catch (error) {
+    return send(res, 503, { success: false, code: (error && error.message) || "sarpras_summary_unavailable", message: "Data aset tidak dapat dibaca. Periksa tab Aset, Ruangan, dan Log_Aktivitas pada spreadsheet." });
+  }
+}
 module.exports = async function sarprasSheetAuth(req, res) {
   const c = config();
+  const op = (req.query && req.query.op) || "";
+  if (op === "summary" && req.method === "GET") return summary(req, res, c);
   if (req.method === "GET") return verify(req, res, c);
   if (req.method !== "POST") {
     res.setHeader("Allow", "GET, POST, OPTIONS");
