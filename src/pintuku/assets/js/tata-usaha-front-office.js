@@ -6,7 +6,7 @@
  const setText=(el,value)=>{if(el)el.textContent=value;};
  const node=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el;};
  const state={visits:[],units:[],roles:[],notifications:[],context:null,loading:false};
- const FO_ROLES=new Set(["principal","head_tu","fo_coordinator","fo_receptionist","tu_operator"]);
+ const FO_ROLES=new Set(["principal","head_tu","fo_coordinator","fo_receptionist","receptionist","tu_operator"]);
  const APPROVER_ROLES=new Set(["unit_officer","head_tu","principal"]);
  const STATUS={
   pending_unit:["Menunggu unit tujuan","waiting"],
@@ -230,7 +230,7 @@
     if(isApprover){const tab=$("#tabApprovals");if(tab)tab.hidden=false;}
     if(!isFo&&!isApprover)throw new Error("Akun tidak memiliki akses operasional Front Office maupun persetujuan unit.");
     setText($("#foCurrentRole"),isFo?"Front Office":"Unit Officer");
-    setText($("#foCurrentIdentity"),context.user?.email||"Petugas terautentikasi");
+    setText($("#foCurrentIdentity"),context.user?.nama||context.user?.username||context.user?.email||"Petugas terautentikasi");
     setText($("#foConnectionState"),"Layanan tersambung");
     if(isFo)fillUnits();
     await Promise.all([loadVisits(),loadNotifications()]);
