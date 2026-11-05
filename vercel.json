@@ -136,6 +136,18 @@
       "destination": "/src/pintuku/pwa/sw.js"
     },
     {
+      "source": "/sarpras/login",
+      "destination": "/src/pintuku/dashboard/sarpras-login.html"
+    },
+    {
+      "source": "/sarpras/login/",
+      "destination": "/src/pintuku/dashboard/sarpras-login.html"
+    },
+    {
+      "source": "/api/sarpras/auth",
+      "destination": "/api/sarpras"
+    },
+    {
       "source": "/sarpras",
       "destination": "/src/pintuku/dashboard/sarpras.html"
     },

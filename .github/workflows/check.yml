@@ -119,6 +119,9 @@ jobs:
           node --check api/tu.js
           node --check src/pintuku/assets/js/tu-auth.js
           node --check src/pintuku/assets/js/tu-login.js
+          node --check src/pintuku/assets/js/sarpras-auth.js
+          node --check src/pintuku/assets/js/sarpras-login.js
+          node --check src/server/api/sarpras-auth.js
           node --check src/pintuku/assets/js/tu-invite.js
           node --check src/pintuku/assets/js/tata-usaha-front-office.js
           node --check src/pintuku/assets/js/tata-usaha-lobby.js
@@ -170,6 +173,8 @@ jobs:
           test -f dist/src/pintuku/assets/css/tata-usaha-login.css
           test -f dist/src/pintuku/assets/js/tu-auth.js
           test -f dist/src/pintuku/assets/js/tu-login.js
+          test -f dist/src/pintuku/dashboard/sarpras-login.html
+          test -f dist/src/pintuku/assets/js/sarpras-auth.js
           test -f dist/src/pintuku/dashboard/tata-usaha-accept-invite.html
           test -f dist/src/pintuku/assets/css/tu-invite.css
           test -f dist/src/pintuku/assets/js/tu-invite.js
