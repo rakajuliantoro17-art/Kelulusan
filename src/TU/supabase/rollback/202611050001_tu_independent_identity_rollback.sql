@@ -16,6 +16,8 @@ end;
 $$;
 
 drop index if exists tu.tu_user_roles_identity_active_uidx;
+drop trigger if exists tu_visits_workflow_events on tu.visits;
+drop trigger if exists tu_user_roles_audit_change on tu.user_roles;
 drop function if exists tu.handle_visit_workflow();
 drop function if exists tu_private.audit_user_role_change();
 
