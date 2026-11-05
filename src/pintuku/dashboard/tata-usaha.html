@@ -31,17 +31,17 @@
   </div>
   <div class="tu-nav-caption">RUANG KERJA</div>
   <nav class="tu-side-nav">
-    <a class="tu-nav-link is-active" href="/tata-usaha/dashboard" aria-current="page"><span class="tu-nav-icon" aria-hidden="true">▦</span><span>Dashboard</span></a>
-    <a class="tu-nav-link" href="#pusat-tugas"><span class="tu-nav-icon" aria-hidden="true">☷</span><span>Pusat Tugas Hari Ini</span></a>
-    <a class="tu-nav-link" href="#tu-spreadsheet"><span class="tu-nav-icon" aria-hidden="true">▦</span><span>Spreadsheet Administrasi</span></a>
-    <a class="tu-nav-link" href="/tata-usaha/front-office"><span class="tu-nav-icon" aria-hidden="true">♙</span><span>Front Office</span></a>
-    <a class="tu-nav-link" href="/tata-usaha/akses"><span class="tu-nav-icon" aria-hidden="true">♧</span><span>Akses & Identitas</span></a>
-    <a class="tu-nav-link" href="#persuratan"><span class="tu-nav-icon" aria-hidden="true">✉</span><span>Persuratan</span></a>
-    <a class="tu-nav-link" href="#arsip"><span class="tu-nav-icon" aria-hidden="true">▤</span><span>Arsip & Dokumen</span></a>
-    <a class="tu-nav-link" href="#administrasi"><span class="tu-nav-icon" aria-hidden="true">▣</span><span>Administrasi Siswa</span></a>
-    <a class="tu-nav-link" href="#helpdesk"><span class="tu-nav-icon" aria-hidden="true">⚒</span><span>Helpdesk Internal</span></a>
-    <a class="tu-nav-link" href="#agenda"><span class="tu-nav-icon" aria-hidden="true">▦</span><span>Agenda & Disposisi</span></a>
-    <a class="tu-nav-link" href="#laporan"><span class="tu-nav-icon" aria-hidden="true">▥</span><span>Laporan</span></a>
+    <a class="tu-nav-link is-active" href="/tata-usaha/dashboard" aria-current="page" data-tu-nav="dashboard"><span class="tu-nav-icon" aria-hidden="true">▦</span><span>Dashboard</span></a>
+    <a class="tu-nav-link" href="#pusat-tugas" data-tu-nav="tasks"><span class="tu-nav-icon" aria-hidden="true">☷</span><span>Pusat Tugas Hari Ini</span></a>
+    <a class="tu-nav-link" href="#tu-spreadsheet" data-tu-nav="spreadsheet"><span class="tu-nav-icon" aria-hidden="true">▦</span><span>Spreadsheet Administrasi</span></a>
+    <a class="tu-nav-link" href="/tata-usaha/front-office" data-tu-nav="front-office"><span class="tu-nav-icon" aria-hidden="true">♙</span><span>Front Office</span></a>
+    <a class="tu-nav-link" href="/tata-usaha/akses" data-tu-nav="access"><span class="tu-nav-icon" aria-hidden="true">♧</span><span>Akses & Identitas</span></a>
+    <a class="tu-nav-link" href="#persuratan" data-tu-nav="persuratan"><span class="tu-nav-icon" aria-hidden="true">✉</span><span>Persuratan</span></a>
+    <a class="tu-nav-link" href="#arsip" data-tu-nav="arsip"><span class="tu-nav-icon" aria-hidden="true">▤</span><span>Arsip & Dokumen</span></a>
+    <a class="tu-nav-link" href="#administrasi" data-tu-nav="administrasi"><span class="tu-nav-icon" aria-hidden="true">▣</span><span>Administrasi Siswa</span></a>
+    <a class="tu-nav-link" href="#helpdesk" data-tu-nav="helpdesk"><span class="tu-nav-icon" aria-hidden="true">⚒</span><span>Helpdesk Internal</span></a>
+    <a class="tu-nav-link" href="#agenda" data-tu-nav="agenda"><span class="tu-nav-icon" aria-hidden="true">▦</span><span>Agenda & Disposisi</span></a>
+    <a class="tu-nav-link" href="#laporan" data-tu-nav="reports"><span class="tu-nav-icon" aria-hidden="true">▥</span><span>Laporan</span></a>
   </nav>
   <div class="tu-sidebar-bottom">
     <div class="tu-help-card"><span class="tu-help-icon" aria-hidden="true">?</span><div><strong>Perlu bantuan?</strong><span>Lihat panduan penggunaan dashboard.</span></div><a href="#panduan" aria-label="Buka panduan">→</a></div>
@@ -58,17 +58,17 @@
     <div class="tu-top-actions"><span class="tu-system-state"><i aria-hidden="true"></i> Antarmuka siap digunakan</span><button class="tu-top-help" type="button" id="tuHelpButton">Panduan</button><div class="tu-user-chip"><span class="tu-user-avatar" aria-hidden="true">TU</span><span><strong>Ruang Kerja TU</strong><small>Identitas pengguna mengikuti akun masuk</small></span></div></div>
   </header>
   <div class="tu-content">
-    <section class="tu-welcome">
+    <section class="tu-welcome" data-tu-section="welcome">
       <div class="tu-welcome-copy">
         <div class="tu-eyebrow">OFFICE & OPERATIONS MANAGEMENT · 2027</div>
-        <h1>Selamat datang di Tata Usaha.</h1>
-        <p>Satu tempat untuk memantau pelayanan, mengatur pekerjaan, dan memastikan kebutuhan administrasi sekolah ditangani dengan tertib.</p>
+        <h1 id="tuWelcomeTitle">Selamat datang di Tata Usaha.</h1>
+        <p id="tuWelcomeDescription">Satu tempat untuk memantau pelayanan, mengatur pekerjaan, dan memastikan kebutuhan administrasi sekolah ditangani dengan tertib.</p>
         <div class="tu-date-line"><span class="tu-date-icon" aria-hidden="true">◷</span><span id="tuTodayDate">Hari ini</span><span class="tu-date-divider">·</span><span id="tuTodayTime">Waktu lokal</span></div>
       </div>
       <div class="tu-welcome-art" aria-hidden="true"><div class="tu-art-orbit"></div><div class="tu-art-building"><span></span><span></span><span></span><span></span><b></b></div><div class="tu-art-caption">SERVICE<br>EXCELLENCE</div></div>
     </section>
-    <section class="tu-kpi-section" aria-labelledby="tuOverviewTitle">
-      <div class="tu-section-heading"><div><span class="tu-section-kicker">RINGKASAN HARI INI</span><h2 id="tuOverviewTitle">Gambaran operasional</h2></div><span class="tu-data-state">Menunggu koneksi data</span></div>
+    <section class="tu-kpi-section" aria-labelledby="tuOverviewTitle" data-tu-section="overview">
+      <div class="tu-section-heading"><div><span class="tu-section-kicker">RINGKASAN HARI INI</span><h2 id="tuOverviewTitle">Gambaran operasional</h2></div><span class="tu-data-state" id="tuRoleBadge">Memverifikasi peran</span></div>
       <div class="tu-kpi-grid">
         <article class="tu-kpi-card"><span class="tu-kpi-icon tu-blue" aria-hidden="true">♙</span><div><span class="tu-kpi-label">Tamu berkunjung</span><strong>—</strong><small>Data kunjungan hari ini</small></div></article>
         <article class="tu-kpi-card"><span class="tu-kpi-icon tu-violet" aria-hidden="true">✉</span><div><span class="tu-kpi-label">Surat masuk</span><strong>—</strong><small>Perlu pencatatan dan disposisi</small></div></article>
@@ -76,7 +76,7 @@
         <article class="tu-kpi-card"><span class="tu-kpi-icon tu-amber" aria-hidden="true">⚒</span><div><span class="tu-kpi-label">Tiket operasional</span><strong>—</strong><small>Permintaan bantuan internal</small></div></article>
       </div>
     </section>
-    <section class="tu-sheet-section" id="tu-spreadsheet" aria-labelledby="tuSheetTitle">
+    <section class="tu-sheet-section" id="tu-spreadsheet" aria-labelledby="tuSheetTitle" data-tu-section="spreadsheet">
       <div class="tu-section-heading">
         <div><span class="tu-section-kicker">ADMINISTRATIVE WORKBOOK</span><h2 id="tuSheetTitle">Spreadsheet Administrasi TU</h2><p>Register kerja terpadu untuk pencatatan, pemantauan, dan rekapitulasi administrasi.</p></div>
         <span class="tu-data-state">Mode pratinjau · sementara</span>
@@ -124,7 +124,7 @@
         </form>
       </dialog>
     </section>
-    <section class="tu-work-section" id="pusat-tugas" aria-labelledby="tuTasksTitle">
+    <section class="tu-work-section" id="pusat-tugas" aria-labelledby="tuTasksTitle" data-tu-section="tasks">
       <div class="tu-section-heading"><div><span class="tu-section-kicker">WORK PRIORITY CENTER</span><h2 id="tuTasksTitle">Pusat Tugas Hari Ini</h2><p>Daftar pekerjaan yang perlu diperiksa dan ditindaklanjuti.</p></div><span class="tu-data-state">Belum terhubung</span></div>
       <div class="tu-task-layout">
         <div class="tu-task-main">
@@ -139,19 +139,19 @@
         </aside>
       </div>
     </section>
-    <section class="tu-quick-section" aria-labelledby="tuQuickTitle">
+    <section class="tu-quick-section" aria-labelledby="tuQuickTitle" data-tu-section="quick">
       <div class="tu-section-heading"><div><span class="tu-section-kicker">AKSES CEPAT</span><h2 id="tuQuickTitle">Layanan Tata Usaha</h2><p>Pilih layanan berdasarkan kebutuhan pekerjaan.</p></div></div>
       <div class="tu-service-grid">
-        <a class="tu-service-tile" id="front-office" href="/tata-usaha/front-office"><span class="tu-service-icon tu-blue">♙</span><span><strong>Front Office & Concierge</strong><small>Penerimaan, registrasi, dan pengarahan tamu</small></span><span class="tu-tile-arrow">→</span></a>
-        <a class="tu-service-tile" id="persuratan" href="#persuratan"><span class="tu-service-icon tu-violet">✉</span><span><strong>Persuratan</strong><small>Surat masuk, surat keluar, dan disposisi</small></span><span class="tu-tile-arrow">→</span></a>
-        <a class="tu-service-tile" id="arsip" href="#arsip"><span class="tu-service-icon tu-teal">▤</span><span><strong>Arsip & Dokumen</strong><small>Penyimpanan, pencarian, dan legalisir</small></span><span class="tu-tile-arrow">→</span></a>
-        <a class="tu-service-tile" id="administrasi" href="#administrasi"><span class="tu-service-icon tu-amber">▣</span><span><strong>Administrasi Siswa</strong><small>Surat keterangan dan layanan alumni</small></span><span class="tu-tile-arrow">→</span></a>
-        <a class="tu-service-tile" id="helpdesk" href="#helpdesk"><span class="tu-service-icon tu-blue">⚒</span><span><strong>Helpdesk Internal</strong><small>ATK, fasilitas, dan bantuan teknis</small></span><span class="tu-tile-arrow">→</span></a>
-        <a class="tu-service-tile" id="akses-identitas" href="/tata-usaha/akses"><span class="tu-service-icon tu-teal">♧</span><span><strong>Akses & Identitas</strong><small>Role pengguna dan verifikasi lintas modul</small></span><span class="tu-tile-arrow">→</span></a>
-        <a class="tu-service-tile" id="laporan" href="#laporan"><span class="tu-service-icon tu-violet">▥</span><span><strong>Laporan Operasional</strong><small>Rekap pelayanan dan evaluasi kinerja</small></span><span class="tu-tile-arrow">→</span></a>
+        <a class="tu-service-tile" id="front-office" href="/tata-usaha/front-office" data-tu-service="front-office"><span class="tu-service-icon tu-blue">♙</span><span><strong>Front Office & Concierge</strong><small>Penerimaan, registrasi, dan pengarahan tamu</small></span><span class="tu-tile-arrow">→</span></a>
+        <a class="tu-service-tile" id="persuratan" href="#persuratan" data-tu-service="persuratan"><span class="tu-service-icon tu-violet">✉</span><span><strong>Persuratan</strong><small>Surat masuk, surat keluar, dan disposisi</small></span><span class="tu-tile-arrow">→</span></a>
+        <a class="tu-service-tile" id="arsip" href="#arsip" data-tu-service="arsip"><span class="tu-service-icon tu-teal">▤</span><span><strong>Arsip & Dokumen</strong><small>Penyimpanan, pencarian, dan legalisir</small></span><span class="tu-tile-arrow">→</span></a>
+        <a class="tu-service-tile" id="administrasi" href="#administrasi" data-tu-service="administrasi"><span class="tu-service-icon tu-amber">▣</span><span><strong>Administrasi Siswa</strong><small>Surat keterangan dan layanan alumni</small></span><span class="tu-tile-arrow">→</span></a>
+        <a class="tu-service-tile" id="helpdesk" href="#helpdesk" data-tu-service="helpdesk"><span class="tu-service-icon tu-blue">⚒</span><span><strong>Helpdesk Internal</strong><small>ATK, fasilitas, dan bantuan teknis</small></span><span class="tu-tile-arrow">→</span></a>
+        <a class="tu-service-tile" id="akses-identitas" href="/tata-usaha/akses" data-tu-service="access"><span class="tu-service-icon tu-teal">♧</span><span><strong>Akses & Identitas</strong><small>Role pengguna dan verifikasi lintas modul</small></span><span class="tu-tile-arrow">→</span></a>
+        <a class="tu-service-tile" id="laporan" href="#laporan" data-tu-service="reports"><span class="tu-service-icon tu-violet">▥</span><span><strong>Laporan Operasional</strong><small>Rekap pelayanan dan evaluasi kinerja</small></span><span class="tu-tile-arrow">→</span></a>
       </div>
     </section>
-    <section class="tu-coordination-section">
+    <section class="tu-coordination-section" data-tu-section="coordination">
       <div class="tu-section-heading"><div><span class="tu-section-kicker">CROSS-DIVISION COORDINATION</span><h2>Koordinasi empat bidang Wakasek</h2><p>TU mengelola administrasi dan alur layanan; keputusan substansi tetap pada pejabat berwenang.</p></div></div>
       <div class="tu-coordination-grid">
         <article><span class="tu-coord-number">01</span><div><strong>Kurikulum</strong><small>Akademik dan administrasi pembelajaran</small></div></article>
@@ -160,7 +160,7 @@
         <article><span class="tu-coord-number">04</span><div><strong>Humas</strong><small>Tamu kedinasan, mitra, dan alumni</small></div></article>
       </div>
     </section>
-    <section class="tu-guide-section" id="panduan">
+    <section class="tu-guide-section" id="panduan" data-tu-section="guide">
       <details class="tu-guide">
         <summary><span class="tu-guide-symbol" aria-hidden="true">?</span><span><strong>Panduan singkat penggunaan</strong><small>Petunjuk untuk memulai pekerjaan di dashboard</small></span><span class="tu-guide-chevron" aria-hidden="true">⌄</span></summary>
         <div class="tu-guide-content"><ol><li>Pilih layanan pada menu di sisi kiri atau bagian Akses Cepat.</li><li>Periksa Pusat Tugas Hari Ini untuk mengetahui pekerjaan yang membutuhkan tindak lanjut.</li><li>Pastikan setiap permohonan memiliki penanggung jawab dan status yang jelas.</li><li>Gunakan tombol Pengaturan PINTUKU untuk mengganti tema dan bahasa antarmuka.</li><li>Jika mengalami kendala, hubungi koordinator atau administrator sistem.</li></ol></div>
