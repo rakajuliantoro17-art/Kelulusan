@@ -112,7 +112,7 @@ async function getGoogleToken(c) {
 }
 async function loadUsers(c) {
   const token = await getGoogleToken(c);
-  const range = encodeURIComponent("Pengguna!A:E");
+  const range = encodeURIComponent("Pengguna!A:F");
   const response = await fetch("https://sheets.googleapis.com/v4/spreadsheets/" +
     encodeURIComponent(c.sheetId) + "/values/" + range + "?valueRenderOption=FORMATTED_VALUE", {
       headers: { Authorization: "Bearer " + token },
@@ -129,7 +129,8 @@ async function loadUsers(c) {
     nama: headers.indexOf("nama"),
     password: headers.indexOf("password"),
     status: headers.indexOf("status"),
-    peran: headers.indexOf("peran")
+    peran: headers.indexOf("peran"),
+    unitCode: headers.indexOf("unitcode")
   };
   if (Object.values(index).some(value => value < 0)) throw new Error("tu_user_sheet_headers_invalid");
   return values.slice(1).map(row => ({
@@ -137,7 +138,8 @@ async function loadUsers(c) {
     nama: String(row[index.nama] || "").trim(),
     password: String(row[index.password] || "").trim(),
     status: String(row[index.status] || "").trim().toLowerCase(),
-    peran: String(row[index.peran] || "").trim()
+    peran: String(row[index.peran] || "").trim(),
+    unit_code: index.unitCode >= 0 ? String(row[index.unitCode] || "").trim().toLowerCase() : ""
   })).filter(user => user.username && user.password && !INACTIVE.has(user.status));
 }
 function passwordMatches(stored, given) {
@@ -187,7 +189,7 @@ async function resolveSession(token) {
   if (!currentRole || currentRole !== payload.r) return null;
   return {
     payload,
-    user: { username: user.username, nama: user.nama || user.username },
+    user: { username: user.username, nama: user.nama || user.username, unit_code: user.unit_code || "" },
     role: currentRole
   };
 }
