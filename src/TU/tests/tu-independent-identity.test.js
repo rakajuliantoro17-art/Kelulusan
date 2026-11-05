@@ -44,6 +44,9 @@ test("spreadsheet session is revalidated against current account status and role
   assert.match(api, /created_by_identity_id/);
   assert.match(api, /SUPABASE_SECRET_KEY \|\| process\.env\.SUPABASE_SERVICE_ROLE_KEY/);
   assert.doesNotMatch(api, /auth\/v1\/user/);
+  assert.match(api, /FRONT_OFFICE_ROLES = new Set\(\["head_tu","fo_coordinator","fo_receptionist"\]\)/);
+  assert.match(api, /ALL_VISIT_VIEW_ROLES = new Set\(\[\.\.\.FRONT_OFFICE_ROLES, "principal"\]\)/);
+  assert.match(api, /UNIT_APPROVER_ROLES = new Set\(\["unit_officer","head_tu"\]\)/);
 });
 
 test("unit officer assignment is resolved from the optional UnitCode spreadsheet column", () => {
