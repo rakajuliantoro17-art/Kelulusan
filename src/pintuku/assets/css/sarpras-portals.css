@@ -33,3 +33,7 @@
 .sarpras-workspace .sp-table td{color:#dcecff}
 @media(max-width:900px){.sarpras-workspace .sp-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.sarpras-workspace .sp-layout{grid-template-columns:1fr}}
 @media(max-width:600px){.sarpras-workspace .sp-page-head{display:block}.sarpras-workspace .sp-preview{margin-top:12px}.sarpras-workspace .sp-kpis{gap:9px}.sarpras-workspace .sp-kpi{padding:13px}.sarpras-workspace .sp-kpi-value{font-size:21px}.sarpras-workspace .sp-action-grid{grid-template-columns:1fr}}
+
+/* Executive BI information hierarchy */
+.sarpras-workspace .sp-kpi-value{font-variant-numeric:tabular-nums}
+.sarpras-workspace .sp-layout+.sp-layout{margin-top:14px}
