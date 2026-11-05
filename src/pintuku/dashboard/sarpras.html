@@ -47,39 +47,50 @@
       </div>
     </section>
 
-    <section class="sp-section" aria-labelledby="portal-access-title">
-      <div class="sp-section-title">
-        <h2 id="portal-access-title">Empat portal, satu ekosistem</h2>
-        <p>Setiap portal memiliki fungsi dan batas akses berbeda. Pilih portal untuk melihat rancangan antarmuka sesuai peran. Fitur transaksi dan akses akun akan diaktifkan pada tahap terpisah.</p>
+    <section class="sp-section" aria-labelledby="public-kpi-title">
+      <div class="sp-section-title"><div><span class="sp-hero-kicker">OPEN SCHOOL FACILITY DATA</span><h2 id="public-kpi-title">Ringkasan Sarana &amp; Prasarana Sekolah</h2></div><p>Ikhtisar agregat untuk warga sekolah, masyarakat, calon mitra, donatur, dan program CSR. Detail analisis dan indikator manajerial tersedia pada portal Eksekutif.</p></div>
+      <div class="sp-demo-banner" role="note" aria-label="Data simulasi">
+        <span class="sp-demo-pulse" aria-hidden="true"></span>
+        <div><strong>MODE SIMULASI · DATA DUMMY</strong><p>Angka dan visual berikut hanya contoh interaktif untuk pratinjau dashboard. Bukan data inventaris, kondisi, anggaran, atau capaian resmi sekolah.</p></div>
       </div>
-      <div class="sp-access-grid">
-        <article class="sp-access-card is-active">
-          <div class="sp-access-icon" aria-hidden="true">◎</div>
-          <h3>Portal Publik</h3>
-          <p>Informasi umum, layanan publik, dan ringkasan sarana-prasarana yang telah disetujui untuk dipublikasikan.</p>
-          <span class="sp-state ready">TAMPILAN AKTIF</span>
+      <div class="sp-demo-toolbar">
+        <label class="sp-demo-year">Periode simulasi
+          <select id="spDemoYear" aria-label="Pilih periode simulasi"><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option></select>
+        </label>
+        <span class="sp-demo-status">Data resmi: <b>Belum tersedia</b></span>
+      </div>
+      <div class="sp-public-kpi-grid" id="spPublicKpis" aria-live="polite"></div>
+      <div class="sp-demo-insights">
+        <article class="sp-demo-panel sp-demo-trend">
+          <div class="sp-demo-panel-head"><div><span class="sp-demo-eyebrow">PERKEMBANGAN</span><h3>Tren indeks kondisi aset</h3></div><span class="sp-demo-tag">Ilustrasi</span></div>
+          <div id="spDemoTrend" class="sp-demo-chart" role="img" aria-label="Grafik tren simulasi indeks kondisi aset"></div>
+          <p class="sp-demo-caption">Tren ini dibuat dari data contoh dan tidak menggambarkan kondisi aktual sekolah.</p>
         </article>
-        <a class="sp-access-card" href="/sarpras/admin" style="display:block;text-decoration:none;color:inherit">
-          <div class="sp-access-icon" aria-hidden="true">▦</div>
-          <h3>Admin &amp; Staff</h3>
-          <p>Pengelolaan inventaris, data ruang, pemeliharaan, pengadaan, pengguna, dan pelaporan operasional.</p>
-          <span class="sp-state">LIHAT PRATINJAU UI ↗</span>
-        </a>
-        <a class="sp-access-card" href="/sarpras/eksekutif" style="display:block;text-decoration:none;color:inherit">
-          <div class="sp-access-icon" aria-hidden="true">▥</div>
-          <h3>Portal Eksekutif</h3>
-          <p>Monitoring kondisi aset, ringkasan anggaran, indikator risiko, tren, dan laporan strategis.</p>
-          <span class="sp-state">LIHAT PRATINJAU UI ↗</span>
-        </a>
-        <a class="sp-access-card" href="/sarpras/pengguna" style="display:block;text-decoration:none;color:inherit">
-          <div class="sp-access-icon" aria-hidden="true">⌂</div>
-          <h3>Guru &amp; Siswa</h3>
-          <p>Akses informasi fasilitas, inventaris ruang, serta layanan pelaporan kondisi sarana sekolah.</p>
-          <span class="sp-state">LIHAT PRATINJAU UI ↗</span>
-        </a>
+        <article class="sp-demo-panel">
+          <div class="sp-demo-panel-head"><div><span class="sp-demo-eyebrow">KOMPOSISI</span><h3 id="spDemoBreakdownTitle">Kondisi aset</h3></div><span class="sp-demo-tag">Ilustrasi</span></div>
+          <div class="sp-demo-tabs" role="group" aria-label="Pilih jenis komposisi">
+            <button type="button" class="is-active" data-demo-view="condition" aria-pressed="true">Kondisi</button>
+            <button type="button" data-demo-view="category" aria-pressed="false">Kategori</button>
+            <button type="button" data-demo-view="rooms" aria-pressed="false">Fasilitas</button>
+          </div>
+          <div id="spDemoBreakdown" class="sp-demo-bars" aria-live="polite"></div>
+        </article>
       </div>
+      <div class="sp-demo-detail" id="spDemoDetail" aria-live="polite">
+        <strong>Jelajahi ringkasan simulasi</strong><p>Pilih salah satu indikator atau tab komposisi untuk melihat keterangan ilustratif.</p>
+      </div>
+      <div class="sp-public-meta"><span><b>Status data resmi:</b> Belum tersedia / belum terhubung</span><span><b>Periode data resmi:</b> Belum ditetapkan</span><span><b>Pembaruan data resmi:</b> Belum tersedia</span></div>
+      <p class="sp-demo-disclaimer">Catatan keterbukaan: simulasi dipakai untuk memperlihatkan rancangan visual dan interaksi. Seluruh angka resmi akan tetap kosong sampai inventaris dan sumber data Sarpras diverifikasi serta disetujui sekolah.</p>
     </section>
-
+    <section class="sp-section" aria-labelledby="support-title">
+      <div class="sp-section-title"><h2 id="support-title">Kolaborasi untuk fasilitas sekolah yang lebih baik</h2><p>Informasi ini disiapkan sebagai dasar keterbukaan dan calon kemitraan, bukan permintaan dana tanpa dokumen pendukung.</p></div>
+      <div class="sp-support-grid">
+        <article class="sp-support-card"><span>01</span><div><strong>Perawatan &amp; keselamatan fasilitas</strong><p>Prioritas perbaikan sarana yang berdampak pada keamanan dan kenyamanan kegiatan belajar.</p></div></article>
+        <article class="sp-support-card"><span>02</span><div><strong>Penguatan ruang belajar &amp; laboratorium</strong><p>Peningkatan kelayakan ruang, peralatan pembelajaran, dan dukungan praktik peserta didik.</p></div></article>
+        <article class="sp-support-card"><span>03</span><div><strong>Lingkungan sekolah berkelanjutan</strong><p>Pengembangan fasilitas sanitasi, drainase, energi, penghijauan, dan aksesibilitas.</p></div></article>
+      </div>
+      <div class="sp-public-note"><strong>Prinsip akuntabilitas:</strong> setiap peluang dukungan ke depan akan dilengkapi identifikasi kebutuhan, kondisi awal, estimasi biaya/RAB, target penerima manfaat, dokumentasi, status pendanaan, serta laporan realisasi. Prioritas dan angka baru dipublikasikan setelah verifikasi dan persetujuan sekolah.</div>
+    </section>
     <section id="layanan" class="sp-section" aria-labelledby="services-title">
       <div class="sp-section-title">
         <h2 id="services-title">Ruang lingkup layanan Sarpras</h2>
@@ -95,16 +106,8 @@
       </div>
     </section>
 
-    <section class="sp-section" aria-labelledby="public-data-title">
-      <div class="sp-section-title">
-        <h2 id="public-data-title">Transparansi informasi</h2>
-        <p>Data publik hanya akan ditampilkan dalam bentuk ringkasan agregat yang telah dipublikasikan dan tidak memuat informasi sensitif.</p>
-      </div>
-      <div class="sp-public-note" role="status">
-        <strong>Ringkasan data belum dipublikasikan.</strong> Angka inventaris dan kondisi aset tidak ditampilkan sebagai angka perkiraan. Informasi akan muncul setelah sumber data publik Sarpras terhubung dan ringkasan resmi diterbitkan oleh pengelola.
-      </div>
-    </section>
   </main>
   <div data-portal-footer></div>
+  <script src="/src/pintuku/assets/js/sarpras-public-demo.js" defer></script>
 </body>
 </html>

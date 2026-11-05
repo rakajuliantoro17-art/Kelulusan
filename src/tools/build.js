@@ -64,6 +64,7 @@ const REQUIRED = [
   "src/pintuku/assets/css/service-modules.css",
   "src/pintuku/dashboard/sarpras.html",
   "src/pintuku/assets/css/sarpras-public.css",
+  "src/pintuku/assets/js/sarpras-public-demo.js",
   "src/pintuku/assets/css/sarpras-portals.css",
   "src/pintuku/dashboard/sarpras-admin.html",
   "src/pintuku/dashboard/sarpras-eksekutif.html",

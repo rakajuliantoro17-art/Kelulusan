@@ -12,16 +12,22 @@
 <script src="/src/pintuku/assets/js/portal-shell.js" defer></script><script src="/src/pintuku/assets/js/portal-settings.js" defer></script>
 </head><body data-portal-module="sarpras"><div data-portal-header></div>
 <main class="portal-wrap service-page sarpras-public sarpras-workspace">
-<div class="sp-page-head"><div><span class="sp-eyebrow">SARPRASIN · SMAN 1 Sooko · EKSEKUTIF</span><h1>Executive Overview</h1><p class="sp-subtitle">Tampilan ringkas bagi pimpinan untuk membaca kondisi aset, prioritas risiko, kebutuhan anggaran, dan arah tindak lanjut.</p></div><span class="sp-preview">PRATINJAU UI · BELUM TERHUBUNG DATA</span></div>
-
+<div class="sp-page-head"><div><span class="sp-eyebrow">SARPRASIN · SMAN 1 Sooko · EKSEKUTIF</span><h1>Executive Overview</h1><p class="sp-subtitle">Dashboard analitik pimpinan untuk memantau nilai aset, kesehatan fasilitas, anggaran, risiko, tren, dan rekomendasi strategis.</p></div><span class="sp-preview">PRATINJAU UI · BELUM TERHUBUNG DATA</span></div>
 <div class="sp-kpis">
-<div class="sp-kpi"><span class="sp-kpi-label">Nilai aset</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Belum dipublikasikan</span></div>
-<div class="sp-kpi"><span class="sp-kpi-label">Kondisi baik</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Belum dipublikasikan</span></div>
-<div class="sp-kpi"><span class="sp-kpi-label">Perlu perbaikan</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Belum dipublikasikan</span></div>
-<div class="sp-kpi"><span class="sp-kpi-label">Prioritas risiko</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Belum dipublikasikan</span></div>
+<div class="sp-kpi"><span class="sp-kpi-label">Total aset</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Inventaris tervalidasi</span></div>
+<div class="sp-kpi"><span class="sp-kpi-label">Nilai aset tercatat</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Agregat nilai perolehan</span></div>
+<div class="sp-kpi"><span class="sp-kpi-label">Indeks kesehatan aset</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Asset Health Index</span></div>
+<div class="sp-kpi"><span class="sp-kpi-label">Aset perlu penanganan</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Perbaikan dan rusak</span></div>
 </div>
-<div class="sp-layout"><section class="sp-panel"><h2>Tren kondisi aset</h2><p class="sp-panel-intro">Visualisasi tren berdasarkan data inventaris tervalidasi.</p><div class="sp-placeholder">Grafik kondisi aset akan ditampilkan<br>setelah sumber data dan periode pelaporan ditetapkan.</div></section><section class="sp-panel"><h2>Ringkasan strategis</h2><p class="sp-panel-intro">Informasi prioritas untuk pengambilan keputusan.</p><div class="sp-list"><div class="sp-list-row"><strong>Prioritas pemeliharaan</strong><span>—</span></div><div class="sp-list-row"><strong>Kebutuhan pengadaan</strong><span>—</span></div><div class="sp-list-row"><strong>Risiko aset</strong><span>—</span></div><div class="sp-list-row"><strong>Periode laporan</strong><span>—</span></div></div></section></div>
-<section class="sp-panel" style="margin-top:14px"><h2>Ikhtisar rekomendasi</h2><p class="sp-panel-intro">Area rekomendasi berbasis kondisi aset dan urgensi penanganan.</p><div class="sp-placeholder" style="min-height:110px">Rekomendasi belum tersedia — tidak ada analisis yang dibuat dari data perkiraan.</div></section>
-<div class="sp-note"><strong>Mode pengembangan UI.</strong> Angka, tabel, dan aktivitas operasional belum terhubung ke sumber data. Fitur transaksi dan autentikasi belum diaktifkan pada tahap ini.</div>
-<p style="margin:18px 0 28px"><a class="sp-back" href="/sarpras">← Kembali ke portal publik Sarpras</a></p>
+<div class="sp-layout">
+<section class="sp-panel"><h2>Tren kondisi aset</h2><p class="sp-panel-intro">Perubahan indeks kelayakan dan komposisi kondisi aset berdasarkan periode pelaporan.</p><div class="sp-placeholder">Grafik tren kondisi aset<br>Menunggu data historis tervalidasi.</div></section>
+<section class="sp-panel"><h2>Kesehatan &amp; risiko aset</h2><p class="sp-panel-intro">Distribusi aset berdasarkan kondisi dan tingkat urgensi penanganan.</p><div class="sp-list"><div class="sp-list-row"><strong>Kondisi baik</strong><span>—</span></div><div class="sp-list-row"><strong>Perlu perbaikan</strong><span>—</span></div><div class="sp-list-row"><strong>Rusak</strong><span>—</span></div><div class="sp-list-row"><strong>Indeks kelayakan</strong><span>—</span></div></div></section>
+</div>
+<div class="sp-layout" style="margin-top:14px">
+<section class="sp-panel"><h2>Komposisi &amp; sebaran aset</h2><p class="sp-panel-intro">Ringkasan aset menurut kategori, ruang, dan tahun perolehan.</p><div class="sp-placeholder">Grafik kategori, ruang, dan tahun perolehan<br>Menunggu master data inventaris.</div></section>
+<section class="sp-panel"><h2>Anggaran &amp; sumber pendanaan</h2><p class="sp-panel-intro">Keterlacakan nilai aset dan sumber dukungan.</p><div class="sp-list"><div class="sp-list-row"><strong>Nilai aset tercatat</strong><span>—</span></div><div class="sp-list-row"><strong>Belanja pemeliharaan</strong><span>—</span></div><div class="sp-list-row"><strong>Sumber pendanaan</strong><span>—</span></div><div class="sp-list-row"><strong>Periode anggaran</strong><span>—</span></div></div></section>
+</div>
+<section class="sp-panel" style="margin-top:14px"><h2>Prioritas &amp; rekomendasi strategis</h2><p class="sp-panel-intro">Rekomendasi disusun dari kondisi aktual, tingkat risiko, urgensi layanan, dan estimasi kebutuhan biaya.</p><div class="sp-placeholder" style="min-height:110px">Rekomendasi belum tersedia — menunggu data tervalidasi dan parameter prioritas yang disepakati.</div></section>
+<div class="sp-note"><strong>Mode pengembangan UI.</strong> Indikator mengikuti struktur Sarprasin 2.0, termasuk total aset, nilai aset, kondisi, ruang, sumber pendanaan, tahun perolehan, risiko, tren, dan rekomendasi. Data belum terhubung; angka tidak direkayasa. Autentikasi dan hak akses belum diaktifkan.</div>
+<p style="margin:18px 0 28px"><a class="sp-back" href="/sarpras">← Kembali ke dashboard publik Sarpras</a></p>
 </main><div data-portal-footer></div></body></html>
