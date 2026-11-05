@@ -106,8 +106,7 @@ async function authenticate(c, token) {
     }
   }
   const matching = currentRoles.body.find(row => row.role_code === roleCode && row.unit_id === unitId);
-  if (matching) {
-    const patch = await request(c.baseUrl + "/rest/v1/user_roles?id=eq." + encodeURIComponent(matching.id), {
+  if (matching && (!matching.is_active || matching.revoked_at)) {\n    const patch = await request(c.baseUrl + "/rest/v1/user_roles?id=eq." + encodeURIComponent(matching.id), {
       method: "PATCH", headers: roleHeaders,
       body: JSON.stringify({ is_active: true, revoked_at: null, notes: "Disinkronkan dari spreadsheet Pengguna." })
     });
