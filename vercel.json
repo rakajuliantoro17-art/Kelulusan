@@ -144,6 +144,14 @@
       "destination": "/src/kesiswaan/$1"
     },
     {
+      "source": "/humas/admin",
+      "destination": "/src/pintuku/dashboard/humas-admin.html"
+    },
+    {
+      "source": "/humas/admin/",
+      "destination": "/src/pintuku/dashboard/humas-admin.html"
+    },
+    {
       "source": "/humas/akun",
       "destination": "/src/pintuku/dashboard/humas-account.html"
     },
