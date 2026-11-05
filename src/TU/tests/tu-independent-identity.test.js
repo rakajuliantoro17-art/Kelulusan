@@ -36,6 +36,7 @@ test("spreadsheet session is revalidated against current account status and role
   assert.match(auth, /Pengguna!A:F/);
   assert.match(auth, /async function resolveSession/);
   assert.match(auth, /currentRole !== payload\.r/);
+  assert.match(auth, /tu_user_sheet_duplicate_username/);
   assert.match(auth, /const TTL_SECONDS = 8 \* 60 \* 60/);
   assert.match(api, /resolveSession\(token\)/);
   assert.match(api, /identity_id=eq\./);
