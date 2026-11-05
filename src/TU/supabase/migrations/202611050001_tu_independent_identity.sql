@@ -32,6 +32,18 @@ create trigger tu_identities_set_updated_at
 before update on tu.identities
 for each row execute function tu.set_updated_at();
 
+insert into tu.identities (
+  external_subject, display_name, identity_type, identity_source, is_active, last_synced_at
+) values
+  ('system:spreadsheet-sync', 'TU Spreadsheet Sync', 'system', 'system', true, now()),
+  ('system:lobby-public-intake', 'TU Lobby Public Intake', 'system', 'system', true, now())
+on conflict (external_subject) do update
+set display_name = excluded.display_name,
+    identity_type = excluded.identity_type,
+    identity_source = excluded.identity_source,
+    is_active = true,
+    last_synced_at = now();
+
 -- The old bootstrap routine creates Auth-backed role assignments. Spreadsheet
 -- account provisioning replaces that workflow; retain role audit trigger instead.
 drop function if exists tu_private.bootstrap_first_head_tu(uuid, text);
@@ -47,6 +59,15 @@ alter table tu.user_roles
 alter table tu.user_roles
   add constraint user_roles_assigned_by_identity_id_fkey
   foreign key (assigned_by_identity_id) references tu.identities(id) on delete set null;
+
+-- Prevent duplicate active role grants for one identity and unit.
+create unique index if not exists tu_user_roles_identity_active_uidx
+  on tu.user_roles (
+    identity_id,
+    role_code,
+    (coalesce(unit_id, '00000000-0000-0000-0000-000000000000'::uuid))
+  )
+  where is_active and revoked_at is null;
 
 -- Role audit references.
 alter table tu.role_audit_logs drop constraint if exists role_audit_logs_target_user_id_fkey;
@@ -126,6 +147,7 @@ begin
     v_role_code := new.role_code;
     v_unit_id := new.unit_id;
     v_action := 'assigned';
+    v_actor_identity_id := new.assigned_by_identity_id;
   elsif tg_op = 'UPDATE' then
     v_before := to_jsonb(old);
     v_after := to_jsonb(new);
@@ -137,20 +159,25 @@ begin
     else
       v_action := 'updated';
     end if;
+    v_actor_identity_id := new.assigned_by_identity_id;
   else
     v_before := to_jsonb(old);
     v_target_identity_id := old.identity_id;
     v_role_code := old.role_code;
     v_unit_id := old.unit_id;
     v_action := 'deleted';
+    v_actor_identity_id := old.assigned_by_identity_id;
   end if;
 
   v_actor_id_text := nullif(current_setting('tu.audit_actor_identity_id', true), '');
   if v_actor_id_text ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$' then
     v_actor_identity_id := v_actor_id_text::uuid;
   end if;
+  select display_name into v_actor_label
+  from tu.identities where id = v_actor_identity_id;
   v_actor_label := coalesce(
     nullif(current_setting('tu.audit_actor_label', true), ''),
+    v_actor_label,
     current_user
   );
 
