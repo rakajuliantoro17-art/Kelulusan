@@ -116,6 +116,7 @@ jobs:
           node --check src/server/api/tu.js
           node --check src/TU/server/auth.js
           node --check src/TU/tests/tu-bootstrap-static.test.js
+          node --check src/TU/tests/tu-independent-identity.test.js
           node --check api/tu.js
           node --check src/pintuku/assets/js/tu-auth.js
           node --check src/pintuku/assets/js/tata-usaha-dashboard.js
@@ -218,6 +219,9 @@ jobs:
 
       - name: Run TU bootstrap security tests
         run: node --test src/TU/tests/tu-bootstrap-static.test.js
+
+      - name: Run TU standalone identity migration tests
+        run: node --test src/TU/tests/tu-independent-identity.test.js
 
       - name: Success
         run: echo "Integrated project verification completed."
