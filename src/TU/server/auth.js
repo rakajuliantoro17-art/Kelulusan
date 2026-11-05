@@ -133,7 +133,7 @@ async function loadUsers(c) {
     unitCode: headers.indexOf("unitcode")
   };
   if (["username", "nama", "password", "status", "peran"].some(key => index[key] < 0)) throw new Error("tu_user_sheet_headers_invalid");
-  return values.slice(1).map(row => ({
+  const users = values.slice(1).map(row => ({
     username: String(row[index.username] || "").trim(),
     nama: String(row[index.nama] || "").trim(),
     password: String(row[index.password] || "").trim(),
@@ -141,6 +141,13 @@ async function loadUsers(c) {
     peran: String(row[index.peran] || "").trim(),
     unit_code: index.unitCode >= 0 ? String(row[index.unitCode] || "").trim().toLowerCase() : ""
   })).filter(user => user.username && user.password && !INACTIVE.has(user.status));
+  const seen = new Set();
+  for (const user of users) {
+    const normalized = user.username.toLowerCase();
+    if (seen.has(normalized)) throw new Error("tu_user_sheet_duplicate_username");
+    seen.add(normalized);
+  }
+  return users;
 }
 function passwordMatches(stored, given) {
   const strong = /^scrypt:([0-9a-f]{32}):([0-9a-f]{128})$/i.exec(stored);
