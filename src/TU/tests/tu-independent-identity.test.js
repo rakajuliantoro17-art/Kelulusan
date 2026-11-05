@@ -37,8 +37,7 @@ test("spreadsheet session is revalidated against current account status and role
   assert.match(auth, /async function resolveSession/);
   assert.match(auth, /currentRole !== payload\.r/);
   assert.match(auth, /tu_user_sheet_duplicate_username/);
-  assert.match(auth, /const ACTIVE = new Set/);
-  assert.match(auth, /return rows\.filter\(user => user\.password && ACTIVE\.has\(user\.status\)\)/);
+  assert.match(auth, /tu_user_sheet_reserved_username/);
   assert.match(auth, /const ACTIVE = new Set/);
   assert.match(auth, /return rows\.filter\(user => user\.password && ACTIVE\.has\(user\.status\)\)/);
   assert.match(auth, /const TTL_SECONDS = 8 \* 60 \* 60/);
@@ -63,10 +62,6 @@ test("unit officer assignment is resolved from the optional UnitCode spreadsheet
 test("rollback is guarded against removing active identity and audit history", () => {
   assert.match(rollback, /Rollback blocked: staff identities have been provisioned/);
   assert.match(rollback, /Rollback blocked: TU operational or audit records exist/);
-  assert.match(rollback, /create or replace function tu_private\.audit_user_role_change/);
-  assert.match(rollback, /create or replace function tu\.handle_visit_workflow/);
-  assert.match(rollback, /create or replace function tu_private\.bootstrap_first_head_tu/);
-  assert.match(rollback, /integration_sync_logs\)\s+or exists \(select 1 from tu\.visit_notifications\)/);
   assert.match(rollback, /create or replace function tu_private\.audit_user_role_change/);
   assert.match(rollback, /create or replace function tu\.handle_visit_workflow/);
   assert.match(rollback, /create or replace function tu_private\.bootstrap_first_head_tu/);
