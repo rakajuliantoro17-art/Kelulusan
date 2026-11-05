@@ -31,7 +31,7 @@ test("TU account source is the private Pengguna tab in its own spreadsheet", () 
   assert.match(auth, /peran/);
 });
 
-test("TU session is signed, bounded to one hour, and verified server-side", () => {
+test("TU session is signed, bounded to eight hours, and verified server-side", () => {
   assert.match(auth, /createHmac\("sha256"/);
   assert.match(auth, /8 \* 60 \* 60/);
   assert.match(auth, /TU_SESSION_SECRET/);
