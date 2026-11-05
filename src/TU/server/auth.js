@@ -144,6 +144,7 @@ async function loadUsers(c) {
   const seen = new Set();
   for (const user of rows) {
     const normalized = user.username.toLowerCase();
+    if (normalized.startsWith("system:")) throw new Error("tu_user_sheet_reserved_username");
     if (seen.has(normalized)) throw new Error("tu_user_sheet_duplicate_username");
     seen.add(normalized);
   }
@@ -258,7 +259,9 @@ async function login(req, res, c) {
     const known = error && error.message;
     const message = known === "tu_user_sheet_headers_invalid" || known === "tu_user_sheet_empty"
       ? "Tab Pengguna belum memiliki header atau data akun dengan format yang sesuai."
-      : "Data akun TU tidak dapat dibaca. Periksa akses Viewer Service Account pada spreadsheet.";
+      : known === "tu_user_sheet_reserved_username"
+        ? "Username dengan awalan system: dicadangkan untuk identitas internal dan tidak dapat digunakan sebagai akun petugas."
+        : "Data akun TU tidak dapat dibaca. Periksa akses Viewer Service Account pada spreadsheet.";
     return send(res, 503, { success: false, code: known || "tu_auth_unavailable", message });
   }
 }
