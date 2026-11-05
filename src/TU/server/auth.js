@@ -20,7 +20,7 @@ const WINDOW_MS = 10 * 60 * 1000;
 const failures = new Map();
 let googleToken = { value: "", expiresAt: 0 };
 
-const INACTIVE = new Set(["tidak", "nonaktif", "non-aktif", "no", "n", "false", "0", "off"]);
+const ACTIVE = new Set(["aktif", "active", "ya", "yes", "y", "true", "1", "on"]);
 const ROLE_MAP = new Map([
   ["kepala tu", "head_tu"], ["head tu", "head_tu"],
   ["staf tu", "staff_tu"], ["staff tu", "staff_tu"],
@@ -133,21 +133,22 @@ async function loadUsers(c) {
     unitCode: headers.indexOf("unitcode")
   };
   if (["username", "nama", "password", "status", "peran"].some(key => index[key] < 0)) throw new Error("tu_user_sheet_headers_invalid");
-  const users = values.slice(1).map(row => ({
+  const rows = values.slice(1).map(row => ({
     username: String(row[index.username] || "").trim(),
     nama: String(row[index.nama] || "").trim(),
     password: String(row[index.password] || "").trim(),
     status: String(row[index.status] || "").trim().toLowerCase(),
     peran: String(row[index.peran] || "").trim(),
     unit_code: index.unitCode >= 0 ? String(row[index.unitCode] || "").trim().toLowerCase() : ""
-  })).filter(user => user.username && user.password && !INACTIVE.has(user.status));
+  })).filter(user => user.username);
   const seen = new Set();
-  for (const user of users) {
+  for (const user of rows) {
     const normalized = user.username.toLowerCase();
     if (seen.has(normalized)) throw new Error("tu_user_sheet_duplicate_username");
     seen.add(normalized);
   }
-  return users;
+  // Fail closed: an account is usable only when its status is explicitly active.
+  return rows.filter(user => user.password && ACTIVE.has(user.status));
 }
 function passwordMatches(stored, given) {
   const strong = /^scrypt:([0-9a-f]{32}):([0-9a-f]{128})$/i.exec(stored);
