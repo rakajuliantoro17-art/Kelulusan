@@ -37,7 +37,7 @@ Optional column F is:
 - `UnitCode` is required for `unit_officer` accounts so the API can scope approvals to the assigned unit.
 - Other roles may leave it blank.
 - Password formats remain scrypt preferred, sha256 compatibility, and plaintext only as a temporary legacy fallback. Migrate all plaintext values to scrypt before operational launch.
-- Usernames must be unique after lowercase normalization.
+- Usernames must be unique after lowercase normalization; the `system:` prefix is reserved for internal system identities.
 - Spreadsheet status must explicitly be `Aktif`, `Active`, `Ya`, `Yes`, `Y`, `True`, `1`, or `On`; blank or unrecognized values are inactive. Status and role changes must be revalidated server-side; the browser's role display is never authorization.
 
 ## Role normalization
@@ -57,7 +57,7 @@ Optional column F is:
 2. Take a database backup or confirm a usable Supabase PITR restore point.
 3. Prefer PITR if any staff identity, role assignment, visit, event, notification, or audit data has been created.
 4. The guarded rollback SQL is only for a pre-launch/empty-data rollback. It intentionally aborts if any staff identity, role assignment, role audit record, visit, visit event, integration sync log, or notification exists. The two seeded system identities alone do not block an empty-data rollback. It restores the previous Auth-backed audit/workflow functions and the deprecated Head TU bootstrap routine after restoring the original columns and foreign keys.
-5. Before re-enabling the old API after schema rollback, restore the previous definitions of `tu_private.audit_user_role_change()` and `tu.handle_visit_workflow()` from the immediately preceding migrations. The rollback script intentionally does not recreate the deprecated Auth-only Head TU bootstrap routine.
+5. The rollback script restores the previous definitions of `tu_private.audit_user_role_change()`, `tu.handle_visit_workflow()`, and the deprecated Auth-only Head TU bootstrap routine after restoring the original column names and foreign keys.
 6. Re-run the full migration and API test suite before restoring traffic.
 
 Do not manually delete audit rows to force rollback.
