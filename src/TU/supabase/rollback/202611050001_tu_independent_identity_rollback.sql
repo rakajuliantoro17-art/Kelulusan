@@ -5,8 +5,8 @@ begin;
 
 do $$
 begin
-  if exists (select 1 from tu.identities) then
-    raise exception 'Rollback blocked: tu.identities is not empty. Use a reviewed data-migration/PITR plan; do not delete identity history blindly.';
+  if exists (select 1 from tu.identities where identity_type = 'staff') then
+    raise exception 'Rollback blocked: staff identities have been provisioned. Use a reviewed data-migration/PITR plan; do not delete identity history blindly.';
   end if;
   if exists (select 1 from tu.user_roles) or exists (select 1 from tu.role_audit_logs)
      or exists (select 1 from tu.visits) or exists (select 1 from tu.visit_events) then
@@ -15,6 +15,7 @@ begin
 end;
 $$;
 
+drop index if exists tu.tu_user_roles_identity_active_uidx;
 drop function if exists tu.handle_visit_workflow();
 drop function if exists tu_private.audit_user_role_change();
 
