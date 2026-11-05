@@ -30,6 +30,7 @@ test("operational actor foreign keys move to standalone identities", () => {
   assert.match(migration, /system:lobby-public-intake/);
   assert.doesNotMatch(migration, /references auth\.users/);
   assert.doesNotMatch(migration, /drop table if exists tu\.identity_links/);
+  assert.doesNotMatch(migration, /tu_user_roles_identity_active_uidx/);
 });
 
 test("spreadsheet session is revalidated against current account status and role", () => {
@@ -57,6 +58,11 @@ test("unit officer assignment is resolved from the optional UnitCode spreadsheet
   assert.match(api, /unit_assignment_required/);
   assert.match(api, /unit_assignment_invalid/);
   assert.match(api, /unit_code=eq\./);
+});
+
+test("migration and rollback SQL use balanced dollar-quoted function bodies", () => {
+  assert.equal((migration.match(/\\$\\$/g) || []).length % 2, 0);
+  assert.equal((rollback.match(/\\$\\$/g) || []).length % 2, 0);
 });
 
 test("rollback is guarded against removing active identity and audit history", () => {
