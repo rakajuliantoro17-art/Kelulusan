@@ -144,6 +144,18 @@
       "destination": "/src/pintuku/dashboard/sarpras.html"
     },
     {
+      "source": "/sarpras/admin",
+      "destination": "/src/pintuku/dashboard/sarpras-admin.html"
+    },
+    {
+      "source": "/sarpras/eksekutif",
+      "destination": "/src/pintuku/dashboard/sarpras-eksekutif.html"
+    },
+    {
+      "source": "/sarpras/pengguna",
+      "destination": "/src/pintuku/dashboard/sarpras-pengguna.html"
+    },
+    {
       "source": "/css/(.*)",
       "destination": "/src/pintuku/assets/css/$1"
     },
