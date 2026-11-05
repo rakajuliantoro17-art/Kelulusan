@@ -24,7 +24,9 @@
     });
   });
   const modal = document.getElementById("haaModal");
+  const show = document.getElementById("haaShowDecision");
   const close = document.getElementById("haaModalClose");
+  if (show && modal) show.addEventListener("click", () => { modal.hidden = false; const reason = document.getElementById("haaModalReason"); if (reason) reason.focus(); });
   if (close && modal) close.addEventListener("click", () => { modal.hidden = true; });
   if (modal) modal.addEventListener("click", (event) => { if (event.target === modal) modal.hidden = true; });
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && modal) modal.hidden = true; });
