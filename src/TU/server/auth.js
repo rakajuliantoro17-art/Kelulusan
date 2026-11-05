@@ -14,7 +14,7 @@
  */
 const crypto = require("crypto");
 
-const TTL_SECONDS = 8 * 60 * 60;
+const TTL_SECONDS = 60 * 60;
 const MAX_FAILS = 5;
 const WINDOW_MS = 10 * 60 * 1000;
 const failures = new Map();
@@ -175,6 +175,22 @@ function verifyToken(token, secret) {
   if (typeof payload.u !== "string" || typeof payload.n !== "string" || typeof payload.r !== "string") return null;
   return payload;
 }
+async function resolveSession(token) {
+  const c = config();
+  if (!c.sheetId || !c.email || !c.key || !c.secret) return null;
+  const payload = verifyToken(token, c.secret);
+  if (!payload) return null;
+  const users = await loadUsers(c);
+  const user = users.find(item => item.username.toLowerCase() === payload.u.toLowerCase());
+  if (!user) return null;
+  const currentRole = roleCode(user.peran);
+  if (!currentRole || currentRole !== payload.r) return null;
+  return {
+    payload,
+    user: { username: user.username, nama: user.nama || user.username },
+    role: currentRole
+  };
+}
 function bearer(req) {
   const value = req.headers && req.headers.authorization;
   const match = typeof value === "string" ? value.match(/^Bearer\s+([^\s]+)$/i) : null;
@@ -236,22 +252,27 @@ async function login(req, res, c) {
     return send(res, 503, { success: false, code: known || "tu_auth_unavailable", message });
   }
 }
-function verify(req, res, c) {
+async function verify(req, res, c) {
   if (!c.secret) return send(res, 503, { valid: false, code: "tu_auth_not_configured", message: "Verifikasi sesi TU belum dikonfigurasi." });
-  const payload = verifyToken(bearer(req), c.secret);
-  if (!payload) return send(res, 401, { valid: false, code: "session_invalid", message: "Sesi tidak valid atau telah kedaluwarsa." });
-  const session = publicSession(bearer(req), payload);
-  return send(res, 200, {
-    valid: true,
-    session,
-    user: { username: payload.u, nama: payload.n },
-    roles: [{ role_code: payload.r }],
-    role: payload.r
-  });
+  try {
+    const resolved = await resolveSession(bearer(req));
+    if (!resolved) return send(res, 401, { valid: false, code: "session_invalid", message: "Sesi tidak valid, akun nonaktif, atau hak akses telah berubah." });
+    const payload = resolved.payload;
+    const session = publicSession(bearer(req), payload);
+    return send(res, 200, {
+      valid: true,
+      session,
+      user: resolved.user,
+      roles: [{ role_code: payload.r }],
+      role: payload.r
+    });
+  } catch (error) {
+    return send(res, 503, { valid: false, code: "tu_auth_unavailable", message: "Status akun TU tidak dapat diverifikasi. Coba kembali." });
+  }
 }
 module.exports = async function tuSheetAuth(req, res) {
   const c = config();
-  if (req.method === "GET") return verify(req, res, c);
+  if (req.method === "GET") return await verify(req, res, c);
   if (req.method !== "POST") {
     res.setHeader("Allow", "GET, POST, OPTIONS");
     return send(res, 405, { success: false, code: "method_not_allowed", message: "Metode tidak diizinkan." });
@@ -261,3 +282,6 @@ module.exports = async function tuSheetAuth(req, res) {
   if (body.action !== "login") return send(res, 400, { success: false, code: "invalid_action", message: "Operasi autentikasi tidak dikenal." });
   return login(req, res, c);
 };
+
+module.exports.resolveSession = resolveSession;
+module.exports.roleCode = roleCode;
