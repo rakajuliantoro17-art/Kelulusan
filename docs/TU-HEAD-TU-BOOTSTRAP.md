@@ -1,3 +1,5 @@
+> **DEPRECATED:** Prosedur bootstrap berbasis Supabase Auth di dokumen ini telah digantikan oleh akun spreadsheet TU dan migrasi identitas mandiri `202611050001_tu_independent_identity.sql`. Jangan jalankan prosedur ini setelah migrasi identitas mandiri diterapkan. Dokumen dipertahankan sebagai catatan historis/rollback.
+
 # Secure Head TU Bootstrap
 
 ## Design
