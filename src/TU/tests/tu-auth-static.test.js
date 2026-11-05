@@ -20,7 +20,7 @@ test("TU workspace login is handled before Supabase operational configuration", 
 
 test("TU account source is the private Pengguna tab in its own spreadsheet", () => {
   assert.match(auth, /GOOGLE_SHEET_ID_TU/);
-  assert.match(auth, /Pengguna!A:E/);
+  assert.match(auth, /Pengguna!A:F/);\n  assert.match(auth, /unitCode/);
   assert.match(auth, /GOOGLE_SERVICE_ACCOUNT_EMAIL/);
   assert.match(auth, /GOOGLE_SERVICE_ACCOUNT_KEY/);
   assert.match(auth, /spreadsheets\.readonly/);
@@ -34,7 +34,7 @@ test("TU session is signed, bounded to eight hours, and verified server-side", (
   assert.match(auth, /createHmac\("sha256"/);
   assert.match(auth, /8 \* 60 \* 60/);
   assert.match(auth, /TU_SESSION_SECRET/);
-  assert.match(auth, /function verifyToken/);
+  assert.match(auth, /function verifyToken/);\n  assert.match(auth, /async function resolveSession/);\n  assert.match(auth, /currentRole !== payload\\.r/);
   assert.match(auth, /timingSafeEqual/);
 });
 
