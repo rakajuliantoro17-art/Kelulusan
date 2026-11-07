@@ -51,6 +51,7 @@
           '<p class="ps-note">Pilihan tema disimpan di perangkat ini dan berlaku di seluruh halaman portal.</p>' +
           '<div class="ps-language"><div class="ps-row-text"><span class="ps-row-title">Bahasa / Language</span><span class="ps-row-desc">Pilih bahasa antarmuka</span></div><div class="ps-language-switch" role="group" aria-label="Pilih bahasa"><button type="button" data-pintuku-language="id" aria-pressed="true">ID</button><button type="button" data-pintuku-language="en" aria-pressed="false">EN</button></div></div>' +
           '<p class="ps-note">Bahasa antarmuka dapat diubah kapan saja. Dokumen resmi tetap mengikuti bahasa dokumen sumber.</p>' +
+          (document.body.dataset.i18nScope ? '' : '<p class="ps-note">Terjemahan EN belum tersedia di halaman ini (tersedia di HUMAS dan Sarpras). / EN translation is not yet available on this page (available in HUMAS and Sarpras).</p>') +
         '</div></aside>';
     while (wrap.firstElementChild) document.body.appendChild(wrap.firstElementChild);
 

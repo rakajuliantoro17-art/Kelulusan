@@ -74,6 +74,7 @@ const REQUIRED = [
   "src/pintuku/assets/js/sarpras-login.js",
   "src/pintuku/assets/js/sarpras-data.js",
   "src/pintuku/assets/js/sarpras-shell.js",
+  "src/pintuku/assets/js/sarpras-i18n.js",
   "src/pintuku/assets/css/sarpras-workspace.css",
   "src/pintuku/assets/css/sarpras-design-system.css",
   "src/pintuku/dashboard/tata-usaha.html",
