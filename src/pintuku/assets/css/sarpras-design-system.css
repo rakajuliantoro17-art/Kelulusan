@@ -1,0 +1,41 @@
+/* SARPRASIN Unified Glass System — shared visual tokens and shell alignment */
+:root{--sarpras-forest-950:#06140d;--sarpras-forest-900:#0a1d13;--sarpras-forest-800:#10291c;--sarpras-green-500:#52d68f;--sarpras-green-600:#2fa86a;--sarpras-orange-500:#ff9f45;--sarpras-orange-600:#ed7e25;--sarpras-text:#f3f9f0;--sarpras-muted:#b3c6b9;--sarpras-subtle:#8ba293;--sarpras-line:rgba(194,226,204,.16);--sarpras-glass:rgba(16,52,37,.32);--sarpras-radius-sm:12px;--sarpras-radius-md:18px;--sarpras-radius-lg:24px;--sarpras-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 20px 48px rgba(0,0,0,.22);--sarpras-focus:0 0 0 3px rgba(82,214,143,.28)}
+html[data-theme="light"]{--sarpras-text:#14301f;--sarpras-muted:#45614f;--sarpras-subtle:#698371;--sarpras-line:rgba(53,103,69,.18);--sarpras-glass:rgba(255,250,238,.72);--sarpras-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 18px 42px rgba(54,91,59,.12)}
+body[data-portal-module="sarpras"]{--portal-shell-accent:var(--sarpras-green-500)}
+body[data-portal-module="sarpras"]:not(.sp-glass){background-color:var(--sarpras-forest-950)}
+body[data-portal-module="sarpras"]:not(.sp-glass) .portal-shell-header{background:linear-gradient(110deg,rgba(6,20,13,.92),rgba(16,41,28,.84))!important;border-color:var(--sarpras-line)!important}
+html[data-theme="light"] body[data-portal-module="sarpras"]:not(.sp-glass) .portal-shell-header{background:linear-gradient(110deg,rgba(248,252,244,.94),rgba(237,248,238,.88))!important}
+.sarpras-public .service-hero{background:radial-gradient(circle at 82% 18%,rgba(82,214,143,.2),transparent 35%),linear-gradient(145deg,rgba(16,62,39,.92),rgba(6,20,13,.96))!important;border:1px solid var(--sarpras-line);box-shadow:var(--sarpras-shadow)}
+.sarpras-public .sp-hero-kicker{color:#c8f8d8!important;border-color:rgba(82,214,143,.3)!important;background:rgba(82,214,143,.09)!important}
+.sarpras-public .sp-hero-mark{border-color:var(--sarpras-line)!important;background:linear-gradient(145deg,rgba(82,214,143,.12),rgba(255,159,69,.06))!important}
+.sarpras-public .sp-hero-mark svg{color:#a8efc3!important;filter:drop-shadow(0 12px 28px rgba(82,214,143,.2))!important}
+.sarpras-public .sp-public-kpi,.sarpras-public .sp-demo-panel,.sarpras-public .sp-support-card,.sarpras-public .sp-service-card{border-color:var(--sarpras-line)!important;background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.018)),rgba(13,39,26,.76)!important;box-shadow:var(--sarpras-shadow)!important}
+.sarpras-public .sp-public-kpi strong,.sarpras-public .sp-demo-panel h3,.sarpras-public .sp-support-card strong,.sarpras-public .sp-service-card strong{color:var(--sarpras-text)!important}
+.sarpras-public .sp-public-kpi span,.sarpras-public .sp-public-kpi small,.sarpras-public .sp-section-title p,.sarpras-public .sp-demo-caption,.sarpras-public .sp-demo-disclaimer,.sarpras-public .sp-support-card p,.sarpras-public .sp-service-card p,.sarpras-public .sp-public-meta{color:var(--sarpras-muted)!important}
+.sarpras-public .sp-public-meta b{color:var(--sarpras-text)!important}
+.sarpras-public .sp-demo-eyebrow,.sarpras-public .sp-demo-detail strong{color:#9be9b8!important}
+.sarpras-public .sp-chart-line{stroke:var(--sarpras-green-500)!important}.sarpras-public .sp-chart-dot{fill:#c6f7d6!important;stroke:#24583b!important}
+.sarpras-public .sp-demo-tabs button.is-active{border-color:rgba(82,214,143,.42)!important;background:rgba(82,214,143,.13)!important;color:#c6f7d6!important}
+.sarpras-public .sp-demo-bar-fill{background:linear-gradient(90deg,var(--sarpras-green-600),var(--sarpras-green-500))!important}
+.sarpras-public .sp-demo-detail{border-color:rgba(82,214,143,.22)!important;background:rgba(82,214,143,.055)!important}
+.sarpras-public .sp-service-icon{color:#a8efc3!important;background:rgba(82,214,143,.1)!important}
+.sarpras-public .sp-support-card>span{color:#c6f7d6!important;background:rgba(82,214,143,.12)!important}
+.sarpras-public .sp-public-note{border-color:var(--sarpras-line)!important;background:rgba(82,214,143,.055)!important;color:var(--sarpras-muted)!important}
+.sarpras-public .sp-public-note strong{color:var(--sarpras-text)!important}
+.sarpras-public .sp-demo-year select{border-color:var(--sarpras-line)!important;background:#10291c!important;color:#f3f9f0!important}
+.sarpras-public .sp-demo-status b{color:#ffd39d!important}
+.sarpras-public .sp-demo-banner{border-color:rgba(255,159,69,.32)!important;background:linear-gradient(120deg,rgba(255,159,69,.13),rgba(255,255,255,.025))!important}
+.sarpras-public .sp-demo-banner strong{color:#ffd6ad!important}
+body.sp-glass>[data-portal-header],body.sp-glass>[data-portal-footer]{display:none!important}
+body.sp-glass .sp-topbar{border-color:var(--sarpras-line);background:linear-gradient(110deg,rgba(8,29,18,.92),rgba(20,54,36,.78))}
+html[data-theme="light"] body.sp-glass .sp-topbar{background:linear-gradient(110deg,rgba(250,255,247,.94),rgba(238,249,238,.86))}
+body.sp-glass .sp-logo{gap:11px;letter-spacing:.01em}body.sp-glass .sp-logo-text{font-size:13px;font-weight:850;letter-spacing:.11em}
+body.sp-glass .sp-logo-mark{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--sarpras-green-500),var(--sarpras-orange-500));box-shadow:0 5px 18px rgba(82,214,143,.18)}
+body.sp-glass .sp-burger:focus-visible,body.sp-glass .sp-item:focus-visible,body.sp-glass .sp-chip:focus-visible,body.sp-glass .sp-logout:focus-visible{outline:none;box-shadow:var(--sarpras-focus)}
+body.sp-glass .sp-sidebar{border-color:var(--sarpras-line)}body.sp-glass .sp-item.is-active{background:linear-gradient(120deg,rgba(82,214,143,.26),rgba(255,159,69,.18))}
+body.sp-glass .sp-chip.is-active{background:linear-gradient(120deg,var(--sarpras-green-500),#a7e8b9);color:#092015}
+body.sp-glass .sarpras-workspace .sp-eyebrow{color:var(--sarpras-orange-500)}body.sp-glass .sarpras-workspace .sp-back{color:var(--sarpras-green-500)}body.sp-glass .sarpras-workspace .sp-action strong{color:var(--sarpras-orange-500)}
+body.sp-glass .sarpras-workspace .sp-preview{color:#ffe3c2}html[data-theme="light"] body.sp-glass .sarpras-workspace .sp-preview{color:#8a4a00}
+body.sp-login-page .tu-login-mark{background:linear-gradient(135deg,var(--sarpras-green-500),var(--sarpras-orange-500))}
+body.sp-login-page .tu-login-submit{background:linear-gradient(120deg,var(--sarpras-green-600),var(--sarpras-orange-500))!important}
+@media(prefers-reduced-motion:reduce){body.sp-glass .sp-shell,body.sp-glass .sp-sidebar,body.sp-glass .sp-item{transition:none!important}}

@@ -31,8 +31,8 @@
   const top=el("header","sp-topbar");
   const burger=el("button","sp-burger");burger.type="button";burger.setAttribute("aria-controls","spSidebar");burger.setAttribute("aria-label","Buka atau tutup menu");burger.setAttribute("aria-expanded","true");
   const bars=el("span","sp-burger-bars");bars.setAttribute("aria-hidden","true");burger.append(bars);
-  const logo=el("a","sp-logo");logo.href="/sarpras";
-  const lm=el("span","sp-logo-mark","SP");lm.setAttribute("aria-hidden","true");logo.append(lm,el("span","sp-logo-text","Sarpras"));
+  const logo=el("a","sp-logo");logo.href="/sarpras";logo.setAttribute("aria-label","SARPRASIN — Portal Sarana dan Prasarana SMAN 1 Sooko");
+  const lm=el("span","sp-logo-mark","SP");lm.setAttribute("aria-hidden","true");logo.append(lm,el("span","sp-logo-text","SARPRASIN"));
   const spacer=el("span","sp-top-spacer");
   const right=el("div","sp-top-right");
   if(auth){
