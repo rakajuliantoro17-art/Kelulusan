@@ -36,6 +36,7 @@
   kpi("Total aset",num(t.aset),t.records+" catatan inventaris");
   kpi("Ruangan",num(t.ruangan),t.tanpa_ruang?t.tanpa_ruang+" aset belum berkode ruang":"Seluruh aset berkode ruang");
   kpi("Perlu pemeliharaan",num(t.perlu_penanganan),"Rusak ringan "+t.rusak_ringan+" · rusak berat "+t.rusak_berat);
+  const act=panel("Aktivitas terbaru");if(act)act.querySelector(".sp-panel-intro").textContent="Lima aktivitas terakhir dari tab Log_Aktivitas.";
   fill("Aktivitas terbaru",w=>lines(w,d.activity.map(a=>({label:a.aktivitas||"Aktivitas",v:(a.waktu+" · "+a.pengguna).trim()})),i=>i.v));
   // Eksekutif
   kpi("Nilai aset tercatat",rp(t.nilai));
