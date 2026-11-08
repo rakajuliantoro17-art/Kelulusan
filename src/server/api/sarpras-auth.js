@@ -300,7 +300,10 @@ async function summary(req, res, c) {
       if (r.Kode_Ruang) bump(ruang, nameOf.get(String(r.Kode_Ruang)) || r.Kode_Ruang, qty); else tanpaRuang += qty;
     }
     const baik = kondisi.Baik || 0;
-    const perlu = unit - baik;
+    const ringan = kondisi["Rusak Ringan"] || 0, berat = kondisi["Rusak Berat"] || 0;
+    const perlu = ringan + berat;
+    const dinilai = baik + perlu;
+    const belumDinilai = Math.max(unit - dinilai, 0);
     return send(res, 200, {
       success: true,
       source: "Google Sheets · Database Sarpras",
@@ -308,7 +311,7 @@ async function summary(req, res, c) {
       totals: {
         records: aset.length, aset: unit, ruangan: ruangan.length, nilai,
         baik, rusak_ringan: kondisi["Rusak Ringan"] || 0, rusak_berat: kondisi["Rusak Berat"] || 0,
-        perlu_penanganan: perlu, indeks_kesehatan: unit ? Math.round((baik / unit) * 1000) / 10 : null,
+        perlu_penanganan: perlu, belum_dinilai: belumDinilai, indeks_kesehatan: dinilai ? Math.round((baik / dinilai) * 1000) / 10 : null,
         tanpa_ruang: tanpaRuang
       },
       by_dana: sorted(dana), by_jenis: sorted(jenis), by_tahun: sorted(tahun).sort((a, b) => String(b.label).localeCompare(String(a.label))),
