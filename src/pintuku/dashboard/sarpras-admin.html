@@ -52,6 +52,7 @@
       <a class="sp-admin-shortcut" href="#mutasi"><span class="sp-admin-shortcut-icon">⇄</span><span><strong>Mutasi aset</strong><small>Perpindahan dan distribusi aset</small></span><b>↗</b></a>
       <a class="sp-admin-shortcut" href="#pemeliharaan"><span class="sp-admin-shortcut-icon">⌁</span><span><strong>Pemeliharaan</strong><small>Kerusakan dan tindak lanjut</small></span><b>↗</b></a>
       <a class="sp-admin-shortcut" href="#stock-opname"><span class="sp-admin-shortcut-icon">✓</span><span><strong>Stock opname</strong><small>Pemeriksaan fisik dan rekonsiliasi</small></span><b>↗</b></a>
+      <a class="sp-admin-shortcut" href="#status-aset"><span class="sp-admin-shortcut-icon">⌑</span><span><strong>Status aset</strong><small>Penetapan status dan usulan penghapusan</small></span><b>↗</b></a>
       <a class="sp-admin-shortcut" href="#laporan"><span class="sp-admin-shortcut-icon">▤</span><span><strong>Laporan</strong><small>Rekap inventaris dan sumber dana</small></span><b>↗</b></a>
     </div>
     <div class="sp-admin-callout"><strong>Prinsip pencatatan</strong><span>Satu data induk aset untuk semua kebutuhan. Setiap pembelian, perubahan lokasi, pemeriksaan, dan koreksi dirancang memiliki jejak riwayat tersendiri.</span></div>
@@ -173,6 +174,27 @@
       </form>
     </section>
   </div>
+
+  <section class="sp-panel sp-admin-status-panel" id="status-aset">
+    <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">ASSET STATUS & DISPOSITION</span><h2>Status aset & usulan penghapusan</h2><p class="sp-panel-intro">Alur administratif untuk aset rusak berat, tidak ditemukan, tidak ekonomis diperbaiki, atau memerlukan penetapan status khusus.</p></div><span class="sp-admin-section-mark">05A</span></div>
+    <div class="sp-admin-disposition-grid">
+      <div><strong>Aktif digunakan</strong><span>Aset tercatat dan digunakan sesuai fungsi</span></div>
+      <div><strong>Dalam perbaikan</strong><span>Aset sedang menjalani penanganan</span></div>
+      <div><strong>Tidak ditemukan</strong><span>Perlu pemeriksaan dan berita acara</span></div>
+      <div><strong>Usulan penghentian</strong><span>Menunggu telaah dan persetujuan pejabat berwenang</span></div>
+    </div>
+    <form class="sp-admin-form" data-preview-form="usulan status aset">
+      <div class="sp-admin-form-grid">
+        <label>Kode / nama aset<input name="aset" placeholder="Identitas aset"></label>
+        <label>Status yang diusulkan<select name="status"><option value="">Pilih status</option><option>Dalam perbaikan</option><option>Tidak ditemukan — perlu verifikasi</option><option>Rusak berat — perlu penilaian</option><option>Usulan penghentian penggunaan</option><option>Usulan penghapusan sesuai prosedur</option></select></label>
+        <label>Alasan / hasil pemeriksaan<input name="alasan" placeholder="Ringkasan dasar pengusulan"></label>
+        <label>Referensi dokumen<input name="dokumen" placeholder="BA pemeriksaan / persetujuan / dokumen pendukung"></label>
+      </div>
+      <div class="sp-admin-form-actions"><button class="sp-admin-button" type="submit">Pratinjau usulan status</button><span>Tidak menghapus atau mengubah aset</span></div>
+      <output class="sp-admin-preview-output" aria-live="polite"></output>
+    </form>
+    <div class="sp-admin-rule-note"><strong>Kontrol akuntabilitas</strong><span>Penghapusan permanen tidak disediakan sebagai aksi langsung. Perubahan status harus melalui verifikasi, persetujuan sesuai kewenangan, dan pencatatan peristiwa koreksi / disposisi yang dapat diaudit.</span></div>
+  </section>
 
   <div class="sp-admin-two-col">
     <section class="sp-panel" id="stock-opname">
