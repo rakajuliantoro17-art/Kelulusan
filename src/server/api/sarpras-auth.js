@@ -249,6 +249,21 @@ function verify(req, res, c) {
   });
 }
 
+const INVENTORY_ROLES = new Set(["admin_sarpras", "staff_sarpras", "arsiparis"]);
+async function assetsList(req, res, c) {
+  if (!c.secret) return send(res, 503, { success: false, code: "sarpras_auth_not_configured", message: "Sesi Sarpras belum dikonfigurasi." });
+  const payload = verifyToken(bearer(req), c.secret);
+  if (!payload) return send(res, 401, { success: false, code: "session_invalid", message: "Sesi tidak valid atau telah kedaluwarsa." });
+  if (!INVENTORY_ROLES.has(payload.r)) return send(res, 403, { success: false, code: "forbidden", message: "Peran akun tidak memiliki akses ke daftar inventaris." });
+  if (!c.sheetId || !c.email || !c.key) return send(res, 503, { success: false, code: "sarpras_sheet_not_configured", message: "Spreadsheet Sarpras belum dikonfigurasi." });
+  try {
+    const rows = await readTab(c, "Aset", "A:O");
+    const limit = Math.min(1000, Math.max(1, Number(req.query && req.query.limit) || 500));
+    return send(res, 200, { success: true, source: "Google Sheets · tab Aset", generated_at: new Date().toISOString(), total: rows.length, items: rows.slice(0, limit) });
+  } catch (error) {
+    return send(res, 503, { success: false, code: (error && error.message) || "sarpras_assets_unavailable", message: "Daftar aset tidak dapat dibaca. Periksa tab Aset pada spreadsheet Sarpras." });
+  }
+}
 const SUMMARY_ROLES = new Set(["admin_sarpras", "staff_sarpras", "arsiparis", "wakasek_sarpras", "principal"]);
 async function readTab(c, tab, range) {
   const token = await getGoogleToken(c);
@@ -323,6 +338,7 @@ module.exports = async function sarprasSheetAuth(req, res) {
   const c = config();
   const op = (req.query && req.query.op) || "";
   if (op === "summary" && req.method === "GET") return summary(req, res, c);
+  if (op === "assets" && req.method === "GET") return assetsList(req, res, c);
   if (req.method === "GET") return verify(req, res, c);
   if (req.method !== "POST") {
     res.setHeader("Allow", "GET, POST, OPTIONS");
