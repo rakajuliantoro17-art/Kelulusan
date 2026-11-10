@@ -21,13 +21,14 @@
   <link rel="stylesheet" href="/src/pintuku/assets/css/service-modules.css">
   <link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-public.css">
 <link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-design-system.css">
+  <link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-dashboards.css">
   <script src="/src/shared/assets/registry.js" defer></script>
   <script src="/src/pintuku/assets/js/portal-shell.js" defer></script>
   <script src="/src/pintuku/assets/js/portal-settings.js" defer></script>
 </head>
 <body data-portal-module="sarpras">
   <div data-portal-header></div>
-  <main class="portal-wrap service-page sarpras-public">
+  <main class="portal-wrap service-page sarpras-public sarpras-dashboards">
     <section class="service-hero" aria-labelledby="sarpras-title">
       <div>
         <span class="sp-hero-kicker">Module 02 · PINTUKU · SMAN 1 Sooko</span>
@@ -107,6 +108,25 @@
       </div>
     </section>
 
+
+    <section class="sp-section" id="portal-akses" aria-labelledby="portal-akses-title">
+      <div class="sp-section-title"><div><span class="sp-hero-kicker">PINTU AKSES SARPRASIN</span><h2 id="portal-akses-title">Pilih portal sesuai kebutuhan</h2></div><p>Setiap portal memiliki ruang kerja dan kewenangan yang berbeda. Akses internal memerlukan akun yang telah diaktifkan oleh administrator Sarpras.</p></div>
+      <div class="sd-portal-grid">
+        <a class="sd-portal-card is-public" href="#public-kpi-title">
+          <span class="sd-portal-icon" aria-hidden="true">◉</span><h3>Publik</h3><p>Melihat ringkasan transparansi sarana, prasarana, fasilitas, dan informasi kemitraan sekolah.</p><span class="sd-portal-action">LIHAT INFORMASI PUBLIK <span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="sd-portal-card" href="/sarpras/login?next=%2Fsarpras%2Fadmin">
+          <span class="sd-portal-icon" aria-hidden="true">▦</span><h3>Admin / Staff</h3><p>Pengelolaan inventaris, ruang, pembelian, mutasi, pemeliharaan, verifikasi, dan riwayat.</p><span class="sd-portal-action">MASUK WORKSPACE <span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="sd-portal-card" href="/sarpras/login?next=%2Fsarpras%2Feksekutif">
+          <span class="sd-portal-icon" aria-hidden="true">◈</span><h3>Eksekutif</h3><p>Ikhtisar KPI strategis, kesehatan aset, risiko fasilitas, anggaran, dan prioritas pimpinan.</p><span class="sd-portal-action">MASUK DASHBOARD <span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="sd-portal-card" href="/sarpras/login?next=%2Fsarpras%2Fpengguna">
+          <span class="sd-portal-icon" aria-hidden="true">♙</span><h3>Guru / Siswa</h3><p>Akses informasi fasilitas, inventaris ruang, pelaporan kondisi sarana, dan pemantauan tindak lanjut.</p><span class="sd-portal-action">MASUK LAYANAN <span aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+      <div class="sd-access-note">Portal Publik dapat diakses tanpa login. Portal Admin/Staff, Eksekutif, dan Guru/Siswa menggunakan akun internal sesuai peran yang ditetapkan. Tampilan ini tidak mengubah hak akses atau mekanisme autentikasi yang sedang berjalan.</div>
+    </section>
   </main>
   <div data-portal-footer></div>
   <script src="/src/pintuku/assets/js/sarpras-public-demo.js" defer></script>
