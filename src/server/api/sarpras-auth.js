@@ -285,13 +285,14 @@ async function summary(req, res, c) {
   if (!c.sheetId || !c.email || !c.key) return send(res, 503, { success: false, code: "sarpras_auth_not_configured", message: "Spreadsheet Sarpras belum dikonfigurasi." });
   try {
     const [aset, ruangan, log] = await Promise.all([
-      readTab(c, "Aset", "A:O"), readTab(c, "Ruangan", "A:E"), readTab(c, "Log_Aktivitas", "A:D")
+      readTab(c, "Aset", "A:R"), readTab(c, "Ruangan", "A:E"), readTab(c, "Log_Aktivitas", "A:D")
     ]);
     const kondisi = { Baik: 0, "Rusak Ringan": 0, "Rusak Berat": 0 };
     const dana = {}, jenis = {}, tahun = {}, ruang = {};
     const nameOf = new Map(ruangan.map(r => [String(r.Kode_Ruang), String(r.Nama_Ruangan || r.Kode_Ruang)]));
     let nilai = 0, unit = 0, tanpaRuang = 0;
-    for (const r of aset) {
+    const aktif = aset.filter(r => String(r.Status || "").trim().toLowerCase() !== "digabung");
+    for (const r of aktif) {
       const qty = Number(r.Jumlah) > 0 ? Number(r.Jumlah) : 1;
       const value = Number(r.Nilai) || 0;
       unit += qty; nilai += value;
@@ -309,7 +310,7 @@ async function summary(req, res, c) {
       source: "Google Sheets · Database Sarpras",
       generated_at: new Date().toISOString(),
       totals: {
-        records: aset.length, aset: unit, ruangan: ruangan.length, nilai,
+        records: aktif.length, digabung: aset.length - aktif.length, aset: unit, ruangan: ruangan.length, nilai,
         baik, rusak_ringan: kondisi["Rusak Ringan"] || 0, rusak_berat: kondisi["Rusak Berat"] || 0,
         perlu_penanganan: perlu, belum_dinilai: belumDinilai, indeks_kesehatan: dinilai ? Math.round((baik / dinilai) * 1000) / 10 : null,
         tanpa_ruang: tanpaRuang
