@@ -30,9 +30,9 @@
  const render=d=>{
   const t=d.totals;
   const badge=$$(".sp-preview")[0];
-  if(badge)badge.textContent="TERHUBUNG · GOOGLE SHEETS";
+  if(badge)badge.textContent="SNAPSHOT SEMENTARA · GOOGLE SHEETS";
   const note=$$(".sp-note")[0];
-  if(note)note.textContent="Sumber: "+d.source+" · diperbarui "+new Date(d.generated_at).toLocaleString("id-ID")+". Angka dihitung dari tab Aset dan Ruangan; Jumlah kosong dihitung 1 unit per baris."+(document.querySelector(".sarpras-admin-workspace")?" · Mode baca saja: tambah, edit, mutasi, dan impor belum menulis data.":"");
+  if(note)note.textContent="Snapshot sementara: "+d.source+" · diperbarui "+new Date(d.generated_at).toLocaleString("id-ID")+". Angka dihitung dari tab Aset dan Ruangan; Jumlah kosong dihitung 1 unit per baris. Firestore tetap ditetapkan sebagai sumber utama transaksi dan arsip."+(document.querySelector(".sarpras-admin-workspace")?" · Mode baca saja: tambah, edit, mutasi, dan impor belum menulis data.":"");
   // Admin
   kpi("Total aset",num(t.aset),t.records+" catatan inventaris");
   kpi("Ruangan",num(t.ruangan),t.tanpa_ruang?t.tanpa_ruang+" aset belum berkode ruang":"Seluruh aset berkode ruang");
