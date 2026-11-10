@@ -2,20 +2,21 @@
 (() => {
  "use strict";
  const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+ const names=l=>{const e=window.sarprasI18n&&window.sarprasI18n.toEnglish(l);return e?[l,e]:[l];};
  const num=n=>Number(n||0).toLocaleString("id-ID");
  const rp=n=>"Rp "+Number(n||0).toLocaleString("id-ID");
  const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;};
  const kpi=(label,value,note)=>{
-  const box=$$(".sp-kpi").find(k=>k.querySelector(".sp-kpi-label")?.textContent.trim()===label);
+  const box=$$(".sp-kpi").find(k=>names(label).includes(k.querySelector(".sp-kpi-label")?.textContent.trim()));
   if(!box)return;
   box.querySelector(".sp-kpi-value").textContent=value;
   if(note!==undefined)box.querySelector(".sp-kpi-note").textContent=note;
  };
  const row=(label,value)=>{
-  const r=$$(".sp-list-row").find(x=>x.querySelector("strong")?.textContent.trim()===label);
+  const r=$$(".sp-list-row").find(x=>names(label).includes(x.querySelector("strong")?.textContent.trim()));
   if(r)r.querySelector("span").textContent=value;
  };
- const panel=title=>$$(".sp-panel").find(p=>p.querySelector("h2")?.textContent.trim()===title);
+ const panel=title=>$$(".sp-panel").find(p=>names(title).includes(p.querySelector("h2")?.textContent.trim()));
  const fill=(title,build)=>{
   const p=panel(title);if(!p)return;
   const ph=p.querySelector(".sp-placeholder");if(!ph)return;
@@ -31,7 +32,7 @@
   const badge=$$(".sp-preview")[0];
   if(badge)badge.textContent="TERHUBUNG · GOOGLE SHEETS";
   const note=$$(".sp-note")[0];
-  if(note)note.textContent="Sumber: "+d.source+" · diperbarui "+new Date(d.generated_at).toLocaleString("id-ID")+". Angka dihitung dari tab Aset dan Ruangan; Jumlah kosong dihitung 1 unit per baris."+(document.querySelector(".sarpras-admin-workspace")?" · Mode baca saja: tambah, edit, mutasi, dan impor belum menulis data.":"");
+  if(note)note.textContent="Sumber: "+d.source+" · diperbarui "+new Date(d.generated_at).toLocaleString("id-ID")+". Angka dihitung dari tab Aset dan Ruangan; Jumlah kosong dihitung 1 unit per baris.";
   // Admin
   kpi("Total aset",num(t.aset),t.records+" catatan inventaris");
   kpi("Ruangan",num(t.ruangan),t.tanpa_ruang?t.tanpa_ruang+" aset belum berkode ruang":"Seluruh aset berkode ruang");
