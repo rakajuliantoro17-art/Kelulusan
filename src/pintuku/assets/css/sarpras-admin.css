@@ -79,3 +79,9 @@ html[data-theme="light"] .sarpras-admin-workspace .sp-admin-shortcut small,html[
 @media(max-width:760px){.sarpras-admin-workspace .sp-admin-hero{display:grid}.sarpras-admin-workspace .sp-admin-hero-status{justify-items:start;min-width:0}.sarpras-admin-workspace .sp-admin-sync-note{text-align:left}.sarpras-admin-workspace .sp-admin-section-head{gap:8px}.sarpras-admin-workspace .sp-admin-section-mark{display:none}.sarpras-admin-workspace .sp-admin-overview-grid{grid-template-columns:1fr}.sarpras-admin-workspace .sp-admin-form-grid{grid-template-columns:1fr}.sarpras-admin-workspace .sp-admin-form label.is-wide{grid-column:auto}.sarpras-admin-workspace .sp-admin-alert-grid{grid-template-columns:1fr 1fr}.sarpras-admin-workspace .sp-admin-activity article{grid-template-columns:1fr;gap:4px}}
 @media(max-width:420px){.sarpras-admin-workspace .sp-admin-alert-grid{grid-template-columns:1fr}.sarpras-admin-workspace .sp-admin-form-actions{align-items:flex-start;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){.sarpras-admin-workspace .sp-admin-shortcut{transition:none}}
+
+.sarpras-admin-workspace .sp-admin-form-grid-wide{grid-template-columns:repeat(3,minmax(0,1fr))}
+.sarpras-admin-workspace .sp-admin-registration{margin-top:14px}
+.sarpras-admin-workspace .sp-admin-report-filter{margin-top:14px;padding-top:14px;border-top:1px solid var(--sa-line)}
+@media(max-width:1050px){.sarpras-admin-workspace .sp-admin-form-grid-wide{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.sarpras-admin-workspace .sp-admin-form-grid-wide{grid-template-columns:1fr}}
