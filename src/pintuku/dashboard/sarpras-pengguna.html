@@ -2,29 +2,53 @@
 <html lang="id" data-sarpras-allow="admin_sarpras,staff_sarpras,arsiparis,wakasek_sarpras,principal,operator,teacher,homeroom_teacher"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07111f"><meta name="description" content="Layanan Sarana dan Prasarana SARPRASIN SMAN 1 Sooko">
-<title>Layanan Sarana dan Prasarana · SARPRASIN | PINTUKU</title>
+<title>Layanan Guru &amp; Siswa · SARPRASIN | PINTUKU</title>
 <style>html.sarpras-auth-pending body{visibility:hidden}</style>
-<link rel="stylesheet" href="/src/pintuku/assets/css/portal-shell.css">
-<link rel="stylesheet" href="/src/pintuku/assets/css/portal.css">
-<link rel="stylesheet" href="/src/pintuku/assets/css/portal-settings.css">
-<link rel="stylesheet" href="/src/pintuku/assets/css/pintuku-glass.css">
-<link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-public.css">
-<link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-portals.css">
-<link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-workspace.css">
-<link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-design-system.css">
-<script src="/src/pintuku/assets/js/sarpras-auth.js"></script><script src="/src/pintuku/assets/js/sarpras-shell.js" defer></script><script src="/src/pintuku/assets/js/portal-shell.js" defer></script><script src="/src/pintuku/assets/js/portal-settings.js" defer></script>
+<link rel="stylesheet" href="/src/pintuku/assets/css/portal-shell.css"><link rel="stylesheet" href="/src/pintuku/assets/css/portal.css">
+<link rel="stylesheet" href="/src/pintuku/assets/css/portal-settings.css"><link rel="stylesheet" href="/src/pintuku/assets/css/pintuku-glass.css">
+<link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-public.css"><link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-portals.css">
+<link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-workspace.css"><link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-design-system.css">
+<link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-dashboards.css">
+<script src="/src/pintuku/assets/js/sarpras-auth.js"></script><script src="/src/pintuku/assets/js/sarpras-shell.js" defer></script>
+<script src="/src/pintuku/assets/js/portal-shell.js" defer></script><script src="/src/pintuku/assets/js/portal-settings.js" defer></script>
 </head><body data-portal-module="sarpras" data-i18n-scope="sarpras"><div data-portal-header></div>
-<main class="portal-wrap service-page sarpras-public sarpras-workspace">
-<div class="sp-page-head"><div><span class="sp-eyebrow">SARPRASIN · SMAN 1 Sooko · GURU & SISWA</span><h1>Layanan Sarana dan Prasarana</h1><p class="sp-subtitle">Ruang informasi fasilitas sekolah dan rancangan layanan untuk menyampaikan kebutuhan atau kondisi sarana.</p></div><span class="sp-preview">PRATINJAU UI · BELUM TERHUBUNG DATA</span></div>
-
-<div class="sp-kpis">
-<div class="sp-kpi"><span class="sp-kpi-label">Informasi fasilitas</span><strong class="sp-kpi-value">Ruang</strong><span class="sp-kpi-note">Informasi umum sekolah</span></div>
-<div class="sp-kpi"><span class="sp-kpi-label">Inventaris kelas</span><strong class="sp-kpi-value">Kelas</strong><span class="sp-kpi-note">Akan tersedia setelah integrasi</span></div>
-<div class="sp-kpi"><span class="sp-kpi-label">Pelaporan</span><strong class="sp-kpi-value">Aspirasi</strong><span class="sp-kpi-note">Rancangan layanan</span></div>
-<div class="sp-kpi"><span class="sp-kpi-label">Status laporan</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Belum ada data terhubung</span></div>
-</div>
-<div class="sp-action-grid"><div class="sp-action"><strong>Informasi fasilitas</strong>Kenali ruang dan fasilitas sekolah</div><div class="sp-action"><strong>Inventaris ruang</strong>Rancangan tampilan barang per ruang</div><div class="sp-action"><strong>Laporkan kerusakan</strong>Form pelaporan akan diaktifkan pada tahap berikutnya</div></div>
-<div class="sp-layout" style="margin-top:14px"><section class="sp-panel"><h2>Informasi fasilitas sekolah</h2><p class="sp-panel-intro">Daftar fasilitas yang nantinya dapat ditelusuri berdasarkan lokasi.</p><div class="sp-list"><div class="sp-list-row"><strong>Ruang kelas</strong><span>Data belum tersedia</span></div><div class="sp-list-row"><strong>Laboratorium</strong><span>Data belum tersedia</span></div><div class="sp-list-row"><strong>Perpustakaan</strong><span>Data belum tersedia</span></div><div class="sp-list-row"><strong>Fasilitas umum</strong><span>Data belum tersedia</span></div></div></section><section class="sp-panel"><h2>Pelaporan sarana</h2><p class="sp-panel-intro">Alur pelaporan yang direncanakan.</p><div class="sp-placeholder">Pilih fasilitas → jelaskan kondisi → kirim laporan → pantau tindak lanjut.<br>Form belum aktif.</div></section></div>
-<div class="sp-note"><strong>Mode pengembangan UI.</strong> Angka, tabel, dan aktivitas operasional belum terhubung ke sumber data. Fitur transaksi dan autentikasi belum diaktifkan pada tahap ini.</div>
-<p style="margin:18px 0 28px"><a class="sp-back" href="/sarpras">← Kembali ke portal publik Sarpras</a></p>
+<main class="portal-wrap service-page sarpras-public sarpras-workspace sarpras-dashboards sarpras-user">
+  <header class="sp-page-head"><div><span class="sp-eyebrow">SARPRASIN · SMAN 1 Sooko · GURU &amp; SISWA</span><h1>Layanan Sarana dan Prasarana</h1><p class="sp-subtitle">Satu pintu untuk mengenali fasilitas sekolah, melihat informasi ruang, menyampaikan laporan, dan memantau tindak lanjut.</p>
+    <div class="sd-heading-meta"><span class="sd-chip">PORTAL LAYANAN SEKOLAH</span><span class="sd-chip is-warning">FORM PELAPORAN · PRATINJAU</span></div>
+  </div><span class="sp-preview">AKSES PENGGUNA</span></header>
+  <section class="sp-kpis" aria-label="Ringkasan layanan">
+    <article class="sp-kpi"><span class="sp-kpi-label">Informasi fasilitas</span><strong class="sp-kpi-value">Ruang</strong><span class="sp-kpi-note">Informasi umum sekolah</span></article>
+    <article class="sp-kpi"><span class="sp-kpi-label">Inventaris ruang</span><strong class="sp-kpi-value">Kelas</strong><span class="sp-kpi-note">Daftar aset per lokasi</span></article>
+    <article class="sp-kpi"><span class="sp-kpi-label">Pelaporan</span><strong class="sp-kpi-value">Aspirasi</strong><span class="sp-kpi-note">Sampaikan kondisi fasilitas</span></article>
+    <article class="sp-kpi"><span class="sp-kpi-label">Status laporan</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Belum ada data terhubung</span></article>
+  </section>
+  <div class="sd-section-head"><div><h2>Layanan cepat</h2><p>Pilih kebutuhan layanan yang sesuai. Fitur operasional akan diaktifkan setelah alur data dan verifikasi selesai diuji.</p></div></div>
+  <section class="sd-card-grid" aria-label="Layanan cepat">
+    <article class="sd-service-action"><span class="sd-card-icon" aria-hidden="true">⌂</span><div><h3>Informasi fasilitas</h3><p>Kenali ruang kelas, laboratorium, perpustakaan, kantor, dan fasilitas umum.</p></div></article>
+    <article class="sd-service-action"><span class="sd-card-icon" aria-hidden="true">▤</span><div><h3>Inventaris ruang</h3><p>Telusuri informasi aset berdasarkan ruang dan kategori fasilitas.</p></div></article>
+    <article class="sd-service-action"><span class="sd-card-icon" aria-hidden="true">⚑</span><div><h3>Laporkan kerusakan</h3><p>Sampaikan kondisi fasilitas yang membutuhkan pemeriksaan atau perbaikan.</p></div></article>
+  </section>
+  <div class="sd-section-head"><div><h2>Informasi fasilitas sekolah</h2><p>Kategori fasilitas yang akan tersedia dalam direktori layanan.</p></div></div>
+  <div class="sp-layout">
+    <section class="sp-panel"><h2>Direktori fasilitas</h2><div class="sd-metric-list">
+      <div class="sd-metric"><span>Ruang kelas</span><strong>Belum terhubung</strong></div><div class="sd-metric"><span>Laboratorium</span><strong>Belum terhubung</strong></div><div class="sd-metric"><span>Perpustakaan</span><strong>Belum terhubung</strong></div><div class="sd-metric"><span>Fasilitas umum</span><strong>Belum terhubung</strong></div>
+    </div></section>
+    <section class="sp-panel"><h2>Pratinjau laporan fasilitas</h2><p class="sp-panel-intro">Rancangan formulir. Pengiriman belum diaktifkan dan tidak menyimpan data.</p>
+      <form class="sd-form-preview" aria-label="Pratinjau formulir pelaporan">
+        <label>Lokasi fasilitas<select disabled><option>Pilih ruang atau fasilitas</option></select></label>
+        <label>Jenis laporan<select disabled><option>Kerusakan / kebutuhan perawatan</option></select></label>
+        <label>Deskripsi kondisi<textarea disabled placeholder="Jelaskan kondisi fasilitas yang ditemukan…"></textarea></label>
+        <button type="button" disabled>Pengiriman belum diaktifkan</button>
+      </form>
+    </section>
+  </div>
+  <div class="sd-section-head"><div><h2>Alur tindak lanjut</h2><p>Alur layanan yang dirancang agar laporan dapat ditelusuri dan dipertanggungjawabkan.</p></div></div>
+  <section class="sp-panel"><div class="sd-flow">
+    <div class="sd-flow-step"><b>01</b><strong>Laporan diterima</strong><span>Identitas dan lokasi dicatat.</span></div>
+    <div class="sd-flow-step"><b>02</b><strong>Verifikasi</strong><span>Petugas memeriksa informasi.</span></div>
+    <div class="sd-flow-step"><b>03</b><strong>Tindak lanjut</strong><span>Penanganan dijadwalkan.</span></div>
+    <div class="sd-flow-step"><b>04</b><strong>Diselesaikan</strong><span>Status dan hasil diperbarui.</span></div>
+  </div></section>
+  <p class="sd-access-note">Portal ini ditujukan untuk Guru dan Siswa. Pada tahap tampilan, direktori, formulir laporan, dan pelacakan masih berupa pratinjau. Tidak ada laporan yang dikirim atau disimpan dari halaman ini.</p>
+  <p style="margin:18px 0 28px"><a class="sp-back" href="/sarpras">← Kembali ke portal publik Sarpras</a></p>
 </main><div data-portal-footer></div><script src="/src/pintuku/assets/js/sarpras-i18n.js" defer></script></body></html>
