@@ -148,6 +148,10 @@
       "destination": "/api/sarpras?op=summary"
     },
     {
+      "source": "/api/sarpras/assets",
+      "destination": "/api/sarpras?op=assets"
+    },
+    {
       "source": "/api/sarpras/auth",
       "destination": "/api/sarpras"
     },
