@@ -18,7 +18,7 @@
 <main class="portal-wrap service-page sarpras-public sarpras-workspace sarpras-dashboards">
   <header class="sp-page-head">
     <div><span class="sp-eyebrow">SARPRASIN · SMAN 1 Sooko · EKSEKUTIF</span><h1>Executive Overview</h1><p class="sp-subtitle">Panel kendali pimpinan untuk membaca kesehatan aset, risiko fasilitas, kebutuhan anggaran, dan prioritas strategis sekolah.</p>
-      <div class="sd-heading-meta"><span class="sd-chip">EXECUTIVE INTELLIGENCE</span><span class="sd-chip is-warning">SNAPSHOT PELAPORAN · GOOGLE SHEETS</span></div>
+      <div class="sd-heading-meta"><span class="sd-chip">EXECUTIVE INTELLIGENCE</span><span class="sd-chip is-warning">SNAPSHOT SEMENTARA · GOOGLE SHEETS</span></div>
     </div><span class="sp-preview">RINGKASAN READ-ONLY</span>
   </header>
   <section class="sp-kpis" aria-label="Indikator utama">
@@ -49,6 +49,6 @@
     </div>
     <div class="sd-empty" style="margin-top:12px;min-height:105px"><div><strong>Rekomendasi otomatis belum aktif</strong><p>Rekomendasi berbasis data akan dibuka setelah kualitas inventaris, histori kondisi, dan parameter risiko disepakati.</p></div></div>
   </section>
-  <p class="sd-access-note">Sumber angka yang tampil pada tahap ini adalah snapshot pelaporan Google Sheets yang bersifat baca-saja. Sesuai keputusan arsitektur Hybrid, Firestore ditetapkan sebagai sumber utama transaksi dan riwayat; dashboard akan dialihkan setelah integrasi Firestore selesai diuji.</p>
+  <p class="sd-access-note">Angka yang tampil saat ini berasal dari snapshot Google Sheets dan bersifat baca-saja, bukan sumber kebenaran transaksi. Dalam arsitektur Hybrid, Firestore menjadi sumber utama transaksi dan riwayat, sedangkan Google Sheets menjadi salinan serta media pelaporan. Dashboard akan beralih ke pembacaan Firestore setelah integrasi dan rekonsiliasi selesai diuji.</p>
   <p style="margin:18px 0 28px"><a class="sp-back" href="/sarpras">← Kembali ke portal publik Sarpras</a></p>
 </main><div data-portal-footer></div><script src="/src/pintuku/assets/js/sarpras-data.js" defer></script><script src="/src/pintuku/assets/js/sarpras-i18n.js" defer></script></body></html>
