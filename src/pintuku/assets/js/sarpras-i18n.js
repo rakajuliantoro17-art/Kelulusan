@@ -72,7 +72,27 @@ const P=[
  ["Pengaturan","Settings"],["Mode tampilan","Display theme"],["Beralih antara terang dan gelap","Switch between light and dark"],
  ["Pilihan tema disimpan di perangkat ini dan berlaku di seluruh halaman portal.","Theme preference is saved on this device and applies across the portal."],
  ["Pilih bahasa antarmuka","Choose interface language"],
- ["Bahasa antarmuka dapat diubah kapan saja. Dokumen resmi tetap mengikuti bahasa dokumen sumber.","The interface language can be changed at any time. Official documents remain in their source language."]
+ ["Bahasa antarmuka dapat diubah kapan saja. Dokumen resmi tetap mengikuti bahasa dokumen sumber.","The interface language can be changed at any time. Official documents remain in their source language."],
+ // Admin/Staff inventory workspace
+ ["Data Aset","Asset Data"],["Inventaris yang terbaca dari tab Aset pada Google Sheets.","Inventory read from the Aset tab in Google Sheets."],
+ ["Memuat…","Loading…"],["Cari aset","Search assets"],["Nama, kode, merk, lokasi…","Name, code, brand, location…"],
+ ["Semua kondisi","All conditions"],["Perlu perbaikan","Needs repair"],["Belum dipetakan","Not mapped"],
+ ["Kode","Code"],["Nama aset","Asset name"],["Model","Model"],["Jumlah","Quantity"],["Lokasi","Location"],["Tahun","Year"],["Nilai","Value"],["Verifikasi","Verification"],
+ ["Menghubungkan ke spreadsheet…","Connecting to spreadsheet…"],["Belum ada data ditampilkan.","No data to display yet."],
+ ["Sumber: tab Aset · menampilkan maksimal 500 baris. Data tidak diubah.","Source: Aset tab · displaying up to 500 rows. No data has been changed."],
+ ["Pembelian & Pengadaan","Purchases & Procurement"],["Input pembelian baru dan pembentukan aset akan diaktifkan setelah skema Pembelian dan Aset diselaraskan.","New purchase entry and asset creation will be enabled after the Purchases and Assets schemas are aligned."],
+ ["Input pembelian","Purchase entry"],["Menunggu integrasi transaksi dan verifikasi.","Waiting for transaction integration and verification."],
+ ["Mutasi Aset","Asset Movement"],["Pindah lokasi antar-ruang, laboratorium, kantor, dan gudang.","Move assets between rooms, laboratories, offices, and warehouses."],
+ ["Form mutasi","Movement form"],["Mutasi menyimpan asal, tujuan, kuantitas, alasan, pelaksana, dan waktu. Belum aktif.","Movements will record source, destination, quantity, reason, operator, and time. Not active yet."],
+ ["Lokasi & Gudang","Locations & Warehouse"],["Master ruang belajar, laboratorium, kantor, fasilitas umum, dan gudang.","Master list of classrooms, laboratories, offices, public facilities, and warehouses."],
+ ["Master lokasi","Location master"],["Menunggu pemetaan kode lokasi dan nama lokasi terkini.","Waiting for location-code and current location-name mapping."],
+ ["Impor XLSX / CSV","XLSX / CSV Import"],["File diproses secara lokal untuk pratinjau. Tidak ada baris yang ditulis ke spreadsheet.","Files are processed locally for preview. No rows are written to the spreadsheet."],
+ ["Pilih file inventaris","Choose inventory file"],["Belum ada file dipilih.","No file selected."],["Sheet","Sheet"],["Penulisan belum diaktifkan","Writing is not enabled"],
+ ["Riwayat aktivitas","Activity History"],["Aktivitas terbaru dari tab Log_Aktivitas. Riwayat aset dan mutasi append-only disiapkan pada tahap integrasi berikutnya.","Recent activity from Log_Aktivitas. Append-only asset and movement history will be added in the next integration stage."],
+ ["Menunggu data aktivitas…","Waiting for activity data…"],["Perhatian operasional","Operational Attention"],
+ ["Ringkasan tindak lanjut akan muncul setelah data kondisi dan pemeliharaan tervalidasi.","Follow-up summaries will appear after condition and maintenance data are validated."],
+ ["Menunggu pemeriksaan","Awaiting inspection"],["Belum terhubung","Not connected"],
+ ["Data aset dibaca dari Google Sheets. Fitur tulis, pembelian, mutasi, dan impor belum diaktifkan. Workbook BPOPP 2025 merupakan catatan pengadaan historis, bukan inventaris aktif terverifikasi.","Asset data is read from Google Sheets. Writing, purchases, movements, and imports are not enabled. The 2025 BPOPP workbook is procurement history, not a verified active inventory."]
 ];
 const toEn=new Map(P),toId=new Map(P.map(([a,b])=>[b,a]));
 // pola dinamis [id-regex, en-template, en-regex, id-template]
@@ -87,6 +107,7 @@ const R=[
  [/^Ruang · (.+)$/,"Room · $1",/^Room · (.+)$/,"Ruang · $1"],
  [/^Tahun · (.+)$/,"Year · $1",/^Year · (.+)$/,"Tahun · $1"],
  [/^(\d+) sumber · terbesar (.+)$/,"$1 sources · largest $2",/^(\d+) sources · largest (.+)$/,"$1 sumber · terbesar $2"],
+ [/^Sumber: (.+) · diperbarui (.+)\. Angka dihitung dari tab Aset dan Ruangan; Jumlah kosong dihitung 1 unit per baris\. · Mode baca saja: tambah, edit, mutasi, dan impor belum menulis data\.$/,"Source: $1 · updated $2. Figures are computed from the Aset and Ruangan tabs; an empty Jumlah counts as 1 unit per row. · Read-only mode: add, edit, move, and import do not write data.",/^Source: (.+) · updated (.+)\. Figures are computed from the Aset and Ruangan tabs; an empty Jumlah counts as 1 unit per row\. · Read-only mode: add, edit, move, and import do not write data\.$/,"Sumber: $1 · diperbarui $2. Angka dihitung dari tab Aset dan Ruangan; Jumlah kosong dihitung 1 unit per baris. · Mode baca saja: tambah, edit, mutasi, dan impor belum menulis data."],
  [/^Sumber: (.+) · diperbarui (.+)\. Angka dihitung dari tab Aset dan Ruangan; Jumlah kosong dihitung 1 unit per baris\.$/,"Source: $1 · updated $2. Figures are computed from the Aset and Ruangan tabs; an empty Jumlah counts as 1 unit per row.",/^Source: (.+) · updated (.+)\. Figures are computed from the Aset and Ruangan tabs; an empty Jumlah counts as 1 unit per row\.$/,"Sumber: $1 · diperbarui $2. Angka dihitung dari tab Aset dan Ruangan; Jumlah kosong dihitung 1 unit per baris."],
  [/^Data dari spreadsheet belum dapat dimuat: (.+)$/,"Spreadsheet data could not be loaded: $1",/^Spreadsheet data could not be loaded: (.+)$/,"Data dari spreadsheet belum dapat dimuat: $1"],
  [/^Angka, tabel, dan aktivitas operasional belum terhubung ke sumber data\. Fitur transaksi dan autentikasi belum diaktifkan pada tahap ini\.$/,"Operational figures, tables, and activity are not yet connected to a data source. Transaction features and authentication are not enabled at this stage.",/^Operational figures, tables, and activity are not yet connected to a data source\. Transaction features and authentication are not enabled at this stage\.$/,"Angka, tabel, dan aktivitas operasional belum terhubung ke sumber data. Fitur transaksi dan autentikasi belum diaktifkan pada tahap ini."]
