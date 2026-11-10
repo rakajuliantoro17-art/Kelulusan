@@ -68,6 +68,31 @@
     <p id="assetFoot" class="sp-admin-foot">Belum ada data ditampilkan.</p>
   </section>
 
+  <section class="sp-panel sp-admin-registration" id="registrasi-aset">
+    <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">ASSET REGISTRATION</span><h2>Registrasi aset baru</h2><p class="sp-panel-intro">Rancangan input aset hasil pembelian, hibah, serah terima, atau pendataan awal.</p></div><span class="sp-admin-section-mark">01A</span></div>
+    <form class="sp-admin-form" data-preview-form="registrasi aset">
+      <div class="sp-admin-form-grid sp-admin-form-grid-wide">
+        <label>Kode aset / inventaris<input name="kode" placeholder="Nomor identitas aset"></label>
+        <label>Nama barang<input name="nama" placeholder="Nama dan spesifikasi barang"></label>
+        <label>Kategori aset<select name="kategori"><option value="">Pilih kategori</option><option>Peralatan dan mesin</option><option>Perabot</option><option>Perangkat TIK</option><option>Peralatan laboratorium</option><option>Bangunan / fasilitas</option><option>Lainnya</option></select></label>
+        <label>Model pencatatan<select name="model"><option value="">Pilih model</option><option>Per unit — identitas individual</option><option>Per kelompok — kuantitas</option></select></label>
+        <label>Jumlah<input name="jumlah" inputmode="numeric" placeholder="1"></label>
+        <label>Satuan<input name="satuan" placeholder="Unit / buah / set / paket"></label>
+        <label>Merk / tipe / model<input name="merk" placeholder="Informasi produsen / tipe"></label>
+        <label>Nomor seri / identitas<input name="serial" placeholder="Nomor seri bila tersedia"></label>
+        <label>Tahun perolehan<input name="tahun" inputmode="numeric" placeholder="2026"></label>
+        <label>Kondisi awal<select name="kondisi"><option value="">Pilih kondisi</option><option>Baik</option><option>Perlu perbaikan</option><option>Rusak berat</option><option>Belum diperiksa</option></select></label>
+        <label>Lokasi penempatan<input name="lokasi" placeholder="Gedung / ruang / gudang"></label>
+        <label>Penanggung jawab<input name="pj" placeholder="Unit / petugas penanggung jawab"></label>
+        <label>Sumber perolehan<select name="sumber"><option value="">Pilih sumber</option><option>BOS / BOSP</option><option>BPOPP</option><option>APBD</option><option>Hibah / CSR</option><option>Donasi</option><option>Perolehan lama / saldo awal</option><option>Lainnya</option></select></label>
+        <label>Nilai perolehan (Rp)<input name="nilai" inputmode="numeric" placeholder="0"></label>
+        <label class="is-wide">Catatan / referensi dokumen<input name="dokumen" placeholder="Nomor faktur, BAST, KIB, atau keterangan sumber data"></label>
+      </div>
+      <div class="sp-admin-form-actions"><button class="sp-admin-button" type="submit">Pratinjau data aset</button><span>Belum membuat atau mengubah data induk</span></div>
+      <output class="sp-admin-preview-output" aria-live="polite"></output>
+    </form>
+  </section>
+
   <div class="sp-admin-two-col">
     <section class="sp-panel" id="pembelian">
       <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">PROCUREMENT</span><h2>Pembelian & pengadaan</h2><p class="sp-panel-intro">Rancangan pencatatan perolehan barang baru dan pembentukan identitas aset.</p></div><span class="sp-admin-section-mark">02</span></div>
@@ -200,6 +225,16 @@
         <div><span class="sp-admin-report-icon">⇄</span><span><strong>Rekap mutasi & lokasi</strong><small>Riwayat perpindahan dan distribusi</small></span><em>Rancangan</em></div>
         <div><span class="sp-admin-report-icon">▤</span><span><strong>Format BOS / BPOPP</strong><small>Template ekspor mengikuti format resmi tervalidasi</small></span><em>Menunggu format</em></div>
       </div>
+      <form class="sp-admin-form sp-admin-report-filter" data-preview-form="laporan">
+        <div class="sp-admin-form-grid">
+          <label>Periode laporan<select name="periode"><option value="">Pilih periode</option><option>Tahun anggaran 2026</option><option>Tahun anggaran 2025</option><option>Semester berjalan</option></select></label>
+          <label>Sumber dana<select name="sumber"><option value="">Semua sumber dana</option><option>BOS / BOSP</option><option>BPOPP</option><option>APBD</option><option>Hibah / CSR</option></select></label>
+          <label>Jenis laporan<select name="format"><option value="">Pilih format</option><option>Rekap inventaris</option><option>Rekap pengadaan</option><option>Rekap pemeliharaan</option><option>Rekap mutasi</option><option>Format BOS / BPOPP</option></select></label>
+          <label>Format keluaran<select name="keluaran"><option>Excel (.xlsx)</option><option>CSV</option><option>PDF</option></select></label>
+        </div>
+        <div class="sp-admin-form-actions"><button class="sp-admin-button" type="submit">Pratinjau parameter laporan</button><span>Ekspor menunggu pemetaan format resmi</span></div>
+        <output class="sp-admin-preview-output" aria-live="polite"></output>
+      </form>
     </section>
   </div>
 
