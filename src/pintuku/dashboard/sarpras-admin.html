@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="id" data-sarpras-allow="admin_sarpras,staff_sarpras,arsiparis"><head>
+<html lang="id" data-sarpras-allow="admin_sarpras,staff_sarpras,arsiparis">
+<head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07111f"><meta name="description" content="Dashboard Operasional Sarpras SARPRASIN SMAN 1 Sooko">
 <title>Dashboard Operasional Sarpras · SARPRASIN | PINTUKU</title>
@@ -14,28 +15,209 @@
 <link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-design-system.css">
 <link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-admin.css">
 <link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-dashboards.css">
-<script src="/src/pintuku/assets/js/sarpras-auth.js"></script><script src="/src/pintuku/assets/js/sarpras-shell.js" defer></script><script src="/src/pintuku/assets/js/portal-shell.js" defer></script><script src="/src/pintuku/assets/js/portal-settings.js" defer></script>
-</head><body data-portal-module="sarpras" data-i18n-scope="sarpras"><div data-portal-header></div>
+<script src="/src/pintuku/assets/js/sarpras-auth.js"></script>
+<script src="/src/pintuku/assets/js/sarpras-shell.js" defer></script>
+<script src="/src/pintuku/assets/js/portal-shell.js" defer></script>
+<script src="/src/pintuku/assets/js/portal-settings.js" defer></script>
+</head>
+<body data-portal-module="sarpras" data-i18n-scope="sarpras">
+<div data-portal-header></div>
 <main class="portal-wrap service-page sarpras-public sarpras-workspace sarpras-admin-workspace sarpras-dashboards">
-<div class="sp-page-head"><div><span class="sp-eyebrow">SARPRASIN · SMAN 1 Sooko · ADMIN / STAFF</span><h1>Dashboard Operasional Sarpras</h1><p class="sp-subtitle">Pusat kendali inventaris, ruangan, pemeliharaan, pengadaan, dan administrasi aset sekolah.</p><div class="sd-heading-meta"><span class="sd-chip">WORKSPACE OPERASIONAL</span><span class="sd-chip is-warning">MODE BACA · TRANSAKSI BELUM AKTIF</span></div></div><span class="sp-preview" id="inventoryConnection">MEMERIKSA SUMBER DATA</span></div>
+  <header class="sp-page-head sp-admin-hero">
+    <div class="sp-admin-hero-copy">
+      <span class="sp-eyebrow">SARPRASIN · SMAN 1 Sooko · ADMIN / STAFF</span>
+      <h1>Workspace Operasional Sarpras</h1>
+      <p class="sp-subtitle">Pusat kendali inventaris, pengadaan, pergerakan aset, fasilitas, pemeliharaan, dan pelaporan sekolah.</p>
+      <div class="sd-heading-meta"><span class="sd-chip">WORKSPACE OPERASIONAL</span><span class="sd-chip is-warning">MODE UI · TRANSAKSI NONAKTIF</span></div>
+    </div>
+    <div class="sp-admin-hero-status">
+      <span class="sp-preview" id="inventoryConnection">MEMERIKSA SUMBER DATA</span>
+      <span class="sp-admin-sync"><i aria-hidden="true"></i> Sumber transaksi direncanakan: Firestore</span>
+      <span class="sp-admin-sync-note">Google Sheets digunakan sebagai salinan dan pelaporan</span>
+    </div>
+  </header>
 
-<div class="sp-kpis">
-<div class="sp-kpi"><span class="sp-kpi-label">Total aset</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Menunggu sumber data</span></div>
-<div class="sp-kpi"><span class="sp-kpi-label">Ruangan</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Menunggu sumber data</span></div>
-<div class="sp-kpi"><span class="sp-kpi-label">Perlu pemeliharaan</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Menunggu sumber data</span></div>
-<div class="sp-kpi"><span class="sp-kpi-label">Usulan / pengadaan</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Menunggu sumber data</span></div>
-</div>
-<div class="sp-panel"><h2>Akses cepat operasional</h2><p class="sp-panel-intro">Rancangan pintasan modul kerja staf Sarpras.</p><div class="sp-action-grid">
-<a class="sp-action" href="#data-aset"><strong>Inventaris aset</strong>Data barang dan identitas aset</a><a class="sp-action" href="#lokasi"><strong>Lokasi & gudang</strong>Master lokasi fasilitas</a><a class="sp-action" href="#mutasi"><strong>Mutasi aset</strong>Perpindahan lokasi aset</a><a class="sp-action" href="#pembelian"><strong>Pengadaan</strong>Catatan pembelian aset baru</a><a class="sp-action" href="#impor"><strong>Impor XLSX / CSV</strong>Pratinjau data inventaris</a><a class="sp-action" href="#riwayat"><strong>Riwayat aktivitas</strong>Aktivitas perubahan data</a>
-</div></div>
-<section class="sp-panel sp-admin-panel" id="data-aset"><div class="sp-admin-heading"><div><h2>Data Aset</h2><p class="sp-panel-intro">Snapshot inventaris sementara dari tab Aset Google Sheets. Firestore ditetapkan sebagai sumber utama transaksi dan arsip pada tahap integrasi berikutnya.</p></div><span id="assetCount" class="sp-admin-count">Memuat…</span></div>
-<div class="sp-admin-toolbar"><label>Cari aset<input id="assetSearch" type="search" placeholder="Nama, kode, merk, lokasi…"></label><label>Kondisi<select id="conditionFilter"><option value="">Semua kondisi</option><option value="baik">Baik</option><option value="perbaikan">Perlu perbaikan</option><option value="rusak">Rusak</option><option value="lain">Belum dipetakan</option></select></label></div>
-<div class="sp-admin-table-wrap"><table class="sp-admin-table"><thead><tr><th>Kode</th><th>Nama aset</th><th>Model</th><th>Jumlah</th><th>Kondisi</th><th>Lokasi</th><th>Tahun</th><th>Nilai</th><th>Verifikasi</th></tr></thead><tbody id="assetRows"><tr><td colspan="9">Menghubungkan ke spreadsheet…</td></tr></tbody></table></div><p id="assetFoot" class="sp-admin-foot">Belum ada data ditampilkan.</p></section>
-<div class="sp-layout sp-admin-grid"><section class="sp-panel" id="pembelian"><h2>Pembelian & Pengadaan</h2><p class="sp-panel-intro">Input pembelian baru dan pembentukan aset akan diaktifkan setelah skema Pembelian dan Aset diselaraskan.</p><div class="sp-admin-placeholder"><strong>Input pembelian</strong><span>Menunggu integrasi transaksi dan verifikasi.</span></div></section><section class="sp-panel" id="mutasi"><h2>Mutasi Aset</h2><p class="sp-panel-intro">Pindah lokasi antar-ruang, laboratorium, kantor, dan gudang.</p><div class="sp-admin-placeholder"><strong>Form mutasi</strong><span>Mutasi menyimpan asal, tujuan, kuantitas, alasan, pelaksana, dan waktu. Belum aktif.</span></div></section></div>
-<div class="sp-layout sp-admin-grid"><section class="sp-panel" id="lokasi"><h2>Lokasi & Gudang</h2><p class="sp-panel-intro">Master ruang belajar, laboratorium, kantor, fasilitas umum, dan gudang.</p><div class="sp-admin-placeholder"><strong>Master lokasi</strong><span>Menunggu pemetaan kode lokasi dan nama lokasi terkini.</span></div></section>
-<section class="sp-panel" id="impor"><h2>Impor XLSX / CSV</h2><p class="sp-panel-intro">File diproses secara lokal untuk pratinjau. Tidak ada baris yang ditulis ke spreadsheet.</p><div class="sp-admin-upload"><label for="inventoryFile">Pilih file inventaris</label><input id="inventoryFile" type="file" accept=".xlsx,.csv,text/csv"><p id="importMessage" role="status">Belum ada file dipilih.</p><label id="sheetPickerWrap" hidden>Sheet<select id="sheetPicker"></select></label><div id="importSummary" hidden></div><div class="sp-admin-table-wrap" id="importPreviewWrap" hidden><table class="sp-admin-table"><thead id="importHead"></thead><tbody id="importRows"></tbody></table></div><button type="button" disabled>Penulisan belum diaktifkan</button></div></section></div>
-<section class="sp-panel" id="riwayat"><h2>Riwayat aktivitas</h2><p class="sp-panel-intro">Aktivitas terbaru dari tab Log_Aktivitas. Riwayat aset dan mutasi append-only disiapkan pada tahap integrasi berikutnya.</p><div id="activityList" class="sp-admin-activity"><div>Menunggu data aktivitas…</div></div></section>
-<section class="sp-panel" id="perhatian"><h2>Perhatian operasional</h2><p class="sp-panel-intro">Ringkasan tindak lanjut akan muncul setelah data kondisi dan pemeliharaan tervalidasi.</p><div class="sp-list"><div class="sp-list-row"><strong>Validasi inventaris</strong><span>Menunggu pemeriksaan</span></div><div class="sp-list-row"><strong>Jadwal pemeliharaan</strong><span>Belum terhubung</span></div><div class="sp-list-row"><strong>Usulan kebutuhan</strong><span>Belum terhubung</span></div></div></section>
-<div class="sp-note"><strong>Mode pengembangan UI.</strong> Data inventaris yang tampil masih berupa snapshot baca-saja dari Google Sheets. Sesuai arsitektur Hybrid, Firestore akan menjadi sumber utama transaksi dan arsip setelah integrasi diuji. Fitur tulis, pembelian, mutasi, dan impor belum diaktifkan. Workbook BPOPP 2025 merupakan catatan pengadaan historis, bukan inventaris aktif terverifikasi.</div>
-<p style="margin:18px 0 28px"><a class="sp-back" href="/sarpras">← Kembali ke portal publik Sarpras</a></p>
-</main><div data-portal-footer></div><script src="/src/pintuku/assets/js/sarpras-data.js" defer></script><script src="/src/pintuku/assets/js/sarpras-i18n.js" defer></script><script src="/src/pintuku/assets/js/sarpras-admin.js" defer></script></body></html>
+  <section class="sp-kpis sp-admin-kpis" aria-label="Ringkasan operasional">
+    <article class="sp-kpi"><span class="sp-kpi-label">Total aset</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Menunggu sumber data</span></article>
+    <article class="sp-kpi"><span class="sp-kpi-label">Ruangan</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Menunggu sumber data</span></article>
+    <article class="sp-kpi"><span class="sp-kpi-label">Perlu pemeliharaan</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Menunggu sumber data</span></article>
+    <article class="sp-kpi"><span class="sp-kpi-label">Usulan / pengadaan</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Menunggu sumber data</span></article>
+  </section>
+
+  <section class="sp-panel sp-admin-overview" id="ikhtisar">
+    <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">WORKSPACE OVERVIEW</span><h2>Ikhtisar pekerjaan</h2><p class="sp-panel-intro">Akses cepat ke aktivitas administrasi aset dan fasilitas sekolah.</p></div><span class="sp-admin-section-mark">01 / OVERVIEW</span></div>
+    <div class="sp-admin-overview-grid">
+      <a class="sp-admin-shortcut" href="#data-aset"><span class="sp-admin-shortcut-icon">▦</span><span><strong>Inventaris aset</strong><small>Data, identitas, kondisi, dan lokasi</small></span><b>↗</b></a>
+      <a class="sp-admin-shortcut" href="#pembelian"><span class="sp-admin-shortcut-icon">＋</span><span><strong>Pembelian & pengadaan</strong><small>Catatan perolehan dan sumber dana</small></span><b>↗</b></a>
+      <a class="sp-admin-shortcut" href="#mutasi"><span class="sp-admin-shortcut-icon">⇄</span><span><strong>Mutasi aset</strong><small>Perpindahan dan distribusi aset</small></span><b>↗</b></a>
+      <a class="sp-admin-shortcut" href="#pemeliharaan"><span class="sp-admin-shortcut-icon">⌁</span><span><strong>Pemeliharaan</strong><small>Kerusakan dan tindak lanjut</small></span><b>↗</b></a>
+      <a class="sp-admin-shortcut" href="#stock-opname"><span class="sp-admin-shortcut-icon">✓</span><span><strong>Stock opname</strong><small>Pemeriksaan fisik dan rekonsiliasi</small></span><b>↗</b></a>
+      <a class="sp-admin-shortcut" href="#laporan"><span class="sp-admin-shortcut-icon">▤</span><span><strong>Laporan</strong><small>Rekap inventaris dan sumber dana</small></span><b>↗</b></a>
+    </div>
+    <div class="sp-admin-callout"><strong>Prinsip pencatatan</strong><span>Satu data induk aset untuk semua kebutuhan. Setiap pembelian, perubahan lokasi, pemeriksaan, dan koreksi dirancang memiliki jejak riwayat tersendiri.</span></div>
+  </section>
+
+  <section class="sp-panel sp-admin-panel" id="data-aset">
+    <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">MASTER DATA</span><h2>Data aset sekolah</h2><p class="sp-panel-intro">Daftar aset yang saat ini dibaca dari snapshot Google Sheets. Data tidak dapat diubah dari halaman ini.</p></div><span id="assetCount" class="sp-admin-count">Memuat…</span></div>
+    <div class="sp-admin-toolbar">
+      <label class="sp-admin-search">Cari aset<input id="assetSearch" type="search" placeholder="Nama, kode, merk, lokasi…" autocomplete="off"></label>
+      <label>Kelompok kondisi<select id="conditionFilter"><option value="">Semua kondisi</option><option value="baik">Baik</option><option value="perbaikan">Perlu perbaikan</option><option value="rusak">Rusak</option><option value="lain">Belum dipetakan</option></select></label>
+      <span class="sp-admin-readonly"><i></i> Baca saja</span>
+    </div>
+    <div class="sp-admin-table-wrap"><table class="sp-admin-table"><thead><tr><th>Kode aset</th><th>Nama barang</th><th>Model</th><th>Jumlah</th><th>Kondisi</th><th>Lokasi</th><th>Tahun</th><th>Nilai perolehan</th><th>Verifikasi</th></tr></thead><tbody id="assetRows"><tr><td colspan="9">Menghubungkan ke sumber data…</td></tr></tbody></table></div>
+    <p id="assetFoot" class="sp-admin-foot">Belum ada data ditampilkan.</p>
+  </section>
+
+  <div class="sp-admin-two-col">
+    <section class="sp-panel" id="pembelian">
+      <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">PROCUREMENT</span><h2>Pembelian & pengadaan</h2><p class="sp-panel-intro">Rancangan pencatatan perolehan barang baru dan pembentukan identitas aset.</p></div><span class="sp-admin-section-mark">02</span></div>
+      <form class="sp-admin-form" data-preview-form="pembelian">
+        <div class="sp-admin-form-grid">
+          <label>Nomor transaksi<input name="nomor" placeholder="Contoh: PB-2026-001"></label>
+          <label>Tanggal perolehan<input name="tanggal" type="date"></label>
+          <label>Nama barang<input name="barang" placeholder="Nama barang / spesifikasi"></label>
+          <label>Kategori<select name="kategori"><option value="">Pilih kategori</option><option>Peralatan dan mesin</option><option>Perabot</option><option>Perangkat TIK</option><option>Peralatan laboratorium</option><option>Lainnya</option></select></label>
+          <label>Model pencatatan<select name="model"><option value="">Pilih model</option><option>Per unit</option><option>Per kelompok</option></select></label>
+          <label>Jumlah dan satuan<input name="jumlah" placeholder="Contoh: 10 unit"></label>
+          <label>Sumber dana<select name="dana"><option value="">Pilih sumber dana</option><option>BOS / BOSP</option><option>BPOPP</option><option>APBD</option><option>Hibah / CSR</option><option>Komite / sumber sah lainnya</option></select></label>
+          <label>Nomor rekening / kegiatan<input name="rekening" placeholder="Kode rekening / kegiatan"></label>
+          <label>Harga satuan (Rp)<input name="harga" inputmode="numeric" placeholder="0"></label>
+          <label>Pemasok / penyedia<input name="pemasok" placeholder="Nama penyedia"></label>
+          <label class="is-wide">Lokasi penempatan<select name="lokasi"><option value="">Pilih lokasi tujuan</option><option>Belum ditentukan</option></select></label>
+          <label class="is-wide">Dokumen pendukung<input name="dokumen" placeholder="Nomor faktur, kuitansi, BAST, atau tautan arsip"></label>
+        </div>
+        <div class="sp-admin-form-actions"><button class="sp-admin-button" type="submit">Pratinjau pencatatan</button><span>Belum menyimpan transaksi</span></div>
+        <output class="sp-admin-preview-output" aria-live="polite"></output>
+      </form>
+    </section>
+
+    <section class="sp-panel" id="mutasi">
+      <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">ASSET MOVEMENT</span><h2>Mutasi aset</h2><p class="sp-panel-intro">Perpindahan aset antar-ruang, laboratorium, kantor, unit, dan gudang.</p></div><span class="sp-admin-section-mark">03</span></div>
+      <form class="sp-admin-form" data-preview-form="mutasi">
+        <div class="sp-admin-form-grid">
+          <label>Kode / nama aset<input name="aset" placeholder="Cari identitas aset"></label>
+          <label>Tanggal mutasi<input name="tanggal" type="date"></label>
+          <label>Lokasi asal<input name="asal" placeholder="Gedung / ruang asal"></label>
+          <label>Lokasi tujuan<input name="tujuan" placeholder="Gedung / ruang tujuan"></label>
+          <label>Jumlah dipindahkan<input name="jumlah" inputmode="numeric" placeholder="Jumlah unit"></label>
+          <label>Penanggung jawab<input name="pj" placeholder="Nama petugas"></label>
+          <label class="is-wide">Alasan perpindahan<textarea name="alasan" rows="2" placeholder="Alasan dan keterangan perpindahan"></textarea></label>
+        </div>
+        <div class="sp-admin-form-actions"><button class="sp-admin-button" type="submit">Pratinjau mutasi</button><span>Saldo aset tidak berubah dalam pratinjau</span></div>
+        <output class="sp-admin-preview-output" aria-live="polite"></output>
+      </form>
+      <div class="sp-admin-rule-note"><strong>Kontrol kuantitas kelompok</strong><span>Mutasi sebagian dirancang memecah kelompok dengan menjaga jumlah asal + tujuan tetap sama serta mempertahankan asal-usul kelompok.</span></div>
+    </section>
+  </div>
+
+  <div class="sp-admin-two-col">
+    <section class="sp-panel" id="lokasi">
+      <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">LOCATION DIRECTORY</span><h2>Lokasi & gudang</h2><p class="sp-panel-intro">Master lokasi untuk penempatan, distribusi, dan penelusuran aset.</p></div><span class="sp-admin-section-mark">04</span></div>
+      <div class="sp-admin-location-tree">
+        <div><b>01</b><span><strong>Gedung / blok</strong><small>Identitas gedung dan area sekolah</small></span></div>
+        <div><b>02</b><span><strong>Lantai / zona</strong><small>Hierarki lantai atau area</small></span></div>
+        <div><b>03</b><span><strong>Ruang / fasilitas</strong><small>Kelas, lab, kantor, toilet, dan fasilitas umum</small></span></div>
+        <div><b>04</b><span><strong>Gudang / penyimpanan</strong><small>Lokasi transit dan aset belum terdistribusi</small></span></div>
+      </div>
+      <form class="sp-admin-form" data-preview-form="lokasi">
+        <div class="sp-admin-form-grid">
+          <label>Kode lokasi<input name="kode" placeholder="Contoh: LAB-KOM-01"></label>
+          <label>Nama lokasi<input name="nama" placeholder="Nama ruang / gudang"></label>
+          <label>Jenis lokasi<select name="jenis"><option value="">Pilih jenis</option><option>Ruang kelas</option><option>Laboratorium</option><option>Kantor</option><option>Fasilitas umum</option><option>Gudang</option></select></label>
+          <label>Kapasitas / keterangan<input name="kapasitas" placeholder="Opsional"></label>
+        </div>
+        <div class="sp-admin-form-actions"><button class="sp-admin-button" type="submit">Pratinjau lokasi</button><span>Master lokasi belum disimpan</span></div>
+        <output class="sp-admin-preview-output" aria-live="polite"></output>
+      </form>
+    </section>
+
+    <section class="sp-panel" id="pemeliharaan">
+      <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">MAINTENANCE</span><h2>Pemeliharaan & perbaikan</h2><p class="sp-panel-intro">Pencatatan kondisi, laporan kerusakan, tindakan perawatan, dan biaya.</p></div><span class="sp-admin-section-mark">05</span></div>
+      <form class="sp-admin-form" data-preview-form="pemeliharaan">
+        <div class="sp-admin-form-grid">
+          <label>Kode / nama aset<input name="aset" placeholder="Identitas aset"></label>
+          <label>Tanggal pemeriksaan<input name="tanggal" type="date"></label>
+          <label>Kondisi<select name="kondisi"><option value="">Pilih kondisi</option><option>Baik</option><option>Perlu perbaikan</option><option>Rusak berat</option><option>Tidak ditemukan</option></select></label>
+          <label>Prioritas<select name="prioritas"><option value="">Pilih prioritas</option><option>Darurat</option><option>Tinggi</option><option>Normal</option><option>Rendah</option></select></label>
+          <label>Tindakan<input name="tindakan" placeholder="Pemeriksaan / perbaikan / penggantian"></label>
+          <label>Estimasi biaya (Rp)<input name="biaya" inputmode="numeric" placeholder="0"></label>
+          <label class="is-wide">Catatan pemeriksaan<textarea name="catatan" rows="2" placeholder="Uraikan kondisi dan tindak lanjut"></textarea></label>
+        </div>
+        <div class="sp-admin-form-actions"><button class="sp-admin-button" type="submit">Pratinjau pemeliharaan</button><span>Belum membuat tiket pekerjaan</span></div>
+        <output class="sp-admin-preview-output" aria-live="polite"></output>
+      </form>
+    </section>
+  </div>
+
+  <div class="sp-admin-two-col">
+    <section class="sp-panel" id="stock-opname">
+      <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">PHYSICAL VERIFICATION</span><h2>Stock opname & verifikasi</h2><p class="sp-panel-intro">Pemeriksaan fisik berkala dan pencocokan data dengan kondisi aktual.</p></div><span class="sp-admin-section-mark">06</span></div>
+      <div class="sp-admin-checklist">
+        <div><span class="sp-admin-check-icon">01</span><span><strong>Persiapan daftar pemeriksaan</strong><small>Daftar aset per lokasi dan penanggung jawab</small></span><em>Rancangan</em></div>
+        <div><span class="sp-admin-check-icon">02</span><span><strong>Pemeriksaan fisik</strong><small>Jumlah, kondisi, kode, dan dokumentasi</small></span><em>Rancangan</em></div>
+        <div><span class="sp-admin-check-icon">03</span><span><strong>Rekonsiliasi selisih</strong><small>Temuan, koreksi, dan catatan pemeriksaan</small></span><em>Rancangan</em></div>
+        <div><span class="sp-admin-check-icon">04</span><span><strong>Verifikasi hasil</strong><small>Persetujuan dan penguncian hasil pemeriksaan</small></span><em>Rancangan</em></div>
+      </div>
+      <form class="sp-admin-form" data-preview-form="opname">
+        <div class="sp-admin-form-grid">
+          <label>Periode pemeriksaan<input name="periode" placeholder="Contoh: Semester 2 / 2026"></label>
+          <label>Lokasi pemeriksaan<input name="lokasi" placeholder="Ruang / gedung"></label>
+          <label>Petugas pemeriksa<input name="petugas" placeholder="Nama petugas"></label>
+          <label>Tanggal pemeriksaan<input name="tanggal" type="date"></label>
+        </div>
+        <div class="sp-admin-form-actions"><button class="sp-admin-button" type="submit">Pratinjau jadwal opname</button><span>Belum membuat sesi pemeriksaan</span></div>
+        <output class="sp-admin-preview-output" aria-live="polite"></output>
+      </form>
+    </section>
+
+    <section class="sp-panel" id="impor">
+      <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">DATA MIGRATION</span><h2>Impor XLSX / CSV</h2><p class="sp-panel-intro">Baca workbook, pilih sheet, dan periksa struktur kolom sebelum proses pemetaan data.</p></div><span class="sp-admin-section-mark">07</span></div>
+      <div class="sp-admin-import-steps"><span class="is-current">01 Pilih file</span><span>02 Pemetaan</span><span>03 Validasi</span><span>04 Konfirmasi</span></div>
+      <div class="sp-admin-upload">
+        <label for="inventoryFile">Pilih file inventaris (.xlsx / .csv)</label>
+        <input id="inventoryFile" type="file" accept=".xlsx,.csv,text/csv">
+        <p id="importMessage" role="status">Belum ada file dipilih. File dibaca di browser untuk pratinjau.</p>
+        <label id="sheetPickerWrap" hidden>Sheet<select id="sheetPicker"></select></label>
+        <div id="importSummary" hidden></div>
+        <div class="sp-admin-table-wrap" id="importPreviewWrap" hidden><table class="sp-admin-table"><thead id="importHead"></thead><tbody id="importRows"></tbody></table></div>
+        <button type="button" disabled>Validasi & impor belum diaktifkan</button>
+      </div>
+      <div class="sp-admin-rule-note"><strong>Belum ada penulisan data</strong><span>Pratinjau lokal tidak mengirim file ke server. Tahap pemetaan BOS/BPOPP akan mengikuti workbook dan format resmi yang telah diverifikasi.</span></div>
+    </section>
+  </div>
+
+  <div class="sp-admin-two-col">
+    <section class="sp-panel" id="riwayat">
+      <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">AUDIT TRAIL</span><h2>Riwayat aktivitas</h2><p class="sp-panel-intro">Aktivitas terbaru dari tab Log_Aktivitas. Riwayat aset dan mutasi append-only disiapkan pada tahap integrasi.</p></div><span class="sp-admin-section-mark">08</span></div>
+      <div id="activityList" class="sp-admin-activity"><div>Menunggu data aktivitas…</div></div>
+    </section>
+    <section class="sp-panel" id="laporan">
+      <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">REPORTING CENTER</span><h2>Laporan & ekspor</h2><p class="sp-panel-intro">Pusat laporan untuk kebutuhan internal sekolah dan pertanggungjawaban sumber dana.</p></div><span class="sp-admin-section-mark">09</span></div>
+      <div class="sp-admin-report-list">
+        <div><span class="sp-admin-report-icon">▦</span><span><strong>Rekap inventaris sekolah</strong><small>Daftar aset, kondisi, lokasi, dan nilai</small></span><em>Rancangan</em></div>
+        <div><span class="sp-admin-report-icon">＋</span><span><strong>Rekap pengadaan & sumber dana</strong><small>BOS/BOSP, BPOPP, APBD, hibah, dan lainnya</small></span><em>Rancangan</em></div>
+        <div><span class="sp-admin-report-icon">⌁</span><span><strong>Rekap pemeliharaan</strong><small>Kerusakan, pekerjaan, dan biaya</small></span><em>Rancangan</em></div>
+        <div><span class="sp-admin-report-icon">⇄</span><span><strong>Rekap mutasi & lokasi</strong><small>Riwayat perpindahan dan distribusi</small></span><em>Rancangan</em></div>
+        <div><span class="sp-admin-report-icon">▤</span><span><strong>Format BOS / BPOPP</strong><small>Template ekspor mengikuti format resmi tervalidasi</small></span><em>Menunggu format</em></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="sp-panel sp-admin-alerts" id="perhatian">
+    <div class="sp-admin-section-head"><div><span class="sp-admin-kicker">CONTROL DESK</span><h2>Kontrol dan perhatian operasional</h2><p class="sp-panel-intro">Indikator yang perlu dipantau setelah transaksi dan verifikasi diaktifkan.</p></div></div>
+    <div class="sp-admin-alert-grid">
+      <div><strong>Validasi inventaris</strong><span>Menunggu verifikasi fisik</span></div>
+      <div><strong>Jadwal pemeliharaan</strong><span>Belum terhubung</span></div>
+      <div><strong>Dokumen pengadaan</strong><span>Menunggu arsip transaksi</span></div>
+      <div><strong>Rekonsiliasi pelaporan</strong><span>Menunggu pemetaan format</span></div>
+    </div>
+  </section>
+
+  <aside class="sp-note sp-admin-integrity-note"><strong>Mode pengembangan UI.</strong> Data inventaris masih berupa snapshot baca-saja dari Google Sheets. Sesuai arsitektur Hybrid, Firestore ditetapkan sebagai sumber utama transaksi dan arsip; Google Sheets menjadi salinan serta lapisan pelaporan. Seluruh formulir di halaman ini hanya menghasilkan pratinjau lokal dan belum menyimpan data. Jangan gunakan hasil pratinjau sebagai dokumen administrasi resmi.</aside>
+  <p class="sp-admin-back-row"><a class="sp-back" href="/sarpras">← Kembali ke portal publik Sarpras</a></p>
+</main>
+<div data-portal-footer></div>
+<script src="/src/pintuku/assets/js/sarpras-data.js" defer></script>
+<script src="/src/pintuku/assets/js/sarpras-i18n.js" defer></script>
+<script src="/src/pintuku/assets/js/sarpras-admin.js" defer></script>
+</body></html>
