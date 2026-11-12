@@ -30,7 +30,7 @@
     $("spPublicKpis").querySelectorAll("[data-kpi]").forEach((button) => button.addEventListener("click", () => {
       const key = button.dataset.kpi;
       $("spDemoDetail").innerHTML = "<strong>" + button.querySelector("span").textContent + "</strong><p>" + descriptions[key] + "</p>";
-      $("spDemoDetail").scrollIntoView({ behavior: "smooth", block: "nearest" });
+      $("spDemoDetail").scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
     }));
   }
   function renderTrend(values) {
@@ -71,6 +71,18 @@
       item.setAttribute("aria-pressed", String(active));
     });
     renderBreakdown(years[$("spDemoYear").value]);
+  }));
+
+  document.querySelectorAll("[data-facility-filter]").forEach((button) => button.addEventListener("click", () => {
+    const category = button.dataset.facilityFilter;
+    document.querySelectorAll("[data-facility-filter]").forEach((item) => {
+      const active = item === button;
+      item.classList.toggle("is-active", active);
+      item.setAttribute("aria-pressed", String(active));
+    });
+    document.querySelectorAll("[data-facility-category]").forEach((card) => {
+      card.hidden = category !== "all" && card.dataset.facilityCategory !== category;
+    });
   }));
   render();
 })();
