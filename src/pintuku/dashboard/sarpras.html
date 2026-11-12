@@ -21,6 +21,65 @@
   <link rel="stylesheet" href="/src/pintuku/assets/css/service-modules.css">
   <link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-public.css">
 <link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-design-system.css">
+  <style>
+    /* Public dashboard section navigation: reserved outer gutter, never overlays content. */
+    @media (min-width: 1500px) {
+      .sarpras-public .sp-public-nav {
+        position: fixed;
+        left: max(10px, calc((100vw - 1240px) / 2 - 128px));
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 20;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        gap: 6px;
+        width: 112px;
+        max-height: min(72vh, 520px);
+        overflow-y: auto;
+        margin: 0;
+        padding: 8px;
+        border-radius: 18px;
+        box-shadow: 0 16px 42px rgba(0,0,0,.22), inset 0 1px rgba(255,255,255,.08);
+        scrollbar-width: thin;
+      }
+      .sarpras-public .sp-public-nav a {
+        display: flex;
+        align-items: center;
+        min-height: 42px;
+        padding: 8px 9px;
+        border-radius: 11px;
+        font-size: 10px;
+        line-height: 1.35;
+        white-space: normal;
+      }
+      .sarpras-public .sp-public-nav a:focus-visible {
+        outline: 2px solid var(--sarpras-green-500, #52d68f);
+        outline-offset: 2px;
+      }
+    }
+    @media (max-width: 1499px) {
+      .sarpras-public .sp-public-nav {
+        position: sticky;
+        top: 70px;
+        transform: none;
+        z-index: 20;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scrollbar-width: thin;
+      }
+      .sarpras-public .sp-public-nav a { flex: 0 0 auto; white-space: nowrap; }
+    }
+    @media (max-width: 650px) {
+      .sarpras-public .sp-public-nav { top: 58px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .sarpras-public .sp-public-nav a { transition: none; }
+    }
+  </style>
   <script src="/src/shared/assets/registry.js" defer></script>
   <script src="/src/pintuku/assets/js/portal-shell.js" defer></script>
   <script src="/src/pintuku/assets/js/portal-settings.js" defer></script>
