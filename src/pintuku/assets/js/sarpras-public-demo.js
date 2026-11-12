@@ -30,7 +30,7 @@
     $("spPublicKpis").querySelectorAll("[data-kpi]").forEach((button) => button.addEventListener("click", () => {
       const key = button.dataset.kpi;
       $("spDemoDetail").innerHTML = "<strong>" + button.querySelector("span").textContent + "</strong><p>" + descriptions[key] + "</p>";
-      $("spDemoDetail").scrollIntoView({ behavior: "smooth", block: "nearest" });
+      $("spDemoDetail").scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
     }));
   }
   function renderTrend(values) {
