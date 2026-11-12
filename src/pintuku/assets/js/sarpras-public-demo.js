@@ -72,5 +72,17 @@
     });
     renderBreakdown(years[$("spDemoYear").value]);
   }));
+
+  document.querySelectorAll("[data-facility-filter]").forEach((button) => button.addEventListener("click", () => {
+    const category = button.dataset.facilityFilter;
+    document.querySelectorAll("[data-facility-filter]").forEach((item) => {
+      const active = item === button;
+      item.classList.toggle("is-active", active);
+      item.setAttribute("aria-pressed", String(active));
+    });
+    document.querySelectorAll("[data-facility-category]").forEach((card) => {
+      card.hidden = category !== "all" && card.dataset.facilityCategory !== category;
+    });
+  }));
   render();
 })();
