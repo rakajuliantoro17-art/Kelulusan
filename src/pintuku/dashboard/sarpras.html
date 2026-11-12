@@ -34,8 +34,8 @@
         <h1 id="sarpras-title">Sarana sekolah terawat, layanan semakin bermanfaat.</h1>
         <p>SARPRASIN merupakan portal pengelolaan sarana dan prasarana SMAN 1 Sooko untuk mendukung inventarisasi, pemantauan kondisi aset, pemeliharaan, dan tata kelola fasilitas sekolah secara tertib dan terintegrasi.</p>
         <div class="service-actions">
-          <a class="button button-primary" href="#layanan">Jelajahi layanan <span aria-hidden="true">↗</span></a>
-          <a class="button button-quiet" href="/">Kembali ke PINTUKU</a>
+          <a class="button button-primary" href="#public-kpi-title">Lihat KPI publik <span aria-hidden="true">↗</span></a>
+          <a class="button button-quiet" href="#laporan-publik">Laporan publik</a>
         </div>
       </div>
       <div class="sp-hero-mark" aria-hidden="true">
@@ -105,6 +105,60 @@
         <article class="sp-service-card"><span class="sp-service-icon" aria-hidden="true">◫</span><div><strong>Pengadaan</strong><p>Dokumentasi usulan kebutuhan, proses pengadaan, dan persetujuan sesuai kewenangan.</p></div></article>
         <article class="sp-service-card"><span class="sp-service-icon" aria-hidden="true">▥</span><div><strong>Laporan &amp; monitoring</strong><p>Ringkasan kondisi aset dan laporan pengelolaan untuk kebutuhan sekolah.</p></div></article>
       </div>
+    </section>
+
+  
+    <section class="sp-section sp-public-facilities" id="fasilitas-publik" aria-labelledby="sp-facility-title">
+      <div class="sp-section-title"><div><span class="sp-hero-kicker">FACILITY DIRECTORY</span><h2 id="sp-facility-title">Fasilitas sekolah dalam satu pandangan</h2></div><p>Direktori visual untuk mengenali kelompok fasilitas dan layanan sekolah. Jumlah dan kondisi aktual hanya akan ditampilkan setelah diverifikasi.</p></div>
+      <div class="sp-facility-filter" role="group" aria-label="Filter kategori fasilitas">
+        <button type="button" class="is-active" data-facility-filter="all" aria-pressed="true">Semua</button>
+        <button type="button" data-facility-filter="learning" aria-pressed="false">Pembelajaran</button>
+        <button type="button" data-facility-filter="support" aria-pressed="false">Pendukung</button>
+        <button type="button" data-facility-filter="public" aria-pressed="false">Umum</button>
+      </div>
+      <div class="sp-facility-grid">
+        <article class="sp-facility-card" data-facility-category="learning"><span class="sp-facility-symbol">▦</span><div><small>PEMBELAJARAN</small><h3>Ruang kelas</h3><p>Ruang kegiatan belajar dan kelengkapan pendukung pembelajaran.</p></div><span class="sp-facility-state">Data fasilitas menunggu verifikasi</span></article>
+        <article class="sp-facility-card" data-facility-category="learning"><span class="sp-facility-symbol">⌬</span><div><small>PRAKTIK & RISET</small><h3>Laboratorium</h3><p>Ruang praktik, eksperimen, dan pengembangan keterampilan.</p></div><span class="sp-facility-state">Data fasilitas menunggu verifikasi</span></article>
+        <article class="sp-facility-card" data-facility-category="learning"><span class="sp-facility-symbol">▤</span><div><small>LITERASI</small><h3>Perpustakaan</h3><p>Fasilitas literasi, referensi, dan ruang membaca.</p></div><span class="sp-facility-state">Data fasilitas menunggu verifikasi</span></article>
+        <article class="sp-facility-card" data-facility-category="support"><span class="sp-facility-symbol">⌁</span><div><small>AKTIVITAS</small><h3>Fasilitas olahraga</h3><p>Sarana aktivitas fisik, kebugaran, dan kegiatan ekstrakurikuler.</p></div><span class="sp-facility-state">Data fasilitas menunggu verifikasi</span></article>
+        <article class="sp-facility-card" data-facility-category="public"><span class="sp-facility-symbol">⌂</span><div><small>FASILITAS UMUM</small><h3>Sanitasi & area bersama</h3><p>Fasilitas kebersihan, sanitasi, dan ruang bersama warga sekolah.</p></div><span class="sp-facility-state">Data fasilitas menunggu verifikasi</span></article>
+        <article class="sp-facility-card" data-facility-category="support"><span class="sp-facility-symbol">▣</span><div><small>LAYANAN SEKOLAH</small><h3>Ruang layanan</h3><p>Ruang administrasi dan fasilitas penunjang layanan pendidikan.</p></div><span class="sp-facility-state">Data fasilitas menunggu verifikasi</span></article>
+      </div>
+    </section>
+
+    <section class="sp-section" id="pemeliharaan-publik" aria-labelledby="sp-maintenance-title">
+      <div class="sp-section-title"><div><span class="sp-hero-kicker">MAINTENANCE & SERVICE</span><h2 id="sp-maintenance-title">Pemeliharaan dan tindak lanjut</h2></div><p>Publik dapat memahami alur penanganan fasilitas tanpa membuka catatan teknis atau identitas pelapor.</p></div>
+      <div class="sp-maintenance-layout">
+        <article class="sp-demo-panel"><div class="sp-demo-panel-head"><div><span class="sp-demo-eyebrow">ALUR LAYANAN</span><h3>Tahapan penanganan fasilitas</h3></div><span class="sp-demo-tag">Alur informasi</span></div>
+          <div class="sp-maintenance-steps">
+            <div><b>01</b><strong>Dilaporkan</strong><span>Kebutuhan atau kondisi fasilitas disampaikan.</span></div>
+            <div><b>02</b><strong>Diverifikasi</strong><span>Lokasi dan tingkat kebutuhan diperiksa.</span></div>
+            <div><b>03</b><strong>Ditangani</strong><span>Tindak lanjut dilakukan sesuai prioritas.</span></div>
+            <div><b>04</b><strong>Diselesaikan</strong><span>Hasil pekerjaan dicatat dan dievaluasi.</span></div>
+          </div>
+        </article>
+        <article class="sp-demo-panel sp-maintenance-principle"><span class="sp-demo-eyebrow">PRINSIP PENGELOLAAN</span><h3>Prioritas berdasarkan kebutuhan dan risiko</h3><p>Penanganan idealnya mempertimbangkan keselamatan, dampak terhadap kegiatan belajar, kondisi teknis, dan ketersediaan sumber daya.</p><div class="sp-priority-tags"><span>Keselamatan</span><span>Keberlangsungan belajar</span><span>Kelayakan fasilitas</span></div></article>
+      </div>
+    </section>
+
+    <section class="sp-section" id="pendanaan-publik" aria-labelledby="sp-funding-title">
+      <div class="sp-section-title"><div><span class="sp-hero-kicker">FUNDING TRANSPARENCY</span><h2 id="sp-funding-title">Pendanaan dan kontribusi</h2></div><p>Ringkasan pendanaan hanya dipublikasikan setelah dokumen dan status realisasinya diverifikasi serta disetujui untuk keterbukaan.</p></div>
+      <div class="sp-funding-grid">
+        <article class="sp-funding-card"><span class="sp-funding-icon">▤</span><div><small>SUMBER PEMBIAYAAN</small><h3>BOS / BOSP</h3><p>Ringkasan dukungan pembiayaan sesuai laporan resmi.</p><b>Belum dipublikasikan</b></div></article>
+        <article class="sp-funding-card"><span class="sp-funding-icon">▥</span><div><small>SUMBER PEMBIAYAAN</small><h3>BPOPP / APBD</h3><p>Informasi dukungan program dan pembiayaan pemerintah.</p><b>Belum dipublikasikan</b></div></article>
+        <article class="sp-funding-card"><span class="sp-funding-icon">◇</span><div><small>KEMITRAAN</small><h3>Hibah, CSR & donasi</h3><p>Kontribusi mitra yang tercatat dan telah disetujui untuk diumumkan.</p><b>Belum dipublikasikan</b></div></article>
+      </div>
+      <div class="sp-funding-note"><strong>Standar keterbukaan:</strong> nilai anggaran, komitmen pengadaan, transaksi, realisasi pembayaran, dan nilai aset merupakan indikator berbeda. Dashboard tidak akan mencampurkan indikator tersebut menjadi satu angka.</div>
+    </section>
+
+    <section class="sp-section" id="laporan-publik" aria-labelledby="sp-report-title">
+      <div class="sp-section-title"><div><span class="sp-hero-kicker">OPEN REPORT</span><h2 id="sp-report-title">Laporan dan pembaruan publik</h2></div><p>Dokumen publik akan tersedia setelah melalui pemeriksaan isi, persetujuan publikasi, dan penyaringan informasi pribadi.</p></div>
+      <div class="sp-report-list">
+        <article><span class="sp-report-file">PDF</span><div><strong>Laporan kondisi sarana-prasarana</strong><small>Ringkasan kondisi dan periode pelaporan · Belum tersedia</small></div><span class="sp-report-lock">Belum diterbitkan</span></article>
+        <article><span class="sp-report-file">PDF</span><div><strong>Ringkasan pemeliharaan fasilitas</strong><small>Rekap tindak lanjut yang disetujui untuk publikasi · Belum tersedia</small></div><span class="sp-report-lock">Belum diterbitkan</span></article>
+        <article><span class="sp-report-file">PDF</span><div><strong>Ringkasan pengadaan dan kontribusi</strong><small>Informasi agregat sesuai dokumen yang telah diverifikasi · Belum tersedia</small></div><span class="sp-report-lock">Belum diterbitkan</span></article>
+      </div>
+      <div class="sp-transparency-footer"><div><span class="sp-demo-eyebrow">DATA GOVERNANCE</span><strong>Transparansi harus dapat dipertanggungjawabkan.</strong><p>Setiap informasi publik perlu memiliki periode, sumber, status verifikasi, dan tanggal pembaruan.</p></div><div class="sp-transparency-stamp"><span>STATUS DATA</span><b>MENUNGGU PUBLIKASI</b><small>Data resmi belum terhubung</small></div></div>
     </section>
 
   </main>
