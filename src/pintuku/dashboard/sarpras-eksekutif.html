@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="id" data-sarpras-allow="wakasek_sarpras,principal,admin_sarpras"><head>
+<html lang="id" data-sarpras-allow="wakasek_sarpras,principal,admin_sarpras">
+<head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07111f"><meta name="description" content="Executive Overview SARPRASIN SMAN 1 Sooko">
 <title>Executive Overview · SARPRASIN | PINTUKU</title>
@@ -12,25 +13,92 @@
 <link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-portals.css">
 <link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-workspace.css">
 <link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-design-system.css">
-<script src="/src/pintuku/assets/js/sarpras-auth.js"></script><script src="/src/pintuku/assets/js/sarpras-shell.js" defer></script><script src="/src/pintuku/assets/js/portal-shell.js" defer></script><script src="/src/pintuku/assets/js/portal-settings.js" defer></script>
-</head><body data-portal-module="sarpras" data-i18n-scope="sarpras"><div data-portal-header></div>
-<main class="portal-wrap service-page sarpras-public sarpras-workspace">
-<div class="sp-page-head"><div><span class="sp-eyebrow">SARPRASIN · SMAN 1 Sooko · EKSEKUTIF</span><h1>Executive Overview</h1><p class="sp-subtitle">Dashboard analitik pimpinan untuk memantau nilai aset, kesehatan fasilitas, anggaran, risiko, tren, dan rekomendasi strategis.</p></div><span class="sp-preview">PRATINJAU UI · BELUM TERHUBUNG DATA</span></div>
-<div class="sp-kpis">
-<div class="sp-kpi"><span class="sp-kpi-label">Total aset</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Inventaris tervalidasi</span></div>
-<div class="sp-kpi"><span class="sp-kpi-label">Nilai aset tercatat</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Agregat nilai perolehan</span></div>
-<div class="sp-kpi"><span class="sp-kpi-label">Indeks kesehatan aset</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Asset Health Index</span></div>
-<div class="sp-kpi"><span class="sp-kpi-label">Aset perlu penanganan</span><strong class="sp-kpi-value">—</strong><span class="sp-kpi-note">Perbaikan dan rusak</span></div>
-</div>
-<div class="sp-layout">
-<section class="sp-panel"><h2>Tren kondisi aset</h2><p class="sp-panel-intro">Perubahan indeks kelayakan dan komposisi kondisi aset berdasarkan periode pelaporan.</p><div class="sp-placeholder">Grafik tren kondisi aset<br>Menunggu data historis tervalidasi.</div></section>
-<section class="sp-panel"><h2>Kesehatan &amp; risiko aset</h2><p class="sp-panel-intro">Distribusi aset berdasarkan kondisi dan tingkat urgensi penanganan.</p><div class="sp-list"><div class="sp-list-row"><strong>Kondisi baik</strong><span>—</span></div><div class="sp-list-row"><strong>Perlu perbaikan</strong><span>—</span></div><div class="sp-list-row"><strong>Rusak</strong><span>—</span></div><div class="sp-list-row"><strong>Indeks kelayakan</strong><span>—</span></div></div></section>
-</div>
-<div class="sp-layout" style="margin-top:14px">
-<section class="sp-panel"><h2>Komposisi &amp; sebaran aset</h2><p class="sp-panel-intro">Ringkasan aset menurut kategori, ruang, dan tahun perolehan.</p><div class="sp-placeholder">Grafik kategori, ruang, dan tahun perolehan<br>Menunggu master data inventaris.</div></section>
-<section class="sp-panel"><h2>Anggaran &amp; sumber pendanaan</h2><p class="sp-panel-intro">Keterlacakan nilai aset dan sumber dukungan.</p><div class="sp-list"><div class="sp-list-row"><strong>Nilai aset tercatat</strong><span>—</span></div><div class="sp-list-row"><strong>Belanja pemeliharaan</strong><span>—</span></div><div class="sp-list-row"><strong>Sumber pendanaan</strong><span>—</span></div><div class="sp-list-row"><strong>Periode anggaran</strong><span>—</span></div></div></section>
-</div>
-<section class="sp-panel" style="margin-top:14px"><h2>Prioritas &amp; rekomendasi strategis</h2><p class="sp-panel-intro">Rekomendasi disusun dari kondisi aktual, tingkat risiko, urgensi layanan, dan estimasi kebutuhan biaya.</p><div class="sp-placeholder" style="min-height:110px">Rekomendasi belum tersedia — menunggu data tervalidasi dan parameter prioritas yang disepakati.</div></section>
-<div class="sp-note"><strong>Mode pengembangan UI.</strong> Indikator mengikuti struktur Sarprasin 2.0, termasuk total aset, nilai aset, kondisi, ruang, sumber pendanaan, tahun perolehan, risiko, tren, dan rekomendasi. Data belum terhubung; angka tidak direkayasa. Autentikasi dan hak akses belum diaktifkan.</div>
-<p style="margin:18px 0 28px"><a class="sp-back" href="/sarpras">← Kembali ke dashboard publik Sarpras</a></p>
-</main><div data-portal-footer></div><script src="/src/pintuku/assets/js/sarpras-data.js" defer></script><script src="/src/pintuku/assets/js/sarpras-i18n.js" defer></script></body></html>
+<link rel="stylesheet" href="/src/pintuku/assets/css/sarpras-executive.css">
+<script src="/src/pintuku/assets/js/sarpras-auth.js"></script>
+<script src="/src/pintuku/assets/js/sarpras-shell.js" defer></script>
+<script src="/src/pintuku/assets/js/portal-shell.js" defer></script>
+<script src="/src/pintuku/assets/js/portal-settings.js" defer></script>
+</head>
+<body data-portal-module="sarpras" data-i18n-scope="sarpras">
+<div data-portal-header></div>
+<main class="portal-wrap service-page sarpras-public sarpras-workspace sarpras-executive">
+  <header class="sp-page-head se-hero">
+    <div class="se-hero-copy">
+      <span class="sp-eyebrow">SARPRASIN · SMAN 1 Sooko · EXECUTIVE INTELLIGENCE</span>
+      <h1>Executive Overview</h1>
+      <p class="sp-subtitle">Satu tampilan strategis untuk membaca kondisi aset, kualitas layanan fasilitas, kebutuhan pembiayaan, dan prioritas keputusan pimpinan.</p>
+      <div class="se-meta"><span class="se-meta-chip">Ringkasan pimpinan</span><span class="se-meta-chip">KPI terverifikasi</span><span class="se-meta-chip se-meta-pending">Data belum tersinkron</span></div>
+    </div>
+    <div class="se-period"><span class="se-period-label">PERIODE LAPORAN</span><strong>Belum ditetapkan</strong><small>Menunggu periode data resmi</small></div>
+  </header>
+
+  <section class="se-section" aria-labelledby="se-kpi-title">
+    <div class="se-section-head"><div><span class="se-overline">01 · PERFORMANCE SNAPSHOT</span><h2 id="se-kpi-title">Indikator utama sarana prasarana</h2><p>Angka hanya akan ditampilkan setelah sumber data tervalidasi.</p></div><span class="se-source-state">Sumber: belum tersedia</span></div>
+    <div class="se-kpi-grid">
+      <article class="se-kpi se-kpi-primary"><div class="se-kpi-top"><span>Total aset tercatat</span><span class="se-kpi-mark">01</span></div><strong>—</strong><small>Unit dan kelompok aset tervalidasi</small><div class="se-kpi-foot">Inventaris sekolah</div></article>
+      <article class="se-kpi"><div class="se-kpi-top"><span>Nilai perolehan aset</span><span class="se-kpi-mark">02</span></div><strong>—</strong><small>Akumulasi nilai yang terdokumentasi</small><div class="se-kpi-foot">Nilai aset</div></article>
+      <article class="se-kpi"><div class="se-kpi-top"><span>Indeks kesehatan aset</span><span class="se-kpi-mark">03</span></div><strong>—</strong><small>Komposit kondisi dan kelayakan</small><div class="se-kpi-foot">Asset Health Index</div></article>
+      <article class="se-kpi"><div class="se-kpi-top"><span>Perlu penanganan</span><span class="se-kpi-mark">04</span></div><strong>—</strong><small>Aset dengan tindak lanjut terbuka</small><div class="se-kpi-foot">Risiko operasional</div></article>
+    </div>
+  </section>
+
+  <section class="se-grid se-grid-overview">
+    <article class="sp-panel se-panel">
+      <div class="se-panel-heading"><div><span class="se-overline">02 · ASSET CONDITION</span><h2>Kondisi &amp; kelayakan aset</h2><p>Komposisi kondisi menjadi dasar membaca risiko layanan.</p></div><span class="se-panel-index">A</span></div>
+      <div class="se-empty-chart"><div class="se-chart-orbit"><span>—</span></div><div class="se-empty-copy"><strong>Visualisasi menunggu data</strong><p>Distribusi kondisi baik, perlu perbaikan, rusak ringan, dan rusak berat akan ditampilkan setelah verifikasi inventaris.</p></div></div>
+      <div class="se-legend"><span><i class="se-dot se-dot-green"></i>Baik</span><span><i class="se-dot se-dot-amber"></i>Perlu perbaikan</span><span><i class="se-dot se-dot-red"></i>Rusak</span><span><i class="se-dot se-dot-muted"></i>Belum dinilai</span></div>
+    </article>
+    <article class="sp-panel se-panel">
+      <div class="se-panel-heading"><div><span class="se-overline">03 · SERVICE READINESS</span><h2>Kesiapan fasilitas</h2><p>Ringkasan kelayakan ruang dan fasilitas pendukung pembelajaran.</p></div><span class="se-panel-index">B</span></div>
+      <div class="se-readiness-list">
+        <div class="se-readiness-row"><div><strong>Ruang belajar</strong><small>Kelayakan dan ketersediaan</small></div><b>—</b></div>
+        <div class="se-readiness-row"><div><strong>Laboratorium</strong><small>Fungsi dan kesiapan peralatan</small></div><b>—</b></div>
+        <div class="se-readiness-row"><div><strong>Sanitasi &amp; air bersih</strong><small>Fungsi fasilitas dasar</small></div><b>—</b></div>
+        <div class="se-readiness-row"><div><strong>Utilitas &amp; keselamatan</strong><small>Listrik, akses, dan keamanan</small></div><b>—</b></div>
+      </div>
+      <div class="se-panel-foot">Indikator kesiapan mengikuti hasil pemeriksaan fasilitas.</div>
+    </article>
+  </section>
+
+  <section class="se-grid se-grid-finance">
+    <article class="sp-panel se-panel">
+      <div class="se-panel-heading"><div><span class="se-overline">04 · ASSET PORTFOLIO</span><h2>Komposisi &amp; sebaran aset</h2><p>Pemetaan aset menurut kategori, lokasi, dan tahun perolehan.</p></div><span class="se-panel-index">C</span></div>
+      <div class="se-portfolio-empty"><div class="se-axis"><span>Kategori aset</span><span>Lokasi / ruang</span><span>Tahun perolehan</span></div><div class="se-empty-band">Peta portofolio akan terbentuk dari master inventaris terverifikasi.</div></div>
+    </article>
+    <article class="sp-panel se-panel">
+      <div class="se-panel-heading"><div><span class="se-overline">05 · FINANCIAL TRACEABILITY</span><h2>Anggaran &amp; pendanaan</h2><p>Keterlacakan aset, pemeliharaan, dan sumber dukungan.</p></div><span class="se-panel-index">D</span></div>
+      <div class="se-finance-list">
+        <div><span>Nilai aset tercatat</span><strong>—</strong></div>
+        <div><span>Belanja pemeliharaan</span><strong>—</strong></div>
+        <div><span>Realisasi pengadaan</span><strong>—</strong></div>
+        <div><span>Sumber pendanaan</span><strong>—</strong></div>
+      </div>
+      <div class="se-finance-note">Rekap keuangan memerlukan dokumen dan transaksi yang telah diperiksa.</div>
+    </article>
+  </section>
+
+  <section class="se-grid se-grid-risk">
+    <article class="sp-panel se-panel">
+      <div class="se-panel-heading"><div><span class="se-overline">06 · RISK &amp; PRIORITY</span><h2>Peta prioritas penanganan</h2><p>Daftar fokus berdasarkan dampak layanan, urgensi, dan risiko keselamatan.</p></div><span class="se-panel-index">E</span></div>
+      <div class="se-priority-empty"><div class="se-priority-rank">01</div><div><strong>Prioritas belum dapat dihitung</strong><p>Belum ada hasil asesmen kondisi dan tingkat urgensi yang tervalidasi.</p></div><span class="se-status-wait">Menunggu asesmen</span></div>
+      <div class="se-priority-empty"><div class="se-priority-rank">02</div><div><strong>Rencana pemeliharaan</strong><p>Jadwal, estimasi kebutuhan, dan penanggung jawab akan dirangkum di sini.</p></div><span class="se-status-wait">Belum tersedia</span></div>
+      <div class="se-priority-empty"><div class="se-priority-rank">03</div><div><strong>Kebutuhan pengembangan</strong><p>Usulan peningkatan fasilitas berdasarkan kesenjangan layanan.</p></div><span class="se-status-wait">Belum tersedia</span></div>
+    </article>
+    <article class="sp-panel se-panel">
+      <div class="se-panel-heading"><div><span class="se-overline">07 · MANAGEMENT INSIGHT</span><h2>Catatan strategis</h2><p>Ruang ringkasan untuk membantu keputusan pimpinan.</p></div><span class="se-panel-index">F</span></div>
+      <div class="se-insight-empty"><span class="se-insight-symbol">i</span><strong>Belum ada rekomendasi strategis</strong><p>Insight akan disusun dari indikator kondisi, dampak terhadap pembelajaran, biaya penanganan, dan ketersediaan pendanaan. Sistem tidak akan menghasilkan rekomendasi dari data kosong.</p></div>
+    </article>
+  </section>
+
+  <section class="se-governance">
+    <div><span class="se-overline">08 · GOVERNANCE &amp; TRANSPARENCY</span><h2>Akuntabilitas data</h2><p>Dashboard eksekutif menggunakan data yang telah melewati verifikasi. Riwayat pembaruan dan status validasi menjadi bagian dari keterlacakan keputusan.</p></div>
+    <div class="se-governance-stats"><div><small>Data tervalidasi</small><strong>—</strong></div><div><small>Pembaruan terakhir</small><strong>—</strong></div><div><small>Dokumen pendukung</small><strong>—</strong></div></div>
+  </section>
+
+  <div class="se-disclaimer"><strong>Pratinjau UI — belum terhubung ke data operasional.</strong> Seluruh nilai, grafik, status, dan rekomendasi ditahan sebagai placeholder. Tidak ada angka simulasi yang disajikan sebagai kondisi nyata. Integrasi data, autentikasi, dan proses persetujuan berada di luar lingkup perubahan ini.</div>
+  <p class="se-back-wrap"><a class="sp-back" href="/sarpras">← Kembali ke dashboard publik Sarpras</a></p>
+</main>
+<div data-portal-footer></div>
+<script src="/src/pintuku/assets/js/sarpras-data.js" defer></script>
+<script src="/src/pintuku/assets/js/sarpras-i18n.js" defer></script>
+</body></html>
