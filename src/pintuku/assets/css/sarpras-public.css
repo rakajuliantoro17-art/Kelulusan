@@ -138,3 +138,25 @@ html[data-theme="light"] .sarpras-public .sp-facility-card p,html[data-theme="li
 @media(max-width:900px){.sarpras-public .sp-facility-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sarpras-public .sp-maintenance-layout{grid-template-columns:1fr}.sarpras-public .sp-funding-grid{grid-template-columns:1fr}}
 @media(max-width:650px){.sarpras-public .sp-facility-grid{grid-template-columns:1fr}.sarpras-public .sp-maintenance-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.sarpras-public .sp-transparency-footer{align-items:stretch;flex-direction:column}.sarpras-public .sp-transparency-stamp{align-self:flex-start}.sarpras-public .sp-report-list article{align-items:flex-start;flex-wrap:wrap}.sarpras-public .sp-report-lock{margin-left:51px}}
 @media(prefers-reduced-motion:reduce){.sarpras-public .sp-facility-filter button{transition:none}}
+
+
+/* Final UI polish: public navigation, theme alignment, keyboard and filter states. */
+.sarpras-public .sp-public-nav{position:sticky;top:70px;z-index:5;display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 4px;padding:9px;border:1px solid var(--sarpras-line,rgba(188,216,247,.14));border-radius:15px;background:rgba(8,25,17,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.sarpras-public .sp-public-nav a{padding:8px 11px;border:1px solid transparent;border-radius:10px;color:#c5e6d1;font-size:10px;font-weight:750;text-decoration:none;transition:background .16s ease,border-color .16s ease}
+.sarpras-public .sp-public-nav a:hover{border-color:rgba(82,214,143,.25);background:rgba(82,214,143,.1)}
+.sarpras-public .sp-public-nav a:focus-visible,.sarpras-public .sp-facility-filter button:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(82,214,143,.28)}
+.sarpras-public .sp-facility-card[hidden]{display:none!important}
+.sarpras-public .sp-facility-filter button.is-active{border-color:rgba(82,214,143,.42);background:rgba(82,214,143,.13);color:#c6f7d6}
+.sarpras-public .sp-facility-symbol,.sarpras-public .sp-funding-icon{border-color:rgba(82,214,143,.2);background:rgba(82,214,143,.09);color:#a8efc3}
+.sarpras-public .sp-facility-card small,.sarpras-public .sp-funding-card small{color:#9be9b8}
+.sarpras-public .sp-facility-state,.sarpras-public .sp-funding-card b,.sarpras-public .sp-report-lock{color:#ffd39d}
+.sarpras-public .sp-maintenance-steps b{background:rgba(82,214,143,.1);color:#c6f7d6}
+.sarpras-public .sp-transparency-footer{border-color:var(--sarpras-line);background:linear-gradient(120deg,rgba(82,214,143,.08),rgba(255,255,255,.025))}
+.sarpras-public .sp-transparency-stamp{border-color:rgba(255,159,69,.24);background:rgba(255,159,69,.07)}
+html[data-theme="light"] .sarpras-public .sp-public-nav{background:rgba(247,253,247,.9);border-color:rgba(53,103,69,.18)}
+html[data-theme="light"] .sarpras-public .sp-public-nav a{color:#28563b}
+html[data-theme="light"] .sarpras-public .sp-public-nav a:hover{background:rgba(82,214,143,.12)}
+html[data-theme="light"] .sarpras-public .sp-facility-card small,html[data-theme="light"] .sarpras-public .sp-funding-card small{color:#26764b}
+html[data-theme="light"] .sarpras-public .sp-facility-state,html[data-theme="light"] .sarpras-public .sp-funding-card b,html[data-theme="light"] .sarpras-public .sp-report-lock{color:#92520c}
+@media(max-width:650px){.sarpras-public .sp-public-nav{top:58px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin}.sarpras-public .sp-public-nav a{white-space:nowrap}}
+@media(prefers-reduced-motion:reduce){.sarpras-public .sp-public-nav a,.sarpras-public .sp-facility-filter button{transition:none}}
