@@ -24,7 +24,7 @@ async function dariKesiswaan() {
     const list = await K.loadSiswa();
     const bersih = list
         .filter((s) => s.nis && !/^TANPA-NIS/.test(s.nis))
-        .map((s) => ({ nis: s.nis, nama: s.nama, kelas: s.kelas || "", foto: s.foto || "" }));
+        .map((s) => ({ nis: s.nis, nama: s.nama, kelas: s.kelas || "", foto: s.foto || "", nisn: s.nisn || "" }));
     return bersih.length ? bersih : null;
 }
 

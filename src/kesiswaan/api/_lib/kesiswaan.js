@@ -125,6 +125,7 @@ async function loadSiswa() {
                 nama: cell(cells, 1) || "(Belum ada nama)",
                 kelas: cell(cells, 2),
                 foto: fotoUrl(cell(cells, 3)),
+                nisn: (String(cell(cells, 4) || "").replace(/\D/g, "").match(/^\d{10}$/) || [""])[0],
                 wa: waForm.get(nis) || cleanWA(cell(cells, 5))   // prioritas: formulir Data_Foto_Siswa, cadangan kolom F "WA_Ortu"
             };
         })

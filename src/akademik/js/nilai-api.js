@@ -62,7 +62,7 @@ async function fetchNilaiJSON(url) {
  * ==========================================
  */
 
-async function searchNilai(keyword, tahun) {
+async function searchNilai(keyword, tahun, nisn) {
 
     if (!keyword) {
         throw new Error("Keyword tidak boleh kosong.");
@@ -72,6 +72,10 @@ async function searchNilai(keyword, tahun) {
 
     if (tahun) {
         params.set("tahun", tahun);
+    }
+
+    if (nisn) {
+        params.set("nisn", nisn);
     }
 
     // Path absolut ("/api/nilai") supaya tetap benar dipanggil

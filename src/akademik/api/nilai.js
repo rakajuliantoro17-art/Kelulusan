@@ -29,6 +29,31 @@ CHANGELOG (v1.1.0):
 const { SHEET_NAMES, cleanNIS, fetchSheetRows, resolveSheetId } = require("./_lib/gsheet");
 const { verifyAdmin } = require("./admin-auth");
 const { ambilSiswa, kodeUntuk } = require("./_lib/siswa-sync");
+const crypto = require("crypto");
+
+/* Pembatas percobaan NISN per IP (di memori; cukup menahan tebak-tebakan beruntun
+   dari satu sumber, bukan jaminan absolut karena tiap instance serverless terpisah). */
+const GAGAL_MAKS = 8, GAGAL_JENDELA_MS = 10 * 60 * 1000;
+const gagalNisn = new Map();
+function ipDari(req) {
+    return String((req.headers && (req.headers["x-forwarded-for"] || req.headers["x-real-ip"])) || "").split(",")[0].trim() || "?";
+}
+function terkunci(ip) {
+    const e = gagalNisn.get(ip);
+    if (!e) return false;
+    if (Date.now() - e.mulai > GAGAL_JENDELA_MS) { gagalNisn.delete(ip); return false; }
+    return e.n >= GAGAL_MAKS;
+}
+function catatGagal(ip) {
+    const e = gagalNisn.get(ip);
+    if (!e || Date.now() - e.mulai > GAGAL_JENDELA_MS) gagalNisn.set(ip, { n: 1, mulai: Date.now() });
+    else e.n++;
+    if (gagalNisn.size > 5000) gagalNisn.clear();
+}
+function samaNisn(a, b) {
+    const x = Buffer.from(String(a)), y = Buffer.from(String(b));
+    return x.length === y.length && crypto.timingSafeEqual(x, y);
+}
 
 function parseSubjectData(mapelTitle, kelas, nis, nama, assessments, nilaiRaport) {
     let completedCount = 0;
@@ -171,7 +196,33 @@ module.exports = async (req, res) => {
             }
         }
 
-        res.status(200).json({ success: true, message: "Data berhasil ditemukan.", data: subjects });
+        // Foto untuk pengunjung umum: hanya bila NIS + NISN cocok (dua data harus benar
+        // bersamaan). QR kartu TIDAK pernah dikirim ke jalur ini.
+        let fotoPesan = "";
+        const nisnInput = String(req.query.nisn || "").replace(/\D/g, "");
+        if (!(staf.configured && staf.ok) && nisnInput) {
+            const ip = ipDari(req);
+            if (terkunci(ip)) {
+                fotoPesan = "Terlalu banyak percobaan NISN. Coba lagi beberapa menit lagi.";
+            } else {
+                let cocok = false, adaFoto = false;
+                try {
+                    const { list } = await ambilSiswa(process.env.GOOGLE_SHEET_ID_ABSENSI);
+                    const siswa = list.find((x) => cleanNIS(x.nis) === targetNIS);
+                    if (siswa && siswa.nisn && samaNisn(siswa.nisn, nisnInput)) {
+                        cocok = true;
+                        adaFoto = !!siswa.foto;
+                        if (siswa.foto) subjects.forEach((sub) => { sub.foto = siswa.foto; sub.fotoPublik = true; });
+                    }
+                } catch (e) {
+                    console.warn("nilai: foto publik tidak dimuat:", e && e.message);
+                }
+                if (!cocok) { catatGagal(ip); fotoPesan = "Foto tidak ditampilkan: NIS dan NISN tidak cocok atau data NISN belum tersedia."; }
+                else if (!adaFoto) fotoPesan = "Foto siswa belum diunggah.";
+            }
+        }
+
+        res.status(200).json({ success: true, message: "Data berhasil ditemukan.", data: subjects, fotoPesan });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message || "Terjadi kesalahan pada server." });
     }

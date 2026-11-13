@@ -101,9 +101,13 @@ window.NilaiUI = (() => {
        SHOW RESULT
     ========================================== */
 
-    function showResult(data) {
+    let fotoPesan = "";
+
+    function showResult(data, pesan) {
 
         if (!result) return;
+
+        fotoPesan = pesan || "";
 
         subjects = Array.isArray(data) ? data : [data];
 
@@ -210,7 +214,16 @@ window.NilaiUI = (() => {
 
     function staffBlockHTML(subject) {
 
-        if (!subject.kode) return "";
+        if (!subject.kode) {
+
+            // Pengunjung umum: foto hanya ada bila NIS + NISN cocok (tanpa QR).
+            if (subject.fotoPublik && subject.foto) {
+                return `<div class="nilai-staff no-print"><img class="nilai-staff-foto" src="${escapeHTML(subject.foto)}" alt="Foto ${escapeHTML(subject.nama)}" referrerpolicy="no-referrer" onerror="this.outerHTML='<span class=&quot;nilai-staff-foto nilai-staff-foto--kosong&quot;>Foto belum ada</span>'"></div>`;
+            }
+
+            return fotoPesan ? `<p class="nilai-foto-pesan no-print">${escapeHTML(fotoPesan)}</p>` : "";
+
+        }
 
         const foto = subject.foto
             ? `<img class="nilai-staff-foto" src="${escapeHTML(subject.foto)}" alt="Foto ${escapeHTML(subject.nama)}" referrerpolicy="no-referrer" onerror="this.outerHTML='<span class=&quot;nilai-staff-foto nilai-staff-foto--kosong&quot;>Foto belum ada</span>'">`

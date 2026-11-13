@@ -65,7 +65,7 @@ window.NilaiSearch = (() => {
 
         }
 
-        await search(keyword);
+        await search(keyword, (document.getElementById("nilaiNisn") || {}).value || "");
 
     }
 
@@ -75,7 +75,7 @@ window.NilaiSearch = (() => {
      * ==========================================
      */
 
-    async function search(keyword) {
+    async function search(keyword, nisn) {
 
         NilaiUI.showLoading();
 
@@ -83,7 +83,7 @@ window.NilaiSearch = (() => {
 
             const tahun = window.NilaiYear ? NilaiYear.getYear() : null;
 
-            const response = await NilaiAPI.searchNilai(keyword, tahun);
+            const response = await NilaiAPI.searchNilai(keyword, tahun, String(nisn || "").trim());
 
             if (!response.success) {
 
@@ -93,7 +93,7 @@ window.NilaiSearch = (() => {
 
             }
 
-            NilaiUI.showResult(response.data);
+            NilaiUI.showResult(response.data, response.fotoPesan);
 
         } catch (error) {
 
