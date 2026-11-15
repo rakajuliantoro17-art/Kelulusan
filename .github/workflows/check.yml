@@ -208,6 +208,9 @@ jobs:
       - name: Run HUMAS permit and protocol source tests
         run: node --test src/humas/tests/humas-migrations-static.test.js src/humas/tests/humas-permit-transactions.test.js src/humas/tests/humas-permit-public-intake.test.js
 
+      - name: Run Akademik nilai photo (NIS+NISN) test
+        run: node src/akademik/tests/nilai-foto-nisn.test.js
+
       - name: Run TU authentication security tests
         run: node --test src/TU/tests/tu-auth-static.test.js
 
